@@ -3,12 +3,12 @@
 </script>
 
 <template>
-  <footer class="footer sm:footer-horizontal bg-white text-black items-center p-4">
+  <footer class="footer sm:footer-horizontal text-white items-center p-4">
     <aside class="grid-flow-col items-center">
       <icon
         name="mdi:hair-dryer"
         size="25"
-        style="color: black"
+        style="color: white"
       />
       <p>Copyright © {{ new Date().getFullYear() }} - All right reserved</p>
     </aside>
