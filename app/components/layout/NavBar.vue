@@ -1,22 +1,22 @@
 <script lang="ts" setup>
-import type { NavLinksProps } from './NavLinksMenu.vue';
+import type { NavLinksProps } from "./NavLinksMenu.vue";
 
 const linksmock: NavLinksProps[] = [
   {
-    name: 'Home',
-    url: '/',
+    name: "Home",
+    url: "/",
   },
   {
-    name: 'About',
-    url: '/about',
+    name: "About",
+    url: "/about",
   },
   {
-    name: 'Dashboard',
-    url: '/dashboard',
+    name: "Dashboard",
+    url: "/dashboard",
   },
   {
-    name: 'Contact',
-    url: '/contact',
+    name: "Contact",
+    url: "/contact",
   },
 ];
 </script>
