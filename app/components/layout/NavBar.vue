@@ -34,11 +34,13 @@ const linksmock: NavLink[] = [
         </div>
         <LayoutMobileMenu />
       </div>
-      <a class="btn btn-ghost text-xl">daisyUI</a>
+      <a class="btn btn-ghost text-xl">Gestion de citas</a>
     </div>
+
     <LayoutNavLinksMenu :links="linksmock" />
     <div class="navbar-end">
-      <a class="btn">Button</a>
+      <UiThemeToggle class="mx-4" />
+      <a class="btn">Login</a>
     </div>
   </div>
 </template>
