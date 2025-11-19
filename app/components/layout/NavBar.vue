@@ -34,7 +34,7 @@ const linksmock: NavLink[] = [
         </div>
         <LayoutMobileMenu />
       </div>
-      <a class="btn btn-ghost text-xl">Gestion de citas</a>
+      <a class="btn btn-ghost text-xl">Olena</a>
     </div>
 
     <LayoutNavLinksMenu :links="linksmock" />
