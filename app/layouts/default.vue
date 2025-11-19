@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col gap-4 min-h-screen m-auto container">
-    <LayoutHeader class="border-4 border-black" />
-    <main class="flex-1 border-4 border-black">
+  <div class="flex flex-col gap-1 min-h-screen">
+    <LayoutHeader class="" />
+    <main class="flex-1 flex ">
       <slot />
     </main>
-    <LayoutFooter class="border-4 border-black" />
+    <LayoutFooter class="" />
   </div>
 </template>

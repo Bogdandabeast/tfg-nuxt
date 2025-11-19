@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { NavLinksProps } from "./NavLinksMenu.vue";
+import type { NavLink } from "./NavLinksMenu.vue";
 
-const linksmock: NavLinksProps[] = [
+const linksmock: NavLink[] = [
   {
     name: "Home",
     url: "/",
@@ -22,7 +22,7 @@ const linksmock: NavLinksProps[] = [
 </script>
 
 <template>
-  <div class="navbar bg-base-100 shadow-sm">
+  <div class="navbar shadow-sm">
     <div class="navbar-start">
       <div class="dropdown">
         <div
