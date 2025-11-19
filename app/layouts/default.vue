@@ -4,6 +4,5 @@
     <main class="flex-1 flex ">
       <slot />
     </main>
-    <LayoutFooter class="" />
   </div>
 </template>
