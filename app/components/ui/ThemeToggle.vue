@@ -1,8 +1,6 @@
 <script setup>
 const colorMode = useColorMode();
 
-colorMode.preference = "dark";
-
 const isDark = computed({
   get() {
     return colorMode.value === "dark";
