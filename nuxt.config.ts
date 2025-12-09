@@ -9,6 +9,9 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/test-utils/module",
     "@nuxtjs/color-mode",
+    "@nuxt/ui",
+    "@nuxt/ui",
+    "@vueuse/nuxt",
   ],
   vite: { plugins: [tailwindcss()] },
   css: ["./app/assets/css/main.css"],
@@ -17,6 +20,13 @@ export default defineNuxtConfig({
       standalone: false,
     },
   },
+
+  routeRules: {
+    "/api/**": {
+      cors: true,
+    },
+  },
+
   colorMode: {
     dataValue: "theme",
   },
