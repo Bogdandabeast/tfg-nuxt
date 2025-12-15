@@ -1,27 +1,48 @@
-import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  integer,
+  numeric,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users_table", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  age: integer("age").notNull(),
   email: text("email").notNull().unique(),
+  password: text("password").notNull(),
 });
 
-export const postsTable = pgTable("posts_table", {
+export const companiesTable = pgTable("companies_table", {
   id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  content: text("content").notNull(),
-  userId: integer("user_id")
-    .notNull()
-    .references(() => usersTable.id, { onDelete: "cascade" }),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at")
-    .notNull()
-    .$onUpdate(() => new Date()),
+  user_id: integer("user_id").references(() => usersTable.id),
+  name: text("name").notNull(),
 });
 
-export type InsertUser = typeof usersTable.$inferInsert;
-export type SelectUser = typeof usersTable.$inferSelect;
+export const productsTable = pgTable("products_table", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  price: numeric("price").notNull(),
+  stock: integer("stock").notNull(),
+  company_id: integer("company_id").references(() => companiesTable.id),
+});
 
-export type InsertPost = typeof postsTable.$inferInsert;
-export type SelectPost = typeof postsTable.$inferSelect;
+export const customersTable = pgTable("customers_table", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull().unique(),
+  phone: text("phone"),
+  address: text("address"),
+  company_id: integer("company_id").references(() => companiesTable.id),
+});
+
+export const salesTables = pgTable("sales_tables", {
+  id: serial("id").primaryKey(),
+  customer_id: integer("customer_id").references(() => customersTable.id),
+  product_id: integer("product_id").references(() => productsTable.id),
+  quantity: integer("quantity").notNull(),
+  sale_date: timestamp("sale_date").defaultNow().notNull(),
+  company_id: integer("company_id").references(() => companiesTable.id),
+});
