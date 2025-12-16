@@ -1,75 +1,73 @@
 <script setup lang="ts">
-import type { DropdownMenuItem } from "@nuxt/ui";
-
-import { sub } from "date-fns";
-
-import type { Period, Range } from "~/types";
-
-const { isNotificationsSlideoverOpen } = useDashboard();
-
-const items = [[{
-  label: "New mail",
-  icon: "i-lucide-send",
-  to: "/inbox",
-}, {
-  label: "New customer",
-  icon: "i-lucide-user-plus",
-  to: "/customers",
-}]] satisfies DropdownMenuItem[][];
-
-const range = shallowRef<Range>({
-  start: sub(new Date(), { days: 14 }),
-  end: new Date(),
+useSeoMeta({
+    titleTemplate: "",
+    title: "Welcome to Our Awesome App",
+    ogTitle: "Welcome to Our Awesome App",
+    description:
+        "This is a hardcoded description for your landing page. We are excited to have you here!",
+    ogDescription:
+        "This is a hardcoded description for your landing page. We are excited to have you here!",
 });
-const period = ref<Period>("daily");
 </script>
 
 <template>
-  <UDashboardPanel id="home">
-    <template #header>
-      <UDashboardNavbar title="Home" :ui="{ right: 'gap-3' }">
-        <template #leading>
-          <UDashboardSidebarCollapse />
-        </template>
+    <div>
+        <UPageHero
+            title="Welcome to Our Awesome App"
+            description="This is a hardcoded description for your landing page. We are excited to have you here!"
+            :links="[
+                {
+                    label: 'Get Started',
+                    to: '/signup',
+                    icon: 'i-heroicons-rocket-launch',
+                },
+            ]"
+        >
+            <template #top>
+                <LandingHeroBackground />
+            </template>
 
-        <template #right>
-          <UTooltip text="Notifications" :shortcuts="['N']">
-            <UButton
-              color="neutral"
-              variant="ghost"
-              square
-              @click="isNotificationsSlideoverOpen = true"
-            >
-              <UChip color="error" inset>
-                <UIcon name="i-lucide-bell" class="size-5 shrink-0" />
-              </UChip>
-            </UButton>
-          </UTooltip>
+            <LandingPromotionalVideo />
+        </UPageHero>
 
-          <UDropdownMenu :items="items">
-            <UButton
-              icon="i-lucide-plus"
-              size="md"
-              class="rounded-full"
-            />
-          </UDropdownMenu>
-        </template>
-      </UDashboardNavbar>
+        <UPageSection
+            title="Our Amazing Features"
+            description="Discover what makes our app stand out from the crowd."
+        >
+            <UPageGrid>
+                <UPageCard
+                    title="Feature One"
+                    description="This is the description for feature one."
+                    icon="i-heroicons-globe-alt"
+                    spotlight
+                />
+                <UPageCard
+                    title="Feature Two"
+                    description="This is the description for feature two."
+                    icon="i-heroicons-chart-bar"
+                    spotlight
+                />
+                <UPageCard
+                    title="Feature Three"
+                    description="This is the description for feature three."
+                    icon="i-heroicons-cog-6-tooth"
+                    spotlight
+                />
+            </UPageGrid>
+        </UPageSection>
 
-      <UDashboardToolbar>
-        <template #left>
-          <!-- NOTE: The `-ms-1` class is used to align with the `DashboardSidebarCollapse` button here. -->
-          <HomeDateRangePicker v-model="range" class="-ms-1" />
+        <USeparator />
 
-          <HomePeriodSelect v-model="period" :range="range" />
-        </template>
-      </UDashboardToolbar>
-    </template>
-
-    <template #body>
-      <HomeStats :period="period" :range="range" />
-      <HomeChart :period="period" :range="range" />
-      <HomeSales :period="period" :range="range" />
-    </template>
-  </UDashboardPanel>
+        <UPageCTA
+            title="Ready to get started?"
+            description="Join us today and unlock a world of possibilities!"
+            align="center"
+            orientation="horizontal"
+            :links="[{ label: 'Sign Up Now', to: '/signup', color: 'primary' }]"
+            variant="naked"
+            class="overflow-hidden"
+        >
+            <LazyLandingStarsBg />
+        </UPageCTA>
+    </div>
 </template>

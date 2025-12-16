@@ -1,12 +1,8 @@
-import { neon } from "@neondatabase/serverless";
 import { config } from "dotenv";
-import { drizzle } from "drizzle-orm/neon-http";
+import { drizzle } from "drizzle-orm/node-postgres";
 
-const isProd = process.env.NODE_ENV === "production";
+// const isProd = process.env.NODE_ENV === "production";
 
-config({ path: ".env" }); // or .env.local
+config({ path: ".env" });
 
-const sql = neon(
-  isProd ? process.env.DATABASE_URL : process.env.DATABASE_URL_LOCAL,
-);
-export const db = drizzle({ client: sql });
+export const db = drizzle(process.env.DATABASE_URL);

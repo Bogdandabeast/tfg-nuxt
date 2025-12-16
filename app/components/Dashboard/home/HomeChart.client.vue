@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { VisArea, VisAxis, VisCrosshair, VisLine, VisTooltip, VisXYContainer } from "@unovis/vue";
-import { eachDayOfInterval, eachMonthOfInterval, eachWeekOfInterval, format } from "date-fns";
-
 import type { Period, Range } from "~/types";
+import { VisArea, VisAxis, VisCrosshair, VisLine, VisTooltip, VisXYContainer } from "@unovis/vue";
+
+import { eachDayOfInterval, eachMonthOfInterval, eachWeekOfInterval, format } from "date-fns";
 
 const props = defineProps<{
   period: Period;

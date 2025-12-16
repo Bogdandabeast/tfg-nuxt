@@ -10,8 +10,8 @@ export default defineNuxtConfig({
     "@nuxt/test-utils/module",
     "@nuxtjs/color-mode",
     "@nuxt/ui",
-    "@nuxt/ui",
     "@vueuse/nuxt",
+    "nuxt-og-image",
   ],
   vite: { plugins: [tailwindcss()] },
   css: ["./app/assets/css/main.css"],
@@ -30,6 +30,4 @@ export default defineNuxtConfig({
   colorMode: {
     dataValue: "theme",
   },
-
-})
-;
+});

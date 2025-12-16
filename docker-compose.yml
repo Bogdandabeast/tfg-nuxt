@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:17
-    command: "-d 1"
+    command: -d 1
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
@@ -11,11 +11,10 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=crmlocal
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [CMD-SHELL, pg_isready -U postgres]
       interval: 10s
       timeout: 5s
       retries: 5
 
 volumes:
   db_data:
- 
