@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/test-utils/module",
     "@nuxtjs/color-mode",
+    "@nuxtjs/i18n",
     "@nuxt/ui",
     "@vueuse/nuxt",
     "nuxt-og-image",
@@ -25,6 +26,13 @@ export default defineNuxtConfig({
     "/api/**": {
       cors: true,
     },
+  },
+  i18n: {
+    defaultLocale: "es",
+    locales: [
+      { code: "en", name: "English", file: "en.json" },
+      { code: "es", name: "Spanish", file: "es.json" },
+    ],
   },
 
   colorMode: {

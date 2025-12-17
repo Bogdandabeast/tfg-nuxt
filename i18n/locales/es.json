@@ -1,0 +1,35 @@
+{
+  "homepage": {
+    "title": "Bienvenido a EscorialCRM",
+    "description": "EscorialCRM es tu solución sencilla y potente para gestionar empresas, productos, clientes y ventas en un solo lugar.",
+    "get_started_button": "Comenzar",
+    "features": {
+      "title": "Características Clave de EscorialCRM",
+      "description": "Descubre cómo EscorialCRM te ayuda a organizar tu negocio y crecer con facilidad.",
+      "one": {
+        "title": "Gestión de Empresas",
+        "description": "Administra todas las empresas que quieras, con paneles independientes para productos, clientes y ventas."
+      },
+      "two": {
+        "title": "Métricas en Tiempo Real",
+        "description": "Visualiza ingresos, productos más vendidos y clientes más activos con gráficos claros y fáciles de entender."
+      },
+      "three": {
+        "title": "Facturación y Archivos",
+        "description": "Genera facturas en múltiples formatos y almacena imágenes o documentos asociados a tus operaciones."
+      }
+    },
+    "cta": {
+      "title": "¿Listo para impulsar tu negocio?",
+      "description": "Empieza hoy con EscorialCRM y lleva tu gestión empresarial al siguiente nivel.",
+      "signup_button": "Crear Cuenta"
+    }
+  },
+  "header": {
+    "crm": "CRM",
+    "pricing": "Precios",
+    "changelog": "Novedades",
+    "signIn": "Iniciar sesión",
+    "signUp": "Registrarse"
+  }
+}

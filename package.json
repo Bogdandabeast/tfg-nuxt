@@ -21,6 +21,7 @@
     "@nuxt/image": "^2.0.0",
     "@nuxt/ui": "^4.2.1",
     "@nuxtjs/color-mode": "4.0.0",
+    "@nuxtjs/i18n": "^10.2.1",
     "@standard-schema/spec": "^1.1.0",
     "@tailwindcss/vite": "^4.1.17",
     "@unovis/vue": "^1.6.2",

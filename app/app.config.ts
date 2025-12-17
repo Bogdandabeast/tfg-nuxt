@@ -4,5 +4,9 @@ export default defineAppConfig({
       primary: "red",
       neutral: "zinc",
     },
+    icons: {
+      light: "lucide:sun",
+      dark: "lucide:moon-star",
+    },
   },
 });
