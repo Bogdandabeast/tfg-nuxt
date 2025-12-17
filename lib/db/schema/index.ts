@@ -1,2 +1,7 @@
-export * from "./auth.ts";
-export * from "./companies.ts";
+import * as auth from "./auth";
+
+export * from "./companies";
+
+export const user_schema = {
+  ...auth,
+};

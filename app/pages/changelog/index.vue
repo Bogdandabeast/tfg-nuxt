@@ -1,10 +1,10 @@
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Changelog',
-  ogTitle: 'Changelog',
-  description: 'Stay up to date with the latest changes and improvements.',
-  ogDescription: 'Stay up to date with the latest changes and improvements.'
-})
+  title: "Changelog",
+  ogTitle: "Changelog",
+  description: "Stay up to date with the latest changes and improvements.",
+  ogDescription: "Stay up to date with the latest changes and improvements.",
+});
 </script>
 
 <template>

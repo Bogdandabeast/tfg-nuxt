@@ -1,11 +1,11 @@
 <template>
-    <div>
-        <LandingAppHeader />
+  <div>
+    <LandingAppHeader />
 
-        <UMain>
-            <slot />
-        </UMain>
+    <UMain>
+      <slot />
+    </UMain>
 
-        <LandingAppFooter />
-    </div>
+    <LandingAppFooter />
+  </div>
 </template>

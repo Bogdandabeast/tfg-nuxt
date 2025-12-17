@@ -1,73 +1,78 @@
 <script setup lang="ts">
+const { t } = useI18n();
 useSeoMeta({
-    titleTemplate: "",
-    title: "Welcome to Our Awesome App",
-    ogTitle: "Welcome to Our Awesome App",
-    description:
-        "This is a hardcoded description for your landing page. We are excited to have you here!",
-    ogDescription:
-        "This is a hardcoded description for your landing page. We are excited to have you here!",
+  titleTemplate: "",
+  title: t("homepage.title"),
+  ogTitle: t("homepage.title"),
+  description: t("homepage.description"),
+  ogDescription: t("homepage.description"),
 });
 </script>
 
 <template>
-    <div>
-        <UPageHero
-            title="Welcome to Our Awesome App"
-            description="This is a hardcoded description for your landing page. We are excited to have you here!"
-            :links="[
-                {
-                    label: 'Get Started',
-                    to: '/signup',
-                    icon: 'i-heroicons-rocket-launch',
-                },
-            ]"
-        >
-            <template #top>
-                <LandingHeroBackground />
-            </template>
+  <div>
+    <UPageHero
+      :title="t('homepage.title')"
+      :description="t('homepage.description')"
+      :links="[
+        {
+          label: t('homepage.get_started_button'),
+          to: '/signup',
+          icon: 'i-heroicons-rocket-launch',
+        },
+      ]"
+    >
+      <template #top>
+        <LandingHeroBackground />
+      </template>
 
-            <LandingPromotionalVideo />
-        </UPageHero>
+      <LandingPromotionalVideo />
+    </UPageHero>
 
-        <UPageSection
-            title="Our Amazing Features"
-            description="Discover what makes our app stand out from the crowd."
-        >
-            <UPageGrid>
-                <UPageCard
-                    title="Feature One"
-                    description="This is the description for feature one."
-                    icon="i-heroicons-globe-alt"
-                    spotlight
-                />
-                <UPageCard
-                    title="Feature Two"
-                    description="This is the description for feature two."
-                    icon="i-heroicons-chart-bar"
-                    spotlight
-                />
-                <UPageCard
-                    title="Feature Three"
-                    description="This is the description for feature three."
-                    icon="i-heroicons-cog-6-tooth"
-                    spotlight
-                />
-            </UPageGrid>
-        </UPageSection>
+    <UPageSection
+      :title="t('homepage.features.title')"
+      :description="t('homepage.features.description')"
+    >
+      <UPageGrid>
+        <UPageCard
+          :title="t('homepage.features.one.title')"
+          :description="t('homepage.features.one.description')"
+          icon="i-heroicons-globe-alt"
+          spotlight
+        />
+        <UPageCard
+          :title="t('homepage.features.two.title')"
+          :description="t('homepage.features.two.description')"
+          icon="i-heroicons-chart-bar"
+          spotlight
+        />
+        <UPageCard
+          :title="t('homepage.features.three.title')"
+          :description="t('homepage.features.three.description')"
+          icon="i-heroicons-cog-6-tooth"
+          spotlight
+        />
+      </UPageGrid>
+    </UPageSection>
 
-        <USeparator />
+    <USeparator />
 
-        <UPageCTA
-            title="Ready to get started?"
-            description="Join us today and unlock a world of possibilities!"
-            align="center"
-            orientation="horizontal"
-            :links="[{ label: 'Sign Up Now', to: '/signup', color: 'primary' }]"
-            variant="naked"
-            class="overflow-hidden"
-        >
-            <LazyLandingStarsBg />
-        </UPageCTA>
-    </div>
+    <UPageCTA
+      :title="t('homepage.cta.title')"
+      :description="t('homepage.cta.description')"
+      align="center"
+      orientation="horizontal"
+      :links="[
+        {
+          label: t('homepage.cta.signup_button'),
+          to: '/signup',
+          color: 'primary',
+        },
+      ]"
+      variant="naked"
+      class="overflow-hidden"
+    >
+      <LazyLandingStarsBg />
+    </UPageCTA>
+  </div>
 </template>

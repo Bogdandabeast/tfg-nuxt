@@ -1,0 +1,35 @@
+{
+  "homepage": {
+    "title": "Welcome to EscorialCRM",
+    "description": "EscorialCRM is your simple yet powerful solution to manage companies, products, clients, and sales all in one place.",
+    "get_started_button": "Get Started",
+    "features": {
+      "title": "Key Features of EscorialCRM",
+      "description": "Discover how EscorialCRM helps you organize your business and grow with ease.",
+      "one": {
+        "title": "Company Management",
+        "description": "Manage as many companies as you want, with independent dashboards for products, clients, and sales."
+      },
+      "two": {
+        "title": "Real-Time Metrics",
+        "description": "Track revenue, top-selling products, and most active clients with clear and easy-to-read charts."
+      },
+      "three": {
+        "title": "Billing and Files",
+        "description": "Generate invoices in multiple formats and store images or documents linked to your operations."
+      }
+    },
+    "cta": {
+      "title": "Ready to boost your business?",
+      "description": "Start today with EscorialCRM and take your business management to the next level.",
+      "signup_button": "Sign Up Now"
+    }
+  },
+  "header": {
+    "crm": "CRM",
+    "pricing": "Pricing",
+    "changelog": "Changelog",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  }
+}
