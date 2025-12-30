@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from "@nuxt/ui";
-
 import type { Period, Range } from "~/types";
 
 import { sub } from "date-fns";
+
+import { authClient } from "~~/lib/auth-client";
 
 definePageMeta({
   layout: "dashboard",
@@ -31,63 +32,12 @@ const range = shallowRef<Range>({
   end: new Date(),
 });
 const period = ref<Period>("daily");
+
+const { data: session } = await authClient.useSession(useFetch);
 </script>
 
 <template>
-  <UDashboardPanel id="home">
-    <template #header>
-      <UDashboardNavbar title="Home" :ui="{ right: 'gap-3' }">
-        <template #leading>
-          <UDashboardSidebarCollapse />
-        </template>
-
-        <template #right>
-          <UTooltip text="Notifications" :shortcuts="['N']">
-            <UButton
-              color="neutral"
-              variant="ghost"
-              square
-              @click="isNotificationsSlideoverOpen = true"
-            >
-              <UChip color="error" inset>
-                <UIcon
-                  name="i-lucide-bell"
-                  class="size-5 shrink-0"
-                />
-              </UChip>
-            </UButton>
-          </UTooltip>
-
-          <UDropdownMenu :items="items">
-            <UButton
-              icon="i-lucide-plus"
-              size="md"
-              class="rounded-full"
-            />
-          </UDropdownMenu>
-        </template>
-      </UDashboardNavbar>
-
-      <UDashboardToolbar>
-        <template #left>
-          <!-- NOTE: The `-ms-1` class is used to align with the `DashboardSidebarCollapse` button here. -->
-          <DashboardHomeDateRangePicker
-            v-model="range"
-            class="-ms-1"
-          />
-
-          <DashboardHomePeriodSelect
-            v-model="period"
-            :range="range"
-          />
-        </template>
-      </UDashboardToolbar>
-    </template>
-
-    <template #body>
-      <DashboardHomeStats :period="period" :range="range" />
-      <DashboardHomeChart :period="period" :range="range" />
-      <DashboardHomeSales :period="period" :range="range" />
-    </template>
-  </UDashboardPanel>
+  <div>
+    <h1>la informacion del userid {{ session?.session.userId }}</h1>
+  </div>
 </template>

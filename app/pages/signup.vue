@@ -61,7 +61,9 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     email: payload.data.email,
     password: payload.data.password,
     callbackURL: "http://localhost:3000/dashboard",
+
   });
+  toast.add({ title: "Success", description: `New customer with an email ${payload.data.email} and password ${payload.data.password} added`, color: "success" });
 }
 </script>
 

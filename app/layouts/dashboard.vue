@@ -4,8 +4,6 @@ import type { NavigationMenuItem } from "@nuxt/ui";
 const route = useRoute();
 const toast = useToast();
 
-
-
 const open = ref(false);
 
 const links = [

@@ -66,10 +66,10 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 
   await signIn.email({
     email: payload.data.email,
-    password: payload.data.email,
+    password: payload.data.password,
     callbackURL: "http://localhost:3000/dashboard",
-
   });
+  toast.add({ title: "Signing up", description: `Signing up with ${payload.data.email}`, color: "success" });
 }
 </script>
 
