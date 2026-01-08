@@ -5,10 +5,7 @@ defineProps<{
   collapsed?: boolean;
 }>();
 
-const { data: companies, pending } = await useFetch("/api/companies", {
-  lazy: true,
-  default: () => [],
-});
+const { companies } = useCompanies();
 
 const selectedCompanies = ref(companies.value[0]);
 

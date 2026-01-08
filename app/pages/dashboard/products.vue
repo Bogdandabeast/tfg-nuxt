@@ -1,44 +1,33 @@
 <script setup lang="ts">
-import { useDashboard } from '~/composables/useDashboard';
+import ProductForm from '~/components/Dashboard/forms/ProductForm.vue';
+import { useProducts } from '~/composables/useProducts';
 
 definePageMeta({
-  layout: 'dashboard',
-  middleware: ['auth'],
+  layout: "dashboard",
 });
 
-const { selectedCompany } = useDashboard();
+const { products, pending, getAllProducts } = useProducts();
 
-const { data: products, pending, error, refresh } = await useFetch(() =>
-  selectedCompany.value
-    ? `/api/products?company_id=${selectedCompany.value.id}`
-    : null
-);
-
-watch(() => selectedCompany.value, () => {
-  refresh();
+// Initial fetch is already done in the composable, but we can re-fetch if needed
+onMounted(() => {
+  getAllProducts();
 });
 </script>
 
 <template>
   <div class="space-y-4">
-    <h1 class="text-2xl font-bold">Products Overview</h1>
+    <h1>Products Management</h1>
 
-    <div v-if="pending">Loading product data...</div>
-    <div v-else-if="error">Error loading product data: {{ error.message }}</div>
-    <div v-else-if="!selectedCompany">Please select a company to view product data.</div>
-    <div v-else-if="products && products.length === 0">No product data available for {{ selectedCompany.name }}.</div>
-    <div v-else>
-      <UCard>
-        <template #header>
-          <h2 class="text-xl font-semibold">Products for {{ selectedCompany.name }}</h2>
-        </template>
-        <ul>
-          <li v-for="product in products" :key="product.id">
-            Product ID: {{ product.id }} - Name: {{ product.name }} - Price: {{ product.price }}
-            <!-- TODO: Display more meaningful product data -->
-          </li>
-        </ul>
-      </UCard>
-    </div>
+    <ProductForm />
+
+    <UCard class="mt-4">
+      <template #header>
+        <h3>Existing Products</h3>
+      </template>
+      <div v-if="pending">Loading products...</div>
+      <ul v-else>
+        <li v-for="product in products" :key="product.id">{{ product.id }} - {{ product.name }}</li>
+      </ul>
+    </UCard>
   </div>
 </template>
