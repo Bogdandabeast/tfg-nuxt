@@ -1,16 +1,17 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import CustomerForm from "~/app/components/Dashboard/forms/CustomerForm.vue";
-import { useCustomers } from "~/app/composables/useCustomers";
+import { useCustomersStore } from "~/app/stores/customers";
 
 definePageMeta({
   layout: "dashboard",
 });
 
-const { customers, pending, getAllCustomers } = useCustomers();
+const customersStore = useCustomersStore();
+const { customers, pending } = storeToRefs(customersStore);
 
-// Initial fetch is already done in the composable, but we can re-fetch if needed
 onMounted(() => {
-  getAllCustomers();
+  customersStore.refreshCustomers();
 });
 </script>
 
