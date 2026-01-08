@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from "@nuxt/ui";
 import * as z from "zod";
-import { signIn } from "~~/lib/auth-client";
+import { useAuthStore } from '~/app/stores/auth';
 
 definePageMeta({
   layout: "auth",
@@ -12,8 +12,7 @@ useSeoMeta({
   description: "Login to your account to continue",
 });
 
-// const session = authClient.useSession();
-
+const authStore = useAuthStore();
 const toast = useToast();
 
 const fields = [
@@ -37,23 +36,6 @@ const fields = [
   },
 ];
 
-const providers = [
-  {
-    label: "Google",
-    icon: "i-simple-icons-google",
-    onClick: () => {
-      toast.add({ title: "Google", description: "Login with Google" });
-    },
-  },
-  {
-    label: "GitHub",
-    icon: "i-simple-icons-github",
-    onClick: () => {
-      toast.add({ title: "GitHub", description: "Login with GitHub" });
-    },
-  },
-];
-
 const schema = z.object({
   email: z.email("Invalid email"),
   password: z.string().min(8, "Must be at least 8 characters"),
@@ -62,12 +44,15 @@ const schema = z.object({
 type Schema = z.output<typeof schema>;
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  await signIn.email({
+  await authStore.signIn({
     email: payload.data.email,
     password: payload.data.password,
-    callbackURL: "http://localhost:3000/dashboard",
   });
-  toast.add({ title: "Signing up", description: `Signing up with ${payload.data.email}`, color: "success" });
+  if (!authStore.loggedIn) {
+    toast.add({ title: "Error", description: "Invalid email or password", color: "red" });
+  } else {
+    toast.add({ title: "Success", description: "Logged in successfully", color: "green" });
+  }
 }
 </script>
 
@@ -75,7 +60,6 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
   <UAuthForm
     :fields="fields"
     :schema="schema"
-    :providers="providers"
     title="Welcome back"
     icon="i-lucide-lock"
     @submit="onSubmit"

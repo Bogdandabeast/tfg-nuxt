@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useCompanies } from '~/composables/useCompanies';
+import { useCompanies } from '~/app/composables/useCompanies';
 
 const { createCompany, deleteCompany } = useCompanies();
 

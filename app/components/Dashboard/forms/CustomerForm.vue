@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useCustomers } from '~/composables/useCustomers';
+import { useCustomers } from '~/app/composables/useCustomers';
 
 const { createCustomer, deleteCustomer } = useCustomers();
 

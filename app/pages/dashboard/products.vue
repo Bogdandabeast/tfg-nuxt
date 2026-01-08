@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ProductForm from '~/components/Dashboard/forms/ProductForm.vue';
-import { useProducts } from '~/composables/useProducts';
+import ProductForm from "~/app/components/Dashboard/forms/ProductForm.vue";
+import { useProducts } from "~/app/composables/useProducts";
 
 definePageMeta({
   layout: "dashboard",
@@ -24,9 +24,13 @@ onMounted(() => {
       <template #header>
         <h3>Existing Products</h3>
       </template>
-      <div v-if="pending">Loading products...</div>
+      <div v-if="pending">
+        Loading products...
+      </div>
       <ul v-else>
-        <li v-for="product in products" :key="product.id">{{ product.id }} - {{ product.name }}</li>
+        <li v-for="product in products" :key="product.id">
+          {{ product.id }} - {{ product.name }}
+        </li>
       </ul>
     </UCard>
   </div>

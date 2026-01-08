@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import CustomerForm from "~/components/Dashboard/forms/CustomerForm.vue";
-import { useCustomers } from "~/composables/useCustomers";
+import CustomerForm from "~/app/components/Dashboard/forms/CustomerForm.vue";
+import { useCustomers } from "~/app/composables/useCustomers";
 
 definePageMeta({
   layout: "dashboard",

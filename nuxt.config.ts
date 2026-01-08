@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from "@tailwindcss/vite";
+import path from 'path';
 
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
@@ -13,8 +14,16 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@vueuse/nuxt",
     "nuxt-og-image",
+    "@pinia/nuxt",
   ],
-  vite: { plugins: [tailwindcss()] },
+  vite: {
+    plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        '~': path.resolve(__dirname, '.'),
+      },
+    },
+  },
   css: ["./app/assets/css/main.css"],
   eslint: {
     config: {

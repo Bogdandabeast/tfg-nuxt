@@ -1,22 +1,15 @@
-import { authClient } from "~~/lib/auth-client";
+import { useAuthStore } from '~/app/stores/auth'
 
-export default defineNuxtRouteMiddleware(async (to) => {
-  const { data: session } = await authClient.useSession(useFetch);
-  const user = session.value?.user;
+export default defineNuxtRouteMiddleware((to) => {
+  const authStore = useAuthStore()
+  const protectedRoutes = ['/dashboard']
+  const publicRoutes = ['/login', '/signup']
 
-  const event = useRequestEvent();
-  if (event) {
-    event.context.user = user;
+  if (authStore.loggedIn && publicRoutes.includes(to.path)) {
+    return navigateTo('/dashboard')
   }
 
-  if (user) {
-    if (to.path === "/login" || to.path === "/signup") {
-      return navigateTo("/dashboard");
-    }
+  if (!authStore.loggedIn && protectedRoutes.includes(to.path)) {
+    return navigateTo('/login')
   }
-  else {
-    if (to.path.startsWith("/dashboard")) {
-      return navigateTo("/login");
-    }
-  }
-});
+})

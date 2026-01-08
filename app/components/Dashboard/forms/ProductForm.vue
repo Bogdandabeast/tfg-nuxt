@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useProducts } from '~/composables/useProducts';
+import { useProducts } from '~/app/composables/useProducts';
 
 const { createProduct, deleteProduct } = useProducts();
 

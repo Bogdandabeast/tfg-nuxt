@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import CompanyForm from '~/components/Dashboard/forms/CompanyForm.vue';
-import { useCompanies } from '~/composables/useCompanies';
+import CompanyForm from '~/app/components/Dashboard/forms/CompanyForm.vue';
+import { useCompanies } from '~/app/composables/useCompanies';
 
 definePageMeta({
   layout: "dashboard",
