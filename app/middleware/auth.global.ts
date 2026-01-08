@@ -9,7 +9,7 @@ export default defineNuxtRouteMiddleware((to) => {
     return navigateTo('/dashboard')
   }
 
-  if (!authStore.loggedIn && protectedRoutes.includes(to.path)) {
+  if (!authStore.loggedIn && to.path.startsWith('/dashboard')) {
     return navigateTo('/login')
   }
 })
