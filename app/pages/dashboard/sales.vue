@@ -1,29 +1,61 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
+import SaleForm from "~/app/components/Dashboard/forms/SaleForm.vue";
 import { useSalesStore } from "~/app/stores/sales";
+import { useCustomersStore } from "~/app/stores/customers";
+import { useProductsStore } from "~/app/stores/products";
 
 definePageMeta({
   layout: "dashboard",
 });
 
 const salesStore = useSalesStore();
-const { sales, pending } = storeToRefs(salesStore);
+const customersStore = useCustomersStore();
+const productsStore = useProductsStore();
+
+const { sales, pending: salesPending } = storeToRefs(salesStore);
+const { customers, pending: customersPending } = storeToRefs(customersStore);
+const { products, pending: productsPending } = storeToRefs(productsStore);
+
+const pending = computed(() => salesPending.value || customersPending.value || productsPending.value);
+
+const detailedSales = computed(() => {
+  return sales.value.map(sale => {
+    const customer = customers.value.find(c => c.id === sale.customer_id);
+    const product = products.value.find(p => p.id === sale.product_id);
+    return {
+      ...sale,
+      customerName: customer ? customer.name : "Unknown",
+      productName: product ? product.name : "Unknown",
+    };
+  });
+});
 
 onMounted(() => {
   salesStore.refreshSales();
+  customersStore.refreshCustomers();
+  productsStore.refreshProducts();
 });
 </script>
 
 <template>
   <div class="space-y-4">
-    <h1>Sales</h1>
-    <div v-if="pending">
-      Loading sales...
-    </div>
-    <ul v-else>
-      <li v-for="sale in sales" :key="sale.id">
-        {{ sale.id }}
-      </li>
-    </ul>
+    <h1>Sales Management</h1>
+
+    <SaleForm />
+
+    <UCard class="mt-4">
+      <template #header>
+        <h3>Existing Sales</h3>
+      </template>
+      <div v-if="pending">
+        Loading sales...
+      </div>
+      <ul v-else>
+        <li v-for="sale in detailedSales" :key="sale.id">
+          Sale #{{ sale.id }}: {{ sale.customerName }} bought {{ sale.quantity }} x {{ sale.productName }}
+        </li>
+      </ul>
+    </UCard>
   </div>
 </template>
