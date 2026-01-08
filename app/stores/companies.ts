@@ -4,6 +4,7 @@ import { defineStore } from "pinia";
 type Company = {
   id: number;
   name: string;
+  icon?: string;
   // Add other properties as needed
 };
 
