@@ -1,9 +1,17 @@
 import { createSharedComposable } from "@vueuse/core";
 
+// Define a simple type for the company
+type Company = {
+  id: number;
+  name: string;
+  // Add other company properties as needed
+};
+
 function _useDashboard() {
   const route = useRoute();
   const router = useRouter();
   const isNotificationsSlideoverOpen = ref(false);
+  const selectedCompany = ref<Company | null>(null);
 
   defineShortcuts({
     "g-h": () => router.push("/dashboard"),
@@ -22,8 +30,14 @@ function _useDashboard() {
     },
   );
 
+  function changeCompany(company: Company) {
+    selectedCompany.value = company;
+  }
+
   return {
     isNotificationsSlideoverOpen,
+    selectedCompany,
+    changeCompany,
   };
 }
 

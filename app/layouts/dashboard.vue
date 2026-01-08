@@ -10,33 +10,32 @@ const links = [
   [
     {
       label: "Home",
-      icon: "i-lucide-house",
+      icon: "lucide:house",
       to: "/",
       onSelect: () => {
         open.value = false;
       },
     },
     {
-      label: "My company",
-      icon: "i-lucide-house",
-      to: "/dashboard",
-      onSelect: () => {
-        open.value = false;
-      },
-    },
-    {
-      label: "Inbox",
-      icon: "i-lucide-inbox",
-      to: "/dashboard/inbox",
-      badge: "4",
-      onSelect: () => {
-        open.value = false;
-      },
-    },
-    {
       label: "Customers",
-      icon: "i-lucide-users",
+      icon: "lucide:users",
       to: "/dashboard/customers",
+      onSelect: () => {
+        open.value = false;
+      },
+    },
+    {
+      label: "Products",
+      icon: "lucide:boxes",
+      to: "/dashboard/products",
+      onSelect: () => {
+        open.value = false;
+      },
+    },
+    {
+      label: "Sales",
+      icon: "lucide:dollar-sign",
+      to: "/dashboard/sales",
       onSelect: () => {
         open.value = false;
       },
@@ -157,15 +156,10 @@ onMounted(async () => {
       :ui="{ footer: 'lg:border-t lg:border-default' }"
     >
       <template #header="{ collapsed }">
-        <DashboardTeamsMenu :collapsed="collapsed" />
+        <DashboardCompaniesMenu :collapsed="collapsed" />
       </template>
 
       <template #default="{ collapsed }">
-        <UDashboardSearchButton
-          :collapsed="collapsed"
-          class="bg-transparent ring-default"
-        />
-
         <UNavigationMenu
           :collapsed="collapsed"
           :items="links[0]"
@@ -189,7 +183,6 @@ onMounted(async () => {
     </UDashboardSidebar>
 
     <UDashboardSearch :groups="groups" />
-
     <slot />
 
     <DashboardNotificationsSlideover />

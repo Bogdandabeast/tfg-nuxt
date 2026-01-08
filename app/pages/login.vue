@@ -62,8 +62,6 @@ const schema = z.object({
 type Schema = z.output<typeof schema>;
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  console.log(payload.data);
-
   await signIn.email({
     email: payload.data.email,
     password: payload.data.password,
