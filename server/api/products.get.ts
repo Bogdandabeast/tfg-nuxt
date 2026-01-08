@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { getProductsByCompanyId } from "~~/lib/db/queries/products";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 

@@ -1,16 +1,17 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import ProductForm from "~/app/components/Dashboard/forms/ProductForm.vue";
-import { useProducts } from "~/app/composables/useProducts";
+import { useProductsStore } from "~/app/stores/products";
 
 definePageMeta({
   layout: "dashboard",
 });
 
-const { products, pending, getAllProducts } = useProducts();
+const productsStore = useProductsStore();
+const { products, pending } = storeToRefs(productsStore);
 
-// Initial fetch is already done in the composable, but we can re-fetch if needed
 onMounted(() => {
-  getAllProducts();
+  productsStore.refreshProducts();
 });
 </script>
 

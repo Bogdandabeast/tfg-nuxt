@@ -1,6 +1,6 @@
+import path from "node:path";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from "@tailwindcss/vite";
-import path from 'path';
 
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
@@ -20,7 +20,7 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
     resolve: {
       alias: {
-        '~': path.resolve(__dirname, '.'),
+        "~": path.resolve(__dirname, "."),
       },
     },
   },

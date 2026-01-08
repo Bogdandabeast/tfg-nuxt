@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import CompanyForm from '~/app/components/Dashboard/forms/CompanyForm.vue';
-import { useCompanies } from '~/app/composables/useCompanies';
+import { storeToRefs } from "pinia";
+import CompanyForm from "~/app/components/Dashboard/forms/CompanyForm.vue";
+import { useCompaniesStore } from "~/app/stores/companies";
 
 definePageMeta({
   layout: "dashboard",
 });
 
-const { companies, pending, getAllCompanies } = useCompanies();
+const companiesStore = useCompaniesStore();
+const { companies, pending } = storeToRefs(companiesStore);
 
-// Initial fetch is already done in the composable, but we can re-fetch if needed
 onMounted(() => {
-  getAllCompanies();
+  companiesStore.refreshCompanies();
 });
 </script>
 
@@ -24,9 +25,13 @@ onMounted(() => {
       <template #header>
         <h3>Existing Companies</h3>
       </template>
-      <div v-if="pending">Loading companies...</div>
+      <div v-if="pending">
+        Loading companies...
+      </div>
       <ul v-else>
-        <li v-for="company in companies" :key="company.id">{{ company.id }} - {{ company.name }}</li>
+        <li v-for="company in companies" :key="company.id">
+          {{ company.id }} - {{ company.name }}
+        </li>
       </ul>
     </UCard>
   </div>

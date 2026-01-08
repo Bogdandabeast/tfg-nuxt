@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from "@nuxt/ui";
 import * as z from "zod";
-import { useAuthStore } from '~/app/stores/auth';
+import { useAuthStore } from "~/app/stores/auth";
 
 definePageMeta({
   layout: "auth",
@@ -48,7 +48,8 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
   });
   if (authStore.loggedIn) {
     toast.add({ title: "Success", description: "Account created successfully", color: "green" });
-  } else {
+  }
+  else {
     toast.add({ title: "Error", description: "Could not create account", color: "red" });
   }
 }

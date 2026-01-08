@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { useSales } from "../../composables/useSales";
+import { storeToRefs } from "pinia";
+import { useSalesStore } from "~/app/stores/sales";
 
 definePageMeta({
   layout: "dashboard",
 });
 
-const { sales, pending } = useSales();
+const salesStore = useSalesStore();
+const { sales, pending } = storeToRefs(salesStore);
+
+onMounted(() => {
+  salesStore.refreshSales();
+});
 </script>
 
 <template>

@@ -5,8 +5,6 @@ defineProps<{
   collapsed?: boolean;
 }>();
 
-const { companies } = useCompanies();
-
 const selectedCompanies = ref(companies.value[0]);
 
 const items = computed<DropdownMenuItem[][]>(() => {
