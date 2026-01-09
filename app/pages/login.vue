@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from "@nuxt/ui";
 import * as z from "zod";
-import { useAuthStore } from "~/app/stores/auth";
+import { useAuthStore } from "~~/app/stores/auth";
+import auth from "~/plugins/auth";
 
 definePageMeta({
   layout: "auth",
@@ -41,21 +42,17 @@ const fields = [
 const schema = z.object({
   email: z.string().email(t("login.validation.invalid_email")),
   password: z.string().min(8, t("login.validation.password_min")),
+  remember: z.boolean().optional(),
 });
 
 type Schema = z.output<typeof schema>;
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  await authStore.signIn({
-    email: payload.data.email,
-    password: payload.data.password,
-  });
-  if (!authStore.loggedIn) {
-    toast.add({ title: t("login.toast.error.title"), description: t("login.toast.error.description"), color: "primary" });
-  }
-  else {
-    toast.add({ title: t("login.toast.success.title"), description: t("login.toast.success.description"), color: "green" });
-  }
+  await authStore.signIn(
+    payload.data.email,
+    payload.data.password,
+    payload.data.remember || false,
+  );
 }
 </script>
 

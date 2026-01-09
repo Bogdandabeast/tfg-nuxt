@@ -1,34 +1,40 @@
-import type { UserWithId } from "~~/lib/auth";
-import { defineStore } from "pinia";
-import { authClient } from "~~/lib/auth-client";
+import { createAuthClient } from "better-auth/vue";
 
-export const useAuthStore = defineStore("auth", () => {
+const authClient = createAuthClient();
+
+export const useAuthStore = defineStore("useAuthStore", () => {
   const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null);
 
   async function init() {
-    if (session.value)
-      return;
     const data = await authClient.useSession(useFetch);
     session.value = data;
   }
 
   const user = computed(() => session.value?.data?.user);
   const loading = computed(() => session.value?.isPending);
-  const loggedIn = computed(() => !!session.value?.data?.user);
 
-  async function signIn(payload: { email: string; password: string }) {
-    const { error } = await authClient.signIn.email(payload);
-    if (error) {
-      // Handle error, e.g., show a toast
-      console.error(error);
-      return;
-    }
-    await init();
-    navigateTo("/dashboard");
+  async function signUp(name: string, email: string, password: string) {
+    // const { csrf } = useCsrf();
+    // const headers = new Headers();
+    // headers.append("csrf-token", csrf);
+    await authClient.signUp.email({
+      name,
+      email,
+      password,
+      //callbackURL: "http://localhost:3000/dashboard",
+      /* fetchOptions: {
+        headers,
+      }, */
+    });
   }
 
-  async function signUp(payload: { email: string; password: string; name: string }) {
-    const { error } = await authClient.signUp.email(payload);
+  async function signIn(email: string, password: string, rememberMe: boolean) {
+    const { error } = await authClient.signIn.email({
+      email,
+      password,
+      rememberMe,
+      // callbackURL: "http://localhost:3000/dashboard",
+    });
     if (error) {
       // Handle error
       console.error(error);
@@ -39,19 +45,23 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   async function signOut() {
-    await authClient.signOut();
-    session.value = null;
-    navigateTo("/login");
+    /*  const { csrf } = useCsrf();
+    const headers = new Headers();
+    headers.append("csrf-token", csrf); */
+    await authClient.signOut(/* {
+      fetchOptions: {
+        headers,
+      },
+    } */);
+    navigateTo("/");
   }
 
   return {
-    session,
-    user,
-    loading,
-    loggedIn,
     init,
+    loading,
     signIn,
-    signOut,
     signUp,
+    signOut,
+    user,
   };
 });
