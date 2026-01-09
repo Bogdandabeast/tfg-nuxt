@@ -14,17 +14,17 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   const loading = computed(() => session.value?.isPending);
 
   async function signUp(name: string, email: string, password: string) {
-    // const { csrf } = useCsrf();
-    // const headers = new Headers();
-    // headers.append("csrf-token", csrf);
+    const { csrf } = useCsrf();
+    const headers = new Headers();
+    headers.append("csrf-token", csrf);
     await authClient.signUp.email({
       name,
       email,
       password,
-      //callbackURL: "http://localhost:3000/dashboard",
-      /* fetchOptions: {
+      callbackURL: "http://localhost:3000/dashboard",
+      fetchOptions: {
         headers,
-      }, */
+      },
     });
   }
 
@@ -33,7 +33,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
       email,
       password,
       rememberMe,
-      // callbackURL: "http://localhost:3000/dashboard",
+      callbackURL: "http://localhost:3000/dashboard",
     });
     if (error) {
       // Handle error
@@ -45,14 +45,14 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   }
 
   async function signOut() {
-    /*  const { csrf } = useCsrf();
+    const { csrf } = useCsrf();
     const headers = new Headers();
-    headers.append("csrf-token", csrf); */
-    await authClient.signOut(/* {
+    headers.append("csrf-token", csrf);
+    await authClient.signOut({
       fetchOptions: {
         headers,
       },
-    } */);
+    });
     navigateTo("/");
   }
 
