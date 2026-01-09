@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useCustomersStore } from "~/app/stores/customers";
-import { useProductsStore } from "~/app/stores/products";
-import { useSalesStore } from "~/app/stores/sales";
+import { useCustomersStore } from "~~/app/stores/customers";
+import { useProductsStore } from "~~/app/stores/products";
+import { useSalesStore } from "~~/app/stores/sales";
 
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
@@ -32,9 +32,10 @@ onMounted(() => {
 
 async function createSaleHandler() {
   if (newSale.value.customer_id && newSale.value.product_id && newSale.value.quantity > 0) {
+    console.log(newSale.value);
     await salesStore.createSale({
-      customer_id: Number(newSale.value.customer_id),
-      product_id: Number(newSale.value.product_id),
+      customer_id: Number(newSale.value.customer_id.value),
+      product_id: Number(newSale.value.product_id.value),
       quantity: newSale.value.quantity,
     });
     newSale.value = { customer_id: null, product_id: null, quantity: 1 };
@@ -46,6 +47,7 @@ async function createSaleHandler() {
 }
 
 async function deleteSaleHandler() {
+  console.log("sale to delete", saleToDeleteId.value);
   const id = Number(saleToDeleteId.value);
   if (saleToDeleteId.value && !isNaN(id)) {
     await salesStore.deleteSale(id);
@@ -68,18 +70,33 @@ async function deleteSaleHandler() {
       <UFormField label="Customer" name="saleCustomer">
         <USelectMenu
           v-model="newSale.customer_id"
-          :options="customerOptions"
+          :items="customerOptions"
           placeholder="Select a customer"
         />
       </UFormField>
 
+      <h1>
+        {{
+          customers
+        }}
+      </h1>
+      <h2>
+        {{ customerOptions }}
+      </h2>
+
       <UFormField label="Product" name="saleProduct">
         <USelectMenu
           v-model="newSale.product_id"
-          :options="productOptions"
+          :items="productOptions"
           placeholder="Select a product"
         />
       </UFormField>
+
+      <h1>
+        {{
+          products
+        }}
+      </h1>
 
       <UFormField label="Quantity" name="saleQuantity">
         <UInput
@@ -110,7 +127,7 @@ async function deleteSaleHandler() {
       <UInput v-model="saleToDeleteId" placeholder="Enter sale ID to delete" />
     </UFormField>
 
-    <UButton color="red" @click="deleteSaleHandler">
+    <UButton color="secondary" @click="deleteSaleHandler">
       Delete Sale
     </UButton>
   </UCard>

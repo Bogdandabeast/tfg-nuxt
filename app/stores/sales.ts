@@ -22,12 +22,12 @@ export const useSalesStore = defineStore("sales", () => {
   });
 
   const {
-    data: sales,
+    data: salesResponse,
     pending,
     refresh,
-  } = useFetch<Sale[]>(apiUrl, {
+  } = useFetch<{ sales: Sale[] }>(apiUrl, {
     lazy: true,
-    default: () => [],
+    default: () => ({ sales: [] }),
     watch: [apiUrl],
   });
 
@@ -55,6 +55,8 @@ export const useSalesStore = defineStore("sales", () => {
     });
     await refresh();
   }
+
+  const sales = computed(() => salesResponse.value?.sales || []);
 
   return {
     sales,
