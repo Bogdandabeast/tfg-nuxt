@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "nuxt-og-image",
     "@pinia/nuxt",
+    "nuxt-csurf",
   ],
   vite: {
     plugins: [tailwindcss()],
@@ -30,7 +31,18 @@ export default defineNuxtConfig({
       standalone: false,
     },
   },
-
+  csurf: { // optional
+    https: false, // default true if in production
+    cookieKey: "", // "__Host-csrf" if https is true otherwise just "csrf"
+    cookie: { // CookieSerializeOptions from unjs/cookie-es
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+    },
+    methodsToProtect: ["POST", "PUT", "PATCH"], // the request methods we want CSRF protection for
+    addCsrfTokenToEventCtx: true, // default false, to run useCsrfFetch on server set it to true
+    headerName: "csrf-token", // the header where the csrf token is stored
+  },
   routeRules: {
     "/api/**": {
       cors: true,

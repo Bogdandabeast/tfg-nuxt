@@ -43,17 +43,13 @@ const schema = z.object({
 type Schema = z.output<typeof schema>;
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  await authStore.signUp({
-    name: payload.data.name,
-    email: payload.data.email,
-    password: payload.data.password,
-  });
-  if (authStore.loggedIn) {
+  await authStore.signUp(payload.data.name, payload.data.email, payload.data.password);
+  /*  if (authStore.loggedIn) {
     toast.add({ title: t("signup.toast.success.title"), description: t("signup.toast.success.description"), color: "green" });
   }
   else {
     toast.add({ title: t("signup.toast.error.title"), description: t("signup.toast.error.description"), color: "primary" });
-  }
+  } */
 }
 </script>
 
