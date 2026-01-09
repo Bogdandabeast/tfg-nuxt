@@ -148,7 +148,7 @@ onMounted(() => {
           >
             <span>{{ company.name }} (ID: {{ company.id }})</span>
             <UButton
-              color="red"
+
               variant="soft"
               @click="handleDeleteCompany(company.id)"
             >
@@ -187,7 +187,7 @@ onMounted(() => {
                 </p>
               </div>
               <UButton
-                color="red"
+                color="primary"
                 variant="soft"
                 @click="handleDeleteCustomer(customer.id)"
               >
@@ -225,7 +225,7 @@ onMounted(() => {
                 </p>
               </div>
               <UButton
-                color="red"
+                color="primary"
                 variant="soft"
                 @click="handleDeleteProduct(product.id)"
               >

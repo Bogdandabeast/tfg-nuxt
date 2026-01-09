@@ -102,7 +102,7 @@ async function deleteProductHandler() {
       <UInput v-model="productToDeleteId" placeholder="Enter product ID to delete" />
     </UFormField>
 
-    <UButton color="red" @click="deleteProductHandler">
+    <UButton color="primary" @click="deleteProductHandler">
       Delete Product
     </UButton>
   </UCard>

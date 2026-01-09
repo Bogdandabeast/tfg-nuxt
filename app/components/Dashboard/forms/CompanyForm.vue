@@ -59,7 +59,7 @@ async function deleteCompanyHandler() {
       <UInput v-model="companyToDeleteId" placeholder="Enter company ID to delete" />
     </UFormField>
 
-    <UButton color="red" @click="deleteCompanyHandler">
+    <UButton color="primary" @click="deleteCompanyHandler">
       Delete Company
     </UButton>
   </UCard>

@@ -95,7 +95,7 @@ async function deleteCustomerHandler() {
       <UInput v-model="customerToDeleteId" placeholder="Enter customer ID to delete" />
     </UFormField>
 
-    <UButton color="red" @click="deleteCustomerHandler">
+    <UButton color="primary" @click="deleteCustomerHandler">
       Delete Customer
     </UButton>
   </UCard>
