@@ -12,7 +12,7 @@ export async function getCompanyById(id: number) {
   return db.select().from(companiesTable).where(eq(companiesTable.id, id));
 }
 
-export async function getCompaniesByUserId(userId: string) {
+export async function getCompaniesByUserId(userId: number) {
   return db.select().from(companiesTable).where(eq(companiesTable.user_id, userId));
 }
 

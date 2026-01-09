@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useSalesStore } from "~/app/stores/sales";
 import { useCustomersStore } from "~/app/stores/customers";
 import { useProductsStore } from "~/app/stores/products";
+import { useSalesStore } from "~/app/stores/sales";
 
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
@@ -19,10 +19,10 @@ const newSale = ref({
 const saleToDeleteId = ref("");
 
 const customerOptions = computed(() =>
-  customers.value.map(c => ({ label: c.name, value: c.id }))
+  customers.value.map(c => ({ label: c.name, value: c.id })),
 );
 const productOptions = computed(() =>
-  products.value.map(p => ({ label: p.name, value: p.id }))
+  products.value.map(p => ({ label: p.name, value: p.id })),
 );
 
 onMounted(() => {
@@ -39,7 +39,8 @@ async function createSaleHandler() {
     });
     newSale.value = { customer_id: null, product_id: null, quantity: 1 };
     alert("Sale created successfully!");
-  } else {
+  }
+  else {
     alert("Please select a customer, a product, and enter a valid quantity.");
   }
 }
@@ -64,17 +65,29 @@ async function deleteSaleHandler() {
     </template>
 
     <div class="space-y-4">
-      <UFormGroup label="Customer" name="saleCustomer">
-        <USelectMenu v-model="newSale.customer_id" :options="customerOptions" placeholder="Select a customer" />
-      </UFormGroup>
+      <UFormField label="Customer" name="saleCustomer">
+        <USelectMenu
+          v-model="newSale.customer_id"
+          :options="customerOptions"
+          placeholder="Select a customer"
+        />
+      </UFormField>
 
-      <UFormGroup label="Product" name="saleProduct">
-        <USelectMenu v-model="newSale.product_id" :options="productOptions" placeholder="Select a product" />
-      </UFormGroup>
+      <UFormField label="Product" name="saleProduct">
+        <USelectMenu
+          v-model="newSale.product_id"
+          :options="productOptions"
+          placeholder="Select a product"
+        />
+      </UFormField>
 
-      <UFormGroup label="Quantity" name="saleQuantity">
-        <UInput v-model.number="newSale.quantity" type="number" :min="1" />
-      </UFormGroup>
+      <UFormField label="Quantity" name="saleQuantity">
+        <UInput
+          v-model.number="newSale.quantity"
+          type="number"
+          :min="1"
+        />
+      </UFormField>
     </div>
 
     <template #footer>
@@ -89,13 +102,13 @@ async function deleteSaleHandler() {
       <h3>Delete Sale by ID</h3>
     </template>
 
-    <UFormGroup
+    <UFormField
       label="Sale ID"
       name="saleToDeleteId"
       class="mb-4"
     >
       <UInput v-model="saleToDeleteId" placeholder="Enter sale ID to delete" />
-    </UFormGroup>
+    </UFormField>
 
     <UButton color="red" @click="deleteSaleHandler">
       Delete Sale

@@ -251,13 +251,13 @@ onMounted(() => {
             Add New Company
           </h2>
         </template>
-        <UFormGroup
+        <UFormField
           label="Company Name"
           name="companyName"
           class="mb-4"
         >
           <UInput v-model="newCompanyName" />
-        </UFormGroup>
+        </UFormField>
         <template #footer>
           <div class="flex justify-end space-x-2">
             <UButton @click="isCompanyModalOpen = false">
@@ -279,12 +279,12 @@ onMounted(() => {
           </h2>
         </template>
         <div class="space-y-4">
-          <UFormGroup name="name" label="Name">
+          <UFormField name="name" label="Name">
             <UInput v-model="newCustomer.name" />
-          </UFormGroup>
-          <UFormGroup name="email" label="Email">
+          </UFormField>
+          <UFormField name="email" label="Email">
             <UInput v-model="newCustomer.email" type="email" />
-          </UFormGroup>
+          </UFormField>
         </div>
         <template #footer>
           <div class="flex justify-end space-x-2">
@@ -307,18 +307,18 @@ onMounted(() => {
           </h2>
         </template>
         <div class="space-y-4">
-          <UFormGroup name="name" label="Name">
+          <UFormField name="name" label="Name">
             <UInput v-model="newProduct.name" />
-          </UFormGroup>
-          <UFormGroup name="description" label="Description">
+          </UFormField>
+          <UFormField name="description" label="Description">
             <UInput v-model="newProduct.description" />
-          </UFormGroup>
-          <UFormGroup name="price" label="Price">
+          </UFormField>
+          <UFormField name="price" label="Price">
             <UInput v-model.number="newProduct.price" type="number" />
-          </UFormGroup>
-          <UFormGroup name="stock" label="Stock">
+          </UFormField>
+          <UFormField name="stock" label="Stock">
             <UInput v-model.number="newProduct.stock" type="number" />
-          </UFormGroup>
+          </UFormField>
         </div>
         <template #footer>
           <div class="flex justify-end space-x-2">

@@ -33,13 +33,13 @@ async function deleteCompanyHandler() {
       <h3>Create New Company</h3>
     </template>
 
-    <UFormGroup
+    <UFormField
       label="Company Name"
       name="newCompanyName"
       class="mb-4"
     >
       <UInput v-model="newCompanyName" placeholder="Enter company name" />
-    </UFormGroup>
+    </UFormField>
 
     <UButton @click="createCompanyHandler">
       Create Company
@@ -51,13 +51,13 @@ async function deleteCompanyHandler() {
       <h3>Delete Company by ID</h3>
     </template>
 
-    <UFormGroup
+    <UFormField
       label="Company ID"
       name="companyToDeleteId"
       class="mb-4"
     >
       <UInput v-model="companyToDeleteId" placeholder="Enter company ID to delete" />
-    </UFormGroup>
+    </UFormField>
 
     <UButton color="red" @click="deleteCompanyHandler">
       Delete Company

@@ -45,21 +45,21 @@ async function deleteProductHandler() {
     </template>
 
     <div class="space-y-4">
-      <UFormGroup
+      <UFormField
         label="Product Name"
         name="newProductName"
       >
         <UInput v-model="newProduct.name" placeholder="Enter product name" />
-      </UFormGroup>
+      </UFormField>
 
-      <UFormGroup
+      <UFormField
         label="Description"
         name="newProductDescription"
       >
         <UInput v-model="newProduct.description" placeholder="Enter description" />
-      </UFormGroup>
+      </UFormField>
 
-      <UFormGroup
+      <UFormField
         label="Price"
         name="newProductPrice"
       >
@@ -68,9 +68,9 @@ async function deleteProductHandler() {
           placeholder="Enter price"
           type="number"
         />
-      </UFormGroup>
+      </UFormField>
 
-      <UFormGroup
+      <UFormField
         label="Stock"
         name="newProductStock"
       >
@@ -79,7 +79,7 @@ async function deleteProductHandler() {
           placeholder="Enter stock quantity"
           type="number"
         />
-      </UFormGroup>
+      </UFormField>
     </div>
 
     <template #footer>
@@ -94,13 +94,13 @@ async function deleteProductHandler() {
       <h3>Delete Product by ID</h3>
     </template>
 
-    <UFormGroup
+    <UFormField
       label="Product ID"
       name="productToDeleteId"
       class="mb-4"
     >
       <UInput v-model="productToDeleteId" placeholder="Enter product ID to delete" />
-    </UFormGroup>
+    </UFormField>
 
     <UButton color="red" @click="deleteProductHandler">
       Delete Product
