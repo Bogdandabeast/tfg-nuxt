@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import CompanyForm from "~/app/components/Dashboard/forms/CompanyForm.vue";
-import { useCompaniesStore } from "~/app/stores/companies";
+import CompanyForm from "~~/app/components/Dashboard/forms/CompanyForm.vue";
+import { useCompaniesStore } from "~~/app/stores/companies";
 
 definePageMeta({
   layout: "dashboard",

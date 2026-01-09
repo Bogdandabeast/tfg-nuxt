@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { useCompaniesStore } from "~/app/stores/companies";
+import { useCompaniesStore } from "~~/app/stores/companies";
 
 // Assuming a type for Sale
 type Sale = {
