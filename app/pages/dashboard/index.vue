@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useCompaniesStore } from "~/app/stores/companies";
-import { useCustomersStore } from "~/app/stores/customers";
-import { useProductsStore } from "~/app/stores/products";
+import { useCompaniesStore } from "~~/app/stores/companies";
+import { useCustomersStore } from "~~/app/stores/customers";
+import { useProductsStore } from "~~/app/stores/products";
 
 definePageMeta({
   layout: "dashboard",
@@ -33,7 +33,7 @@ const newProduct = ref({ name: "", description: "", price: 0, stock: 0 });
 // Actions
 async function handleAddCompany() {
   if (!newCompanyName.value) {
-    toast.add({ title: "Error", description: "Company name is required.", color: "red" });
+    toast.add({ title: "Error", description: "Company name is required.", color: "primary" });
     return;
   }
   try {
@@ -43,7 +43,7 @@ async function handleAddCompany() {
     isCompanyModalOpen.value = false;
   }
   catch (e: any) {
-    toast.add({ title: "Error creating company", description: e.message, color: "red" });
+    toast.add({ title: "Error creating company", description: e.message, color: "primary" });
   }
 }
 
@@ -53,13 +53,13 @@ async function handleDeleteCompany(id: number) {
     toast.add({ title: "Success", description: "Company deleted." });
   }
   catch (e: any) {
-    toast.add({ title: "Error deleting company", description: e.message, color: "red" });
+    toast.add({ title: "Error deleting company", description: e.message, color: "primary" });
   }
 }
 
 async function handleAddCustomer() {
   if (!currentCompany.value) {
-    toast.add({ title: "Error", description: "Please select a company first.", color: "red" });
+    toast.add({ title: "Error", description: "Please select a company first.", color: "primary" });
     return;
   }
   try {
@@ -69,7 +69,7 @@ async function handleAddCustomer() {
     isCustomerModalOpen.value = false;
   }
   catch (e: any) {
-    toast.add({ title: "Error creating customer", description: e.message, color: "red" });
+    toast.add({ title: "Error creating customer", description: e.message, color: "primary" });
   }
 }
 
@@ -79,13 +79,13 @@ async function handleDeleteCustomer(id: number) {
     toast.add({ title: "Success", description: "Customer deleted." });
   }
   catch (e: any) {
-    toast.add({ title: "Error deleting customer", description: e.message, color: "red" });
+    toast.add({ title: "Error deleting customer", description: e.message, color: "primary" });
   }
 }
 
 async function handleAddProduct() {
   if (!currentCompany.value) {
-    toast.add({ title: "Error", description: "Please select a company first.", color: "red" });
+    toast.add({ title: "Error", description: "Please select a company first.", color: "primary" });
     return;
   }
   try {
@@ -99,7 +99,7 @@ async function handleAddProduct() {
     isProductModalOpen.value = false;
   }
   catch (e: any) {
-    toast.add({ title: "Error creating product", description: e.message, color: "red" });
+    toast.add({ title: "Error creating product", description: e.message, color: "primary" });
   }
 }
 
@@ -109,7 +109,7 @@ async function handleDeleteProduct(id: number) {
     toast.add({ title: "Success", description: "Product deleted." });
   }
   catch (e: any) {
-    toast.add({ title: "Error deleting product", description: e.message, color: "red" });
+    toast.add({ title: "Error deleting product", description: e.message, color: "primary" });
   }
 }
 

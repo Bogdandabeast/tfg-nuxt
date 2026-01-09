@@ -1,20 +1,21 @@
 <script setup lang="ts">
+const { t } = useI18n();
 useSeoMeta({
-  title: "Our Pricing Plans",
-  ogTitle: "Our Pricing Plans",
-  description: "Choose the perfect plan that fits your needs and budget.",
-  ogDescription: "Choose the perfect plan that fits your needs and budget.",
+  title: t("pricing.seo.title"),
+  ogTitle: t("pricing.seo.title"),
+  description: t("pricing.seo.description"),
+  ogDescription: t("pricing.seo.description"),
 });
 
 const isYearly = ref("0");
 
 const items = ref([
   {
-    label: "Monthly",
+    label: t("pricing.tabs.monthly"),
     value: "0",
   },
   {
-    label: "Yearly",
+    label: t("pricing.tabs.yearly"),
     value: "1",
   },
 ]);
@@ -23,8 +24,8 @@ const items = ref([
 <template>
   <div>
     <UPageHero
-      title="Our Flexible Pricing Plans"
-      description="Choose the perfect plan that fits your needs and budget. No hidden fees, no surprises."
+      :title="t('pricing.hero.title')"
+      :description="t('pricing.hero.description')"
     >
       <template #links>
         <UTabs
@@ -45,63 +46,63 @@ const items = ref([
     <UContainer>
       <UPricingPlans scale>
         <UPricingPlan
-          title="Basic"
-          description="Perfect for individual users."
+          :title="t('pricing.plans.basic.title')"
+          :description="t('pricing.plans.basic.description')"
           icon="i-heroicons-user"
           :price="`${isYearly === '1' ? 100 : 10}`"
-          :billing-cycle="isYearly === '1' ? '/year' : '/month'"
+          :billing-cycle="isYearly === '1' ? t('pricing.plans.yearly_cycle') : t('pricing.plans.monthly_cycle')"
           :features="[
-            '5 Projects',
-            '10 GB Storage',
-            'Basic Support',
-            'Custom Domain',
-            'SSL Certificate',
-            'Email Notifications',
-            'Analytics Dashboard',
-            'Community Access',
-            'API Access',
-            'Daily Backups',
-            'Priority Queue',
-            'Multi-device Sync',
-            'Basic Integrations',
+            t('pricing.plans.basic.features.projects'),
+            t('pricing.plans.basic.features.storage'),
+            t('pricing.plans.basic.features.support'),
+            t('pricing.plans.basic.features.custom_domain'),
+            t('pricing.plans.basic.features.ssl_certificate'),
+            t('pricing.plans.basic.features.email_notifications'),
+            t('pricing.plans.basic.features.analytics_dashboard'),
+            t('pricing.plans.basic.features.community_access'),
+            t('pricing.plans.basic.features.api_access'),
+            t('pricing.plans.basic.features.daily_backups'),
+            t('pricing.plans.basic.features.priority_queue'),
+            t('pricing.plans.basic.features.multi_device_sync'),
+            t('pricing.plans.basic.features.basic_integrations'),
           ]"
-          button-text="Choose Basic"
+          :button-text="t('pricing.plans.basic.button')"
           button-color="primary"
           orientation="vertical"
         />
         <UPricingPlan
-          title="Pro"
-          description="For growing teams with more needs."
+          :title="t('pricing.plans.pro.title')"
+          :description="t('pricing.plans.pro.description')"
           icon="i-heroicons-users"
           :price="`${isYearly === '1' ? 200 : 20}`"
-          :billing-cycle="isYearly === '1' ? '/year' : '/month'"
+          :billing-cycle="isYearly === '1' ? t('pricing.plans.yearly_cycle') : t('pricing.plans.monthly_cycle')"
           :features="[
-            'Unlimited Projects',
-            '1 TB Secure Cloud Storage',
-            '24/7 Premium Support',
-            'Dedicated Account Manager',
-            'Custom Domain + Advanced DNS',
-            'Enterprise-grade SSL Certificates',
-            'Advanced Analytics & Reporting',
-            'Team Collaboration Tools',
-            'Role-based Access Control',
-            'Single Sign-On (SSO)',
-            'Audit Logs & Compliance Reports',
-            'API Rate Limits x10',
-            'Daily + On-demand Backups',
-            'Priority Deployment Queue',
-            'Multi-device Sync & Offline Mode',
-            'Advanced Integrations (Slack, Jira, Zapier)',
-            'AI-powered Recommendations',
-            'Custom Branding & White-label',
-            'Beta Features Early Access',
-            '99.99% Uptime SLA',
-            'Geo-redundant Infrastructure',
-            'Advanced Security (2FA, Encryption at Rest)',
-            'VIP Community Access',
-            'Quarterly Strategy Review',
+            t('pricing.plans.pro.features.projects'),
+            t('pricing.plans.pro.features.storage'),
+            t('pricing.plans.pro.features.support'),
+            t('pricing.plans.pro.features.dedicated_account_manager'),
+            t('pricing.plans.pro.features.custom_domain'),
+            t('pricing.plans.pro.features.ssl_certificates'),
+            t('pricing.plans.pro.features.analytics_reporting'),
+            t('pricing.plans.pro.features.team_collaboration_tools'),
+            t('pricing.plans.pro.features.role_based_access_control'),
+            t('pricing.plans.pro.features.sso'),
+            t('pricing.plans.pro.features.audit_logs'),
+            t('pricing.plans.pro.features.api_rate_limits'),
+            t('pricing.plans.pro.features.backups'),
+            t('pricing.plans.pro.features.deployment_queue'),
+            t('pricing.plans.pro.features.multi_device_sync_offline'),
+            t('pricing.plans.pro.features.advanced_integrations'),
+            t('pricing.plans.pro.features.ai_recommendations'),
+            t('pricing.plans.pro.features.custom_branding'),
+            t('pricing.plans.pro.features.beta_access'),
+            t('pricing.plans.pro.features.uptime_sla'),
+            t('pricing.plans.pro.features.geo_redundant_infrastructure'),
+            t('pricing.plans.pro.features.advanced_security'),
+            t('pricing.plans.pro.features.vip_community_access'),
+            t('pricing.plans.pro.features.strategy_review'),
           ]"
-          button-text="Choose Pro"
+          :button-text="t('pricing.plans.pro.button')"
           button-color="accent"
           orientation="vertical"
           highlight
@@ -131,25 +132,22 @@ const items = ref([
     </UPageSection>
 
     <UPageSection
-      title="Frequently Asked Questions"
-      description="Answers to the most common questions about our pricing."
+      :title="t('pricing.faq.title')"
+      :description="t('pricing.faq.description')"
     >
       <UAccordion
         :items="[
           {
-            label: 'What is your refund policy?',
-            content:
-              'We offer a 30-day money-back guarantee for all our plans.',
+            label: t('pricing.faq.refund.question'),
+            content: t('pricing.faq.refund.answer'),
           },
           {
-            label: 'Can I change my plan later?',
-            content:
-              'Yes, you can upgrade or downgrade your plan at any time.',
+            label: t('pricing.faq.change_plan.question'),
+            content: t('pricing.faq.change_plan.answer'),
           },
           {
-            label: 'Do you offer custom plans?',
-            content:
-              'Please contact our sales team for custom enterprise solutions.',
+            label: t('pricing.faq.custom_plans.question'),
+            content: t('pricing.faq.custom_plans.answer'),
           },
         ]"
         :unmount-on-hide="false"

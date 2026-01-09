@@ -7,9 +7,11 @@ definePageMeta({
   layout: "auth",
 });
 
+const { t } = useI18n();
+
 useSeoMeta({
-  title: "Login",
-  description: "Login to your account to continue",
+  title: t("login.seo.title"),
+  description: t("login.seo.description"),
 });
 
 const authStore = useAuthStore();
@@ -19,26 +21,26 @@ const fields = [
   {
     name: "email",
     type: "text" as const,
-    label: "Email",
-    placeholder: "Enter your email",
+    label: t("login.form.email.label"),
+    placeholder: t("login.form.email.placeholder"),
     required: true,
   },
   {
     name: "password",
-    label: "Password",
+    label: t("login.form.password.label"),
     type: "password" as const,
-    placeholder: "Enter your password",
+    placeholder: t("login.form.password.placeholder"),
   },
   {
     name: "remember",
-    label: "Remember me",
+    label: t("login.form.remember_me.label"),
     type: "checkbox" as const,
   },
 ];
 
 const schema = z.object({
-  email: z.email("Invalid email"),
-  password: z.string().min(8, "Must be at least 8 characters"),
+  email: z.string().email(t("login.validation.invalid_email")),
+  password: z.string().min(8, t("login.validation.password_min")),
 });
 
 type Schema = z.output<typeof schema>;
@@ -49,10 +51,10 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     password: payload.data.password,
   });
   if (!authStore.loggedIn) {
-    toast.add({ title: "Error", description: "Invalid email or password", color: "red" });
+    toast.add({ title: t("login.toast.error.title"), description: t("login.toast.error.description"), color: "primary" });
   }
   else {
-    toast.add({ title: "Success", description: "Logged in successfully", color: "green" });
+    toast.add({ title: t("login.toast.success.title"), description: t("login.toast.success.description"), color: "green" });
   }
 }
 </script>
@@ -61,14 +63,14 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
   <UAuthForm
     :fields="fields"
     :schema="schema"
-    title="Welcome back"
+    :title="t('login.form.title')"
     icon="i-lucide-lock"
     @submit="onSubmit"
   >
     <template #description>
-      Don't have an account?
+      {{ t("login.form.no_account") }}
       <ULink to="/signup" class="text-primary font-medium">
-        Sign up
+        {{ t("login.form.signup_link") }}
       </ULink>.
     </template>
 
@@ -78,17 +80,17 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
         class="text-primary font-medium"
         tabindex="-1"
       >
-        Forgot password?
+        {{ t("login.form.forgot_password") }}
       </ULink>
     </template>
 
     <template #footer>
-      By signing in, you agree to our
+      {{ t("login.form.agree_terms_part1") }}
       <ULink
-        to="/"
+        to="/terms"
         class="text-primary font-medium"
       >
-        Terms of Service
+        {{ t("login.form.terms_of_service_link") }}
       </ULink>.
     </template>
   </UAuthForm>
