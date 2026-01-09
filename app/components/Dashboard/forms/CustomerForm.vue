@@ -42,14 +42,14 @@ async function deleteCustomerHandler() {
     </template>
 
     <div class="space-y-4">
-      <UFormGroup
+      <UFormField
         label="Customer Name"
         name="newCustomerName"
       >
         <UInput v-model="newCustomer.name" placeholder="Enter customer name" />
-      </UFormGroup>
+      </UFormField>
 
-      <UFormGroup
+      <UFormField
         label="Email"
         name="newCustomerEmail"
       >
@@ -58,21 +58,21 @@ async function deleteCustomerHandler() {
           placeholder="Enter email"
           type="email"
         />
-      </UFormGroup>
+      </UFormField>
 
-      <UFormGroup
+      <UFormField
         label="Phone"
         name="newCustomerPhone"
       >
         <UInput v-model="newCustomer.phone" placeholder="Enter phone number" />
-      </UFormGroup>
+      </UFormField>
 
-      <UFormGroup
+      <UFormField
         label="Address"
         name="newCustomerAddress"
       >
         <UInput v-model="newCustomer.address" placeholder="Enter address" />
-      </UFormGroup>
+      </UFormField>
     </div>
 
     <template #footer>
@@ -87,15 +87,15 @@ async function deleteCustomerHandler() {
       <h3>Delete Customer by ID</h3>
     </template>
 
-    <UFormGroup
+    <UFormField
       label="Customer ID"
       name="customerToDeleteId"
       class="mb-4"
     >
       <UInput v-model="customerToDeleteId" placeholder="Enter customer ID to delete" />
-    </UFormGroup>
+    </UFormField>
 
-    <UButton color="red" @click="deleteCustomerHandler">
+    <UButton color="primary" @click="deleteCustomerHandler">
       Delete Customer
     </UButton>
   </UCard>

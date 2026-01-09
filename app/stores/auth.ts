@@ -1,6 +1,6 @@
-import type { UserWithId } from "~/lib/auth";
+import type { UserWithId } from "~~/lib/auth";
 import { defineStore } from "pinia";
-import { authClient } from "~/lib/auth-client";
+import { authClient } from "~~/lib/auth-client";
 
 export const useAuthStore = defineStore("auth", () => {
   const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null);
@@ -12,7 +12,7 @@ export const useAuthStore = defineStore("auth", () => {
     session.value = data;
   }
 
-  const user = computed(() => session.value?.data?.user as UserWithId | null);
+  const user = computed(() => session.value?.data?.user);
   const loading = computed(() => session.value?.isPending);
   const loggedIn = computed(() => !!session.value?.data?.user);
 

@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from "@nuxt/ui";
 import * as z from "zod";
-import { useAuthStore } from "~/app/stores/auth";
+import { useAuthStore } from "~~/app/stores/auth";
 
 definePageMeta({
   layout: "auth",
 });
 
+const { t } = useI18n();
+
 useSeoMeta({
-  title: "Sign up",
-  description: "Create an account to get started",
+  title: t("signup.seo.title"),
+  description: t("signup.seo.description"),
 });
 
 const authStore = useAuthStore();
@@ -18,24 +20,24 @@ const toast = useToast();
 const fields = [{
   name: "name",
   type: "text" as const,
-  label: "Name",
-  placeholder: "Enter your name",
+  label: t("signup.form.name.label"),
+  placeholder: t("signup.form.name.placeholder"),
 }, {
   name: "email",
   type: "text" as const,
-  label: "Email",
-  placeholder: "Enter your email",
+  label: t("signup.form.email.label"),
+  placeholder: t("signup.form.email.placeholder"),
 }, {
   name: "password",
-  label: "Password",
+  label: t("signup.form.password.label"),
   type: "password" as const,
-  placeholder: "Enter your password",
+  placeholder: t("signup.form.password.placeholder"),
 }];
 
 const schema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.email("Invalid email"),
-  password: z.string().min(8, "Must be at least 8 characters"),
+  name: z.string().min(1, t("signup.validation.name_required")),
+  email: z.string().email(t("signup.validation.invalid_email")),
+  password: z.string().min(8, t("signup.validation.password_min")),
 });
 
 type Schema = z.output<typeof schema>;
@@ -47,10 +49,10 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     password: payload.data.password,
   });
   if (authStore.loggedIn) {
-    toast.add({ title: "Success", description: "Account created successfully", color: "green" });
+    toast.add({ title: t("signup.toast.success.title"), description: t("signup.toast.success.description"), color: "green" });
   }
   else {
-    toast.add({ title: "Error", description: "Could not create account", color: "red" });
+    toast.add({ title: t("signup.toast.error.title"), description: t("signup.toast.error.description"), color: "primary" });
   }
 }
 </script>
@@ -59,25 +61,25 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
   <UAuthForm
     :fields="fields"
     :schema="schema"
-    title="Create an account"
-    :submit="{ label: 'Create account' }"
+    :title="t('signup.form.title')"
+    :submit="{ label: t('signup.form.submit_button') }"
     @submit="onSubmit"
   >
     <template #description>
-      Already have an account? <ULink
+      {{ t("signup.form.has_account") }} <ULink
         to="/login"
         class="text-primary font-medium"
       >
-        Login
+        {{ t("signup.form.login_link") }}
       </ULink>.
     </template>
 
     <template #footer>
-      By signing up, you agree to our <ULink
-        to="/"
+      {{ t("signup.form.agree_terms_part1") }} <ULink
+        to="/terms"
         class="text-primary font-medium"
       >
-        Terms of Service
+        {{ t("signup.form.terms_of_service_link") }}
       </ULink>.
     </template>
   </UAuthForm>

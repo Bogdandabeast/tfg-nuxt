@@ -31,5 +31,226 @@
     "changelog": "Novedades",
     "signIn": "Iniciar sesión",
     "signUp": "Registrarse"
+  },
+  "terms": {
+    "title": "Términos y Condiciones",
+    "description": "Por favor, lee atentamente nuestros términos y condiciones antes de usar nuestros servicios.",
+    "alert": {
+      "title": "Aviso Importante",
+      "description": "Estos términos y condiciones fueron actualizados por última vez el 9 de enero de 2026. Por favor, revisa los cambios."
+    },
+    "intro": {
+      "title": "Introducción",
+      "content": "Bienvenido a nuestra plataforma. Al acceder o utilizar nuestro servicio, aceptas cumplir y estar sujeto a los siguientes términos y condiciones de uso. Si no estás de acuerdo con alguna parte de estos términos, no utilices nuestro servicio."
+    },
+    "badge": {
+      "new": "Nuevo"
+    },
+    "collapsible": {
+      "hide": "Ocultar detalles adicionales",
+      "show": "Mostrar detalles adicionales",
+      "content": "Aquí puedes encontrar información adicional sobre la introducción del documento legal."
+    },
+    "sections": {
+      "title": "Detalle de Secciones"
+    },
+    "accordion": {
+      "service_usage": {
+        "label": "Uso del Servicio",
+        "content": "Contenido detallado sobre el uso del servicio. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      },
+      "privacy": {
+        "label": "Privacidad",
+        "content": "Contenido detallado sobre la política de privacidad. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      },
+      "limitations": {
+        "label": "Limitaciones de Responsabilidad",
+        "content": "Contenido detallado sobre las limitaciones de responsabilidad. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      }
+    },
+    "contact": {
+      "title": "Contacto",
+      "content": "Para cualquier pregunta sobre estos términos, por favor contáctanos en"
+    },
+    "surround": {
+      "privacy": {
+        "title": "Política de Privacidad",
+        "description": "Conoce cómo manejamos tus datos."
+      },
+      "legal_notice": {
+        "title": "Aviso Legal",
+        "description": "Información legal adicional."
+      }
+    }
+  },
+  "legal": {
+    "home": "Inicio",
+    "title": "Legal",
+    "terms_and_conditions": "Términos y Condiciones"
+  },
+  "pricing": {
+    "seo": {
+      "title": "Nuestros Planes de Precios",
+      "description": "Elige el plan perfecto que se adapte a tus necesidades y presupuesto."
+    },
+    "hero": {
+      "title": "Nuestros Planes de Precios Flexibles",
+      "description": "Elige el plan perfecto que se adapte a tus necesidades y presupuesto. Sin cargos ocultos, sin sorpresas."
+    },
+    "tabs": {
+      "monthly": "Mensual",
+      "yearly": "Anual"
+    },
+    "plans": {
+      "monthly_cycle": "/mes",
+      "yearly_cycle": "/año",
+      "basic": {
+        "title": "Básico",
+        "description": "Perfecto para usuarios individuales.",
+        "features": {
+          "projects": "5 Proyectos",
+          "storage": "10 GB de Almacenamiento",
+          "support": "Soporte Básico",
+          "custom_domain": "Dominio Personalizado",
+          "ssl_certificate": "Certificado SSL",
+          "email_notifications": "Notificaciones por Correo",
+          "analytics_dashboard": "Panel de Analíticas",
+          "community_access": "Acceso a la Comunidad",
+          "api_access": "Acceso a la API",
+          "daily_backups": "Copias de Seguridad Diarias",
+          "priority_queue": "Cola de Prioridad",
+          "multi_device_sync": "Sincronización Multi-dispositivo",
+          "basic_integrations": "Integraciones Básicas"
+        },
+        "button": "Elegir Básico"
+      },
+      "pro": {
+        "title": "Pro",
+        "description": "Para equipos en crecimiento con más necesidades.",
+        "features": {
+          "projects": "Proyectos Ilimitados",
+          "storage": "1 TB de Almacenamiento Seguro en la Nube",
+          "support": "Soporte Premium 24/7",
+          "dedicated_account_manager": "Gestor de Cuenta Dedicado",
+          "custom_domain": "Dominio Personalizado + DNS Avanzado",
+          "ssl_certificates": "Certificados SSL de Nivel Empresarial",
+          "analytics_reporting": "Análisis y Reportes Avanzados",
+          "team_collaboration_tools": "Herramientas de Colaboración en Equipo",
+          "role_based_access_control": "Control de Acceso Basado en Roles",
+          "sso": "Inicio de Sesión Único (SSO)",
+          "audit_logs": "Registros de Auditoría e Informes de Cumplimiento",
+          "api_rate_limits": "Límites de Tasa de API x10",
+          "backups": "Copias de Seguridad Diarias + Bajo Demanda",
+          "deployment_queue": "Cola de Implementación Prioritaria",
+          "multi_device_sync_offline": "Sincronización Multi-dispositivo y Modo Offline",
+          "advanced_integrations": "Integraciones Avanzadas (Slack, Jira, Zapier)",
+          "ai_recommendations": "Recomendaciones Impulsadas por IA",
+          "custom_branding": "Marca Personalizada y Etiqueta Blanca",
+          "beta_access": "Acceso Anticipado a Funciones Beta",
+          "uptime_sla": "SLA de Uptime del 99.99%",
+          "geo_redundant_infrastructure": "Infraestructura Geo-redundante",
+          "advanced_security": "Seguridad Avanzada (2FA, Cifrado en Reposo)",
+          "vip_community_access": "Acceso VIP a la Comunidad",
+          "strategy_review": "Revisión Estratégica Trimestral"
+        },
+        "button": "Elegir Pro"
+      }
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes",
+      "description": "Respuestas a las preguntas más comunes sobre nuestros precios.",
+      "refund": {
+        "question": "¿Cuál es su política de reembolso?",
+        "answer": "Ofrecemos una garantía de devolución de dinero de 30 días para todos nuestros planes."
+      },
+      "change_plan": {
+        "question": "¿Puedo cambiar mi plan más tarde?",
+        "answer": "Sí, puedes actualizar o degradar tu plan en cualquier momento."
+      },
+      "custom_plans": {
+        "question": "¿Ofrecen planes personalizados?",
+        "answer": "Por favor, contacta a nuestro equipo de ventas para soluciones empresariales personalizadas."
+      }
+    }
+  },
+  "login": {
+    "seo": {
+      "title": "Iniciar Sesión",
+      "description": "Inicia sesión en tu cuenta para continuar"
+    },
+    "form": {
+      "email": {
+        "label": "Correo Electrónico",
+        "placeholder": "Ingresa tu correo electrónico"
+      },
+      "password": {
+        "label": "Contraseña",
+        "placeholder": "Ingresa tu contraseña"
+      },
+      "remember_me": {
+        "label": "Recordarme"
+      },
+      "title": "Bienvenido de nuevo",
+      "no_account": "¿No tienes una cuenta?",
+      "signup_link": "Regístrate",
+      "forgot_password": "¿Olvidaste tu contraseña?",
+      "agree_terms_part1": "Al iniciar sesión, aceptas nuestros",
+      "terms_of_service_link": "Términos de Servicio"
+    },
+    "validation": {
+      "invalid_email": "Correo electrónico no válido",
+      "password_min": "Debe tener al menos 8 caracteres"
+    },
+    "toast": {
+      "error": {
+        "title": "Error",
+        "description": "Correo electrónico o contraseña inválidos"
+      },
+      "success": {
+        "title": "Éxito",
+        "description": "Sesión iniciada correctamente"
+      }
+    }
+  },
+  "signup": {
+    "seo": {
+      "title": "Registrarse",
+      "description": "Crea una cuenta para empezar"
+    },
+    "form": {
+      "name": {
+        "label": "Nombre",
+        "placeholder": "Ingresa tu nombre"
+      },
+      "email": {
+        "label": "Correo Electrónico",
+        "placeholder": "Ingresa tu correo electrónico"
+      },
+      "password": {
+        "label": "Contraseña",
+        "placeholder": "Ingresa tu contraseña"
+      },
+      "title": "Crear una cuenta",
+      "submit_button": "Crear cuenta",
+      "has_account": "¿Ya tienes una cuenta?",
+      "login_link": "Iniciar sesión",
+      "agree_terms_part1": "Al registrarte, aceptas nuestros",
+      "terms_of_service_link": "Términos de Servicio"
+    },
+    "validation": {
+      "name_required": "El nombre es requerido",
+      "invalid_email": "Correo electrónico no válido",
+      "password_min": "Debe tener al menos 8 caracteres"
+    },
+    "toast": {
+      "success": {
+        "title": "Éxito",
+        "description": "Cuenta creada correctamente"
+      },
+      "error": {
+        "title": "Error",
+        "description": "No se pudo crear la cuenta"
+      }
+    }
   }
 }

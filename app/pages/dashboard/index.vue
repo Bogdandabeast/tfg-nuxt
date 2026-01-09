@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useCompaniesStore } from "~/app/stores/companies";
-import { useCustomersStore } from "~/app/stores/customers";
-import { useProductsStore } from "~/app/stores/products";
+import { useCompaniesStore } from "~~/app/stores/companies";
+import { useCustomersStore } from "~~/app/stores/customers";
+import { useProductsStore } from "~~/app/stores/products";
 
 definePageMeta({
   layout: "dashboard",
@@ -33,7 +33,7 @@ const newProduct = ref({ name: "", description: "", price: 0, stock: 0 });
 // Actions
 async function handleAddCompany() {
   if (!newCompanyName.value) {
-    toast.add({ title: "Error", description: "Company name is required.", color: "red" });
+    toast.add({ title: "Error", description: "Company name is required.", color: "primary" });
     return;
   }
   try {
@@ -43,7 +43,7 @@ async function handleAddCompany() {
     isCompanyModalOpen.value = false;
   }
   catch (e: any) {
-    toast.add({ title: "Error creating company", description: e.message, color: "red" });
+    toast.add({ title: "Error creating company", description: e.message, color: "primary" });
   }
 }
 
@@ -53,13 +53,13 @@ async function handleDeleteCompany(id: number) {
     toast.add({ title: "Success", description: "Company deleted." });
   }
   catch (e: any) {
-    toast.add({ title: "Error deleting company", description: e.message, color: "red" });
+    toast.add({ title: "Error deleting company", description: e.message, color: "primary" });
   }
 }
 
 async function handleAddCustomer() {
   if (!currentCompany.value) {
-    toast.add({ title: "Error", description: "Please select a company first.", color: "red" });
+    toast.add({ title: "Error", description: "Please select a company first.", color: "primary" });
     return;
   }
   try {
@@ -69,7 +69,7 @@ async function handleAddCustomer() {
     isCustomerModalOpen.value = false;
   }
   catch (e: any) {
-    toast.add({ title: "Error creating customer", description: e.message, color: "red" });
+    toast.add({ title: "Error creating customer", description: e.message, color: "primary" });
   }
 }
 
@@ -79,13 +79,13 @@ async function handleDeleteCustomer(id: number) {
     toast.add({ title: "Success", description: "Customer deleted." });
   }
   catch (e: any) {
-    toast.add({ title: "Error deleting customer", description: e.message, color: "red" });
+    toast.add({ title: "Error deleting customer", description: e.message, color: "primary" });
   }
 }
 
 async function handleAddProduct() {
   if (!currentCompany.value) {
-    toast.add({ title: "Error", description: "Please select a company first.", color: "red" });
+    toast.add({ title: "Error", description: "Please select a company first.", color: "primary" });
     return;
   }
   try {
@@ -99,7 +99,7 @@ async function handleAddProduct() {
     isProductModalOpen.value = false;
   }
   catch (e: any) {
-    toast.add({ title: "Error creating product", description: e.message, color: "red" });
+    toast.add({ title: "Error creating product", description: e.message, color: "primary" });
   }
 }
 
@@ -109,7 +109,7 @@ async function handleDeleteProduct(id: number) {
     toast.add({ title: "Success", description: "Product deleted." });
   }
   catch (e: any) {
-    toast.add({ title: "Error deleting product", description: e.message, color: "red" });
+    toast.add({ title: "Error deleting product", description: e.message, color: "primary" });
   }
 }
 
@@ -148,7 +148,7 @@ onMounted(() => {
           >
             <span>{{ company.name }} (ID: {{ company.id }})</span>
             <UButton
-              color="red"
+
               variant="soft"
               @click="handleDeleteCompany(company.id)"
             >
@@ -187,7 +187,7 @@ onMounted(() => {
                 </p>
               </div>
               <UButton
-                color="red"
+                color="primary"
                 variant="soft"
                 @click="handleDeleteCustomer(customer.id)"
               >
@@ -225,7 +225,7 @@ onMounted(() => {
                 </p>
               </div>
               <UButton
-                color="red"
+                color="primary"
                 variant="soft"
                 @click="handleDeleteProduct(product.id)"
               >
@@ -251,13 +251,13 @@ onMounted(() => {
             Add New Company
           </h2>
         </template>
-        <UFormGroup
+        <UFormField
           label="Company Name"
           name="companyName"
           class="mb-4"
         >
           <UInput v-model="newCompanyName" />
-        </UFormGroup>
+        </UFormField>
         <template #footer>
           <div class="flex justify-end space-x-2">
             <UButton @click="isCompanyModalOpen = false">
@@ -279,12 +279,12 @@ onMounted(() => {
           </h2>
         </template>
         <div class="space-y-4">
-          <UFormGroup name="name" label="Name">
+          <UFormField name="name" label="Name">
             <UInput v-model="newCustomer.name" />
-          </UFormGroup>
-          <UFormGroup name="email" label="Email">
+          </UFormField>
+          <UFormField name="email" label="Email">
             <UInput v-model="newCustomer.email" type="email" />
-          </UFormGroup>
+          </UFormField>
         </div>
         <template #footer>
           <div class="flex justify-end space-x-2">
@@ -307,18 +307,18 @@ onMounted(() => {
           </h2>
         </template>
         <div class="space-y-4">
-          <UFormGroup name="name" label="Name">
+          <UFormField name="name" label="Name">
             <UInput v-model="newProduct.name" />
-          </UFormGroup>
-          <UFormGroup name="description" label="Description">
+          </UFormField>
+          <UFormField name="description" label="Description">
             <UInput v-model="newProduct.description" />
-          </UFormGroup>
-          <UFormGroup name="price" label="Price">
+          </UFormField>
+          <UFormField name="price" label="Price">
             <UInput v-model.number="newProduct.price" type="number" />
-          </UFormGroup>
-          <UFormGroup name="stock" label="Stock">
+          </UFormField>
+          <UFormField name="stock" label="Stock">
             <UInput v-model.number="newProduct.stock" type="number" />
-          </UFormGroup>
+          </UFormField>
         </div>
         <template #footer>
           <div class="flex justify-end space-x-2">

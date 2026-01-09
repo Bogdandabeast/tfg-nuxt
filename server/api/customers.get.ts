@@ -10,6 +10,9 @@ export default defineAuthenticatedEventHandler(async (event) => {
   // const { company_id } = querySchema.parse(query);
   const company_id = Number(query.company_id); // Temporarily get company_id directly
 
+  if (!company_id)
+    throw createError({ statusCode: 400, statusMessage: "Missing required parameter" });
+
   // TODO: Add authorization to check if user has access to this company
   const customers = await getCustomersByCompanyId(company_id);
 

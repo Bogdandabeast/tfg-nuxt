@@ -31,5 +31,226 @@
     "changelog": "Changelog",
     "signIn": "Sign In",
     "signUp": "Sign Up"
+  },
+  "terms": {
+    "title": "Terms and Conditions",
+    "description": "Please read our terms and conditions carefully before using our services.",
+    "alert": {
+      "title": "Important Notice",
+      "description": "These terms and conditions were last updated on January 9, 2026. Please review the changes."
+    },
+    "intro": {
+      "title": "Introduction",
+      "content": "Welcome to our platform. By accessing or using our service, you agree to comply with and be bound by the following terms and conditions of use. If you do not agree with any part of these terms, do not use our service."
+    },
+    "badge": {
+      "new": "New"
+    },
+    "collapsible": {
+      "hide": "Hide additional details",
+      "show": "Show additional details",
+      "content": "Here you can find additional information about the introduction to the legal document."
+    },
+    "sections": {
+      "title": "Sections Details"
+    },
+    "accordion": {
+      "service_usage": {
+        "label": "Service Usage",
+        "content": "Detailed content about service usage. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      },
+      "privacy": {
+        "label": "Privacy",
+        "content": "Detailed content about the privacy policy. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      },
+      "limitations": {
+        "label": "Limitations of Liability",
+        "content": "Detailed content about limitations of liability. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      }
+    },
+    "contact": {
+      "title": "Contact",
+      "content": "For any questions about these terms, please contact us at"
+    },
+    "surround": {
+      "privacy": {
+        "title": "Privacy Policy",
+        "description": "Learn how we handle your data."
+      },
+      "legal_notice": {
+        "title": "Legal Notice",
+        "description": "Additional legal information."
+      }
+    }
+  },
+  "legal": {
+    "home": "Home",
+    "title": "Legal",
+    "terms_and_conditions": "Terms and Conditions"
+  },
+  "pricing": {
+    "seo": {
+      "title": "Our Pricing Plans",
+      "description": "Choose the perfect plan that fits your needs and budget."
+    },
+    "hero": {
+      "title": "Our Flexible Pricing Plans",
+      "description": "Choose the perfect plan that fits your needs and budget. No hidden fees, no surprises."
+    },
+    "tabs": {
+      "monthly": "Monthly",
+      "yearly": "Yearly"
+    },
+    "plans": {
+      "monthly_cycle": "/month",
+      "yearly_cycle": "/year",
+      "basic": {
+        "title": "Basic",
+        "description": "Perfect for individual users.",
+        "features": {
+          "projects": "5 Projects",
+          "storage": "10 GB Storage",
+          "support": "Basic Support",
+          "custom_domain": "Custom Domain",
+          "ssl_certificate": "SSL Certificate",
+          "email_notifications": "Email Notifications",
+          "analytics_dashboard": "Analytics Dashboard",
+          "community_access": "Community Access",
+          "api_access": "API Access",
+          "daily_backups": "Daily Backups",
+          "priority_queue": "Priority Queue",
+          "multi_device_sync": "Multi-device Sync",
+          "basic_integrations": "Basic Integrations"
+        },
+        "button": "Choose Basic"
+      },
+      "pro": {
+        "title": "Pro",
+        "description": "For growing teams with more needs.",
+        "features": {
+          "projects": "Unlimited Projects",
+          "storage": "1 TB Secure Cloud Storage",
+          "support": "24/7 Premium Support",
+          "dedicated_account_manager": "Dedicated Account Manager",
+          "custom_domain": "Custom Domain + Advanced DNS",
+          "ssl_certificates": "Enterprise-grade SSL Certificates",
+          "analytics_reporting": "Advanced Analytics & Reporting",
+          "team_collaboration_tools": "Team Collaboration Tools",
+          "role_based_access_control": "Role-based Access Control",
+          "sso": "Single Sign-On (SSO)",
+          "audit_logs": "Audit Logs & Compliance Reports",
+          "api_rate_limits": "API Rate Limits x10",
+          "backups": "Daily + On-demand Backups",
+          "deployment_queue": "Priority Deployment Queue",
+          "multi_device_sync_offline": "Multi-device Sync & Offline Mode",
+          "advanced_integrations": "Advanced Integrations (Slack, Jira, Zapier)",
+          "ai_recommendations": "AI-powered Recommendations",
+          "custom_branding": "Custom Branding & White-label",
+          "beta_access": "Beta Features Early Access",
+          "uptime_sla": "99.99% Uptime SLA",
+          "geo_redundant_infrastructure": "Geo-redundant Infrastructure",
+          "advanced_security": "Advanced Security (2FA, Encryption at Rest)",
+          "vip_community_access": "VIP Community Access",
+          "strategy_review": "Quarterly Strategy Review"
+        },
+        "button": "Choose Pro"
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "description": "Answers to the most common questions about our pricing.",
+      "refund": {
+        "question": "What is your refund policy?",
+        "answer": "We offer a 30-day money-back guarantee for all our plans."
+      },
+      "change_plan": {
+        "question": "Can I change my plan later?",
+        "answer": "Yes, you can upgrade or downgrade your plan at any time."
+      },
+      "custom_plans": {
+        "question": "Do you offer custom plans?",
+        "answer": "Please contact our sales team for custom enterprise solutions."
+      }
+    }
+  },
+  "login": {
+    "seo": {
+      "title": "Login",
+      "description": "Login to your account to continue"
+    },
+    "form": {
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      },
+      "remember_me": {
+        "label": "Remember me"
+      },
+      "title": "Welcome back",
+      "no_account": "Don't have an account?",
+      "signup_link": "Sign up",
+      "forgot_password": "Forgot password?",
+      "agree_terms_part1": "By signing in, you agree to our",
+      "terms_of_service_link": "Terms of Service"
+    },
+    "validation": {
+      "invalid_email": "Invalid email",
+      "password_min": "Must be at least 8 characters"
+    },
+    "toast": {
+      "error": {
+        "title": "Error",
+        "description": "Invalid email or password"
+      },
+      "success": {
+        "title": "Success",
+        "description": "Logged in successfully"
+      }
+    }
+  },
+  "signup": {
+    "seo": {
+      "title": "Sign up",
+      "description": "Create an account to get started"
+    },
+    "form": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Enter your name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      },
+      "title": "Create an account",
+      "submit_button": "Create account",
+      "has_account": "Already have an account?",
+      "login_link": "Login",
+      "agree_terms_part1": "By signing up, you agree to our",
+      "terms_of_service_link": "Terms of Service"
+    },
+    "validation": {
+      "name_required": "Name is required",
+      "invalid_email": "Invalid email",
+      "password_min": "Must be at least 8 characters"
+    },
+    "toast": {
+      "success": {
+        "title": "Success",
+        "description": "Account created successfully"
+      },
+      "error": {
+        "title": "Error",
+        "description": "Could not create account"
+      }
+    }
   }
 }
