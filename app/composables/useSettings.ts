@@ -1,6 +1,6 @@
 import type { FormSubmitEvent } from "@nuxt/ui";
+import { reactive, ref } from "vue";
 import { z } from "zod";
-import { ref, reactive } from "vue";
 
 export function useSettings() {
   const fileRef = ref<HTMLInputElement>();
@@ -42,7 +42,7 @@ export function useSettings() {
     profile.avatar = URL.createObjectURL(input.files[0]!);
   }
 
-function onFileClick() {
+  function onFileClick() {
     fileRef.value?.click();
   }
 

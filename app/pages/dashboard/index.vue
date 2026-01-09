@@ -1,132 +1,124 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { useCompaniesStore } from "~/app/stores/companies";
+import { useCustomersStore } from "~/app/stores/customers";
+import { useProductsStore } from "~/app/stores/products";
+
 definePageMeta({
   layout: "dashboard",
 });
 
 const toast = useToast();
-const { selectedCompany } = useDashboard();
 
-// companys
-const { data: companies, refresh: refreshCompanies } = await useFetch("/api/companies");
+// Stores
+const companiesStore = useCompaniesStore();
+const customersStore = useCustomersStore();
+const productsStore = useProductsStore();
+
+// State from stores
+const { companies, currentCompany } = storeToRefs(companiesStore);
+const { customers } = storeToRefs(customersStore);
+const { products } = storeToRefs(productsStore);
+
+// Modals state
 const isCompanyModalOpen = ref(false);
+const isCustomerModalOpen = ref(false);
+const isProductModalOpen = ref(false);
+
+// Form models
 const newCompanyName = ref("");
+const newCustomer = ref({ name: "", email: "" });
+const newProduct = ref({ name: "", description: "", price: 0, stock: 0 });
 
-// When companys list changes (e.g. after adding/deleting), we might need to refresh the global list
-// The companiesMenu already handles this, but a hard refresh here can ensure consistency.
-// We also need to refresh the companys list in the global menu. The easiest way is to let the user
-// know that the list of companys has changed. For now we will just refresh the local list.
-// A more robust solution might involve a global 'refreshCompanies' flag in the useDashboard composable.
-
+// Actions
 async function handleAddCompany() {
   if (!newCompanyName.value) {
-    toast.add({ title: "Error", description: "Company name is required.", color: "secondary" });
+    toast.add({ title: "Error", description: "Company name is required.", color: "red" });
     return;
   }
   try {
-    await $fetch("/api/companies", {
-      method: "POST",
-      body: { name: newCompanyName.value },
-    });
+    await companiesStore.createCompany({ name: newCompanyName.value });
     toast.add({ title: "Success", description: "Company created." });
     newCompanyName.value = "";
     isCompanyModalOpen.value = false;
-    refreshCompanies();
   }
   catch (e: any) {
-    toast.add({ title: "Error creating company", description: e.message, color: "secondary" });
+    toast.add({ title: "Error creating company", description: e.message, color: "red" });
   }
 }
 
 async function handleDeleteCompany(id: number) {
   try {
-    await $fetch(`/api/companies/${id}`, { method: "DELETE" });
+    await companiesStore.deleteCompany(id);
     toast.add({ title: "Success", description: "Company deleted." });
-    refreshCompanies();
   }
   catch (e: any) {
-    toast.add({ title: "Error deleting company", description: e.message, color: "secondary" });
+    toast.add({ title: "Error deleting company", description: e.message, color: "red" });
   }
 }
 
-// Customers
-const { data: customers, refresh: refreshCustomers } = useAsyncData(
-  "customers",
-  () => selectedCompany.value ? $fetch(`/api/customers?company_id=${selectedCompany.value.id}`) : Promise.resolve([]),
-  { watch: [selectedCompany] },
-);
-const isCustomerModalOpen = ref(false);
-const newCustomer = ref({ name: "", email: "" });
-
 async function handleAddCustomer() {
-  if (!selectedCompany.value) {
-    toast.add({ title: "Error", description: "Please select a company first.", color: "secondary" });
+  if (!currentCompany.value) {
+    toast.add({ title: "Error", description: "Please select a company first.", color: "red" });
     return;
   }
   try {
-    await $fetch("/api/customers", {
-      method: "POST",
-      body: { ...newCustomer.value, company_id: selectedCompany.value.id },
-    });
+    await customersStore.createCustomer(newCustomer.value);
     toast.add({ title: "Success", description: "Customer created." });
     newCustomer.value = { name: "", email: "" };
     isCustomerModalOpen.value = false;
-    refreshCustomers();
   }
   catch (e: any) {
-    toast.add({ title: "Error creating customer", description: e.message, color: "secondary" });
+    toast.add({ title: "Error creating customer", description: e.message, color: "red" });
   }
 }
 
 async function handleDeleteCustomer(id: number) {
   try {
-    await $fetch(`/api/customers/${id}`, { method: "DELETE" });
+    await customersStore.deleteCustomer(id);
     toast.add({ title: "Success", description: "Customer deleted." });
-    refreshCustomers();
   }
   catch (e: any) {
-    toast.add({ title: "Error deleting customer", description: e.message, color: "secondary" });
+    toast.add({ title: "Error deleting customer", description: e.message, color: "red" });
   }
 }
 
-// Products
-const { data: products, refresh: refreshProducts } = useAsyncData(
-  "products",
-  () => selectedCompany.value ? $fetch(`/api/products?company_id=${selectedCompany.value.id}`) : Promise.resolve([]),
-  { watch: [selectedCompany] },
-);
-const isProductModalOpen = ref(false);
-const newProduct = ref({ name: "", description: "", price: 0, stock: 0 });
-
 async function handleAddProduct() {
-  if (!selectedCompany.value) {
-    toast.add({ title: "Error", description: "Please select a company first.", color: "secondary" });
+  if (!currentCompany.value) {
+    toast.add({ title: "Error", description: "Please select a company first.", color: "red" });
     return;
   }
   try {
-    await $fetch("/api/products", {
-      method: "POST",
-      body: { ...newProduct.value, company_id: selectedCompany.value.id },
+    // Ensure price is a string if the API expects it, otherwise keep as number
+    await productsStore.createProduct({
+      ...newProduct.value,
+      price: newProduct.value.price.toString(),
     });
     toast.add({ title: "Success", description: "Product created." });
     newProduct.value = { name: "", description: "", price: 0, stock: 0 };
     isProductModalOpen.value = false;
-    refreshProducts();
   }
   catch (e: any) {
-    toast.add({ title: "Error creating product", description: e.message, color: "secondary" });
+    toast.add({ title: "Error creating product", description: e.message, color: "red" });
   }
 }
 
 async function handleDeleteProduct(id: number) {
   try {
-    await $fetch(`/api/products/${id}`, { method: "DELETE" });
+    await productsStore.deleteProduct(id);
     toast.add({ title: "Success", description: "Product deleted." });
-    refreshProducts();
   }
   catch (e: any) {
-    toast.add({ title: "Error deleting product", description: e.message, color: "secondary" });
+    toast.add({ title: "Error deleting product", description: e.message, color: "red" });
   }
 }
+
+// Fetch initial data
+onMounted(() => {
+  companiesStore.refreshCompanies();
+  customersStore.refreshCustomers();
+  productsStore.refreshProducts();
+});
 </script>
 
 <template>
@@ -156,7 +148,7 @@ async function handleDeleteProduct(id: number) {
           >
             <span>{{ company.name }} (ID: {{ company.id }})</span>
             <UButton
-              color="secondary"
+              color="red"
               variant="soft"
               @click="handleDeleteCompany(company.id)"
             >
@@ -169,13 +161,13 @@ async function handleDeleteProduct(id: number) {
         </p>
       </UCard>
 
-      <div v-if="selectedCompany" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div v-if="currentCompany" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Customers Section -->
         <UCard>
           <template #header>
             <div class="flex justify-between items-center">
               <h2 class="font-bold text-lg">
-                Customers of {{ selectedCompany.name }}
+                Customers of {{ currentCompany.name }}
               </h2>
               <UButton @click="isCustomerModalOpen = true">
                 Add Customer
@@ -195,7 +187,7 @@ async function handleDeleteProduct(id: number) {
                 </p>
               </div>
               <UButton
-                color="secondary"
+                color="red"
                 variant="soft"
                 @click="handleDeleteCustomer(customer.id)"
               >
@@ -213,7 +205,7 @@ async function handleDeleteProduct(id: number) {
           <template #header>
             <div class="flex justify-between items-center">
               <h2 class="font-bold text-lg">
-                Products of {{ selectedCompany.name }}
+                Products of {{ currentCompany.name }}
               </h2>
               <UButton @click="isProductModalOpen = true">
                 Add Product
@@ -233,7 +225,7 @@ async function handleDeleteProduct(id: number) {
                 </p>
               </div>
               <UButton
-                color="secondary"
+                color="red"
                 variant="soft"
                 @click="handleDeleteProduct(product.id)"
               >
@@ -259,19 +251,19 @@ async function handleDeleteProduct(id: number) {
             Add New Company
           </h2>
         </template>
-        <UFormField
-          name="Company Name"
+        <UFormGroup
           label="Company Name"
+          name="companyName"
           class="mb-4"
         >
           <UInput v-model="newCompanyName" />
-        </UFormField>
+        </UFormGroup>
         <template #footer>
           <div class="flex justify-end space-x-2">
-            <UButton color="primary" @click="isCompanyModalOpen = false">
+            <UButton @click="isCompanyModalOpen = false">
               Cancel
             </UButton>
-            <UButton @click="handleAddCompany">
+            <UButton color="primary" @click="handleAddCompany">
               Save
             </UButton>
           </div>
@@ -287,19 +279,19 @@ async function handleDeleteProduct(id: number) {
           </h2>
         </template>
         <div class="space-y-4">
-          <UFormField name="name" label="Name">
+          <UFormGroup name="name" label="Name">
             <UInput v-model="newCustomer.name" />
-          </UFormField>
-          <UFormField name="email" label="Email">
+          </UFormGroup>
+          <UFormGroup name="email" label="Email">
             <UInput v-model="newCustomer.email" type="email" />
-          </UFormField>
+          </UFormGroup>
         </div>
         <template #footer>
           <div class="flex justify-end space-x-2">
-            <UButton color="primary" @click="isCustomerModalOpen = false">
+            <UButton @click="isCustomerModalOpen = false">
               Cancel
             </UButton>
-            <UButton @click="handleAddCustomer">
+            <UButton color="primary" @click="handleAddCustomer">
               Save
             </UButton>
           </div>
@@ -315,25 +307,25 @@ async function handleDeleteProduct(id: number) {
           </h2>
         </template>
         <div class="space-y-4">
-          <UFormField name="name" label="Name">
+          <UFormGroup name="name" label="Name">
             <UInput v-model="newProduct.name" />
-          </UFormField>
-          <UFormField name="description" label="Description">
+          </UFormGroup>
+          <UFormGroup name="description" label="Description">
             <UInput v-model="newProduct.description" />
-          </UFormField>
-          <UFormField name="price" label="Price">
+          </UFormGroup>
+          <UFormGroup name="price" label="Price">
             <UInput v-model.number="newProduct.price" type="number" />
-          </UFormField>
-          <UFormField name="stock" label="Stock">
+          </UFormGroup>
+          <UFormGroup name="stock" label="Stock">
             <UInput v-model.number="newProduct.stock" type="number" />
-          </UFormField>
+          </UFormGroup>
         </div>
         <template #footer>
           <div class="flex justify-end space-x-2">
-            <UButton color="primary" @click="isProductModalOpen = false">
+            <UButton @click="isProductModalOpen = false">
               Cancel
             </UButton>
-            <UButton @click="handleAddProduct">
+            <UButton color="primary" @click="handleAddProduct">
               Save
             </UButton>
           </div>

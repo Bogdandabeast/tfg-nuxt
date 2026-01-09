@@ -1,9 +1,9 @@
-import { useAuthStore } from '~/app/stores/auth'
+import { useAuthStore } from "~/app/stores/auth";
 
-export const useAuth = () => {
-  const store = useAuthStore()
+export function useAuth() {
+  const store = useAuthStore();
 
   return {
     ...store,
-  }
+  };
 }

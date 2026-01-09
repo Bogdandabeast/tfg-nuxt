@@ -1,29 +1,41 @@
 <script setup lang="ts">
-import { useProducts } from '~/app/composables/useProducts';
+import { useProductsStore } from "~/app/stores/products";
 
-const { createProduct, deleteProduct } = useProducts();
+const productsStore = useProductsStore();
 
-const newProductName = ref('');
-const productToDeleteId = ref('');
+const newProduct = ref({
+  name: "",
+  description: "",
+  price: "",
+  stock: 0,
+});
+const productToDeleteId = ref("");
 
-const createProductHandler = async () => {
-  if (newProductName.value) {
-    await createProduct({ name: newProductName.value });
-    newProductName.value = '';
-    alert('Product created successfully!');
+async function createProductHandler() {
+  if (newProduct.value.name && newProduct.value.description && newProduct.value.price) {
+    await productsStore.createProduct({
+      ...newProduct.value,
+      price: newProduct.value.price.toString(),
+    });
+    newProduct.value = { name: "", description: "", price: "", stock: 0 };
+    alert("Product created successfully!");
   }
-};
+  else {
+    alert("Please fill in all product details.");
+  }
+}
 
-const deleteProductHandler = async () => {
+async function deleteProductHandler() {
   const id = Number(productToDeleteId.value);
   if (productToDeleteId.value && !isNaN(id)) {
-    await deleteProduct(id.toString()); // Convert back to string for consistency with URL params
-    productToDeleteId.value = '';
-    alert('Product deleted successfully!');
-  } else {
-    alert('Please enter a valid Product ID to delete.');
+    await productsStore.deleteProduct(id);
+    productToDeleteId.value = "";
+    alert("Product deleted successfully!");
   }
-};
+  else {
+    alert("Please enter a valid Product ID to delete.");
+  }
+}
 </script>
 
 <template>
@@ -32,11 +44,49 @@ const deleteProductHandler = async () => {
       <h3>Create New Product</h3>
     </template>
 
-    <UFormGroup label="Product Name" name="newProductName" class="mb-4">
-      <UInput v-model="newProductName" placeholder="Enter product name" />
-    </UFormGroup>
+    <div class="space-y-4">
+      <UFormGroup
+        label="Product Name"
+        name="newProductName"
+      >
+        <UInput v-model="newProduct.name" placeholder="Enter product name" />
+      </UFormGroup>
 
-    <UButton @click="createProductHandler">Create Product</UButton>
+      <UFormGroup
+        label="Description"
+        name="newProductDescription"
+      >
+        <UInput v-model="newProduct.description" placeholder="Enter description" />
+      </UFormGroup>
+
+      <UFormGroup
+        label="Price"
+        name="newProductPrice"
+      >
+        <UInput
+          v-model="newProduct.price"
+          placeholder="Enter price"
+          type="number"
+        />
+      </UFormGroup>
+
+      <UFormGroup
+        label="Stock"
+        name="newProductStock"
+      >
+        <UInput
+          v-model.number="newProduct.stock"
+          placeholder="Enter stock quantity"
+          type="number"
+        />
+      </UFormGroup>
+    </div>
+
+    <template #footer>
+      <UButton @click="createProductHandler">
+        Create Product
+      </UButton>
+    </template>
   </UCard>
 
   <UCard>
@@ -44,10 +94,16 @@ const deleteProductHandler = async () => {
       <h3>Delete Product by ID</h3>
     </template>
 
-    <UFormGroup label="Product ID" name="productToDeleteId" class="mb-4">
+    <UFormGroup
+      label="Product ID"
+      name="productToDeleteId"
+      class="mb-4"
+    >
       <UInput v-model="productToDeleteId" placeholder="Enter product ID to delete" />
     </UFormGroup>
 
-    <UButton color="red" @click="deleteProductHandler">Delete Product</UButton>
+    <UButton color="red" @click="deleteProductHandler">
+      Delete Product
+    </UButton>
   </UCard>
 </template>

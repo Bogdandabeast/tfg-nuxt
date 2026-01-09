@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from "@nuxt/ui";
 import * as z from "zod";
-import { useAuthStore } from '~/app/stores/auth';
+import { useAuthStore } from "~/app/stores/auth";
 
 definePageMeta({
   layout: "auth",
@@ -50,7 +50,8 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
   });
   if (!authStore.loggedIn) {
     toast.add({ title: "Error", description: "Invalid email or password", color: "red" });
-  } else {
+  }
+  else {
     toast.add({ title: "Success", description: "Logged in successfully", color: "green" });
   }
 }

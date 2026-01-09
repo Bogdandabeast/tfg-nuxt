@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { createCustomer } from "~~/lib/db/queries/customers";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 

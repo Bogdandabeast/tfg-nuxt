@@ -1,26 +1,36 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from "@nuxt/ui";
+import { storeToRefs } from "pinia";
+import { useCompaniesStore } from "~/app/stores/companies";
 
 defineProps<{
   collapsed?: boolean;
 }>();
 
-const { companies } = useCompanies();
-
-const selectedCompanies = ref(companies.value[0]);
+const companiesStore = useCompaniesStore();
+const { companies, currentCompany } = storeToRefs(companiesStore);
+const router = useRouter();
 
 const items = computed<DropdownMenuItem[][]>(() => {
   return [companies.value.map(company => ({
-    ...company,
-    onSelect() {
-      selectedCompanies.value = company;
+    label: company.name,
+    id: company.id,
+    icon: (company.id === currentCompany.value?.id) ? "i-lucide-check" : (company.icon || "i-lucide-building"),
+    onSelect: () => {
+      companiesStore.setCurrentCompany(company);
     },
   })), [{
     label: "Create company",
     icon: "i-lucide-circle-plus",
+    onSelect: () => {
+      router.push("/dashboard/companies");
+    },
   }, {
     label: "Manage companies",
     icon: "i-lucide-cog",
+    onSelect: () => {
+      router.push("/dashboard/companies");
+    },
   }]];
 });
 </script>
@@ -33,8 +43,7 @@ const items = computed<DropdownMenuItem[][]>(() => {
   >
     <UButton
       v-bind="{
-        ...selectedCompanies,
-        label: collapsed ? undefined : selectedCompanies?.label,
+        label: collapsed ? undefined : currentCompany?.name || 'Select Company',
         trailingIcon: collapsed ? undefined : 'i-lucide-chevrons-up-down',
       }"
       color="neutral"
