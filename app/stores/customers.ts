@@ -1,7 +1,6 @@
 import type { Customer, CustomerInsert } from "~~/lib/db/queries/customers";
 import { defineStore } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
-import { useToast } from "~~/utils/toast";
 
 export const useCustomersStore = defineStore("customers", () => {
   const companiesStore = useCompaniesStore();
