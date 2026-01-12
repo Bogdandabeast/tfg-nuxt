@@ -4,7 +4,7 @@ import { saleIdParamSchema, updateSaleSchema } from "~~/utils/schemas/sales";
 
 export default defineEventHandler(async (event) => {
   // Assume company_id is available from authentication middleware
-  const companyId = event.context.user?.company_id as number;
+  const companyId = event.context.session?.company_id;
   if (!companyId) {
     throw createError({
       statusCode: 401,
@@ -16,9 +16,6 @@ export default defineEventHandler(async (event) => {
     const { id } = await saleIdParamSchema.parseAsync(event.context.params);
     const body = await readBody(event);
     const validatedData = await updateSaleSchema.parseAsync(body);
-    if (validatedData.sale_date !== undefined) {
-      validatedData.sale_date = new Date(validatedData.sale_date);
-    }
 
     const updatedSale = await updateSale(id, companyId, validatedData);
 

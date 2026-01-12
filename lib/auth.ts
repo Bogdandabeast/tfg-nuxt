@@ -1,14 +1,16 @@
 import type { User } from "better-auth";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-
 import { createAuthMiddleware } from "better-auth/plugins";
 
+import { eq } from "drizzle-orm";
+
 import { db } from "./db/index";
+import { companiesTable } from "./db/schema/companies";
 import { user_schema } from "./db/schema/index";
 
 export type UserWithId = Omit<User, "id"> & {
-  id: number;
+  id: string;
 };
 
 export const auth = betterAuth({
@@ -30,6 +32,21 @@ export const auth = betterAuth({
     schema: user_schema,
 
   }),
+  databaseHooks: {
+    session: {
+      create: {
+        before: async (session) => {
+          const company = await db.select({ id: companiesTable.id }).from(companiesTable).where(eq(companiesTable.user_id, session.userId)).limit(1);
+          return {
+            data: {
+              ...session,
+              company_id: company[0]?.id || null,
+            },
+          };
+        },
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
 

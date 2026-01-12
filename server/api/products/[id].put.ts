@@ -7,9 +7,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
 
   const body = await readBody(event);
   const data = productUpdateSchema.parse(body);
-  if (data.price !== undefined) {
-    data.price = data.price.toString();
-  }
 
   // TODO: Add authorization to check if user has access to this product
   const updated = await updateProduct(productId, data);
