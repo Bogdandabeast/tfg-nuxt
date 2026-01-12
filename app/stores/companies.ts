@@ -31,24 +31,30 @@ export const useCompaniesStore = defineStore("companies", () => {
   }, { immediate: true });
 
   async function createCompany(companyData: Partial<Company>) {
+    const { csrf } = useCsrf();
     await useFetch("/api/companies", {
       method: "POST",
       body: companyData,
+      headers: { "csrf-token": csrf },
     });
     await refresh();
   }
 
   async function updateCompany(id: number, companyData: Partial<Company>) {
+    const { csrf } = useCsrf();
     await useFetch(`/api/companies/${id}`, {
       method: "PUT",
       body: companyData,
+      headers: { "csrf-token": csrf },
     });
     await refresh();
   }
 
   async function deleteCompany(id: number) {
+    const { csrf } = useCsrf();
     await useFetch(`/api/companies/${id}`, {
       method: "DELETE",
+      headers: { "csrf-token": csrf },
     });
     await refresh();
     if (currentCompany.value?.id === id) {

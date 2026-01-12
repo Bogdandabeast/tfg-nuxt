@@ -39,7 +39,7 @@ export default defineNuxtConfig({
       httpOnly: true,
       sameSite: "strict",
     },
-    methodsToProtect: ["POST", "PUT", "PATCH"], // the request methods we want CSRF protection for
+    methodsToProtect: ["POST", "PUT", "PATCH", "DELETE"], // the request methods we want CSRF protection for
     addCsrfTokenToEventCtx: true, // default false, to run useCsrfFetch on server set it to true
     headerName: "csrf-token", // the header where the csrf token is stored
   },
