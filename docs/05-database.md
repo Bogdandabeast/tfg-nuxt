@@ -26,10 +26,11 @@ La lógica para interactuar con la base de datos se encuentra en `lib/db/queries
 - **Separación de responsabilidades**: Cada archivo (p.ej., `sales.ts`, `customers.ts`) agrupa las funciones que realizan operaciones CRUD (Crear, Leer, Actualizar, Borrar) sobre una tabla o entidad específica.
 - **Seguridad de tipos**: Las consultas se escriben utilizando el cliente de Drizzle y los esquemas definidos. Esto garantiza que las operaciones son seguras en tiempo de compilación. Por ejemplo, no se puede seleccionar una columna que no existe o insertar un tipo de dato incorrecto.
 - **Ejemplo de consulta (hipotético) en `lib/db/queries/sales.ts`**:
+
   ```typescript
+  import { eq } from "drizzle-orm";
   import { db } from "../index";
   import { sales } from "../schema";
-  import { eq } from "drizzle-orm";
 
   export async function getSaleById(saleId: number) {
     return await db.select().from(sales).where(eq(sales.id, saleId));

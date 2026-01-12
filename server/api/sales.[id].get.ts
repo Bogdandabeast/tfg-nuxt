@@ -1,18 +1,12 @@
 import { getSaleById } from "~~/lib/db/queries/sales";
-import { saleIdParamSchema } from "~~/utils/sales.schema";
+import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
+import { handleError } from "~~/utils/error-handler";
+import { saleIdParamSchema } from "~~/utils/schemas/sales";
 
-export default defineEventHandler(async (event) => {
-  // Assume company_id is available from authentication middleware
-  const companyId = event.context.user?.company_id;
-  if (!companyId) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized",
-    });
-  }
-
+export default defineAuthenticatedEventHandler(async (event) => {
   try {
-    const { id } = await saleIdParamSchema.parseAsync(event.context.params);
+    const { id } = saleIdParamSchema.parse(event.context.params);
+    const companyId = event.context.user?.company_id;
     const sale = await getSaleById(id, companyId);
 
     if (!sale) {
@@ -22,19 +16,8 @@ export default defineEventHandler(async (event) => {
       });
     }
     return { sale };
-  } catch (error) {
-    // Handle validation errors from Zod
-    if (error.name === "ZodError") {
-      throw createError({
-        statusCode: 400,
-        statusMessage: "Bad Request",
-        data: error.errors,
-      });
-    }
-    // Handle other potential errors
-    throw createError({
-      statusCode: 500,
-      statusMessage: "Internal Server Error",
-    });
+  }
+  catch (error) {
+    handleError(error, { route: "sales.[id].get", user: event.context.user?.id });
   }
 });

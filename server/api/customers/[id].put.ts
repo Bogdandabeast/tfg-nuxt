@@ -1,23 +1,9 @@
-import { z } from "zod";
 import { updateCustomer } from "~~/lib/db/queries/customers";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
-
-const customerUpdateSchema = z.object({
-  name: z.string().min(1, "Name is required").optional(),
-  email: z.string().email("Invalid email").optional(),
-  phone: z.string().optional(),
-  address: z.string().optional(),
-  // company_id should probably not be mutable here
-});
+import { customerIdParamSchema, customerUpdateSchema } from "~~/utils/schemas/customers";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  const customerId = Number(event.context.params?.id);
-  if (!customerId || isNaN(customerId)) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: "Invalid customer ID",
-    });
-  }
+  const { id: customerId } = customerIdParamSchema.parse(event.context.params);
 
   const body = await readBody(event);
   const data = customerUpdateSchema.parse(body);

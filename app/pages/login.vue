@@ -2,7 +2,6 @@
 import type { FormSubmitEvent } from "@nuxt/ui";
 import * as z from "zod";
 import { useAuthStore } from "~~/app/stores/auth";
-import auth from "~/plugins/auth";
 
 definePageMeta({
   layout: "auth",

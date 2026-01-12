@@ -18,6 +18,7 @@ El código fuente del frontend se encuentra principalmente en el directorio `app
 ## Gestión de Estado con Pinia
 
 La aplicación utiliza Pinia para centralizar el estado. Los almacenes (`stores`) son responsables de:
+
 - Mantener el estado de la aplicación (p.ej., el usuario actual, la lista de empresas).
 - Exponer acciones (`actions`) para modificar el estado de forma controlada.
 - Proporcionar `getters` para acceder a datos computados del estado.
@@ -27,6 +28,7 @@ Esta separación de responsabilidades hace que el flujo de datos sea predecible 
 ## Componentes y UI
 
 La interfaz se construye con **Nuxt UI**, una librería de componentes basada en **Tailwind CSS**. Esto permite:
+
 - Un desarrollo rápido utilizando componentes pre-construidos y personalizables (`UButton`, `UModal`, `UForm`, etc.).
 - La capacidad de mantener una consistencia visual en toda la aplicación.
 - La personalización del tema y los estilos a través de la configuración de Tailwind CSS y las variables de Nuxt UI.

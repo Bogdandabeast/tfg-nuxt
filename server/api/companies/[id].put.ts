@@ -1,19 +1,9 @@
-import { z } from "zod";
 import { updateCompany } from "~~/lib/db/queries/company";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
-
-const companyUpdateSchema = z.object({
-  name: z.string().min(1, "Company name is required"),
-});
+import { companyIdParamSchema, companyUpdateSchema } from "~~/utils/schemas/companies";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  const companyId = Number(event.context.params?.id);
-  if (!companyId || Number.isNaN(companyId)) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: "Invalid company ID",
-    });
-  }
+  const { id: companyId } = companyIdParamSchema.parse(event.context.params);
 
   const body = await readBody(event);
   const { name } = companyUpdateSchema.parse(body);
