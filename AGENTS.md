@@ -5,7 +5,7 @@ Se usa para recordar comandos estándar y facilitar la ejecución automática po
 
 ## Contexto del Proyecto
 
-Este proyecto es una aplicación web full-stack desarrollada con Nuxt.js. Incluye un frontend reactivo, un backend API robusto y persistencia de datos a través de una base de datos relacional. El objetivo es proporcionar una plataforma eficiente y escalable para [**añadir aquí una breve descripción del propósito del proyecto, p.ej., la gestión de clientes, productos y ventas**].
+Este proyecto es una aplicación web full-stack desarrollada con Nuxt.js. Incluye un frontend reactivo, un backend API robusto y persistencia de datos a través de una base de datos relacional. El objetivo es proporcionar una plataforma eficiente y escalable para la gestión de empresas, clientes, productos y ventas.
 
 ## Tecnologías Clave
 
@@ -17,7 +17,7 @@ Este proyecto es una aplicación web full-stack desarrollada con Nuxt.js. Incluy
 - **Base de Datos:** PostgreSQL
 - **Autenticación:** better-auth
 - **Lenguaje:** TypeScript
-- **Herramientas de Calidad:** ESLint, Vitest, Husky
+- **Herramientas de Calidad:** ESLint, Vitest, Husky, commitlint
 
 ## Flujo de Desarrollo
 
@@ -26,7 +26,8 @@ Para garantizar un control de versiones adecuado y una colaboración fluida, sig
 1.  **Crear una Nueva Rama:** Antes de iniciar cualquier trabajo, crea una nueva rama desde `main` (o la rama base de desarrollo actual) con un nombre descriptivo (p.ej., `feature/nombre-de-la-caracteristica`, `bugfix/descripcion-del-bug`).
     `git checkout -b feature/your-feature-name`
 2.  **Implementar Cambios:** Realiza tus modificaciones en esta nueva rama.
-3.  **Realizar Commits:** Haz commits pequeños y atómicos con mensajes claros y descriptivos.
+3.  **Verificar Calidad:** Ejecuta `pnpm run lint`, `pnpm run lint:fix`, y `bunx nuxi typecheck` para asegurar la calidad del código.
+4.  **Realizar Commits:** Haz commits pequeños y atómicos con mensajes convencionales (usa `feat:`, `fix:`, `docs:`, etc.). Los hooks pre-commit ejecutarán linting automático.
 
 ## Gestión de Paquetes
 
@@ -38,12 +39,21 @@ Para garantizar un control de versiones adecuado y una colaboración fluida, sig
 - Remover paquete: `pnpm remove <package>`.
 - Ejecutar herramienta temporal: `bunx <comando>` (ej. `bunx nuxi typecheck` para type checking sin instalar globalmente).
 
+## Convenciones de Commit
+
+Sigue conventional commits para mantener un historial claro y automatizar el versionado. Mensajes deben tener el formato: `tipo(alcance): descripción`
+
+- Tipos comunes: `feat` (nueva funcionalidad), `fix` (corrección de bug), `docs` (documentación), `refactor` (refactorización), `test` (pruebas).
+- Ejemplo: `feat: add user authentication`
+
 ## Linting y Calidad de Código
 
 - Ejecutar linting: `pnpm run lint` (usa ESLint para verificar código).
 - Corregir errores de linting automáticamente: `pnpm run lint:fix`.
+- Ejecutar type checking: `bunx nuxi typecheck` (verifica tipos TypeScript).
+- Commitlint: Valida mensajes de commit siguiendo conventional commits (configurado en `.husky/commit-msg`).
 
 ## Otros
 
 - Migraciones de DB (si usas Drizzle): `bunx drizzle-kit generate` o `bunx drizzle-kit push` (revisa drizzle.config.ts para comandos específicos).
-- Husky hooks: `pnpm run prepare` (configura pre-commit hooks).
+- Husky hooks: `pnpm run prepare` (configura pre-commit hooks). Los hooks incluyen lint-staged para linting automático en archivos staged y commitlint para validar mensajes de commit.
