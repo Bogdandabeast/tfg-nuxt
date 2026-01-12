@@ -15,7 +15,6 @@ useSeoMeta({
 });
 
 const authStore = useAuthStore();
-const toast = useToast();
 
 const fields = [
   {

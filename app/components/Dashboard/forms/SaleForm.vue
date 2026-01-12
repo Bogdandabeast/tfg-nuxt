@@ -7,6 +7,7 @@ import { useSalesStore } from "~~/app/stores/sales";
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
+const toast = useToast();
 
 const { customers } = storeToRefs(customersStore);
 const { products } = storeToRefs(productsStore);
@@ -32,30 +33,44 @@ onMounted(() => {
 
 async function createSaleHandler() {
   if (newSale.value.customer_id && newSale.value.product_id && newSale.value.quantity > 0) {
-    console.log(newSale.value);
     await salesStore.createSale({
       customer_id: Number(newSale.value.customer_id.value),
       product_id: Number(newSale.value.product_id.value),
       quantity: newSale.value.quantity,
     });
     newSale.value = { customer_id: null, product_id: null, quantity: 1 };
-    alert("Sale created successfully!");
+    toast.add({
+      title: "Success",
+      description: "Sale created successfully!",
+      color: "success",
+    });
   }
   else {
-    alert("Please select a customer, a product, and enter a valid quantity.");
+    toast.add({
+      title: "Error",
+      description: "Please select a customer, a product, and enter a valid quantity.",
+      color: "error",
+    });
   }
 }
 
 async function deleteSaleHandler() {
-  console.log("sale to delete", saleToDeleteId.value);
   const id = Number(saleToDeleteId.value);
-  if (saleToDeleteId.value && !isNaN(id)) {
+  if (saleToDeleteId.value && !Number.isNaN(id)) {
     await salesStore.deleteSale(id);
     saleToDeleteId.value = "";
-    alert("Sale deleted successfully!");
+    toast.add({
+      title: "Success",
+      description: "Sale deleted successfully!",
+      color: "success",
+    });
   }
   else {
-    alert("Please enter a valid Sale ID to delete.");
+    toast.add({
+      title: "Error",
+      description: "Please enter a valid Sale ID to delete.",
+      color: "error",
+    });
   }
 }
 </script>
