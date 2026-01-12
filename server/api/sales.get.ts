@@ -41,6 +41,10 @@ export default defineAuthenticatedEventHandler(async (event) => {
       const sales = await getSalesByCompanyId(company_id);
       return { sales };
     }
+    else {
+      const sales = await getSalesByCompanyId(userCompanyId);
+      return { sales };
+    }
   }
   catch (error) {
     handleError(error, { route: "sales.get", user: event.context.user?.id });

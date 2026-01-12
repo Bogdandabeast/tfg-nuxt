@@ -21,10 +21,12 @@ export const saleIdParamSchema = z.object({
 
 export const customerIdParamSchema = z.object({
   customer_id: z.preprocess(val => Number(val), z.number().int().positive()),
+  company_id: z.preprocess(val => Number(val), z.number().int().positive()),
 });
 
 export const productIdParamSchema = z.object({
   product_id: z.preprocess(val => Number(val), z.number().int().positive()),
+  company_id: z.preprocess(val => Number(val), z.number().int().positive()),
 });
 
 export const companyIdParamSchema = z.object({
