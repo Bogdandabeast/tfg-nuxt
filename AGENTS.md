@@ -28,6 +28,7 @@ Para garantizar un control de versiones adecuado y una colaboración fluida, sig
 2.  **Implementar Cambios:** Realiza tus modificaciones en esta nueva rama.
 3.  **Verificar Calidad:** Ejecuta `pnpm run lint`, `pnpm run lint:fix`, y `bunx nuxi typecheck` para asegurar la calidad del código.
 4.  **Realizar Commits:** Haz commits pequeños y atómicos con mensajes convencionales (usa `feat:`, `fix:`, `docs:`, etc.). Los hooks pre-commit ejecutarán linting automático.
+5.  **Abrir Pull Request:** Usa `gh pr create` para abrir un PR y permitir que CodeRabbit analice los cambios.
 
 ## Gestión de Paquetes
 
@@ -52,6 +53,37 @@ Sigue conventional commits para mantener un historial claro y automatizar el ver
 - Corregir errores de linting automáticamente: `pnpm run lint:fix`.
 - Ejecutar type checking: `bunx nuxi typecheck` (verifica tipos TypeScript).
 - Commitlint: Valida mensajes de commit siguiendo conventional commits (configurado en `.husky/commit-msg`).
+
+## Flujo de GitHub con CLI (gh)
+
+Sigue el GitHub Flow para una colaboración eficiente, utilizando la CLI de GitHub (`gh`) para gestionar issues y pull requests. Esto permite que CodeRabbit analice automáticamente los cambios en los PRs.
+
+### Pasos del Flujo:
+1. **Crear un Issue:** Documenta la tarea o bug en un issue para tracking.
+   - `gh issue create --title "Título del issue" --body "Descripción detallada"`
+   - O `gh issue create` para un prompt interactivo.
+
+2. **Crear Rama desde el Issue:** Crea una rama asociada al issue y cámbiate a ella.
+   - `gh issue develop <número-del-issue> --name "feature/nombre-descriptivo"`
+   - Esto crea la rama (ej. `feature/nombre-descriptivo`), la asigna al issue y hace checkout.
+
+3. **Implementar Cambios:** Realiza tus modificaciones en la rama, siguiendo los pasos del flujo de desarrollo anterior (commits pequeños, calidad de código).
+
+4. **Pushear Cambios:** Sube la rama al repositorio remoto.
+   - `git push -u origin feature/nombre-descriptivo`
+
+5. **Abrir Pull Request:** Crea un PR para revisión y merge.
+   - `gh pr create --title "feat: descripción breve" --body "Descripción detallada. Cierra #<número-del-issue>"`
+   - O `gh pr create` para prompt interactivo. Incluye referencias al issue para que se cierre automáticamente al merge.
+
+### Comandos Útiles Adicionales:
+- Listar issues: `gh issue list`
+- Ver un issue: `gh issue view <número>`
+- Listar PRs: `gh pr list`
+- Ver estado de PRs: `gh pr status`
+- Merge PR: `gh pr merge <número>` (después de aprobación)
+
+Este flujo asegura que todas las contribuciones sean revisadas por CodeRabbit y sigan las mejores prácticas de colaboración.
 
 ## Otros
 
