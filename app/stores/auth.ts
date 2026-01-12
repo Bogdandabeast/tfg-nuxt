@@ -29,11 +29,17 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   }
 
   async function signIn(email: string, password: string, rememberMe: boolean) {
+    const { csrf } = useCsrf();
+    const headers = new Headers();
+    headers.append("csrf-token", csrf);
     const { error } = await authClient.signIn.email({
       email,
       password,
       rememberMe,
       callbackURL: "http://localhost:3000/dashboard",
+      fetchOptions: {
+        headers,
+      },
     });
     if (error) {
       // Handle error
