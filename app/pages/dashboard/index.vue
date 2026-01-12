@@ -186,7 +186,7 @@ onMounted(() => {
               <UButton
                 color="primary"
                 variant="soft"
-                @click="handleDeleteCustomer(customer.id as number)"
+                @click="handleDeleteCustomer(customer.id)"
               >
                 Delete
               </UButton>

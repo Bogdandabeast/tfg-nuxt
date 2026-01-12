@@ -14,6 +14,7 @@ const newSale = reactive({
   product_id: undefined as number | undefined,
   quantity: 1,
 });
+const isCreating = ref(false);
 const saleToDeleteId = ref("");
 
 const customerOptions = computed(() =>
@@ -30,19 +31,25 @@ onMounted(() => {
 
 async function createSaleHandler() {
   if (newSale.customer_id && newSale.product_id && newSale.quantity > 0) {
-    await salesStore.createSale({
-      customer_id: Number(newSale.customer_id),
-      product_id: Number(newSale.product_id),
-      quantity: newSale.quantity,
-    });
-    newSale.customer_id = undefined;
-    newSale.product_id = undefined;
-    newSale.quantity = 1;
-    toast.add({
-      title: "Success",
-      description: "Sale created successfully!",
-      color: "success",
-    });
+    isCreating.value = true;
+    try {
+      await salesStore.createSale({
+        customer_id: Number(newSale.customer_id),
+        product_id: Number(newSale.product_id),
+        quantity: newSale.quantity,
+      });
+      newSale.customer_id = undefined;
+      newSale.product_id = undefined;
+      newSale.quantity = 1;
+      toast.add({
+        title: "Success",
+        description: "Sale created successfully!",
+        color: "success",
+      });
+    }
+    finally {
+      isCreating.value = false;
+    }
   }
   else {
     toast.add({
@@ -90,15 +97,6 @@ async function deleteSaleHandler() {
         />
       </UFormField>
 
-      <h1>
-        {{
-          customers
-        }}
-      </h1>
-      <h2>
-        {{ customerOptions }}
-      </h2>
-
       <UFormField label="Product" name="saleProduct">
         <USelect
           v-model="newSale.product_id"
@@ -124,7 +122,7 @@ async function deleteSaleHandler() {
     </div>
 
     <template #footer>
-      <UButton @click="createSaleHandler">
+      <UButton :loading="isCreating" @click="createSaleHandler">
         Create Sale
       </UButton>
     </template>

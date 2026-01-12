@@ -1,6 +1,7 @@
-import type { Customer } from "~~/lib/db/queries/customers";
+import type { Customer, CustomerInsert } from "~~/lib/db/queries/customers";
 import { defineStore } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
+import { useToast } from "~~/utils/toast";
 
 export const useCustomersStore = defineStore("customers", () => {
   const companiesStore = useCompaniesStore();
@@ -22,35 +23,56 @@ export const useCustomersStore = defineStore("customers", () => {
     watch: [apiUrl],
   });
 
-  async function createCustomer(customerData: Partial<Customer>) {
+  async function createCustomer(customerData: Partial<CustomerInsert>) {
     if (!companiesStore.currentCompany?.id)
       return;
+    const toast = useToast();
     const { csrf } = useCsrf();
-    await useFetch("/api/customers", {
-      method: "POST",
-      body: { ...customerData, company_id: companiesStore.currentCompany.id },
-      headers: { "csrf-token": csrf },
-    });
-    await refresh();
+    try {
+      await useFetch("/api/customers", {
+        method: "POST",
+        body: { ...customerData, company_id: companiesStore.currentCompany.id },
+        headers: { "csrf-token": csrf },
+      });
+      toast.add({ title: "Success", description: "Customer created successfully", color: "primary" });
+      await refresh();
+    }
+    catch {
+      toast.add({ title: "Error", description: "Failed to create customer", color: "red" });
+    }
   }
 
-  async function updateCustomer(id: number, customerData: Partial<Customer>) {
+  async function updateCustomer(id: number, customerData: Partial<CustomerInsert>) {
+    const toast = useToast();
     const { csrf } = useCsrf();
-    await useFetch(`/api/customers/${id}`, {
-      method: "PUT",
-      body: customerData,
-      headers: { "csrf-token": csrf },
-    });
-    await refresh();
+    try {
+      await useFetch(`/api/customers/${id}`, {
+        method: "PUT",
+        body: customerData,
+        headers: { "csrf-token": csrf },
+      });
+      toast.add({ title: "Success", description: "Customer updated successfully", color: "primary" });
+      await refresh();
+    }
+    catch {
+      toast.add({ title: "Error", description: "Failed to update customer", color: "red" });
+    }
   }
 
   async function deleteCustomer(id: number) {
+    const toast = useToast();
     const { csrf } = useCsrf();
-    await useFetch(`/api/customers/${id}`, {
-      method: "DELETE",
-      headers: { "csrf-token": csrf },
-    });
-    await refresh();
+    try {
+      await useFetch(`/api/customers/${id}`, {
+        method: "DELETE",
+        headers: { "csrf-token": csrf },
+      });
+      toast.add({ title: "Success", description: "Customer deleted successfully", color: "primary" });
+      await refresh();
+    }
+    catch {
+      toast.add({ title: "Error", description: "Failed to delete customer", color: "red" });
+    }
   }
 
   return {

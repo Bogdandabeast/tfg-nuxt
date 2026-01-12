@@ -1,5 +1,8 @@
 <script setup lang="ts">
 const navigation = inject<Ref<Array<{ label: string; to: string }>>>("navigation");
+if (!navigation) {
+  throw new Error("Navigation provider not found");
+}
 </script>
 
 <template>
