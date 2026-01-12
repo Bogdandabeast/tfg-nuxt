@@ -1,0 +1,88 @@
+# CodeRabbit Configuration for Nuxt.js Project
+language: en-US
+tone_instructions: "Be supportive and focus on best practices for Vue 3, TypeScript, and Nuxt. Explain why changes improve maintainability or performance."
+
+reviews:
+  profile: chill # Relaxed feedback; switch to "assertive" for more details
+  high_level_summary: true
+  high_level_summary_in_walkthrough: false # Place summary in PR description
+  collapse_walkthrough: true
+  auto_apply_labels: true
+  auto_assign_reviewers: false
+  poem: false # Disable fun elements for professional tone
+  review_status: true
+
+  path_filters:
+    - "pages/**"
+    - "components/**"
+    - "composables/**"
+    - "server/**"
+    - "utils/**"
+    - "types/**"
+    - "**/*.vue"
+    - "**/*.ts"
+    - "**/*.js"
+    - "**/*.md"
+    - "!node_modules/**"
+    - "!dist/**"
+    - "!.nuxt/**"
+    - "!coverage/**"
+
+  path_instructions:
+    - path: "**/*.vue"
+      instructions: "Ensure Vue 3 Composition API patterns: Use <script setup>, reactive refs/computed, proper event handling. Check for accessibility (e.g., alt texts, ARIA). Verify Nuxt-specific features like auto-imports and SSR compatibility."
+    - path: "**/*.ts"
+      instructions: "Enforce TypeScript best practices: Strong typing, avoid 'any', use interfaces over types where appropriate. Check for Nuxt composables (e.g., useFetch, useState)."
+    - path: "server/**"
+      instructions: "Review Nitro API routes: Proper error handling, async/await, and integration with Drizzle ORM. Ensure secure practices (e.g., input validation)."
+    - path: "**/*.test.ts"
+      instructions: "Verify Vitest tests: Use describe/it blocks, mock external deps, cover edge cases. Ensure tests are isolated and fast."
+
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    drafts: false
+    ignore_title_keywords: [wip, draft]
+
+  pre_merge_checks:
+    title:
+      mode: warning
+      requirements: "Keep under 50 characters, start with verb (e.g., 'Add user auth')."
+    description:
+      mode: warning
+    docstrings:
+      mode: off # Not typical for frontend/TypeScript
+    custom_checks:
+      - name: Vue Component Structure
+        mode: warning
+        instructions: "Ensure single-file components follow Nuxt conventions: <script setup>,<template>, <style scoped>."
+      - name: TypeScript Strict Mode
+        mode: error
+        instructions: "Fail if 'noImplicitAny' or similar are disabled in tsconfig.json."
+
+  finishing_touches:
+    docstrings:
+      enabled: false # Disable for TypeScript
+    unit_tests:
+      enabled: true # Generate Vitest tests
+
+  tools:
+    eslint:
+      enabled: true # Nuxt uses ESLint
+    biome:
+      enabled: true # Modern linter/formatter
+    markdownlint:
+      enabled: true
+    github-checks:
+      enabled: true
+      timeout_ms: 90000 # Wait up to 90s for CI checks
+    # Disable irrelevant tools
+    gitleaks:
+      enabled: false
+    semgrep:
+      enabled: false
+    yamllint:
+      enabled: false # Unless YAML configs are heavy
+
+chat:
+  art: false # Keep responses clean
