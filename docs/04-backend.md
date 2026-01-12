@@ -31,7 +31,7 @@ El directorio `server/utils/` contiene funciones y utilidades que se pueden usar
   1. Comprueba si existe un usuario en `event.context.user` (inyectado por el middleware de autenticación).
   2. Si no hay usuario, lanza un error de "No autorizado" (401), protegiendo el endpoint.
   3. Si hay un usuario, ejecuta el manejador de eventos real, pasándole el evento con la garantía de que el usuario está autenticado.
-- **`sales.schema.ts`**: Define un esquema de validación (probablemente con `zod`) para los datos relacionados con las ventas. Esto asegura que los datos que llegan al backend a través de las solicitudes POST o PUT tengan la forma y el tipo correctos antes de ser procesados o insertados en la base de datos.
+- **`utils/schemas/sales.ts`**: Define un esquema de validación (probablemente con `zod`) para los datos relacionados con las ventas. Esto asegura que los datos que llegan al backend a través de las solicitudes POST o PUT tengan la forma y el tipo correctos antes de ser procesados o insertados en la base de datos.
 
 ## Protección CSRF
 
