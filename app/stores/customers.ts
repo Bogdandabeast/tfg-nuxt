@@ -1,12 +1,6 @@
+import type { Customer } from "~~/lib/db/queries/customers";
 import { defineStore } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
-
-// Assuming a type for Customer
-type Customer = {
-  id: number;
-  name: string;
-  // Add other properties as needed
-};
 
 export const useCustomersStore = defineStore("customers", () => {
   const companiesStore = useCompaniesStore();

@@ -4,7 +4,7 @@ export const createSaleSchema = z.object({
   customer_id: z.number().int().positive(),
   product_id: z.number().int().positive(),
   quantity: z.number().int().positive(),
-  sale_date: z.string().datetime().optional(), // Optional as it defaults to defaultNow()
+  sale_date: z.string().datetime().transform(val => new Date(val)).optional(), // Optional as it defaults to defaultNow()
   company_id: z.number().int().positive(), // This will likely be set by middleware, but good for validation
 });
 
@@ -12,7 +12,7 @@ export const updateSaleSchema = z.object({
   customer_id: z.number().int().positive().optional(),
   product_id: z.number().int().positive().optional(),
   quantity: z.number().int().positive().optional(),
-  sale_date: z.string().datetime().optional(),
+  sale_date: z.string().datetime().transform(val => new Date(val)).optional(),
 }).partial(); // All fields are optional for update
 
 export const saleIdParamSchema = z.object({

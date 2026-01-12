@@ -5,6 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
+  srcDir: "app",
   modules: [
     "@nuxt/eslint",
     "@nuxt/icon",
@@ -21,7 +22,7 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
     resolve: {
       alias: {
-        "~": path.resolve(__dirname, "."),
+        "~": path.resolve(__dirname, "app"),
       },
     },
   },

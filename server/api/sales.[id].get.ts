@@ -6,8 +6,8 @@ import { saleIdParamSchema } from "~~/utils/schemas/sales";
 export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const { id } = saleIdParamSchema.parse(event.context.params);
-    const companyId = Number(event.context.user?.company_id);
-    if (!companyId || Number.isNaN(companyId)) {
+    const companyId = event.context.session?.company_id;
+    if (!companyId) {
       throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
     }
     const sale = await getSaleById(id, companyId);
