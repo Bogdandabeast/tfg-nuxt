@@ -1,3 +1,5 @@
+import { getClientIP } from "h3";
+
 // Simple in-memory rate limiter for demo purposes
 // In production, use Redis or a proper rate limiting service
 const requests = new Map<string, { count: number; resetTime: number }>();
