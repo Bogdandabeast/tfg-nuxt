@@ -25,7 +25,7 @@ const isProductModalOpen = ref(false);
 // Form models
 const newCompanyName = ref("");
 const newCustomer = ref({ name: "", email: "" });
-const newProduct = ref({ name: "", description: "", price: "0", stock: 0 });
+const newProduct = ref({ name: "", description: "", price: 0, stock: 0 });
 
 // Actions
 async function handleAddCompany() {
@@ -92,7 +92,7 @@ async function handleAddProduct() {
       price: newProduct.value.price.toString(),
     });
     toast.add({ title: "Success", description: "Product created." });
-    newProduct.value = { name: "", description: "", price: "0", stock: 0 };
+    newProduct.value = { name: "", description: "", price: 0, stock: 0 };
     isProductModalOpen.value = false;
   }
   catch (e: unknown) {
