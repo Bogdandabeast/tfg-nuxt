@@ -1,5 +1,5 @@
 # CodeRabbit Configuration for this Project
-language: es-Es
+language: es-ES
 tone_instructions: "Be supportive and focus on best practices for Vue 3, TypeScript, and Nuxt. Explain why changes improve maintainability or performance."
 
 reviews:
