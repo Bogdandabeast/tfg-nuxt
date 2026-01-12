@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useCustomersStore } from "~~/app/stores/customers";
-import { useProductsStore } from "~~/app/stores/products";
-import { useSalesStore } from "~~/app/stores/sales";
+
+type Customer = { id: number; name: string };
+type Product = { id: number; name: string };
 
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
@@ -12,18 +12,18 @@ const toast = useToast();
 const { customers } = storeToRefs(customersStore);
 const { products } = storeToRefs(productsStore);
 
-const newSale = ref({
-  customer_id: null,
-  product_id: null,
+const newSale = reactive({
+  customer_id: null as number | null,
+  product_id: null as number | null,
   quantity: 1,
 });
 const saleToDeleteId = ref("");
 
 const customerOptions = computed(() =>
-  customers.value.map(c => ({ label: c.name, value: c.id })),
+  customers.value?.map((c: Customer) => ({ label: c.name, value: c.id })) || [],
 );
 const productOptions = computed(() =>
-  products.value.map(p => ({ label: p.name, value: p.id })),
+  products.value?.map((p: Product) => ({ label: p.name, value: p.id })) || [],
 );
 
 onMounted(() => {
@@ -32,13 +32,15 @@ onMounted(() => {
 });
 
 async function createSaleHandler() {
-  if (newSale.value.customer_id && newSale.value.product_id && newSale.value.quantity > 0) {
+  if (newSale.customer_id && newSale.product_id && newSale.quantity > 0) {
     await salesStore.createSale({
-      customer_id: Number(newSale.value.customer_id.value),
-      product_id: Number(newSale.value.product_id.value),
-      quantity: newSale.value.quantity,
+      customer_id: Number(newSale.customer_id),
+      product_id: Number(newSale.product_id),
+      quantity: newSale.quantity,
     });
-    newSale.value = { customer_id: null, product_id: null, quantity: 1 };
+    newSale.customer_id = null;
+    newSale.product_id = null;
+    newSale.quantity = 1;
     toast.add({
       title: "Success",
       description: "Sale created successfully!",

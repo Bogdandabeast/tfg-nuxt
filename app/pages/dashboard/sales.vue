@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import SaleForm from "~/app/components/Dashboard/forms/SaleForm.vue";
-import { useCustomersStore } from "~/app/stores/customers";
-import { useProductsStore } from "~/app/stores/products";
-import { useSalesStore } from "~/app/stores/sales";
+
+type Customer = { id: number; name: string };
+type Product = { id: number; name: string };
+type Sale = { id: number; customer_id: number | null; product_id: number | null; quantity: number; sale_date: Date };
 
 definePageMeta({
   layout: "dashboard",
@@ -20,9 +21,9 @@ const { products, pending: productsPending } = storeToRefs(productsStore);
 const pending = computed(() => salesPending.value || customersPending.value || productsPending.value);
 
 const detailedSales = computed(() => {
-  return sales.value.map((sale) => {
-    const customer = customers.value.find(c => c.id === sale.customer_id);
-    const product = products.value.find(p => p.id === sale.product_id);
+  return sales.value?.map((sale: Sale) => {
+    const customer = customers.value?.find((c: Customer) => c.id === sale.customer_id);
+    const product = products.value?.find((p: Product) => p.id === sale.product_id);
     return {
       ...sale,
       customerName: customer ? customer.name : "Unknown",

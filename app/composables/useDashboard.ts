@@ -1,5 +1,3 @@
-import { createSharedComposable } from "@vueuse/core";
-
 // Define a simple type for the company
 type Company = {
   id: number;

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import ProductForm from "~/app/components/Dashboard/forms/ProductForm.vue";
-import { useProductsStore } from "~/app/stores/products";
 
 definePageMeta({
   layout: "dashboard",

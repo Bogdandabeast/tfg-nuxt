@@ -22,7 +22,7 @@ export const useCustomersStore = defineStore("customers", () => {
     data: customers,
     pending,
     refresh,
-  } = useFetch<Customer[]>(apiUrl, {
+  } = useFetch<Customer[]>(() => apiUrl.value ?? "", {
     lazy: true,
     default: () => [],
     watch: [apiUrl],

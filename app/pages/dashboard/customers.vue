@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import CustomerForm from "~~/app/components/Dashboard/forms/CustomerForm.vue";
-import { useCustomersStore } from "~~/app/stores/customers";
 
 definePageMeta({
   layout: "dashboard",
