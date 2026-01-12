@@ -58,7 +58,7 @@ export const useCompaniesStore = defineStore("companies", () => {
     });
     await refresh();
     if (currentCompany.value?.id === id) {
-      const firstCompany = companies.value?.[0] || null;
+      const firstCompany = companies.value?.[0] ?? null;
       setCurrentCompany(firstCompany);
     }
   }

@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useCompaniesStore } from "~~/app/stores/companies";
-import { useCustomersStore } from "~~/app/stores/customers";
-import { useProductsStore } from "~~/app/stores/products";
 
 definePageMeta({
   layout: "dashboard",
@@ -28,7 +25,7 @@ const isProductModalOpen = ref(false);
 // Form models
 const newCompanyName = ref("");
 const newCustomer = ref({ name: "", email: "" });
-const newProduct = ref({ name: "", description: "", price: 0, stock: 0 });
+const newProduct = ref({ name: "", description: "", price: "0", stock: 0 });
 
 // Actions
 async function handleAddCompany() {
@@ -95,7 +92,7 @@ async function handleAddProduct() {
       price: newProduct.value.price.toString(),
     });
     toast.add({ title: "Success", description: "Product created." });
-    newProduct.value = { name: "", description: "", price: 0, stock: 0 };
+    newProduct.value = { name: "", description: "", price: "0", stock: 0 };
     isProductModalOpen.value = false;
   }
   catch (e: any) {
@@ -174,7 +171,7 @@ onMounted(() => {
               </UButton>
             </div>
           </template>
-          <ul v-if="customers && customers.length" class="space-y-2">
+          <ul v-if="customers && customers.length > 0" class="space-y-2">
             <li
               v-for="customer in customers"
               :key="customer.id"

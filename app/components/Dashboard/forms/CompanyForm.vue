@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useCompaniesStore } from "~/app/stores/companies";
-
 const companiesStore = useCompaniesStore();
 const toast = useToast();
 

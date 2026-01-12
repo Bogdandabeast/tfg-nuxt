@@ -10,7 +10,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
 
   const newCompany = await createCompany({
     name,
-    user_id: user.id,
+    user_id: user.id.toString(),
   });
 
   return newCompany;

@@ -4,7 +4,7 @@ import { handleError } from "~~/utils/error-handler";
 import { companyIdParamSchema, customerIdParamSchema, productIdParamSchema } from "~~/utils/schemas/sales";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  const userCompanyId = event.context.user?.company_id;
+  const userCompanyId = event.context.user?.company_id as number;
   if (!userCompanyId) {
     throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }

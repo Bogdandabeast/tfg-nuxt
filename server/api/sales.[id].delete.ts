@@ -6,7 +6,7 @@ import { saleIdParamSchema } from "~~/utils/schemas/sales";
 export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const { id } = saleIdParamSchema.parse(event.context.params);
-    const companyId = event.context.user?.company_id;
+    const companyId = event.context.user?.company_id as number;
     const deletedSale = await deleteSale(id, companyId);
 
     if (!deletedSale) {

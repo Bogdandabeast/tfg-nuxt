@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from "@nuxt/ui";
 import { storeToRefs } from "pinia";
-import { useCompaniesStore } from "~/app/stores/companies";
 
 defineProps<{
   collapsed?: boolean;

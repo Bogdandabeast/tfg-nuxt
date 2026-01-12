@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useCustomersStore } from "~/app/stores/customers";
-
 const customersStore = useCustomersStore();
 const toast = useToast();
 

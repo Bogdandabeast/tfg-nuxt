@@ -5,7 +5,10 @@ import { useCompaniesStore } from "~~/app/stores/companies";
 type Product = {
   id: number;
   name: string;
-  // Add other properties as needed
+  description: string;
+  price: string;
+  stock: number;
+  company_id?: number | null;
 };
 
 export const useProductsStore = defineStore("products", () => {
@@ -22,7 +25,7 @@ export const useProductsStore = defineStore("products", () => {
     data: products,
     pending,
     refresh,
-  } = useFetch<Product[]>(apiUrl, {
+  } = useFetch<Product[]>(() => apiUrl.value ?? "", {
     lazy: true,
     default: () => [],
     // Watch the computed URL to refetch when it changes
