@@ -1,27 +1,18 @@
 import { createSale } from "~~/lib/db/queries/sales";
-import { createSaleSchema } from "~~/utils/sales.schema";
+import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
+import { handleError } from "~~/utils/error-handler";
+import { createSaleSchema } from "~~/utils/schemas/sales";
 
-export default defineEventHandler(async (event) => {
+export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const body = await readBody(event);
-    // const validatedData = await createSaleSchema.parseAsync({ ...body, company_id: companyId });
+    const company_id = event.context.user?.company_id;
+    const validatedData = createSaleSchema.parse({ ...body, company_id });
 
-    const newSale = await createSale(body);
+    const newSale = await createSale(validatedData);
     return { sale: newSale };
   }
   catch (error) {
-    // Handle validation errors from Zod
-    if (error.name === "ZodError") {
-      throw createError({
-        statusCode: 400,
-        statusMessage: "Bad Request",
-        data: error.errors,
-      });
-    }
-    // Handle other potential errors
-    throw createError({
-      statusCode: 500,
-      statusMessage: "Internal Server Error",
-    });
+    handleError(error, { route: "sales.post", user: event.context.user?.id });
   }
 });

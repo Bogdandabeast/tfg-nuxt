@@ -1,5 +1,6 @@
 import { updateSale } from "~~/lib/db/queries/sales";
-import { saleIdParamSchema, updateSaleSchema } from "~~/utils/sales.schema";
+import { handleError } from "~~/utils/error-handler";
+import { saleIdParamSchema, updateSaleSchema } from "~~/utils/schemas/sales";
 
 export default defineEventHandler(async (event) => {
   // Assume company_id is available from authentication middleware
@@ -27,18 +28,6 @@ export default defineEventHandler(async (event) => {
     return { sale: updatedSale };
   }
   catch (error) {
-    // Handle validation errors from Zod
-    if (error.name === "ZodError") {
-      throw createError({
-        statusCode: 400,
-        statusMessage: "Bad Request",
-        data: error.errors,
-      });
-    }
-    // Handle other potential errors
-    throw createError({
-      statusCode: 500,
-      statusMessage: "Internal Server Error",
-    });
+    handleError(error, { route: "sales.[id].put", user: event.context.user?.id });
   }
 });
