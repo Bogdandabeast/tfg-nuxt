@@ -6,7 +6,14 @@ import { saleIdParamSchema } from "~~/utils/schemas/sales";
 export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const { id } = saleIdParamSchema.parse(event.context.params);
-    const companyId = event.context.user?.company_id as number;
+    const companyId = event.context.user?.company_id;
+    if (!companyId || Number.isNaN(Number(companyId))) {
+      throw createError({
+        statusCode: 401,
+        statusMessage: "Unauthorized: Invalid company context",
+      });
+    }
+    const deletedSale = await deleteSale(id, companyId);
     const deletedSale = await deleteSale(id, companyId);
 
     if (!deletedSale) {
