@@ -151,11 +151,17 @@ Full-stack Nuxt.js app for managing companies, customers, products, and sales.
 
 ## Development Workflow
 
-1. Create branch from `main` (e.g., `feature/auth`)
-2. Implement changes
-3. Verify: `pnpm lint`, `pnpm lint:fix`, `bunx nuxi typecheck`
-4. Commit: Small, conventional messages
-5. PR: `gh pr create` for CodeRabbit review
+Following GitHub Flow:
+
+1. **Create Issue**: `gh issue create --title "Feature/Issue title" --body "Detailed description"`
+2. **Create Branch**: `gh issue develop <issue-number> --name "feature/branch-name"` (creates branch from issue)
+3. **Implement Changes**: Make incremental changes with small commits
+4. **Verify Quality**:
+   - `pnpm lint` and `pnpm lint:fix`
+   - `bunx nuxi typecheck`
+   - `pnpm build` (test build before pushing)
+5. **Commit**: Small, conventional commits (e.g., `feat: add new feature`, `fix: resolve bug`)
+6. **Push & PR**: `git push -u origin branch-name` then `gh pr create --title "PR title" --body "Description. Closes #<issue-number>"`
 
 ### GitHub CLI
 
