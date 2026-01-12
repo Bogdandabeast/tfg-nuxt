@@ -173,7 +173,7 @@ Following GitHub Flow:
 ### Husky Hooks
 
 - Setup: `pnpm run prepare`
-- Linting: Runs on staged files
-- Commit validation: Enforces conventional format
+- Linting: Husky ejecuta automáticamente linting en archivos staged
+- Commit validation: Husky aplica validación de formato convencional de commits
 
-**Pre-commit check:** Always run `pnpm lint`, `bunx nuxi typecheck`, and `pnpm build`.
+**Pre-commit check:** Además de las comprobaciones automáticas de Husky, se recomienda ejecutar manualmente `pnpm lint`, `bunx nuxi typecheck`, y `pnpm build` antes de hacer push. El comando `pnpm build` es especialmente aconsejable antes de releases, aunque no obligatorio en cada commit.
