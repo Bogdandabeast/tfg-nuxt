@@ -10,7 +10,8 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "tmux": "./setup-tmux-sessions.sh"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.81",
