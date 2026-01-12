@@ -2,6 +2,7 @@
 import { useCustomersStore } from "~/app/stores/customers";
 
 const customersStore = useCustomersStore();
+const toast = useToast();
 
 const newCustomer = ref({
   name: "",
@@ -15,22 +16,38 @@ async function createCustomerHandler() {
   if (newCustomer.value.name && newCustomer.value.email) {
     await customersStore.createCustomer(newCustomer.value);
     newCustomer.value = { name: "", email: "", phone: "", address: "" };
-    alert("Customer created successfully!");
+    toast.add({
+      title: "Success",
+      description: "Customer created successfully!",
+      color: "success",
+    });
   }
   else {
-    alert("Please fill in at least name and email.");
+    toast.add({
+      title: "Error",
+      description: "Please fill in at least name and email.",
+      color: "error",
+    });
   }
 }
 
 async function deleteCustomerHandler() {
   const id = Number(customerToDeleteId.value);
-  if (customerToDeleteId.value && !isNaN(id)) {
+  if (customerToDeleteId.value && !Number.isNaN(id)) {
     await customersStore.deleteCustomer(id);
     customerToDeleteId.value = "";
-    alert("Customer deleted successfully!");
+    toast.add({
+      title: "Success",
+      description: "Customer deleted successfully!",
+      color: "success",
+    });
   }
   else {
-    alert("Please enter a valid Customer ID to delete.");
+    toast.add({
+      title: "Error",
+      description: "Please enter a valid Customer ID to delete.",
+      color: "error",
+    });
   }
 }
 </script>

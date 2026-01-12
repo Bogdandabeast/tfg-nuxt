@@ -2,6 +2,7 @@
 import { useCompaniesStore } from "~/app/stores/companies";
 
 const companiesStore = useCompaniesStore();
+const toast = useToast();
 
 const newCompanyName = ref("");
 const companyToDeleteId = ref("");
@@ -10,19 +11,31 @@ async function createCompanyHandler() {
   if (newCompanyName.value) {
     await companiesStore.createCompany({ name: newCompanyName.value });
     newCompanyName.value = "";
-    alert("Company created successfully!");
+    toast.add({
+      title: "Success",
+      description: "Company created successfully!",
+      color: "success",
+    });
   }
 }
 
 async function deleteCompanyHandler() {
   const id = Number(companyToDeleteId.value);
-  if (companyToDeleteId.value && !isNaN(id)) {
+  if (companyToDeleteId.value && !Number.isNaN(id)) {
     await companiesStore.deleteCompany(id);
     companyToDeleteId.value = "";
-    alert("Company deleted successfully!");
+    toast.add({
+      title: "Success",
+      description: "Company deleted successfully!",
+      color: "success",
+    });
   }
   else {
-    alert("Please enter a valid Company ID to delete.");
+    toast.add({
+      title: "Error",
+      description: "Please enter a valid Company ID to delete.",
+      color: "error",
+    });
   }
 }
 </script>

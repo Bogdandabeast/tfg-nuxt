@@ -2,6 +2,7 @@
 import { useProductsStore } from "~/app/stores/products";
 
 const productsStore = useProductsStore();
+const toast = useToast();
 
 const newProduct = ref({
   name: "",
@@ -18,22 +19,38 @@ async function createProductHandler() {
       price: newProduct.value.price.toString(),
     });
     newProduct.value = { name: "", description: "", price: "", stock: 0 };
-    alert("Product created successfully!");
+    toast.add({
+      title: "Success",
+      description: "Product created successfully!",
+      color: "success",
+    });
   }
   else {
-    alert("Please fill in all product details.");
+    toast.add({
+      title: "Error",
+      description: "Please fill in all product details.",
+      color: "error",
+    });
   }
 }
 
 async function deleteProductHandler() {
   const id = Number(productToDeleteId.value);
-  if (productToDeleteId.value && !isNaN(id)) {
+  if (productToDeleteId.value && !Number.isNaN(id)) {
     await productsStore.deleteProduct(id);
     productToDeleteId.value = "";
-    alert("Product deleted successfully!");
+    toast.add({
+      title: "Success",
+      description: "Product deleted successfully!",
+      color: "success",
+    });
   }
   else {
-    alert("Please enter a valid Product ID to delete.");
+    toast.add({
+      title: "Error",
+      description: "Please enter a valid Product ID to delete.",
+      color: "error",
+    });
   }
 }
 </script>

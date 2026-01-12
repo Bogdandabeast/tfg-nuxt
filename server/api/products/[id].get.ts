@@ -4,7 +4,7 @@ import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event
 export default defineAuthenticatedEventHandler(async (event) => {
   const productId = Number(event.context.params?.id);
 
-  if (!productId || isNaN(productId)) {
+  if (!productId || Number.isNaN(productId)) {
     throw createError({
       statusCode: 400,
       statusMessage: "Invalid product ID",
