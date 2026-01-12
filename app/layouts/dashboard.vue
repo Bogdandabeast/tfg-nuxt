@@ -170,7 +170,5 @@ onMounted(async () => {
 
     <UDashboardSearch :groups="groups" />
     <slot />
-
-    <DashboardNotificationsSlideover />
   </UDashboardGroup>
 </template>
