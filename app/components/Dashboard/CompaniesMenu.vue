@@ -14,7 +14,7 @@ const items = computed<DropdownMenuItem[][]>(() => {
   return [companies.value.map(company => ({
     label: company.name,
     id: company.id,
-    icon: (company.id === currentCompany.value?.id) ? "i-lucide-check" : (company.icon || "i-lucide-building"),
+    icon: (company.id === currentCompany.value?.id) ? "i-lucide-check" : "i-lucide-building",
     onSelect: () => {
       companiesStore.setCurrentCompany(company);
     },

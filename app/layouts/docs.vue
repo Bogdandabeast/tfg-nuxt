@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const navigation = inject<Ref<any[]>>("navigation");
+const navigation = inject<Ref<Array<{ label: string; to: string }>>>("navigation");
 </script>
 
 <template>

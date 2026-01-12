@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 
-type Customer = { id: number; name: string };
-type Product = { id: number; name: string };
-
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
@@ -13,8 +10,8 @@ const { customers } = storeToRefs(customersStore);
 const { products } = storeToRefs(productsStore);
 
 const newSale = reactive({
-  customer_id: null as number | null,
-  product_id: null as number | null,
+  customer_id: undefined as number | undefined,
+  product_id: undefined as number | undefined,
   quantity: 1,
 });
 const saleToDeleteId = ref("");
@@ -38,8 +35,8 @@ async function createSaleHandler() {
       product_id: Number(newSale.product_id),
       quantity: newSale.quantity,
     });
-    newSale.customer_id = null;
-    newSale.product_id = null;
+    newSale.customer_id = undefined;
+    newSale.product_id = undefined;
     newSale.quantity = 1;
     toast.add({
       title: "Success",
@@ -85,9 +82,10 @@ async function deleteSaleHandler() {
 
     <div class="space-y-4">
       <UFormField label="Customer" name="saleCustomer">
-        <USelectMenu
+        <USelect
           v-model="newSale.customer_id"
           :items="customerOptions"
+          option-attribute="value"
           placeholder="Select a customer"
         />
       </UFormField>
@@ -102,9 +100,10 @@ async function deleteSaleHandler() {
       </h2>
 
       <UFormField label="Product" name="saleProduct">
-        <USelectMenu
+        <USelect
           v-model="newSale.product_id"
           :items="productOptions"
+          option-attribute="value"
           placeholder="Select a product"
         />
       </UFormField>
