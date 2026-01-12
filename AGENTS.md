@@ -1,91 +1,154 @@
-# AGENTS.md
+# AGENTS.md - Development Guidelines for AI Agents
 
-Este archivo documenta los comandos comunes para tareas de desarrollo en el proyecto tfg-nuxt y proporciona contexto para la colaboración.
-Se usa para recordar comandos estándar y facilitar la ejecución automática por herramientas como opencode.
+This file contains essential information for AI coding agents working on this Nuxt.js project. It covers build commands, testing procedures, and code style guidelines to ensure consistent development practices.
 
-## Contexto del Proyecto
+## Project Overview
 
-Este proyecto es una aplicación web full-stack desarrollada con Nuxt.js. Incluye un frontend reactivo, un backend API robusto y persistencia de datos a través de una base de datos relacional. El objetivo es proporcionar una plataforma eficiente y escalable para la gestión de empresas, clientes, productos y ventas.
+Full-stack Nuxt.js app for managing companies, customers, products, and sales.
+- **Frontend:** Nuxt.js (Vue 3), Pinia, Nuxt UI, Tailwind CSS
+- **Backend:** Nitro (H3), Drizzle ORM, PostgreSQL
+- **Auth:** better-auth
+- **Tools:** TypeScript, ESLint, Vitest, Husky, commitlint
 
-## Tecnologías Clave
+## Package Management
 
-- **Framework Frontend:** Nuxt.js (Vue 3)
-- **Gestión de Estado:** Pinia
-- **UI/CSS Framework:** Nuxt UI, Tailwind CSS
-- **Servidor/API:** Nitro (H3)
-- **ORM:** Drizzle ORM
-- **Base de Datos:** PostgreSQL
-- **Autenticación:** better-auth
-- **Lenguaje:** TypeScript
-- **Herramientas de Calidad:** ESLint, Vitest, Husky, commitlint
+**Use `pnpm` for dependencies and `bunx` for temporary tools** (avoid npm/npx).
 
-## Flujo de Desarrollo
+- Install: `pnpm install`
+- Add dep: `pnpm add <package>`
+- Add dev dep: `pnpm add -D <package>`
+- Remove: `pnpm remove <package>`
+- Temp tool: `bunx <command>` (e.g., `bunx nuxi typecheck`)
 
-Para garantizar un control de versiones adecuado y una colaboración fluida, sigue este flujo de trabajo al implementar cambios:
+## Build & Test Commands
 
-1.  **Crear una Nueva Rama:** Antes de iniciar cualquier trabajo, crea una nueva rama desde `main` (o la rama base de desarrollo actual) con un nombre descriptivo (p.ej., `feature/nombre-de-la-caracteristica`, `bugfix/descripcion-del-bug`).
-    `git checkout -b feature/your-feature-name`
-2.  **Implementar Cambios:** Realiza tus modificaciones en esta nueva rama.
-3.  **Verificar Calidad:** Ejecuta `pnpm run lint`, `pnpm run lint:fix`, y `bunx nuxi typecheck` para asegurar la calidad del código.
-4.  **Realizar Commits:** Haz commits pequeños y atómicos con mensajes convencionales (usa `feat:`, `fix:`, `docs:`, etc.). Los hooks pre-commit ejecutarán linting automático.
-5.  **Abrir Pull Request:** Usa `gh pr create` para abrir un PR y permitir que CodeRabbit analice los cambios.
+### Development
+- Dev server: `pnpm dev`
+- Build: `pnpm build`
+- Generate: `pnpm generate`
+- Preview: `pnpm preview`
 
-## Gestión de Paquetes
+### Quality
+- Lint: `pnpm lint`
+- Fix lint: `pnpm lint:fix`
+- Type check: `bunx nuxi typecheck`
 
-**Preferencias:** Usa siempre `pnpm` para añadir dependencias y `bunx` para herramientas temporales (evita `npm` o `npx` para consistencia y eficiencia).
+### Testing (Vitest with @nuxt/test-utils)
+- All tests: `bunx vitest`
+- Unit: `bunx vitest run --project unit`
+- Nuxt integration: `bunx vitest run --project nuxt`
+- Watch: `bunx vitest --watch`
+- Single file: `bunx vitest path/to/file.test.ts`
+- Coverage: `bunx vitest run --coverage`
 
-- Instalar dependencias: `pnpm install` (en lugar de npm install; usa este para setup inicial).
-- Añadir dependencia: `pnpm add <package>` (para paquetes runtime).
-- Añadir dependencia de desarrollo: `pnpm add -D <package>` (para herramientas como ESLint o Vitest).
-- Remover paquete: `pnpm remove <package>`.
-- Ejecutar herramienta temporal: `bunx <comando>` (ej. `bunx nuxi typecheck` para type checking sin instalar globalmente).
+**Test locations:** `test/unit/*.test.ts`, `test/e2e/*.test.ts`, `test/nuxt/*.test.ts`
 
-## Convenciones de Commit
+## Code Style Guidelines
 
-Sigue conventional commits para mantener un historial claro y automatizar el versionado. Mensajes deben tener el formato: `tipo(alcance): descripción`
+### General
+- **TypeScript:** Strict typing, avoid `any`, use `type` over `interface`
+- **Vue 3:** `<script setup lang="ts">` for components
+- **Nuxt 4:** Follow conventions and auto-imports
 
-- Tipos comunes: `feat` (nueva funcionalidad), `fix` (corrección de bug), `docs` (documentación), `refactor` (refactorización), `test` (pruebas).
-- Ejemplo: `feat: add user authentication`
+### File Naming
+- Components: PascalCase (e.g., `ProductForm.vue`)
+- Composables: `useFeatureName` (e.g., `useAuth.ts`)
+- Stores: `useStoreName` (e.g., `useAuthStore`)
+- Types: kebab-case in `types/` (e.g., `index.d.ts`)
+- Pages: kebab-case matching routes
 
-## Linting y Calidad de Código
+### Vue Components
+- Script: `<script setup lang="ts">`
+- Data: `ref()` for primitives, `reactive()` for objects
+- Computed: `computed()` with full syntax
+- Props: Proper TypeScript types
+- Events: camelCase with `Handler` suffix
 
-- Ejecutar linting: `pnpm run lint` (usa ESLint para verificar código).
-- Corregir errores de linting automáticamente: `pnpm run lint:fix`.
-- Ejecutar type checking: `bunx nuxi typecheck` (verifica tipos TypeScript).
-- Commitlint: Valida mensajes de commit siguiendo conventional commits (configurado en `.husky/commit-msg`).
+### State Management (Pinia)
+- Stores: `defineStore("name", () => { ... })`
+- Export: `useStoreName`
+- State: `ref()` for reactive, `computed()` for derived
+- Return all public methods
 
-## Flujo de GitHub con CLI (gh)
+### API & Data
+- CSRF: Include tokens for state-changing requests
+- Errors: Try-catch, toast messages
+- Loading: Show indicators for async ops
+- Validation: Use Zod schemas
 
-Sigue el GitHub Flow para una colaboración eficiente, utilizando la CLI de GitHub (`gh`) para gestionar issues y pull requests. Esto permite que CodeRabbit analice automáticamente los cambios en los PRs.
+### Styling & UI
+- Components: Nuxt UI (UButton, UCard, etc.)
+- CSS: Tailwind utilities
+- Responsive: Nuxt UI/Tailwind responsive utilities
+- Themes: @nuxtjs/color-mode for light/dark
 
-### Pasos del Flujo:
-1. **Crear un Issue:** Documenta la tarea o bug en un issue para tracking.
-   - `gh issue create --title "Título del issue" --body "Descripción detallada"`
-   - O `gh issue create` para un prompt interactivo.
+### Imports
+- Auto-imports for Vue/Nuxt utilities
+- Explicit imports for third-party/local modules
+- Group by type: Vue → Nuxt → third-party → local
 
-2. **Crear Rama desde el Issue:** Crea una rama asociada al issue y cámbiate a ella.
-   - `gh issue develop <número-del-issue> --name "feature/nombre-descriptivo"`
-   - Esto crea la rama (ej. `feature/nombre-descriptivo`), la asigna al issue y hace checkout.
+### Error Handling
+- Avoid `console.log/error` (ESLint warns)
+- User feedback: Toast notifications
+- Validation: Clear error displays
+- Network: Graceful fallbacks
 
-3. **Implementar Cambios:** Realiza tus modificaciones en la rama, siguiendo los pasos del flujo de desarrollo anterior (commits pequeños, calidad de código).
+### Security
+- CSRF: Enabled for POST/PUT/PATCH/DELETE
+- Input validation: Client + server
+- Secrets: Never commit env vars
+- HTTPS: Configure for production
 
-4. **Pushear Cambios:** Sube la rama al repositorio remoto.
-   - `git push -u origin feature/nombre-descriptivo`
+### Performance
+- Lazy loading: Nuxt lazy components
+- Computed caching: For expensive calculations
+- Images: @nuxt/image optimization
+- Bundle: Monitor and optimize size
 
-5. **Abrir Pull Request:** Crea un PR para revisión y merge.
-   - `gh pr create --title "feat: descripción breve" --body "Descripción detallada. Cierra #<número-del-issue>"`
-   - O `gh pr create` para prompt interactivo. Incluye referencias al issue para que se cierre automáticamente al merge.
+### Git & Commits
+- **Conventional commits:** `type(scope): description`
+  - Types: `feat`, `fix`, `docs`, `refactor`, `test`
+  - Example: `feat: add user auth`
+- **Pre-commit:** Husky + lint-staged
+- **Branches:** Descriptive names (feature/, bugfix/)
+- **GitHub CLI:** `gh` for issues/PRs
 
-### Comandos Útiles Adicionales:
-- Listar issues: `gh issue list`
-- Ver un issue: `gh issue view <número>`
-- Listar PRs: `gh pr list`
-- Ver estado de PRs: `gh pr status`
-- Merge PR: `gh pr merge <número>` (después de aprobación)
+### Testing Guidelines
+- Structure: Arrange-Act-Assert
+- Mocking: Vitest utilities
+- Components: Test behavior, not implementation
+- Stores: Test logic independently
+- Integration: Full Nuxt flows
+- Coverage: Meaningful, not just percentage
 
-Este flujo asegura que todas las contribuciones sean revisadas por CodeRabbit y sigan las mejores prácticas de colaboración.
+### i18n
+- Default: Spanish (es)
+- Supported: English (en), Spanish (es)
+- Usage: `t()` for translations
 
-## Otros
+### Database
+- **ORM:** Drizzle ORM (PostgreSQL/SQLite)
+- **Migrations:** `bunx drizzle-kit generate` or `bunx drizzle-kit push`
+- **Types:** Auto-generated from schema
 
-- Migraciones de DB (si usas Drizzle): `bunx drizzle-kit generate` o `bunx drizzle-kit push` (revisa drizzle.config.ts para comandos específicos).
-- Husky hooks: `pnpm run prepare` (configura pre-commit hooks). Los hooks incluyen lint-staged para linting automático en archivos staged y commitlint para validar mensajes de commit.
+## Development Workflow
+
+1. Create branch from `main` (e.g., `feature/auth`)
+2. Implement changes
+3. Verify: `pnpm lint`, `pnpm lint:fix`, `bunx nuxi typecheck`
+4. Commit: Small, conventional messages
+5. PR: `gh pr create` for CodeRabbit review
+
+### GitHub CLI
+- Issue: `gh issue create --title "Title" --body "Desc"`
+- Branch from issue: `gh issue develop <num> --name "feature/name"`
+- Push: `git push -u origin feature/name`
+- PR: `gh pr create --title "feat: desc" --body "Details. Closes #<num>"`
+
+### Husky Hooks
+- Setup: `pnpm run prepare`
+- Linting: Runs on staged files
+- Commit validation: Enforces conventional format
+
+**Pre-commit check:** Always run `pnpm lint`, `bunx nuxi typecheck`, and `pnpm build`.</content>
+<parameter name="filePath">/var/home/bobbie/Documentos/github/tfg-nuxt/AGENTS.md
