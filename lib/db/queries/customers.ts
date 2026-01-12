@@ -2,9 +2,10 @@ import { eq } from "drizzle-orm";
 import { db } from "../index";
 import { customersTable } from "../schema/companies";
 
-export type Customer = typeof customersTable.$inferInsert;
+export type CustomerInsert = typeof customersTable.$inferInsert;
+export type Customer = typeof customersTable.$inferSelect;
 
-export async function createCustomer(data: Customer) {
+export async function createCustomer(data: CustomerInsert) {
   return db.insert(customersTable).values(data).returning();
 }
 
@@ -16,7 +17,7 @@ export async function getCustomersByCompanyId(companyId: number) {
   return db.select().from(customersTable).where(eq(customersTable.company_id, companyId));
 }
 
-export async function updateCustomer(id: number, data: Partial<Customer>) {
+export async function updateCustomer(id: number, data: Partial<CustomerInsert>) {
   return db.update(customersTable).set(data).where(eq(customersTable.id, id)).returning();
 }
 

@@ -9,10 +9,10 @@ export const createSaleSchema = z.object({
 });
 
 export const updateSaleSchema = z.object({
-  customer_id: z.number().int().positive().optional(),
-  product_id: z.number().int().positive().optional(),
-  quantity: z.number().int().positive().optional(),
-  sale_date: z.string().datetime().transform(val => new Date(val)).optional(),
+  customer_id: z.number().int().positive(),
+  product_id: z.number().int().positive(),
+  quantity: z.number().int().positive(),
+  sale_date: z.string().datetime().transform(val => new Date(val)),
 }).partial(); // All fields are optional for update
 
 export const saleIdParamSchema = z.object({

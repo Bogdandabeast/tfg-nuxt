@@ -1,8 +1,14 @@
 import { updateSale } from "~~/lib/db/queries/sales";
+import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { handleError } from "~~/utils/error-handler";
 import { saleIdParamSchema, updateSaleSchema } from "~~/utils/schemas/sales";
 
-export default defineEventHandler(async (event) => {
+export default defineAuthenticatedEventHandler(async (event) => {
+  // Validar CSRF token
+  const csrfToken = getHeader(event, "csrf-token");
+  if (!csrfToken) {
+    throw createError({ statusCode: 403, statusMessage: "Missing CSRF token" });
+  }
   // Assume company_id is available from authentication middleware
   const companyId = event.context.session?.company_id;
   if (!companyId) {

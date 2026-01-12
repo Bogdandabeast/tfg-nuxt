@@ -170,5 +170,4 @@ Full-stack Nuxt.js app for managing companies, customers, products, and sales.
 - Linting: Runs on staged files
 - Commit validation: Enforces conventional format
 
-**Pre-commit check:** Always run `pnpm lint`, `bunx nuxi typecheck`, and `pnpm build`.</content>
-<parameter name="filePath">/var/home/bobbie/Documentos/github/tfg-nuxt/AGENTS.md
+**Pre-commit check:** Always run `pnpm lint`, `bunx nuxi typecheck`, and `pnpm build`.

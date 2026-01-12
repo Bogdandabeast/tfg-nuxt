@@ -47,6 +47,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
     }
   }
   catch (error) {
-    handleError(error, { route: "sales.get", user: event.context.user?.id });
+    handleError(error, { route: "sales.get", user: event.context.session?.userId });
   }
 });
