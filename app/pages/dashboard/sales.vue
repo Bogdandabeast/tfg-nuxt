@@ -4,7 +4,7 @@ import SaleForm from "~/app/components/Dashboard/forms/SaleForm.vue";
 
 type Customer = { id: number; name: string };
 type Product = { id: number; name: string };
-type Sale = { id: number; customer_id: number | null; product_id: number | null; quantity: number; sale_date: Date };
+type Sale = { id: number; customer_id: number | null; product_id: number | null; quantity: number; sale_date: string };
 
 definePageMeta({
   layout: "dashboard",
