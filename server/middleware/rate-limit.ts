@@ -1,5 +1,3 @@
-import { getClientIP } from "h3";
-
 // Simple in-memory rate limiter for demo purposes
 // In production, use Redis or a proper rate limiting service
 const requests = new Map<string, { count: number; resetTime: number }>();
@@ -8,7 +6,7 @@ const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const MAX_REQUESTS = 100; // Max requests per window
 
 export default defineEventHandler((event) => {
-  const ip = getClientIP(event) || "unknown";
+  const ip = event.node.req.socket?.remoteAddress || "127.0.0.1";
   const now = Date.now();
 
   if (!requests.has(ip)) {
