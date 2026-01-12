@@ -13,14 +13,14 @@ export default defineAuthenticatedEventHandler(async (event) => {
     // TODO: Add authorization to check if user has access to this customer
     const updated = await updateCustomer(customerId, data);
 
-    if (!updated) {
+    if (!updated || updated.length === 0) {
       throw createError({
         statusCode: 404,
         statusMessage: "Customer not found",
       });
     }
 
-    return updated;
+    return updated[0];
   }
   catch (error) {
     handleError(error, { route: "customers.[id].put", user: event.context.user?.id });
