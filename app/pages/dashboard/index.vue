@@ -39,8 +39,8 @@ async function handleAddCompany() {
     newCompanyName.value = "";
     isCompanyModalOpen.value = false;
   }
-  catch (e: any) {
-    toast.add({ title: "Error creating company", description: e.message, color: "primary" });
+  catch (e: unknown) {
+    toast.add({ title: "Error creating company", description: e instanceof Error ? e.message : "Unknown error", color: "primary" });
   }
 }
 
@@ -49,8 +49,8 @@ async function handleDeleteCompany(id: number) {
     await companiesStore.deleteCompany(id);
     toast.add({ title: "Success", description: "Company deleted." });
   }
-  catch (e: any) {
-    toast.add({ title: "Error deleting company", description: e.message, color: "primary" });
+  catch (e: unknown) {
+    toast.add({ title: "Error deleting company", description: e instanceof Error ? e.message : "Unknown error", color: "primary" });
   }
 }
 
@@ -65,8 +65,8 @@ async function handleAddCustomer() {
     newCustomer.value = { name: "", email: "" };
     isCustomerModalOpen.value = false;
   }
-  catch (e: any) {
-    toast.add({ title: "Error creating customer", description: e.message, color: "primary" });
+  catch (e: unknown) {
+    toast.add({ title: "Error creating customer", description: e instanceof Error ? e.message : "Unknown error", color: "primary" });
   }
 }
 
@@ -75,8 +75,8 @@ async function handleDeleteCustomer(id: number) {
     await customersStore.deleteCustomer(id);
     toast.add({ title: "Success", description: "Customer deleted." });
   }
-  catch (e: any) {
-    toast.add({ title: "Error deleting customer", description: e.message, color: "primary" });
+  catch (e: unknown) {
+    toast.add({ title: "Error deleting customer", description: e instanceof Error ? e.message : "Unknown error", color: "primary" });
   }
 }
 
@@ -95,8 +95,8 @@ async function handleAddProduct() {
     newProduct.value = { name: "", description: "", price: "0", stock: 0 };
     isProductModalOpen.value = false;
   }
-  catch (e: any) {
-    toast.add({ title: "Error creating product", description: e.message, color: "primary" });
+  catch (e: unknown) {
+    toast.add({ title: "Error creating product", description: e instanceof Error ? e.message : "Unknown error", color: "primary" });
   }
 }
 
@@ -105,8 +105,8 @@ async function handleDeleteProduct(id: number) {
     await productsStore.deleteProduct(id);
     toast.add({ title: "Success", description: "Product deleted." });
   }
-  catch (e: any) {
-    toast.add({ title: "Error deleting product", description: e.message, color: "primary" });
+  catch (e: unknown) {
+    toast.add({ title: "Error deleting product", description: e instanceof Error ? e.message : "Unknown error", color: "primary" });
   }
 }
 
@@ -186,7 +186,7 @@ onMounted(() => {
               <UButton
                 color="primary"
                 variant="soft"
-                @click="handleDeleteCustomer(customer.id)"
+                @click="handleDeleteCustomer(customer.id as number)"
               >
                 Delete
               </UButton>

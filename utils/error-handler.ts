@@ -1,6 +1,6 @@
 import { H3Error } from "h3";
 
-export function handleError(error: any, context?: Record<string, any>): never {
+export function handleError(error: unknown, context?: Record<string, unknown>): never {
   if (error instanceof H3Error) {
     throw error;
   }
