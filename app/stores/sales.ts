@@ -45,17 +45,17 @@ export const useSalesStore = defineStore("sales", () => {
 
   async function updateSale(id: number, saleData: Partial<Sale>) {
     const { csrf } = useCsrf();
-    await fetch(`/api/sales/${id}`, {
+    await $fetch(`/api/sales/${id}`, {
       method: "PUT",
-      body: JSON.stringify(saleData),
-      headers: { "Content-Type": "application/json", "csrf-token": csrf },
+      body: saleData,
+      headers: { "csrf-token": csrf },
     });
     await refresh();
   }
 
   async function deleteSale(id: number) {
     const { csrf } = useCsrf();
-    await fetch(`/api/sales/${id}`, {
+    await $fetch(`/api/sales/${id}`, {
       method: "DELETE",
       headers: { "csrf-token": csrf },
     });
