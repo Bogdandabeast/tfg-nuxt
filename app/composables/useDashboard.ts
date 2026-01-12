@@ -1,9 +1,4 @@
-// Define a simple type for the company
-type Company = {
-  id: number;
-  name: string;
-  // Add other company properties as needed
-};
+import type { Company } from "~~/lib/db/queries/companies";
 
 function _useDashboard() {
   const route = useRoute();

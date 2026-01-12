@@ -24,7 +24,7 @@ export async function getSalesByCustomerId(customer_id: number, company_id: numb
 export async function getSalesByProductId(product_id: number, company_id: number) {
   return db.select().from(salesTables).where(and(eq(salesTables.product_id, product_id), eq(salesTables.company_id, company_id)));
 }
-export async function updateSale(id: number, company_id: number, data: Partial<Sale>) {
+export async function updateSale(id: number, company_id: number, data: Partial<SaleInsert>) {
   return db.update(salesTables).set(data).where(and(eq(salesTables.id, id), eq(salesTables.company_id, company_id))).returning();
 }
 

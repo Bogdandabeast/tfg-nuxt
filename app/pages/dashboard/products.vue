@@ -24,9 +24,7 @@ onMounted(() => {
       <template #header>
         <h3>Existing Products</h3>
       </template>
-      <div v-if="pending">
-        Loading products...
-      </div>
+      <USkeleton v-if="pending" class="h-20 w-full" />
       <ul v-else>
         <li v-for="product in products" :key="product.id">
           {{ product.id }} - {{ product.name }}

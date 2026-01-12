@@ -1,11 +1,6 @@
+import type { Company } from "~~/lib/db/queries/companies";
 import { defineStore } from "pinia";
-
-// Assuming a type for Company, which should be defined in a types file
-type Company = {
-  id: number;
-  name: string;
-  // Add other properties as needed
-};
+import { useCompaniesStore } from "~~/app/stores/companies";
 
 export const useCompaniesStore = defineStore("companies", () => {
   const {
