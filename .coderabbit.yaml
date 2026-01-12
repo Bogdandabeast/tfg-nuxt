@@ -3,7 +3,7 @@ language: es-ES
 tone_instructions: "Be supportive and focus on best practices for Vue 3, TypeScript, and Nuxt. Explain why changes improve maintainability or performance."
 
 reviews:
-  profile: chill # Relaxed feedback; switch to "assertive" for more details
+  profile: assertive # Relaxed feedback; switch to "assertive" for more details
   high_level_summary: true
   high_level_summary_in_walkthrough: false # Place summary in PR description
   collapse_walkthrough: true

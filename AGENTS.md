@@ -5,6 +5,7 @@ This file contains essential information for AI coding agents working on this Nu
 ## Project Overview
 
 Full-stack Nuxt.js app for managing companies, customers, products, and sales.
+
 - **Frontend:** Nuxt.js (Vue 3), Pinia, Nuxt UI, Tailwind CSS
 - **Backend:** Nitro (H3), Drizzle ORM, PostgreSQL
 - **Auth:** better-auth
@@ -23,17 +24,20 @@ Full-stack Nuxt.js app for managing companies, customers, products, and sales.
 ## Build & Test Commands
 
 ### Development
+
 - Dev server: `pnpm dev`
 - Build: `pnpm build`
 - Generate: `pnpm generate`
 - Preview: `pnpm preview`
 
 ### Quality
+
 - Lint: `pnpm lint`
 - Fix lint: `pnpm lint:fix`
 - Type check: `bunx nuxi typecheck`
 
 ### Testing (Vitest with @nuxt/test-utils)
+
 - All tests: `bunx vitest`
 - Unit: `bunx vitest run --project unit`
 - Nuxt integration: `bunx vitest run --project nuxt`
@@ -46,11 +50,13 @@ Full-stack Nuxt.js app for managing companies, customers, products, and sales.
 ## Code Style Guidelines
 
 ### General
+
 - **TypeScript:** Strict typing, avoid `any`, use `type` over `interface`
 - **Vue 3:** `<script setup lang="ts">` for components
 - **Nuxt 4:** Follow conventions and auto-imports
 
 ### File Naming
+
 - Components: PascalCase (e.g., `ProductForm.vue`)
 - Composables: `useFeatureName` (e.g., `useAuth.ts`)
 - Stores: `useStoreName` (e.g., `useAuthStore`)
@@ -58,6 +64,7 @@ Full-stack Nuxt.js app for managing companies, customers, products, and sales.
 - Pages: kebab-case matching routes
 
 ### Vue Components
+
 - Script: `<script setup lang="ts">`
 - Data: `ref()` for primitives, `reactive()` for objects
 - Computed: `computed()` with full syntax
@@ -65,47 +72,55 @@ Full-stack Nuxt.js app for managing companies, customers, products, and sales.
 - Events: camelCase with `Handler` suffix
 
 ### State Management (Pinia)
+
 - Stores: `defineStore("name", () => { ... })`
 - Export: `useStoreName`
 - State: `ref()` for reactive, `computed()` for derived
 - Return all public methods
 
 ### API & Data
+
 - CSRF: Include tokens for state-changing requests
 - Errors: Try-catch, toast messages
 - Loading: Show indicators for async ops
 - Validation: Use Zod schemas
 
 ### Styling & UI
+
 - Components: Nuxt UI (UButton, UCard, etc.)
 - CSS: Tailwind utilities
 - Responsive: Nuxt UI/Tailwind responsive utilities
 - Themes: @nuxtjs/color-mode for light/dark
 
 ### Imports
+
 - Auto-imports for Vue/Nuxt utilities
 - Explicit imports for third-party/local modules
 - Group by type: Vue → Nuxt → third-party → local
 
 ### Error Handling
+
 - Avoid `console.log/error` (ESLint warns)
 - User feedback: Toast notifications
 - Validation: Clear error displays
 - Network: Graceful fallbacks
 
 ### Security
+
 - CSRF: Enabled for POST/PUT/PATCH/DELETE
 - Input validation: Client + server
 - Secrets: Never commit env vars
 - HTTPS: Configure for production
 
 ### Performance
+
 - Lazy loading: Nuxt lazy components
 - Computed caching: For expensive calculations
 - Images: @nuxt/image optimization
 - Bundle: Monitor and optimize size
 
 ### Git & Commits
+
 - **Conventional commits:** `type(scope): description`
   - Types: `feat`, `fix`, `docs`, `refactor`, `test`
   - Example: `feat: add user auth`
@@ -114,6 +129,7 @@ Full-stack Nuxt.js app for managing companies, customers, products, and sales.
 - **GitHub CLI:** `gh` for issues/PRs
 
 ### Testing Guidelines
+
 - Structure: Arrange-Act-Assert
 - Mocking: Vitest utilities
 - Components: Test behavior, not implementation
@@ -122,11 +138,13 @@ Full-stack Nuxt.js app for managing companies, customers, products, and sales.
 - Coverage: Meaningful, not just percentage
 
 ### i18n
+
 - Default: Spanish (es)
 - Supported: English (en), Spanish (es)
 - Usage: `t()` for translations
 
 ### Database
+
 - **ORM:** Drizzle ORM (PostgreSQL/SQLite)
 - **Migrations:** `bunx drizzle-kit generate` or `bunx drizzle-kit push`
 - **Types:** Auto-generated from schema
@@ -140,12 +158,14 @@ Full-stack Nuxt.js app for managing companies, customers, products, and sales.
 5. PR: `gh pr create` for CodeRabbit review
 
 ### GitHub CLI
+
 - Issue: `gh issue create --title "Title" --body "Desc"`
 - Branch from issue: `gh issue develop <num> --name "feature/name"`
 - Push: `git push -u origin feature/name`
 - PR: `gh pr create --title "feat: desc" --body "Details. Closes #<num>"`
 
 ### Husky Hooks
+
 - Setup: `pnpm run prepare`
 - Linting: Runs on staged files
 - Commit validation: Enforces conventional format
