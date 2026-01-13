@@ -20,7 +20,7 @@ export const useCompaniesStore = defineStore("companies", () => {
   // Set the first company as current by default
   watch(companies, (newCompanies) => {
     if (newCompanies && newCompanies.length > 0 && !currentCompany.value) {
-      setCurrentCompany(newCompanies[0] || null);
+      setCurrentCompany(newCompanies[0]);
     }
   }, { immediate: true });
 
