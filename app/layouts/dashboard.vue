@@ -14,6 +14,7 @@ const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
 
 const open = ref(false);
+
 const authStore = useAuthStore();
 await authStore.init();
 

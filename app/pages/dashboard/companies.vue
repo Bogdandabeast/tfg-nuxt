@@ -5,7 +5,7 @@ import { useI18n } from "vue-i18n";
 import { useCompaniesStore } from "~~/app/stores/companies";
 
 definePageMeta({
-  layout: false,
+  layout: "dashboard",
 });
 
 const { t } = useI18n();
@@ -19,7 +19,7 @@ function selectCompany(company: Company) {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+  <div class="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
     <UCard class="w-full max-w-md">
       <template #header>
         <h1 class="text-2xl font-bold text-center">
