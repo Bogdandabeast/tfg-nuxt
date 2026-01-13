@@ -17,7 +17,7 @@ async function createCompanyHandler() {
       method: "POST",
       body: { name: newCompanyName.value },
     });
-    companiesStore.refreshCompanies();
+    await companiesStore.refreshCompanies();
     newCompanyName.value = "";
     toast.add({
       title: "Success",
