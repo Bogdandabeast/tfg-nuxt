@@ -14,7 +14,8 @@ export async function getSaleById(id: number, company_id: number) {
 }
 
 export async function getSaleByIdOnly(id: number): Promise<Sale | undefined> {
-  return db.select().from(salesTables).where(eq(salesTables.id, id)).limit(1).then(rows => rows[0]);
+  const rows = await db.select().from(salesTables).where(eq(salesTables.id, id)).limit(1);
+  return rows[0];
 }
 
 export async function getSalesByCompanyId(company_id: number) {

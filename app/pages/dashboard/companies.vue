@@ -23,7 +23,7 @@ function selectCompany(company: Company) {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50">
+  <div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
     <UCard class="w-full max-w-md">
       <template #header>
         <h1 class="text-2xl font-bold text-center">
