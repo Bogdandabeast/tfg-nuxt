@@ -12,11 +12,6 @@ const items = computed(() => [
     label: t("header.pricing"),
     to: "/pricing",
   },
-
-  {
-    label: t("header.changelog"),
-    to: "/changelog",
-  },
 ]);
 </script>
 

@@ -1,4 +1,4 @@
-import type { Company, CompanyInsert } from "~~/lib/db/queries/companies";
+import type { Company } from "~~/lib/db/queries/companies";
 import { defineStore } from "pinia";
 
 export const useCompaniesStore = defineStore("companies", () => {
@@ -17,47 +17,11 @@ export const useCompaniesStore = defineStore("companies", () => {
     currentCompany.value = company;
   }
 
-  async function createCompany(companyData: Partial<CompanyInsert>) {
-    const { csrf } = useCsrf();
-    await useFetch("/api/companies", {
-      method: "POST",
-      body: companyData,
-      headers: { "csrf-token": csrf },
-    });
-    await refresh();
-  }
-
-  async function updateCompany(id: number, companyData: Partial<CompanyInsert>) {
-    const { csrf } = useCsrf();
-    await useFetch(`/api/companies/${id}`, {
-      method: "PUT",
-      body: companyData,
-      headers: { "csrf-token": csrf },
-    });
-    await refresh();
-  }
-
-  async function deleteCompany(id: number) {
-    const { csrf } = useCsrf();
-    await useFetch(`/api/companies/${id}`, {
-      method: "DELETE",
-      headers: { "csrf-token": csrf },
-    });
-    await refresh();
-    if (currentCompany.value?.id === id) {
-      const firstCompany = companies.value?.[0] ?? null;
-      setCurrentCompany(firstCompany);
-    }
-  }
-
   return {
     companies,
     pending,
     refreshCompanies: refresh,
     currentCompany,
     setCurrentCompany,
-    createCompany,
-    updateCompany,
-    deleteCompany,
   };
 });

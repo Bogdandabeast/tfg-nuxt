@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { getFetchErrorMessage } from "~~/utils/error-handler";
+import FormErrorAlert from "./FormErrorAlert.vue";
+
 const customersStore = useCustomersStore();
+const companiesStore = useCompaniesStore();
+const { $csrfFetch } = useNuxtApp();
 const toast = useToast();
 
 const newCustomer = ref({
@@ -9,43 +14,60 @@ const newCustomer = ref({
   address: "",
 });
 const customerToDeleteId = ref("");
+const error = ref("");
 
 async function createCustomerHandler() {
-  if (newCustomer.value.name && newCustomer.value.email) {
-    await customersStore.createCustomer(newCustomer.value);
+  if (!companiesStore.currentCompany?.id) {
+    error.value = "No company selected.";
+    return;
+  }
+  if (!newCustomer.value.name || !newCustomer.value.email) {
+    error.value = "Please fill in at least name and email.";
+    return;
+  }
+  try {
+    await $csrfFetch("/api/customers", {
+      method: "POST",
+      body: {
+        ...newCustomer.value,
+        company_id: companiesStore.currentCompany.id,
+      },
+    });
+    await customersStore.refreshCustomers();
     newCustomer.value = { name: "", email: "", phone: "", address: "" };
     toast.add({
       title: "Success",
       description: "Customer created successfully!",
       color: "success",
     });
+    error.value = "";
   }
-  else {
-    toast.add({
-      title: "Error",
-      description: "Please fill in at least name and email.",
-      color: "error",
-    });
+  catch (e) {
+    error.value = getFetchErrorMessage(e);
   }
 }
 
 async function deleteCustomerHandler() {
   const id = Number(customerToDeleteId.value);
-  if (customerToDeleteId.value && !Number.isNaN(id)) {
-    await customersStore.deleteCustomer(id);
+  if (!customerToDeleteId.value || Number.isNaN(id)) {
+    error.value = "Please enter a valid Customer ID to delete.";
+    return;
+  }
+  try {
+    await $csrfFetch(`/api/customers/${id}`, {
+      method: "DELETE",
+    });
+    customersStore.refreshCustomers();
     customerToDeleteId.value = "";
     toast.add({
       title: "Success",
       description: "Customer deleted successfully!",
       color: "success",
     });
+    error.value = "";
   }
-  else {
-    toast.add({
-      title: "Error",
-      description: "Please enter a valid Customer ID to delete.",
-      color: "error",
-    });
+  catch (e) {
+    error.value = getFetchErrorMessage(e);
   }
 }
 </script>
@@ -114,4 +136,6 @@ async function deleteCustomerHandler() {
       Delete Customer
     </UButton>
   </UCard>
+
+  <FormErrorAlert :error="error" />
 </template>

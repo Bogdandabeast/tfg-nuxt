@@ -1,5 +1,19 @@
 import { H3Error } from "h3";
 
+export function getFetchErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  if (typeof error === "object" && error !== null && "data" in error) {
+    const h3Error = error as { data: { statusMessage?: string; message?: string } | string };
+    if (typeof h3Error.data === "object" && h3Error.data !== null) {
+      return h3Error.data.statusMessage || h3Error.data.message || "Unknown error";
+    }
+    return String(h3Error.data) || "Unknown error";
+  }
+  return "Unknown error";
+}
+
 export function handleError(error: unknown, context?: Record<string, unknown>): never {
   if (error instanceof H3Error) {
     throw error;
