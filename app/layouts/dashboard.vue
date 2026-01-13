@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 
-import {
-  dashboard,
-  dashboardCustomers,
-  dashboardProducts,
-  dashboardSales,
-} from "~~/lib/constants";
+import { ROUTES } from "~~/lib/constants";
 
 const toast = useToast();
 const route = useRoute();
@@ -24,21 +19,23 @@ await authStore.init();
 
 // logic for refetching data ssr friendly
 
-if (dashboard.includes(route.name?.toString() || "")) {
+if (route.path === ROUTES.dashboard[0]) {
   await companiesStore.refreshCompanies();
 }
-if (dashboardCustomers.includes(route.name?.toString() || "")) {
+if (route.path === ROUTES.dashboardCustomers[0]) {
   await customersStore.refreshCustomers();
 }
 
-if (dashboardProducts.includes(route.name?.toString() || "")) {
+if (route.path === ROUTES.dashboardProducts[0]) {
   await productsStore.refreshProducts();
 }
 
-if (dashboardSales.includes(route.name?.toString() || "")) {
-  await customersStore.refreshCustomers();
-  await productsStore.refreshProducts();
-  await salesStore.refreshSales();
+if (route.path === ROUTES.dashboardSales[0]) {
+  await Promise.all([
+    customersStore.refreshCustomers(),
+    productsStore.refreshProducts(),
+    salesStore.refreshSales(),
+  ]);
 }
 
 const links = [
@@ -54,7 +51,7 @@ const links = [
     {
       label: "Customers",
       icon: "lucide:users",
-      to: "/dashboard/customers",
+      to: "/ROUTES.dashboard/customers",
       onSelect: () => {
         open.value = false;
       },
@@ -62,7 +59,7 @@ const links = [
     {
       label: "Products",
       icon: "lucide:boxes",
-      to: "/dashboard/products",
+      to: "/ROUTES.dashboard/products",
       onSelect: () => {
         open.value = false;
       },
@@ -70,21 +67,21 @@ const links = [
     {
       label: "Sales",
       icon: "lucide:dollar-sign",
-      to: "/dashboard/sales",
+      to: "/ROUTES.dashboard/sales",
       onSelect: () => {
         open.value = false;
       },
     },
     {
       label: "Settings",
-      to: "/dashboard/settings",
+      to: "/ROUTES.dashboard/settings",
       icon: "i-lucide-settings",
       defaultOpen: true,
       type: "trigger",
       children: [
         {
           label: "General",
-          to: "/dashboard/settings",
+          to: "/ROUTES.dashboard/settings",
           exact: true,
           onSelect: () => {
             open.value = false;
@@ -92,21 +89,21 @@ const links = [
         },
         {
           label: "Members",
-          to: "/dashboard/settings/members",
+          to: "/ROUTES.dashboard/settings/members",
           onSelect: () => {
             open.value = false;
           },
         },
         {
           label: "Notifications",
-          to: "/dashboard/settings/notifications",
+          to: "/ROUTES.dashboard/settings/notifications",
           onSelect: () => {
             open.value = false;
           },
         },
         {
           label: "Security",
-          to: "/dashboard/settings/security",
+          to: "/ROUTES.dashboard/settings/security",
           onSelect: () => {
             open.value = false;
           },
@@ -118,13 +115,13 @@ const links = [
     {
       label: "Feedback",
       icon: "i-lucide-message-circle",
-      to: "https://github.com/nuxt-ui-templates/dashboard",
+      to: "https://github.com/nuxt-ui-templates/ROUTES.dashboard",
       target: "_blank",
     },
     {
       label: "Help & Support",
       icon: "i-lucide-info",
-      to: "https://github.com/nuxt-ui-templates/dashboard",
+      to: "https://github.com/nuxt-ui-templates/ROUTES.dashboard",
       target: "_blank",
     },
   ],
