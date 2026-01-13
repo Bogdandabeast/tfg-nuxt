@@ -67,12 +67,11 @@ export const useCustomersStore = defineStore("customers", () => {
   }
 
   async function deleteCustomer(id: number) {
+    const toast = useToast();
     if (!companiesStore.currentCompany?.id) {
-      const toast = useToast();
       toast.add({ title: t("common.error"), description: t("customers.noCompanySelected"), color: "error" });
       return;
     }
-    const toast = useToast();
     const { csrf } = useCsrf();
     try {
       await $fetch(`/api/customers/${id}`, {

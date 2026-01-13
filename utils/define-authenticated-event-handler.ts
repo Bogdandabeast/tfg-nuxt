@@ -9,8 +9,8 @@ const userWithIdSchema = z.object({
   email: z.string().email(),
   image: z.string().optional(),
   emailVerified: z.boolean().optional(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
 });
 
 type AuthenticatedEvent = H3Event & {

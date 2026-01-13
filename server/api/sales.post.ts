@@ -14,7 +14,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const body = await readBody(event);
     const userId = event.context.user.id;
-    const validatedData = createSaleSchema.parse({ ...body });
+    const validatedData = createSaleSchema.parse(body);
 
     const userCompanies = await getCompaniesByUserId(userId);
     const userCompanyIds = userCompanies.map(c => c.id);
