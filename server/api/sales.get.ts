@@ -5,13 +5,12 @@ import { handleError } from "~~/utils/error-handler";
 import { companyIdParamSchema, customerIdParamSchema, productIdParamSchema } from "~~/utils/schemas/sales";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  const userId = event.context.user.id;
-  const userCompanies = await getCompaniesByUserId(userId);
-  const userCompanyIds = userCompanies.map(c => c.id);
-
   const query = getQuery(event);
 
   try {
+    const userId = event.context.user.id;
+    const userCompanies = await getCompaniesByUserId(userId);
+    const userCompanyIds = userCompanies.map(c => c.id);
     // Search by customer_id
     if (query.customer_id && query.company_id) {
       const { customer_id, company_id } = await customerIdParamSchema.parseAsync(query);
