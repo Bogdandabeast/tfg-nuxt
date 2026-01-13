@@ -5,18 +5,11 @@ import { handleError } from "~~/utils/error-handler";
 import { saleIdParamSchema, updateSaleSchema } from "~~/utils/schemas/sales";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  // Validar CSRF token
-  const csrfToken = getHeader(event, "csrf-token");
-  if (!csrfToken) {
-    throw createError({ statusCode: 403, statusMessage: "Missing CSRF token" });
-  }
-
   try {
     const { id } = await saleIdParamSchema.parseAsync(event.context.params);
 
     // Get the sale to check ownership
-    const sale = await getSaleByIdOnly(id);
-    const saleData = sale[0];
+    const saleData = await getSaleByIdOnly(id);
     if (!saleData || !saleData.company_id) {
       throw createError({ statusCode: 404, statusMessage: "Not Found" });
     }
@@ -43,6 +36,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
     return { sale: updatedSale };
   }
   catch (error) {
-    throw handleError(error, { route: "sales.[id].put", user: event.context.session?.userId });
+    throw handleError(error, { route: "sales.[id].put", user: event.context.user.id });
   }
 });

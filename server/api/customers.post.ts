@@ -1,5 +1,5 @@
-import { getCompaniesByUserId } from "~~/lib/db/queries/company";
 import { createCustomer } from "~~/lib/db/queries/customers";
+import { assertUserHasCompanyAccess } from "~~/utils/company-access";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { customerCreateSchema } from "~~/utils/schemas/customers";
 
@@ -8,12 +8,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
   const data = customerCreateSchema.parse(body);
 
   // Check if user has access to this company
-  const userId = event.context.user.id;
-  const userCompanies = await getCompaniesByUserId(userId);
-  const userCompanyIds = userCompanies.map(c => c.id);
-  if (!userCompanyIds.includes(data.company_id)) {
-    throw createError({ statusCode: 404, statusMessage: "Not Found" });
-  }
+  await assertUserHasCompanyAccess(event.context.user.id, data.company_id);
 
   const newCustomer = await createCustomer(data);
 

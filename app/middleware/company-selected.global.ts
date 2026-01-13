@@ -1,9 +1,9 @@
 export default defineNuxtRouteMiddleware((to) => {
   const companiesStore = useCompaniesStore();
-  const { currentCompany } = storeToRefs(companiesStore);
+  const { currentCompany, companies } = storeToRefs(companiesStore);
 
-  // If no company selected and not going to companies page, redirect
-  if (!currentCompany.value && to.path !== "/dashboard/companies" && to.path.startsWith("/dashboard")) {
+  // If no company selected, companies exist, and not going to companies page, redirect
+  if (!currentCompany.value && companies.value?.length > 0 && to.path !== "/dashboard/companies" && to.path.startsWith("/dashboard")) {
     return navigateTo("/dashboard/companies");
   }
 });

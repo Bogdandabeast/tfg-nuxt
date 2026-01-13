@@ -14,7 +14,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const userCompanies = await getCompaniesByUserId(event.context.user.id);
     const hasAccess = userCompanies.some(company => company.id === parsedData.company_id);
     if (!hasAccess) {
-      throw createError({ statusCode: 403, statusMessage: "Forbidden" });
+      throw createError({ statusCode: 404, statusMessage: "Not Found" });
     }
 
     const [product] = await createProduct(data);

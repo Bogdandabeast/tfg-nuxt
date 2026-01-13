@@ -25,9 +25,11 @@ export const useCustomersStore = defineStore("customers", () => {
   });
 
   async function createCustomer(customerData: Partial<CustomerInsert>) {
-    if (!companiesStore.currentCompany?.id)
-      return;
     const toast = useToast();
+    if (!companiesStore.currentCompany?.id) {
+      toast.add({ title: t("common.error"), description: t("customers.noCompanySelected"), color: "error" });
+      return;
+    }
     const { csrf } = useCsrf();
     try {
       await $fetch("/api/customers", {
@@ -38,19 +40,17 @@ export const useCustomersStore = defineStore("customers", () => {
       toast.add({ title: t("common.success"), description: t("customers.created"), color: "primary" });
       await refresh();
     }
-    catch (err) {
-      console.error("Error creating customer:", err);
+    catch {
       toast.add({ title: t("common.error"), description: t("customers.createFailed"), color: "error" });
     }
   }
 
   async function updateCustomer(id: number, customerData: Partial<CustomerInsert>) {
+    const toast = useToast();
     if (!companiesStore.currentCompany?.id) {
-      const toast = useToast();
       toast.add({ title: t("common.error"), description: t("customers.noCompanySelected"), color: "error" });
       return;
     }
-    const toast = useToast();
     const { csrf } = useCsrf();
     try {
       await $fetch(`/api/customers/${id}`, {
@@ -61,8 +61,7 @@ export const useCustomersStore = defineStore("customers", () => {
       toast.add({ title: t("common.success"), description: t("customers.updated"), color: "primary" });
       await refresh();
     }
-    catch (err) {
-      console.error("Error updating customer:", err);
+    catch {
       toast.add({ title: t("common.error"), description: t("customers.updateFailed"), color: "error" });
     }
   }
@@ -83,8 +82,7 @@ export const useCustomersStore = defineStore("customers", () => {
       toast.add({ title: t("common.success"), description: t("customers.deleted"), color: "primary" });
       await refresh();
     }
-    catch (err) {
-      console.error("Error deleting customer:", err);
+    catch {
       toast.add({ title: t("common.error"), description: t("customers.deleteFailed"), color: "error" });
     }
   }
