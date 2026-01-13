@@ -1,4 +1,3 @@
-import verifyCsrf from "nuxt-csurf";
 import { getCompaniesByUserId } from "~~/lib/db/queries/company";
 import { createProduct } from "~~/lib/db/queries/products";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
@@ -7,8 +6,6 @@ import { productCreateSchema } from "~~/utils/schemas/products";
 
 export default defineAuthenticatedEventHandler(async (event) => {
   try {
-    // @ts-expect-error nuxt-csurf type issue
-    verifyCsrf(event, { headerName: "csrf-token" });
     const body = await readBody(event);
     const parsedData = productCreateSchema.parse(body);
     const data = { ...parsedData, price: parsedData.price.toString() };
