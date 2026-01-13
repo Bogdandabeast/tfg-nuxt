@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { getFetchErrorMessage } from "~~/utils/error-handler";
-import FormErrorAlert from "./FormErrorAlert.vue";
 
 const companiesStore = useCompaniesStore();
 const { $csrfFetch } = useNuxtApp();
@@ -25,7 +24,7 @@ async function createCompanyHandler() {
       method: "POST",
       body: { name: newCompanyName.value },
     });
-    companiesStore.refreshCompanies();
+    await companiesStore.refreshCompanies();
     newCompanyName.value = "";
     toast.add({
       title: "Success",
@@ -49,7 +48,7 @@ async function deleteCompanyHandler() {
     await $csrfFetch(`/api/companies/${id}`, {
       method: "DELETE",
     });
-    companiesStore.refreshCompanies();
+    await companiesStore.refreshCompanies();
     if (companiesStore.currentCompany?.id === id) {
       const firstCompany = companiesStore.companies?.[0] ?? null;
       companiesStore.setCurrentCompany(firstCompany);
@@ -104,6 +103,10 @@ async function deleteCompanyHandler() {
       Delete Company
     </UButton>
   </UCard>
-
-  <FormErrorAlert :error="error" />
+  <UAlert
+    v-if="error"
+    color="error"
+    class="mt-4"
+    :description="error"
+  />
 </template>
