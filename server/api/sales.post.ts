@@ -8,7 +8,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const body = await readBody(event);
     const company_id = event.context.session?.company_id;
     if (!company_id) {
-      throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+      throw createError({ statusCode: 403, statusMessage: "Forbidden: No associated company" });
     }
     const validatedData = createSaleSchema.parse({ ...body, company_id });
 

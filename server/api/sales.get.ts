@@ -6,7 +6,7 @@ import { companyIdParamSchema, customerIdParamSchema, productIdParamSchema } fro
 export default defineAuthenticatedEventHandler(async (event) => {
   const userCompanyId = event.context.session?.company_id;
   if (!userCompanyId) {
-    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+    throw createError({ statusCode: 403, statusMessage: "Forbidden: No associated company" });
   }
 
   const query = getQuery(event);
