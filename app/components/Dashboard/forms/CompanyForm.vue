@@ -96,8 +96,5 @@ async function deleteCompanyHandler() {
       Delete Company
     </UButton>
   </UCard>
-
-  <div v-if="error" class="mt-4 text-red-500">
-    {{ error }}
-  </div>
+  <UAlert v-if="error" color="error" class="mt-4" :description="error" />
 </template>
