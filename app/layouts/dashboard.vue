@@ -1,11 +1,64 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 
+import { ROUTES } from "~~/lib/constants";
+
 const toast = useToast();
+const route = useRoute();
+
+// stores
+
+const companiesStore = useCompaniesStore();
+const salesStore = useSalesStore();
+const customersStore = useCustomersStore();
+const productsStore = useProductsStore();
 
 const open = ref(false);
 const authStore = useAuthStore();
 await authStore.init();
+
+// logic for refetching data ssr friendly
+
+if (route.path === ROUTES.dashboard) {
+  try {
+    await companiesStore.refreshCompanies();
+  }
+  catch {
+    toast.add({ title: "Error", description: "Failed to refresh companies data", color: "error" });
+  }
+}
+
+if (route.path === ROUTES.dashboardCustomers) {
+  try {
+    await customersStore.refreshCustomers();
+  }
+  catch {
+    toast.add({ title: "Error", description: "Failed to refresh customers data", color: "error" });
+  }
+}
+
+if (route.path === ROUTES.dashboardProducts) {
+  try {
+    await productsStore.refreshProducts();
+  }
+  catch {
+    toast.add({ title: "Error", description: "Failed to refresh products data", color: "error" });
+  }
+}
+
+if (route.path === ROUTES.dashboardSales) {
+  const results = await Promise.allSettled([
+    customersStore.refreshCustomers(),
+    productsStore.refreshProducts(),
+    salesStore.refreshSales(),
+  ]);
+  results.forEach((result, index) => {
+    if (result.status === "rejected") {
+      const resource = ["customers", "products", "sales"][index];
+      toast.add({ title: "Error", description: `Failed to refresh ${resource} data`, color: "error" });
+    }
+  });
+}
 
 const links = [
   [
@@ -20,7 +73,7 @@ const links = [
     {
       label: "Customers",
       icon: "lucide:users",
-      to: "/dashboard/customers",
+      to: ROUTES.dashboardCustomers,
       onSelect: () => {
         open.value = false;
       },
@@ -28,7 +81,7 @@ const links = [
     {
       label: "Products",
       icon: "lucide:boxes",
-      to: "/dashboard/products",
+      to: ROUTES.dashboardProducts,
       onSelect: () => {
         open.value = false;
       },
@@ -36,21 +89,21 @@ const links = [
     {
       label: "Sales",
       icon: "lucide:dollar-sign",
-      to: "/dashboard/sales",
+      to: ROUTES.dashboardSales,
       onSelect: () => {
         open.value = false;
       },
     },
     {
       label: "Settings",
-      to: "/dashboard/settings",
+      to: `${ROUTES.dashboard}/settings`,
       icon: "i-lucide-settings",
       defaultOpen: true,
       type: "trigger",
       children: [
         {
           label: "General",
-          to: "/dashboard/settings",
+          to: `${ROUTES.dashboard}/settings`,
           exact: true,
           onSelect: () => {
             open.value = false;
@@ -58,21 +111,21 @@ const links = [
         },
         {
           label: "Members",
-          to: "/dashboard/settings/members",
+          to: `${ROUTES.dashboard}/settings/members`,
           onSelect: () => {
             open.value = false;
           },
         },
         {
           label: "Notifications",
-          to: "/dashboard/settings/notifications",
+          to: `${ROUTES.dashboard}/settings/notifications`,
           onSelect: () => {
             open.value = false;
           },
         },
         {
           label: "Security",
-          to: "/dashboard/settings/security",
+          to: `${ROUTES.dashboard}/settings/security`,
           onSelect: () => {
             open.value = false;
           },

@@ -30,11 +30,6 @@ const productOptions = computed(() =>
   products.value?.map((p: Product) => ({ label: p.name, value: p.id })) || [],
 );
 
-onMounted(() => {
-  customersStore.refreshCustomers();
-  productsStore.refreshProducts();
-});
-
 async function createSaleHandler() {
   if (!companiesStore.currentCompany?.id) {
     error.value = "No company selected.";

@@ -12,10 +12,6 @@ const { t } = useI18n();
 const companiesStore = useCompaniesStore();
 const { companies, pending } = storeToRefs(companiesStore);
 
-onMounted(() => {
-  companiesStore.refreshCompanies();
-});
-
 function selectCompany(company: Company) {
   companiesStore.setCurrentCompany(company);
   navigateTo("/dashboard");
