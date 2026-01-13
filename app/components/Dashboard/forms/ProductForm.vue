@@ -33,7 +33,7 @@ async function createProductHandler() {
         company_id: companiesStore.currentCompany.id,
       },
     });
-    productsStore.refreshProducts();
+    await productsStore.refreshProducts();
     newProduct.value = { name: "", description: "", price: "", stock: 0 };
     toast.add({
       title: "Success",

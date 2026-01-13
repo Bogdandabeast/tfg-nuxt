@@ -115,7 +115,6 @@ async function handleAddProduct() {
       method: "POST",
       body: {
         ...newProduct.value,
-        price: newProduct.value.price.toString(),
         company_id: currentCompany.value.id,
       },
     });

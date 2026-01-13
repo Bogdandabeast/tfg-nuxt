@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getFetchErrorMessage } from "~~/utils/error-handler";
+import FormErrorAlert from "./FormErrorAlert.vue";
 
 const customersStore = useCustomersStore();
 const companiesStore = useCompaniesStore();
@@ -32,7 +33,7 @@ async function createCustomerHandler() {
         company_id: companiesStore.currentCompany.id,
       },
     });
-    customersStore.refreshCustomers();
+    await customersStore.refreshCustomers();
     newCustomer.value = { name: "", email: "", phone: "", address: "" };
     toast.add({
       title: "Success",
@@ -136,7 +137,5 @@ async function deleteCustomerHandler() {
     </UButton>
   </UCard>
 
-  <div v-if="error" class="mt-4 text-red-500">
-    {{ error }}
-  </div>
+  <FormErrorAlert :error="error" />
 </template>
