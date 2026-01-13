@@ -41,7 +41,7 @@ async function deleteCompanyHandler() {
     await $csrfFetch(`/api/companies/${id}`, {
       method: "DELETE",
     });
-    companiesStore.refreshCompanies();
+    await companiesStore.refreshCompanies();
     if (companiesStore.currentCompany?.id === id) {
       const firstCompany = companiesStore.companies?.[0] ?? null;
       companiesStore.setCurrentCompany(firstCompany);
