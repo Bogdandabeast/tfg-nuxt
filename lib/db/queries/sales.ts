@@ -13,6 +13,10 @@ export async function getSaleById(id: number, company_id: number) {
   return db.select().from(salesTables).where(and(eq(salesTables.id, id), eq(salesTables.company_id, company_id)));
 }
 
+export async function getSaleByIdOnly(id: number) {
+  return db.select().from(salesTables).where(eq(salesTables.id, id)).limit(1);
+}
+
 export async function getSalesByCompanyId(company_id: number) {
   return db.select().from(salesTables).where(eq(salesTables.company_id, company_id));
 }
