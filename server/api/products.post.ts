@@ -1,4 +1,5 @@
 import verifyCsrf from "nuxt-csurf";
+import { getCompaniesByUserId } from "~~/lib/db/queries/company";
 import { createProduct } from "~~/lib/db/queries/products";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { handleError } from "~~/utils/error-handler";
@@ -17,7 +18,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
     if (!userId) {
       throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
     }
-    const { getCompaniesByUserId } = await import("~~/lib/db/queries/company");
     const userCompanies = await getCompaniesByUserId(userId);
     const hasAccess = userCompanies.some(company => company.id === parsedData.company_id);
     if (!hasAccess) {

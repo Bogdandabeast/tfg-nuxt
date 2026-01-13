@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     // @ts-expect-error vite version mismatch
     plugins: [tailwindcss()],
   },
-  css: ["./app/assets/css/main.css"],
+  css: ["~/assets/css/main.css"],
   eslint: {
     config: {
       standalone: false,

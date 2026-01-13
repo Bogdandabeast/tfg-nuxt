@@ -37,13 +37,24 @@ export const auth = betterAuth({
     session: {
       create: {
         before: async (session) => {
-          const company = await db.select({ id: companiesTable.id }).from(companiesTable).where(eq(companiesTable.user_id, session.userId)).limit(1);
-          return {
-            data: {
-              ...session,
-              company_id: company[0]?.id || null,
-            },
-          };
+          try {
+            const company = await db.select({ id: companiesTable.id }).from(companiesTable).where(eq(companiesTable.user_id, session.userId)).limit(1);
+            return {
+              data: {
+                ...session,
+                company_id: company[0]?.id || null,
+              },
+            };
+          }
+          catch (error) {
+            console.error("Error fetching company for session:", error, { userId: session.userId });
+            return {
+              data: {
+                ...session,
+                company_id: null,
+              },
+            };
+          }
         },
       },
     },

@@ -1,9 +1,11 @@
 import type { Customer, CustomerInsert } from "~~/lib/db/queries/customers";
 import { defineStore } from "pinia";
+import { useI18n } from "vue-i18n";
 import { useCompaniesStore } from "~~/app/stores/companies";
 
 export const useCustomersStore = defineStore("customers", () => {
   const companiesStore = useCompaniesStore();
+  const { t } = useI18n();
 
   const apiUrl = computed(() => {
     if (!companiesStore.currentCompany?.id) {
@@ -28,16 +30,16 @@ export const useCustomersStore = defineStore("customers", () => {
     const toast = useToast();
     const { csrf } = useCsrf();
     try {
-      await useFetch("/api/customers", {
+      await $fetch("/api/customers", {
         method: "POST",
         body: { ...customerData, company_id: companiesStore.currentCompany.id },
         headers: { "csrf-token": csrf },
       });
-      toast.add({ title: "Success", description: "Customer created successfully", color: "primary" });
+      toast.add({ title: t("common.success"), description: t("customers.created"), color: "primary" });
       await refresh();
     }
     catch {
-      toast.add({ title: "Error", description: "Failed to create customer", color: "error" });
+      toast.add({ title: t("common.error"), description: t("customers.createFailed"), color: "error" });
     }
   }
 
@@ -45,16 +47,16 @@ export const useCustomersStore = defineStore("customers", () => {
     const toast = useToast();
     const { csrf } = useCsrf();
     try {
-      await useFetch(`/api/customers/${id}`, {
+      await $fetch(`/api/customers/${id}`, {
         method: "PUT",
         body: customerData,
         headers: { "csrf-token": csrf },
       });
-      toast.add({ title: "Success", description: "Customer updated successfully", color: "primary" });
+      toast.add({ title: t("common.success"), description: t("customers.updated"), color: "primary" });
       await refresh();
     }
     catch {
-      toast.add({ title: "Error", description: "Failed to update customer", color: "error" });
+      toast.add({ title: t("common.error"), description: t("customers.updateFailed"), color: "error" });
     }
   }
 
@@ -62,15 +64,15 @@ export const useCustomersStore = defineStore("customers", () => {
     const toast = useToast();
     const { csrf } = useCsrf();
     try {
-      await useFetch(`/api/customers/${id}`, {
+      await $fetch(`/api/customers/${id}`, {
         method: "DELETE",
         headers: { "csrf-token": csrf },
       });
-      toast.add({ title: "Success", description: "Customer deleted successfully", color: "primary" });
+      toast.add({ title: t("common.success"), description: t("customers.deleted"), color: "primary" });
       await refresh();
     }
     catch {
-      toast.add({ title: "Error", description: "Failed to delete customer", color: "error" });
+      toast.add({ title: t("common.error"), description: t("customers.deleteFailed"), color: "error" });
     }
   }
 
