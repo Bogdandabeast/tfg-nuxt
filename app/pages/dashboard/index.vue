@@ -3,7 +3,6 @@ import { storeToRefs } from "pinia";
 
 definePageMeta({
   layout: "dashboard",
-  middleware: "company-selected",
 });
 
 const toast = useToast();

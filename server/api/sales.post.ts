@@ -21,6 +21,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
     return { sale: newSale };
   }
   catch (error) {
-    handleError(error, { route: "sales.post", user: event.context.user?.id });
+    throw handleError(error, { route: "sales.post", user: event.context.user?.id });
   }
 });

@@ -34,6 +34,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
     return { message: "Sale deleted successfully" };
   }
   catch (error) {
-    handleError(error, { route: "sales.[id].delete", user: event.context.user?.id });
+    throw handleError(error, { route: "sales.[id].delete", user: event.context.user?.id });
   }
 });
