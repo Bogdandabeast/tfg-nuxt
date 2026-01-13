@@ -1,10 +1,9 @@
+import type { CompanyInsert } from "./companies";
 import { eq } from "drizzle-orm";
 import { db } from "../index";
 import { companiesTable } from "../schema/companies";
 
-export type Company = typeof companiesTable.$inferInsert;
-
-export async function createCompany(data: Company) {
+export async function createCompany(data: CompanyInsert) {
   return db.insert(companiesTable).values(data).returning();
 }
 
@@ -16,7 +15,7 @@ export async function getCompaniesByUserId(userId: string) {
   return db.select().from(companiesTable).where(eq(companiesTable.user_id, userId));
 }
 
-export async function updateCompany(id: number, data: Partial<Company>) {
+export async function updateCompany(id: number, data: Partial<CompanyInsert>) {
   return db.update(companiesTable).set(data).where(eq(companiesTable.id, id)).returning();
 }
 
