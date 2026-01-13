@@ -19,7 +19,7 @@ await authStore.init();
 
 // logic for refetching data ssr friendly
 
-if (route.path === ROUTES.dashboard) {
+if (route.path.includes(ROUTES.dashboard)) {
   try {
     await companiesStore.refreshCompanies();
   }
@@ -28,7 +28,7 @@ if (route.path === ROUTES.dashboard) {
   }
 }
 
-if (route.path === ROUTES.dashboardCustomers) {
+if (route.path.includes(ROUTES.dashboardCustomers)) {
   try {
     await customersStore.refreshCustomers();
   }
@@ -37,7 +37,7 @@ if (route.path === ROUTES.dashboardCustomers) {
   }
 }
 
-if (route.path === ROUTES.dashboardProducts) {
+if (route.path.includes(ROUTES.dashboardProducts)) {
   try {
     await productsStore.refreshProducts();
   }
@@ -46,7 +46,7 @@ if (route.path === ROUTES.dashboardProducts) {
   }
 }
 
-if (route.path === ROUTES.dashboardSales) {
+if (route.path.includes(ROUTES.dashboardSales)) {
   const results = await Promise.allSettled([
     customersStore.refreshCustomers(),
     productsStore.refreshProducts(),
