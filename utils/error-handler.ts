@@ -5,8 +5,11 @@ export function getFetchErrorMessage(error: unknown): string {
     return error.message;
   }
   if (typeof error === "object" && error !== null && "data" in error) {
-    const h3Error = error as { data: unknown; statusMessage?: string };
-    return h3Error.statusMessage || String(h3Error.data) || "Unknown error";
+    const h3Error = error as { data: { statusMessage?: string; message?: string } | string };
+    if (typeof h3Error.data === "object" && h3Error.data !== null) {
+      return h3Error.data.statusMessage || h3Error.data.message || "Unknown error";
+    }
+    return String(h3Error.data) || "Unknown error";
   }
   return "Unknown error";
 }
