@@ -4,6 +4,8 @@ import type { NavigationMenuItem } from "@nuxt/ui";
 const toast = useToast();
 
 const open = ref(false);
+const authStore = useAuthStore();
+await authStore.init();
 
 const links = [
   [

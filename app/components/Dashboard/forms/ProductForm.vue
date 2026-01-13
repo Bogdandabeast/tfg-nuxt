@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { getFetchErrorMessage } from "~~/utils/error-handler";
+
 const productsStore = useProductsStore();
+const companiesStore = useCompaniesStore();
+const { $csrfFetch } = useNuxtApp();
 const toast = useToast();
 
 const newProduct = ref({
@@ -9,46 +13,61 @@ const newProduct = ref({
   stock: 0,
 });
 const productToDeleteId = ref("");
+const error = ref("");
 
 async function createProductHandler() {
-  if (newProduct.value.name && newProduct.value.description && newProduct.value.price) {
-    await productsStore.createProduct({
-      ...newProduct.value,
-      price: newProduct.value.price.toString(),
+  if (!companiesStore.currentCompany?.id) {
+    error.value = "No company selected.";
+    return;
+  }
+  if (!newProduct.value.name || !newProduct.value.description || !newProduct.value.price) {
+    error.value = "Please fill in all product details.";
+    return;
+  }
+  try {
+    await $csrfFetch("/api/products", {
+      method: "POST",
+      body: {
+        ...newProduct.value,
+        price: newProduct.value.price.toString(),
+        company_id: companiesStore.currentCompany.id,
+      },
     });
+    productsStore.refreshProducts();
     newProduct.value = { name: "", description: "", price: "", stock: 0 };
     toast.add({
       title: "Success",
       description: "Product created successfully!",
       color: "success",
     });
+    error.value = "";
   }
-  else {
-    toast.add({
-      title: "Error",
-      description: "Please fill in all product details.",
-      color: "error",
-    });
+  catch (e) {
+    error.value = getFetchErrorMessage(e);
   }
 }
 
 async function deleteProductHandler() {
   const id = Number(productToDeleteId.value);
-  if (productToDeleteId.value && !Number.isNaN(id)) {
-    await productsStore.deleteProduct(id);
+  if (!productToDeleteId.value || Number.isNaN(id)) {
+    error.value = "Please enter a valid Product ID to delete.";
+    return;
+  }
+  try {
+    await $csrfFetch(`/api/products/${id}`, {
+      method: "DELETE",
+    });
+    productsStore.refreshProducts();
     productToDeleteId.value = "";
     toast.add({
       title: "Success",
       description: "Product deleted successfully!",
       color: "success",
     });
+    error.value = "";
   }
-  else {
-    toast.add({
-      title: "Error",
-      description: "Please enter a valid Product ID to delete.",
-      color: "error",
-    });
+  catch (e) {
+    error.value = getFetchErrorMessage(e);
   }
 }
 </script>
@@ -121,4 +140,8 @@ async function deleteProductHandler() {
       Delete Product
     </UButton>
   </UCard>
+
+  <div v-if="error" class="mt-4 text-red-500">
+    {{ error }}
+  </div>
 </template>

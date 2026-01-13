@@ -1,5 +1,16 @@
 import { H3Error } from "h3";
 
+export function getFetchErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  if (typeof error === "object" && error !== null && "data" in error) {
+    const h3Error = error as { data: unknown; statusMessage?: string };
+    return h3Error.statusMessage || String(h3Error.data) || "Unknown error";
+  }
+  return "Unknown error";
+}
+
 export function handleError(error: unknown, context?: Record<string, unknown>): never {
   if (error instanceof H3Error) {
     throw error;

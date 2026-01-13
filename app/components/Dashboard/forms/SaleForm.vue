@@ -2,10 +2,13 @@
 import type { Customer } from "~~/lib/db/queries/customers";
 import type { Product } from "~~/lib/db/queries/products";
 import { storeToRefs } from "pinia";
+import { getFetchErrorMessage } from "~~/utils/error-handler";
 
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
+const companiesStore = useCompaniesStore();
+const { $csrfFetch } = useNuxtApp();
 const toast = useToast();
 
 const { customers } = storeToRefs(customersStore);
@@ -18,6 +21,7 @@ const newSale = reactive({
 });
 const isCreating = ref(false);
 const saleToDeleteId = ref("");
+const error = ref("");
 
 const customerOptions = computed(() =>
   customers.value?.map((c: Customer) => ({ label: c.name, value: c.id })) || [],
@@ -32,53 +36,65 @@ onMounted(() => {
 });
 
 async function createSaleHandler() {
-  if (newSale.customer_id && newSale.product_id && newSale.quantity > 0) {
-    isCreating.value = true;
-    try {
-      await salesStore.createSale({
+  if (!companiesStore.currentCompany?.id) {
+    error.value = "No company selected.";
+    return;
+  }
+  if (!newSale.customer_id || !newSale.product_id || newSale.quantity <= 0) {
+    error.value = "Please select a customer, a product, and enter a valid quantity.";
+    return;
+  }
+  isCreating.value = true;
+  try {
+    await $csrfFetch("/api/sales", {
+      method: "POST",
+      body: {
         customer_id: Number(newSale.customer_id),
         product_id: Number(newSale.product_id),
         quantity: newSale.quantity,
-      });
-      newSale.customer_id = undefined;
-      newSale.product_id = undefined;
-      newSale.quantity = 1;
-      toast.add({
-        title: "Success",
-        description: "Sale created successfully!",
-        color: "success",
-      });
-    }
-    finally {
-      isCreating.value = false;
-    }
-  }
-  else {
-    toast.add({
-      title: "Error",
-      description: "Please select a customer, a product, and enter a valid quantity.",
-      color: "error",
+        company_id: companiesStore.currentCompany.id,
+      },
     });
+    salesStore.refreshSales();
+    newSale.customer_id = undefined;
+    newSale.product_id = undefined;
+    newSale.quantity = 1;
+    toast.add({
+      title: "Success",
+      description: "Sale created successfully!",
+      color: "success",
+    });
+    error.value = "";
+  }
+  catch (e) {
+    error.value = getFetchErrorMessage(e);
+  }
+  finally {
+    isCreating.value = false;
   }
 }
 
 async function deleteSaleHandler() {
   const id = Number(saleToDeleteId.value);
-  if (saleToDeleteId.value && !Number.isNaN(id)) {
-    await salesStore.deleteSale(id);
+  if (!saleToDeleteId.value || Number.isNaN(id)) {
+    error.value = "Please enter a valid Sale ID to delete.";
+    return;
+  }
+  try {
+    await $csrfFetch(`/api/sales/${id}`, {
+      method: "DELETE",
+    });
+    salesStore.refreshSales();
     saleToDeleteId.value = "";
     toast.add({
       title: "Success",
       description: "Sale deleted successfully!",
       color: "success",
     });
+    error.value = "";
   }
-  else {
-    toast.add({
-      title: "Error",
-      description: "Please enter a valid Sale ID to delete.",
-      color: "error",
-    });
+  catch (e) {
+    error.value = getFetchErrorMessage(e);
   }
 }
 </script>
@@ -147,4 +163,8 @@ async function deleteSaleHandler() {
       Delete Sale
     </UButton>
   </UCard>
+
+  <div v-if="error" class="mt-4 text-red-500">
+    {{ error }}
+  </div>
 </template>

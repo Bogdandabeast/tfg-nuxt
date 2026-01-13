@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
+import { getFetchErrorMessage } from "~~/utils/error-handler";
 
 definePageMeta({
   layout: "dashboard",
 });
 
+const { $csrfFetch } = useNuxtApp();
 const toast = useToast();
+const error = ref("");
 
 // Stores
 const companiesStore = useCompaniesStore();
@@ -30,83 +33,114 @@ const newProduct = ref({ name: "", description: "", price: 0, stock: 0 });
 // Actions
 async function handleAddCompany() {
   if (!newCompanyName.value) {
-    toast.add({ title: "Error", description: "Company name is required.", color: "primary" });
+    error.value = "Company name is required.";
     return;
   }
   try {
-    await companiesStore.createCompany({ name: newCompanyName.value });
+    await $csrfFetch("/api/companies", {
+      method: "POST",
+      body: { name: newCompanyName.value },
+    });
+    companiesStore.refreshCompanies();
     toast.add({ title: "Success", description: "Company created." });
     newCompanyName.value = "";
     isCompanyModalOpen.value = false;
+    error.value = "";
   }
-  catch (e: unknown) {
-    toast.add({ title: "Error creating company", description: e instanceof Error ? e.message : "Unknown error", color: "primary" });
+  catch (e) {
+    error.value = getFetchErrorMessage(e);
   }
 }
 
 async function handleDeleteCompany(id: number) {
   try {
-    await companiesStore.deleteCompany(id);
+    await $csrfFetch(`/api/companies/${id}`, {
+      method: "DELETE",
+    });
+    companiesStore.refreshCompanies();
+    if (companiesStore.currentCompany?.id === id) {
+      const firstCompany = companiesStore.companies?.[0] ?? null;
+      companiesStore.setCurrentCompany(firstCompany);
+    }
     toast.add({ title: "Success", description: "Company deleted." });
+    error.value = "";
   }
-  catch (e: unknown) {
-    toast.add({ title: "Error deleting company", description: e instanceof Error ? e.message : "Unknown error", color: "primary" });
+  catch (e) {
+    error.value = getFetchErrorMessage(e);
   }
 }
 
 async function handleAddCustomer() {
   if (!currentCompany.value) {
-    toast.add({ title: "Error", description: "Please select a company first.", color: "primary" });
+    error.value = "Please select a company first.";
     return;
   }
   try {
-    await customersStore.createCustomer(newCustomer.value);
+    await $csrfFetch("/api/customers", {
+      method: "POST",
+      body: { ...newCustomer.value, company_id: currentCompany.value.id },
+    });
+    customersStore.refreshCustomers();
     toast.add({ title: "Success", description: "Customer created." });
     newCustomer.value = { name: "", email: "" };
     isCustomerModalOpen.value = false;
+    error.value = "";
   }
-  catch (e: unknown) {
-    toast.add({ title: "Error creating customer", description: e instanceof Error ? e.message : "Unknown error", color: "primary" });
+  catch (e) {
+    error.value = getFetchErrorMessage(e);
   }
 }
 
 async function handleDeleteCustomer(id: number) {
   try {
-    await customersStore.deleteCustomer(id);
+    await $csrfFetch(`/api/customers/${id}`, {
+      method: "DELETE",
+    });
+    customersStore.refreshCustomers();
     toast.add({ title: "Success", description: "Customer deleted." });
+    error.value = "";
   }
-  catch (e: unknown) {
-    toast.add({ title: "Error deleting customer", description: e instanceof Error ? e.message : "Unknown error", color: "primary" });
+  catch (e) {
+    error.value = getFetchErrorMessage(e);
   }
 }
 
 async function handleAddProduct() {
   if (!currentCompany.value) {
-    toast.add({ title: "Error", description: "Please select a company first.", color: "primary" });
+    error.value = "Please select a company first.";
     return;
   }
   try {
-    // Ensure price is a string if the API expects it, otherwise keep as number
-    await productsStore.createProduct({
-      ...newProduct.value,
-      price: newProduct.value.price.toString(),
+    await $csrfFetch("/api/products", {
+      method: "POST",
+      body: {
+        ...newProduct.value,
+        price: newProduct.value.price.toString(),
+        company_id: currentCompany.value.id,
+      },
     });
+    productsStore.refreshProducts();
     toast.add({ title: "Success", description: "Product created." });
     newProduct.value = { name: "", description: "", price: 0, stock: 0 };
     isProductModalOpen.value = false;
+    error.value = "";
   }
-  catch (e: unknown) {
-    toast.add({ title: "Error creating product", description: e instanceof Error ? e.message : "Unknown error", color: "primary" });
+  catch (e) {
+    error.value = getFetchErrorMessage(e);
   }
 }
 
 async function handleDeleteProduct(id: number) {
   try {
-    await productsStore.deleteProduct(id);
+    await $csrfFetch(`/api/products/${id}`, {
+      method: "DELETE",
+    });
+    productsStore.refreshProducts();
     toast.add({ title: "Success", description: "Product deleted." });
+    error.value = "";
   }
-  catch (e: unknown) {
-    toast.add({ title: "Error deleting product", description: e instanceof Error ? e.message : "Unknown error", color: "primary" });
+  catch (e) {
+    error.value = getFetchErrorMessage(e);
   }
 }
 
@@ -125,6 +159,9 @@ onMounted(() => {
     </template>
 
     <div class="space-y-8">
+      <div v-if="error" class="text-red-500">
+        {{ error }}
+      </div>
       <!-- Companies Section -->
       <UCard>
         <template #header>
