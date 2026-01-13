@@ -8,10 +8,6 @@ definePageMeta({
 
 const productsStore = useProductsStore();
 const { products, pending } = storeToRefs(productsStore);
-
-onMounted(() => {
-  productsStore.refreshProducts();
-});
 </script>
 
 <template>

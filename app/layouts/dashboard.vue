@@ -2,10 +2,48 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
 
 const toast = useToast();
+const route = useRoute();
+
+// stores
+
+const companiesStore = useCompaniesStore();
+const salesStore = useSalesStore();
+const customersStore = useCustomersStore();
+const productsStore = useProductsStore();
 
 const open = ref(false);
 const authStore = useAuthStore();
 await authStore.init();
+
+// logic for refetching data ssr friendly
+
+const dashboard = "/dashboard";
+const dashboardCustomers = "/dashboard/customers";
+const dashboardProducts = "/dashboard/products";
+const dashboardSales = "/dashboard/sales";
+
+if (dashboard.includes(route.name?.toString() || "")) {
+  await companiesStore.refreshCompanies();
+}
+if (dashboardCustomers.includes(route.name?.toString() || "")) {
+  await customersStore.refreshCustomers();
+}
+
+if (dashboardProducts.includes(route.name?.toString() || "")) {
+  await productsStore.refreshProducts();
+}
+
+if (dashboardSales.includes(route.name?.toString() || "")) {
+  await customersStore.refreshCustomers();
+  await productsStore.refreshProducts();
+  await salesStore.refreshSales();
+}
+
+/* onMounted(() => {
+  salesStore.refreshSales();
+  customersStore.refreshCustomers();
+  productsStore.refreshProducts();
+}); */
 
 const links = [
   [

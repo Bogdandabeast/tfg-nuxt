@@ -144,11 +144,6 @@ async function handleDeleteProduct(id: number) {
 }
 
 // Fetch initial data
-onMounted(() => {
-  companiesStore.refreshCompanies();
-  customersStore.refreshCustomers();
-  productsStore.refreshProducts();
-});
 </script>
 
 <template>

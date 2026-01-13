@@ -29,12 +29,6 @@ const detailedSales = computed(() => {
     };
   });
 });
-
-onMounted(() => {
-  salesStore.refreshSales();
-  customersStore.refreshCustomers();
-  productsStore.refreshProducts();
-});
 </script>
 
 <template>
