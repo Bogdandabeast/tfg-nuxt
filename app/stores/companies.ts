@@ -17,13 +17,6 @@ export const useCompaniesStore = defineStore("companies", () => {
     currentCompany.value = company;
   }
 
-  // Set the first company as current by default
-  watch(companies, (newCompanies) => {
-    if (newCompanies && newCompanies.length > 0 && !currentCompany.value) {
-      setCurrentCompany(newCompanies[0]!);
-    }
-  }, { immediate: true });
-
   async function createCompany(companyData: Partial<CompanyInsert>) {
     const { csrf } = useCsrf();
     await useFetch("/api/companies", {
