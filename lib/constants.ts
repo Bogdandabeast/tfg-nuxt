@@ -1,4 +1,6 @@
-export const dashboard = "/dashboard";
-export const dashboardCustomers = "/dashboard/customers";
-export const dashboardProducts = "/dashboard/products";
-export const dashboardSales = "/dashboard/sales";
+export const ROUTES = {
+  dashboard: ["/dashboard"],
+  dashboardCustomers: ["/dashboard/customers"],
+  dashboardProducts: ["/dashboard/products"],
+  dashboardSales: ["/dashboard/sales"],
+} as const;
