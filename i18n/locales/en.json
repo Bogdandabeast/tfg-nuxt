@@ -252,5 +252,13 @@
         "description": "Could not create account"
       }
     }
+  },
+  "companies": {
+    "title": "Select Company",
+    "loading": "Loading companies...",
+    "choose": "Choose the company you want to work with:",
+    "none": "You have no registered companies.",
+    "createFirst": "Create your first company to get started.",
+    "goToDashboard": "Go to Dashboard"
   }
 }

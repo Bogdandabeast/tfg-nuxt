@@ -5,12 +5,12 @@ import { auth } from "~~/lib/auth";
 
 const userWithIdSchema = z.object({
   id: z.string(),
-  name: z.string().optional(),
+  name: z.string().nullish(),
   email: z.string().email(),
-  image: z.string().optional(),
-  emailVerified: z.boolean().optional(),
-  createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional(),
+  image: z.string().nullish(),
+  emailVerified: z.boolean().nullish(),
+  createdAt: z.coerce.date().nullish(),
+  updatedAt: z.coerce.date().nullish(),
 });
 
 type AuthenticatedEvent = H3Event & {
