@@ -9,8 +9,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const { id } = saleIdParamSchema.parse(event.context.params);
 
     // Get the sale to check ownership
-    const sale = await getSaleByIdOnly(id);
-    const saleData = sale[0];
+    const saleData = await getSaleByIdOnly(id);
     if (!saleData || !saleData.company_id) {
       throw createError({ statusCode: 404, statusMessage: "Not Found" });
     }

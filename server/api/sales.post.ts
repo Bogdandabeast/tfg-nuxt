@@ -8,14 +8,14 @@ export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const body = await readBody(event);
     const userId = event.context.user.id;
+    const validatedData = createSaleSchema.parse({ ...body });
+
     const userCompanies = await getCompaniesByUserId(userId);
     const userCompanyIds = userCompanies.map(c => c.id);
 
-    const { company_id } = body;
-    if (!userCompanyIds.includes(company_id)) {
+    if (!userCompanyIds.includes(validatedData.company_id)) {
       throw createError({ statusCode: 404, statusMessage: "Not Found" });
     }
-    const validatedData = createSaleSchema.parse({ ...body });
 
     const newSale = await createSale(validatedData);
     return { sale: newSale };

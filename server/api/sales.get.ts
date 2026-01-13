@@ -43,15 +43,13 @@ export default defineAuthenticatedEventHandler(async (event) => {
     }
     else {
       // If no company_id, return for all user's companies
-      const allSales = [];
-      for (const companyId of userCompanyIds) {
-        const sales = await getSalesByCompanyId(companyId);
-        allSales.push(...sales);
-      }
+      const salesPromises = userCompanyIds.map(companyId => getSalesByCompanyId(companyId));
+      const salesArrays = await Promise.all(salesPromises);
+      const allSales = salesArrays.flat();
       return { sales: allSales };
     }
   }
   catch (error) {
-    throw handleError(error, { route: "sales.get", user: event.context.session?.userId });
+    throw handleError(error, { route: "sales.get", user: event.context.user?.id });
   }
 });
