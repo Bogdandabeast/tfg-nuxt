@@ -1,3 +1,4 @@
+import { getCompaniesByUserId } from "~~/lib/db/queries/company";
 import { getProductsByCompanyId } from "~~/lib/db/queries/products";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 
@@ -10,7 +11,14 @@ export default defineAuthenticatedEventHandler(async (event) => {
   // const { company_id } = querySchema.parse(query);
   const company_id = Number(query.company_id); // Temporarily get company_id directly
 
-  // TODO: Add authorization to check if user has access to this company
+  // Check if user has access to this company
+  const userId = event.context.user.id;
+  const userCompanies = await getCompaniesByUserId(userId);
+  const userCompanyIds = userCompanies.map(c => c.id);
+  if (!userCompanyIds.includes(company_id)) {
+    throw createError({ statusCode: 404, statusMessage: "Not Found" });
+  }
+
   const products = await getProductsByCompanyId(company_id);
 
   return products;

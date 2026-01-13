@@ -22,7 +22,6 @@ export default function defineAuthenticatedEventHandler<T>(
         });
       }
       event.context.user = session.user as UserWithId;
-      event.context.session = session.session;
     }
 
     return handler(event as AuthenticatedEvent);
