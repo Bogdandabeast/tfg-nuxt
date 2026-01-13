@@ -6,7 +6,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null);
 
   async function init() {
-    const data = await authClient.useSession(useFetch);
+    const data = await authClient.useSession($fetch);
     session.value = data;
   }
 
