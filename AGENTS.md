@@ -124,7 +124,7 @@ Full-stack Nuxt.js app for managing companies, customers, products, and sales.
 - **Conventional commits:** `type(scope): description`
   - Types: `feat`, `fix`, `docs`, `refactor`, `test`
   - Example: `feat: add user auth`
-  - prohibido usar : `--no-verify`
+  - do not use: `--no-verify`
 - **Pre-commit:** Husky + lint-staged
 - **Branches:** Descriptive names (feature/, bugfix/)
 - **GitHub CLI:** `gh` for issues/PRs

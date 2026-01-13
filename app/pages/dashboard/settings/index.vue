@@ -8,7 +8,6 @@ const {
   onFileClick,
 } = useSettings();
 
-// Use fileRef to avoid unused variable error
 void fileRef;
 </script>
 
