@@ -252,5 +252,13 @@
         "description": "No se pudo crear la cuenta"
       }
     }
+  },
+  "companies": {
+    "title": "Seleccionar Empresa",
+    "loading": "Cargando empresas...",
+    "choose": "Elige la empresa con la que deseas trabajar:",
+    "none": "No tienes empresas registradas.",
+    "createFirst": "Crea tu primera empresa para comenzar.",
+    "goToDashboard": "Ir al Panel"
   }
 }
