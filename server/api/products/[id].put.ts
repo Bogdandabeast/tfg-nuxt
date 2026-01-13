@@ -1,3 +1,4 @@
+import type { Product } from "~~/lib/db/queries/products";
 import { updateProduct } from "~~/lib/db/queries/products";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { productIdParamSchema, productUpdateSchema } from "~~/utils/schemas/products";
@@ -10,7 +11,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
   const data = parsedData.price !== undefined ? { ...parsedData, price: parsedData.price.toString() } : parsedData;
 
   // TODO: Add authorization to check if user has access to this product
-  const updated = await updateProduct(productId, data);
+  const updated = await updateProduct(productId, data as Partial<Product>);
 
   if (!updated) {
     throw createError({

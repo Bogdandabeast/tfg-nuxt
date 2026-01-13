@@ -3,9 +3,9 @@ const { locale, locales, setLocale } = useI18n();
 </script>
 
 <template>
-  <ULocaleSelect
+  <USelect
     :model-value="locale"
-    :locales="Object.values(locales)"
+    :items="locales.map(l => ({ label: l.name, value: l.code }))"
     @update:model-value="setLocale($event)"
   />
 </template>
