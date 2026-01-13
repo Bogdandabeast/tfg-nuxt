@@ -1,3 +1,4 @@
-import { companiesTable } from "../schema/companies";
+import type { companiesTable } from "../schema/companies";
 
-export type Company = typeof companiesTable.$inferInsert;
+export type CompanyInsert = typeof companiesTable.$inferInsert;
+export type Company = typeof companiesTable.$inferSelect;

@@ -1,6 +1,5 @@
-import type { Company } from "~~/lib/db/queries/companies";
+import type { Company, CompanyInsert } from "~~/lib/db/queries/companies";
 import { defineStore } from "pinia";
-import { useCompaniesStore } from "~~/app/stores/companies";
 
 export const useCompaniesStore = defineStore("companies", () => {
   const {
@@ -25,7 +24,7 @@ export const useCompaniesStore = defineStore("companies", () => {
     }
   }, { immediate: true });
 
-  async function createCompany(companyData: Partial<Company>) {
+  async function createCompany(companyData: Partial<CompanyInsert>) {
     const { csrf } = useCsrf();
     await useFetch("/api/companies", {
       method: "POST",
@@ -35,7 +34,7 @@ export const useCompaniesStore = defineStore("companies", () => {
     await refresh();
   }
 
-  async function updateCompany(id: number, companyData: Partial<Company>) {
+  async function updateCompany(id: number, companyData: Partial<CompanyInsert>) {
     const { csrf } = useCsrf();
     await useFetch(`/api/companies/${id}`, {
       method: "PUT",

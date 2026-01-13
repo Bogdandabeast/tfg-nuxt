@@ -1,5 +1,6 @@
 import { createProduct } from "~~/lib/db/queries/products";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
+import { handleError } from "~~/utils/error-handler";
 import { productCreateSchema } from "~~/utils/schemas/products";
 
 export default defineAuthenticatedEventHandler(async (event) => {
@@ -13,10 +14,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
 
     return newProduct;
   }
-  catch {
-    throw createError({
-      statusCode: 500,
-      statusMessage: "Error creating product",
-    });
+  catch (error) {
+    throw handleError(error, { route: "products.post", user: event.context.session?.userId });
   }
 });
