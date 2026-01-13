@@ -37,7 +37,7 @@ export const useCustomersStore = defineStore("customers", () => {
       await refresh();
     }
     catch {
-      toast.add({ title: "Error", description: "Failed to create customer", color: "red" });
+      toast.add({ title: "Error", description: "Failed to create customer", color: "error" });
     }
   }
 
@@ -54,7 +54,7 @@ export const useCustomersStore = defineStore("customers", () => {
       await refresh();
     }
     catch {
-      toast.add({ title: "Error", description: "Failed to update customer", color: "red" });
+      toast.add({ title: "Error", description: "Failed to update customer", color: "error" });
     }
   }
 
@@ -70,7 +70,7 @@ export const useCustomersStore = defineStore("customers", () => {
       await refresh();
     }
     catch {
-      toast.add({ title: "Error", description: "Failed to delete customer", color: "red" });
+      toast.add({ title: "Error", description: "Failed to delete customer", color: "error" });
     }
   }
 

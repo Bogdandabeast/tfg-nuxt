@@ -9,12 +9,6 @@ import { db } from "./db/index";
 import { companiesTable } from "./db/schema/companies";
 import { user_schema } from "./db/schema/index";
 
-declare module "better-auth" {
-  type Session = {
-    company_id?: number | null;
-  };
-}
-
 export type UserWithId = Omit<User, "id"> & {
   id: string;
 };
@@ -31,6 +25,7 @@ export const auth = betterAuth({
         }
         return ctx.json(ctx.context.session);
       }
+      return ctx;
     }),
   },
   database: drizzleAdapter(db, {

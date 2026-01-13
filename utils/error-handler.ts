@@ -6,7 +6,7 @@ export function handleError(error: unknown, context?: Record<string, unknown>): 
   }
 
   // Type guard for ZodError
-  if (error !== null && typeof error === "object" && "name" in error && error.name === "ZodError") {
+  if (error !== null && typeof error === "object" && "name" in error && error.name === "ZodError" && "errors" in error) {
     const zodError = error as { errors: unknown };
     console.warn("Validation error:", zodError.errors, context);
     throw createError({

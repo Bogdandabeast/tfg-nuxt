@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Customer } from "~~/lib/db/queries/customers";
 import type { Product } from "~~/lib/db/queries/products";
-import type { Sale } from "~~/lib/db/queries/sales";
 import { storeToRefs } from "pinia";
 import SaleForm from "~/components/Dashboard/forms/SaleForm.vue";
 
@@ -20,7 +19,7 @@ const { products, pending: productsPending } = storeToRefs(productsStore);
 const pending = computed(() => salesPending.value || customersPending.value || productsPending.value);
 
 const detailedSales = computed(() => {
-  return sales.value?.map((sale: Sale) => {
+  return sales.value?.map((sale) => {
     const customer = customers.value?.find((c: Customer) => c.id === sale.customer_id);
     const product = products.value?.find((p: Product) => p.id === sale.product_id);
     return {
