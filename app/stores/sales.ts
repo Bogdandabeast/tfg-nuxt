@@ -15,18 +15,18 @@ export const useSalesStore = defineStore("sales", () => {
 
   const apiUrl = computed(() => {
     if (!companiesStore.currentCompany?.id) {
-      return "";
+      return null;
     }
     return `/api/sales?company_id=${companiesStore.currentCompany.id}`;
   });
-
   const {
     data: salesResponse,
     pending,
-    refresh: refreshSales,
-  } = useFetch<{ sales: Sale[] }>(() => apiUrl.value, {
+    refresh,
+  } = useFetch<{ sales: Sale[] }>(() => apiUrl.value ?? "", {
     lazy: true,
     watch: [apiUrl],
+    immediate: !!companiesStore.currentCompany?.id,
   });
 
   const sales = computed(() => salesResponse.value?.sales || []);
@@ -34,6 +34,6 @@ export const useSalesStore = defineStore("sales", () => {
   return {
     sales,
     pending,
-    refreshSales,
+    refreshSales: refresh,
   };
 });
