@@ -3,12 +3,7 @@ import { createAuthClient } from "better-auth/vue";
 const authClient = createAuthClient();
 
 export const useAuthStore = defineStore("useAuthStore", () => {
-  const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null);
-
-  async function init() {
-    const data = await authClient.useSession($fetch);
-    session.value = data;
-  }
+  const session = authClient.useSession();
 
   const user = computed(() => session.value?.data?.user);
   const loading = computed(() => session.value?.isPending);
@@ -46,7 +41,6 @@ export const useAuthStore = defineStore("useAuthStore", () => {
       console.error(error);
       return;
     }
-    await init();
     navigateTo("/dashboard");
   }
 
@@ -63,7 +57,6 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   }
 
   return {
-    init,
     loading,
     signIn,
     signUp,
