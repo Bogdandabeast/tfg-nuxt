@@ -9,8 +9,8 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const companyId = event.context.session?.company_id;
     if (!companyId) {
       throw createError({
-        statusCode: 401,
-        statusMessage: "Unauthorized: Invalid company context",
+        statusCode: 403,
+        statusMessage: "Forbidden: No associated company",
       });
     }
     const deletedSale = await deleteSale(id, companyId);
