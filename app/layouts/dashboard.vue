@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 
+import {
+  dashboard,
+  dashboardCustomers,
+  dashboardProducts,
+  dashboardSales,
+} from "~~/lib/constants";
+
 const toast = useToast();
 const route = useRoute();
 
@@ -16,11 +23,6 @@ const authStore = useAuthStore();
 await authStore.init();
 
 // logic for refetching data ssr friendly
-
-const dashboard = "/dashboard";
-const dashboardCustomers = "/dashboard/customers";
-const dashboardProducts = "/dashboard/products";
-const dashboardSales = "/dashboard/sales";
 
 if (dashboard.includes(route.name?.toString() || "")) {
   await companiesStore.refreshCompanies();
@@ -38,12 +40,6 @@ if (dashboardSales.includes(route.name?.toString() || "")) {
   await productsStore.refreshProducts();
   await salesStore.refreshSales();
 }
-
-/* onMounted(() => {
-  salesStore.refreshSales();
-  customersStore.refreshCustomers();
-  productsStore.refreshProducts();
-}); */
 
 const links = [
   [
