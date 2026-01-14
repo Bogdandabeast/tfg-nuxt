@@ -23,7 +23,7 @@ export type Mail = {
 
 export type Member = {
   name: string;
-  username: string;
+  username?: string;
   role: "member" | "owner";
   avatar: AvatarProps;
 };
