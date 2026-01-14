@@ -1,6 +1,6 @@
 import { storeToRefs } from "pinia";
 
-export default defineNuxtRouteMiddleware(async (to) => {
+export default defineNuxtRouteMiddleware((to) => {
   if (!to.path.startsWith("/dashboard")) {
     return;
   }
