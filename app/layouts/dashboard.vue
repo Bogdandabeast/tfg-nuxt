@@ -45,44 +45,7 @@ const links = [
         open.value = false;
       },
     },
-    {
-      label: "Settings",
-      to: `${ROUTES.dashboard}/settings`,
-      icon: "i-lucide-settings",
-      defaultOpen: true,
-      type: "trigger",
-      children: [
-        {
-          label: "General",
-          to: `${ROUTES.dashboard}/settings`,
-          exact: true,
-          onSelect: () => {
-            open.value = false;
-          },
-        },
-        {
-          label: "Members",
-          to: `${ROUTES.dashboard}/settings/members`,
-          onSelect: () => {
-            open.value = false;
-          },
-        },
-        {
-          label: "Notifications",
-          to: `${ROUTES.dashboard}/settings/notifications`,
-          onSelect: () => {
-            open.value = false;
-          },
-        },
-        {
-          label: "Security",
-          to: `${ROUTES.dashboard}/settings/security`,
-          onSelect: () => {
-            open.value = false;
-          },
-        },
-      ],
-    },
+
   ],
   [
     {
@@ -169,8 +132,8 @@ onMounted(async () => {
         />
       </template>
 
-      <template #footer="{ collapsed }">
-        <DashboardUserMenu :collapsed="collapsed" />
+      <template #footer>
+        <!-- Footer content can be added here if needed -->
       </template>
     </UDashboardSidebar>
 
