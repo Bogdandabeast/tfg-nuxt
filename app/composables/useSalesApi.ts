@@ -1,4 +1,5 @@
 import type { NewSale, Sale } from "~~/types/api";
+import { handleApiError } from "~~/utils/api-error-handler";
 import { getFetchErrorMessage } from "~~/utils/error-handler";
 
 export function useSalesApi() {
@@ -16,7 +17,7 @@ export function useSalesApi() {
       return response;
     }
     catch (error) {
-      getFetchErrorMessage(error);
+      handleApiError(error, "sales");
       return null;
     }
     finally {
