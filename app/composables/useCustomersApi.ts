@@ -3,6 +3,8 @@ import { getFetchErrorMessage } from "~~/utils/error-handler";
 
 export function useCustomersApi() {
   const { $csrfFetch } = useNuxtApp();
+  const toast = useToast();
+  const { t } = useI18n();
   const isCreateCustomerLoading = ref(false);
   const isUpdateCustomerLoading = ref(false);
   const isDeleteCustomerLoading = ref(false);
@@ -17,7 +19,12 @@ export function useCustomersApi() {
       return response;
     }
     catch (error) {
-      getFetchErrorMessage(error);
+      const message = getFetchErrorMessage(error);
+      toast.add({
+        title: t("error.title") || "Error",
+        description: t("error.generic") || message,
+        color: "error",
+      });
       return null;
     }
     finally {
@@ -35,7 +42,12 @@ export function useCustomersApi() {
       return response;
     }
     catch (error) {
-      getFetchErrorMessage(error);
+      const message = getFetchErrorMessage(error);
+      toast.add({
+        title: t("error.title") || "Error",
+        description: t("error.generic") || message,
+        color: "error",
+      });
       return null;
     }
     finally {
