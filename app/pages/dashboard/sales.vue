@@ -32,7 +32,7 @@ const detailedSales = computed(() => {
 </script>
 
 <template>
-  <div class="space-y-4">
+  <div class="space-y-4 w-full">
     <h1>Sales Management</h1>
 
     <SaleForm />
