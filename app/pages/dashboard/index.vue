@@ -7,10 +7,11 @@ definePageMeta({
 
 const toast = useToast();
 const error = ref("");
-const { isCreateCompanyLoading, createCompany, isDeleteCompanyLoading: _isDeleteCompanyLoading, deleteCompany } = useCompaniesApi();
+const { isCreateCompanyLoading, createCompany, deleteCompany } = useCompaniesApi();
 const { isCreateCustomerLoading, createCustomer, isDeleteCustomerLoading, deleteCustomer } = useCustomersApi();
 const { isCreateProductLoading, createProduct, isDeleteProductLoading, deleteProduct } = useProductsApi();
-const { isCreateSaleLoading, createSale, isDeleteSaleLoading, deleteSale } = useSalesApi();
+const { isCreateSaleLoading, createSale, deleteSale } = useSalesApi();
+const { isDeleting: isDeletingSale, deleteById: deleteSaleById } = useDeletingById();
 
 // Stores
 const companiesStore = useCompaniesStore();
@@ -36,6 +37,9 @@ const isCustomerModalOpen = ref(false);
 const isProductModalOpen = ref(false);
 const isSaleModalOpen = ref(false);
 
+// Deletion states
+const deletingCompanyId = ref<number | null>(null);
+
 // Form models
 const newCompanyName = ref("");
 const newCustomer = ref({ name: "", email: "" });
@@ -59,15 +63,24 @@ async function handleAddCompany() {
 }
 
 async function handleDeleteCompany(id: number) {
-  const success = await deleteCompany(id);
-  if (success) {
-    companiesStore.refreshCompanies();
-    if (companiesStore.currentCompany?.id === id) {
-      const firstCompany = companiesStore.companies?.[0] ?? null;
-      companiesStore.setCurrentCompany(firstCompany);
+  deletingCompanyId.value = id;
+  try {
+    const result = await deleteCompany(id);
+    if (result === true) {
+      companiesStore.refreshCompanies();
+      if (companiesStore.currentCompany?.id === id) {
+        const firstCompany = companiesStore.companies?.[0] ?? null;
+        companiesStore.setCurrentCompany(firstCompany);
+      }
+      toast.add({ title: "Success", description: "Company deleted." });
+      error.value = "";
     }
-    toast.add({ title: "Success", description: "Company deleted." });
-    error.value = "";
+    else if (typeof result === "string") {
+      error.value = result;
+    }
+  }
+  finally {
+    deletingCompanyId.value = null;
   }
 }
 
@@ -76,7 +89,29 @@ async function handleAddCustomer() {
     error.value = "Please select a company first.";
     return;
   }
-  const customerData = { ...newCustomer.value, company_id: currentCompany.value.id };
+
+  // Client-side validation
+  const name = newCustomer.value.name.trim();
+  const email = newCustomer.value.email.trim();
+
+  if (!name) {
+    error.value = "Customer name is required.";
+    return;
+  }
+
+  if (!email) {
+    error.value = "Customer email is required.";
+    return;
+  }
+
+  // Basic email validation
+  const emailRegex = /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/u;
+  if (!emailRegex.test(email)) {
+    error.value = "Please enter a valid email address.";
+    return;
+  }
+
+  const customerData = { name, email, company_id: currentCompany.value.id };
   const result = await createCustomer(customerData);
   if (result) {
     customersStore.refreshCustomers();
@@ -141,11 +176,14 @@ async function handleAddSale() {
 }
 
 async function handleDeleteSale(id: number) {
-  const success = await deleteSale(id);
-  if (success) {
+  const result = await deleteSaleById(id, () => deleteSale(id));
+  if (result === true) {
     salesStore.refreshSales();
     toast.add({ title: "Success", description: "Sale deleted." });
     error.value = "";
+  }
+  else if (typeof result === "string") {
+    error.value = result;
   }
 }
 
@@ -182,8 +220,8 @@ async function handleDeleteSale(id: number) {
           >
             <span>{{ company.name }} (ID: {{ company.id }})</span>
             <UButton
-
               variant="soft"
+              :loading="deletingCompanyId === company.id"
               @click="handleDeleteCompany(company.id)"
             >
               Delete
@@ -301,7 +339,7 @@ async function handleDeleteSale(id: number) {
               <UButton
                 color="primary"
                 variant="soft"
-                :loading="isDeleteSaleLoading"
+                :loading="isDeletingSale(sale.id)"
                 @click="handleDeleteSale(sale.id)"
               >
                 Delete
