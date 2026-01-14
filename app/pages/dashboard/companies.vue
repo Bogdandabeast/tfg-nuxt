@@ -12,6 +12,8 @@ const { t } = useI18n();
 const companiesStore = useCompaniesStore();
 const { companies, pending } = storeToRefs(companiesStore);
 
+// Companies are fetched automatically by the store on client side
+
 function selectCompany(company: Company) {
   companiesStore.setCurrentCompany(company);
   navigateTo("/dashboard");
