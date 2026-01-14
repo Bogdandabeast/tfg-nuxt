@@ -10,9 +10,15 @@ definePageMeta({
 
 const { t } = useI18n();
 const companiesStore = useCompaniesStore();
-const { companies, pending } = storeToRefs(companiesStore);
+const { companies } = storeToRefs(companiesStore);
+const isLoading = ref(true);
 
-// Companies are fetched automatically by the store on client side
+// Fetch companies on mount to trigger the lazy fetch
+onMounted(() => {
+  companiesStore.refreshCompanies().finally(() => {
+    isLoading.value = false;
+  });
+});
 
 function selectCompany(company: Company) {
   companiesStore.setCurrentCompany(company);
@@ -28,7 +34,7 @@ function selectCompany(company: Company) {
           {{ t('companies.title') }}
         </h1>
       </template>
-      <div v-if="pending" class="text-center">
+      <div v-if="isLoading" class="text-center">
         {{ t('companies.loading') }}
       </div>
       <div v-else-if="companies && companies.length">
