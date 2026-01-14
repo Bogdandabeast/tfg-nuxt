@@ -7,7 +7,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
   try {
     await authStore.init();
   }
-  catch {
+  catch (error) {
+    console.error("Auth middleware error", error);
     return navigateTo("/");
   }
 

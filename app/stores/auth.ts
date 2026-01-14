@@ -4,13 +4,25 @@ const authClient = createAuthClient();
 
 export const useAuthStore = defineStore("useAuthStore", () => {
   const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null);
+  const isInitialized = ref(false);
 
   const user = computed(() => session.value?.data?.user);
   const loading = computed(() => session.value?.isPending);
 
   async function init() {
-    const data = await authClient.useSession(useFetch);
-    session.value = data;
+    if (isInitialized.value) {
+      return;
+    }
+
+    try {
+      const data = await authClient.useSession(useFetch);
+      session.value = data;
+      isInitialized.value = true;
+    }
+    catch (error) {
+      isInitialized.value = true; // Mark as initialized even on error to avoid retries
+      throw error;
+    }
   }
 
   async function signUp(name: string, email: string, password: string) {
