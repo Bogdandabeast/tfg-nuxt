@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { getFetchErrorMessage } from "~~/utils/error-handler";
-
 const productsStore = useProductsStore();
 const companiesStore = useCompaniesStore();
-const { $csrfFetch } = useNuxtApp();
 const toast = useToast();
+const { isCreateProductLoading, createProduct, isDeleteProductLoading, deleteProduct } = useProductsApi();
 
 const newProduct = ref({
   name: "",
@@ -24,15 +22,13 @@ async function createProductHandler() {
     error.value = "Please fill in all product details.";
     return;
   }
-  try {
-    await $csrfFetch("/api/products", {
-      method: "POST",
-      body: {
-        ...newProduct.value,
-        price: newProduct.value.price.toString(),
-        company_id: companiesStore.currentCompany.id,
-      },
-    });
+  const productData = {
+    ...newProduct.value,
+    price: newProduct.value.price.toString(),
+    company_id: companiesStore.currentCompany.id,
+  };
+  const result = await createProduct(productData);
+  if (result) {
     await productsStore.refreshProducts();
     newProduct.value = { name: "", description: "", price: "", stock: 0 };
     toast.add({
@@ -42,9 +38,6 @@ async function createProductHandler() {
     });
     error.value = "";
   }
-  catch (e) {
-    error.value = getFetchErrorMessage(e);
-  }
 }
 
 async function deleteProductHandler() {
@@ -53,10 +46,8 @@ async function deleteProductHandler() {
     error.value = "Please enter a valid Product ID to delete.";
     return;
   }
-  try {
-    await $csrfFetch(`/api/products/${id}`, {
-      method: "DELETE",
-    });
+  const success = await deleteProduct(id);
+  if (success) {
     productsStore.refreshProducts();
     productToDeleteId.value = "";
     toast.add({
@@ -65,9 +56,6 @@ async function deleteProductHandler() {
       color: "success",
     });
     error.value = "";
-  }
-  catch (e) {
-    error.value = getFetchErrorMessage(e);
   }
 }
 </script>
@@ -117,7 +105,7 @@ async function deleteProductHandler() {
     </div>
 
     <template #footer>
-      <UButton @click="createProductHandler">
+      <UButton :loading="isCreateProductLoading" @click="createProductHandler">
         Create Product
       </UButton>
     </template>
@@ -136,7 +124,11 @@ async function deleteProductHandler() {
       <UInput v-model="productToDeleteId" placeholder="Enter product ID to delete" />
     </UFormField>
 
-    <UButton color="primary" @click="deleteProductHandler">
+    <UButton
+      color="primary"
+      :loading="isDeleteProductLoading"
+      @click="deleteProductHandler"
+    >
       Delete Product
     </UButton>
   </UCard>

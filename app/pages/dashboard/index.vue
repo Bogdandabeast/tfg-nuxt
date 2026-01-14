@@ -1,34 +1,46 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { getFetchErrorMessage } from "~~/utils/error-handler";
 
 definePageMeta({
   layout: "dashboard",
 });
 
-const { $csrfFetch } = useNuxtApp();
 const toast = useToast();
 const error = ref("");
+const { isCreateCompanyLoading, createCompany, isDeleteCompanyLoading: _isDeleteCompanyLoading, deleteCompany } = useCompaniesApi();
+const { isCreateCustomerLoading, createCustomer, isDeleteCustomerLoading, deleteCustomer } = useCustomersApi();
+const { isCreateProductLoading, createProduct, isDeleteProductLoading, deleteProduct } = useProductsApi();
+const { isCreateSaleLoading, createSale, isDeleteSaleLoading, deleteSale } = useSalesApi();
 
 // Stores
 const companiesStore = useCompaniesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
+const salesStore = useSalesStore();
+
+// Refresh data asynchronously for lazy loading
+companiesStore.refreshCompanies();
+customersStore.refreshCustomers();
+productsStore.refreshProducts();
+salesStore.refreshSales();
 
 // State from stores
 const { companies, currentCompany } = storeToRefs(companiesStore);
 const { customers } = storeToRefs(customersStore);
 const { products } = storeToRefs(productsStore);
+const { sales } = storeToRefs(salesStore);
 
 // Modals state
 const isCompanyModalOpen = ref(false);
 const isCustomerModalOpen = ref(false);
 const isProductModalOpen = ref(false);
+const isSaleModalOpen = ref(false);
 
 // Form models
 const newCompanyName = ref("");
 const newCustomer = ref({ name: "", email: "" });
 const newProduct = ref({ name: "", description: "", price: 0, stock: 0 });
+const newSale = ref({ customer_id: 0, product_id: 0, quantity: 1 });
 
 // Actions
 async function handleAddCompany() {
@@ -36,27 +48,19 @@ async function handleAddCompany() {
     error.value = "Company name is required.";
     return;
   }
-  try {
-    await $csrfFetch("/api/companies", {
-      method: "POST",
-      body: { name: newCompanyName.value },
-    });
+  const result = await createCompany({ name: newCompanyName.value });
+  if (result) {
     companiesStore.refreshCompanies();
     toast.add({ title: "Success", description: "Company created." });
     newCompanyName.value = "";
     isCompanyModalOpen.value = false;
     error.value = "";
   }
-  catch (e) {
-    error.value = getFetchErrorMessage(e);
-  }
 }
 
 async function handleDeleteCompany(id: number) {
-  try {
-    await $csrfFetch(`/api/companies/${id}`, {
-      method: "DELETE",
-    });
+  const success = await deleteCompany(id);
+  if (success) {
     companiesStore.refreshCompanies();
     if (companiesStore.currentCompany?.id === id) {
       const firstCompany = companiesStore.companies?.[0] ?? null;
@@ -65,9 +69,6 @@ async function handleDeleteCompany(id: number) {
     toast.add({ title: "Success", description: "Company deleted." });
     error.value = "";
   }
-  catch (e) {
-    error.value = getFetchErrorMessage(e);
-  }
 }
 
 async function handleAddCustomer() {
@@ -75,33 +76,23 @@ async function handleAddCustomer() {
     error.value = "Please select a company first.";
     return;
   }
-  try {
-    await $csrfFetch("/api/customers", {
-      method: "POST",
-      body: { ...newCustomer.value, company_id: currentCompany.value.id },
-    });
+  const customerData = { ...newCustomer.value, company_id: currentCompany.value.id };
+  const result = await createCustomer(customerData);
+  if (result) {
     customersStore.refreshCustomers();
     toast.add({ title: "Success", description: "Customer created." });
     newCustomer.value = { name: "", email: "" };
     isCustomerModalOpen.value = false;
     error.value = "";
   }
-  catch (e) {
-    error.value = getFetchErrorMessage(e);
-  }
 }
 
 async function handleDeleteCustomer(id: number) {
-  try {
-    await $csrfFetch(`/api/customers/${id}`, {
-      method: "DELETE",
-    });
+  const success = await deleteCustomer(id);
+  if (success) {
     customersStore.refreshCustomers();
     toast.add({ title: "Success", description: "Customer deleted." });
     error.value = "";
-  }
-  catch (e) {
-    error.value = getFetchErrorMessage(e);
   }
 }
 
@@ -110,36 +101,51 @@ async function handleAddProduct() {
     error.value = "Please select a company first.";
     return;
   }
-  try {
-    await $csrfFetch("/api/products", {
-      method: "POST",
-      body: {
-        ...newProduct.value,
-        company_id: currentCompany.value.id,
-      },
-    });
+  const productData = {
+    ...newProduct.value,
+    company_id: currentCompany.value.id,
+  };
+  const result = await createProduct(productData);
+  if (result) {
     productsStore.refreshProducts();
     toast.add({ title: "Success", description: "Product created." });
     newProduct.value = { name: "", description: "", price: 0, stock: 0 };
     isProductModalOpen.value = false;
     error.value = "";
   }
-  catch (e) {
-    error.value = getFetchErrorMessage(e);
-  }
 }
 
 async function handleDeleteProduct(id: number) {
-  try {
-    await $csrfFetch(`/api/products/${id}`, {
-      method: "DELETE",
-    });
+  const success = await deleteProduct(id);
+  if (success) {
     productsStore.refreshProducts();
     toast.add({ title: "Success", description: "Product deleted." });
     error.value = "";
   }
-  catch (e) {
-    error.value = getFetchErrorMessage(e);
+}
+
+async function handleAddSale() {
+  if (!currentCompany.value) {
+    error.value = "Please select a company first.";
+    return;
+  }
+  const saleData = { ...newSale.value, company_id: currentCompany.value.id };
+  const result = await createSale(saleData);
+  if (result) {
+    salesStore.refreshSales();
+    toast.add({ title: "Success", description: "Sale created." });
+    newSale.value = { customer_id: 0, product_id: 0, quantity: 1 };
+    isSaleModalOpen.value = false;
+    error.value = "";
+  }
+}
+
+async function handleDeleteSale(id: number) {
+  const success = await deleteSale(id);
+  if (success) {
+    salesStore.refreshSales();
+    toast.add({ title: "Success", description: "Sale deleted." });
+    error.value = "";
   }
 }
 
@@ -189,7 +195,7 @@ async function handleDeleteProduct(id: number) {
         </p>
       </UCard>
 
-      <div v-if="currentCompany" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div v-if="currentCompany" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
         <!-- Customers Section -->
         <UCard>
           <template #header>
@@ -217,6 +223,7 @@ async function handleDeleteProduct(id: number) {
               <UButton
                 color="primary"
                 variant="soft"
+                :loading="isDeleteCustomerLoading"
                 @click="handleDeleteCustomer(customer.id)"
               >
                 Delete
@@ -255,6 +262,7 @@ async function handleDeleteProduct(id: number) {
               <UButton
                 color="primary"
                 variant="soft"
+                :loading="isDeleteProductLoading"
                 @click="handleDeleteProduct(product.id)"
               >
                 Delete
@@ -263,6 +271,45 @@ async function handleDeleteProduct(id: number) {
           </ul>
           <p v-else>
             No products found for this company.
+          </p>
+        </UCard>
+
+        <!-- Sales Section -->
+        <UCard>
+          <template #header>
+            <div class="flex justify-between items-center">
+              <h2 class="font-bold text-lg">
+                Sales of {{ currentCompany.name }}
+              </h2>
+              <UButton @click="isSaleModalOpen = true">
+                Add Sale
+              </UButton>
+            </div>
+          </template>
+          <ul v-if="sales && sales.length" class="space-y-2">
+            <li
+              v-for="sale in sales"
+              :key="sale.id"
+              class="flex justify-between items-center p-2 border rounded-md"
+            >
+              <div>
+                <p>Sale #{{ sale.id }}</p>
+                <p class="text-sm text-gray-500">
+                  Quantity: {{ sale.quantity }}
+                </p>
+              </div>
+              <UButton
+                color="primary"
+                variant="soft"
+                :loading="isDeleteSaleLoading"
+                @click="handleDeleteSale(sale.id)"
+              >
+                Delete
+              </UButton>
+            </li>
+          </ul>
+          <p v-else>
+            No sales found for this company.
           </p>
         </UCard>
       </div>
@@ -291,7 +338,11 @@ async function handleDeleteProduct(id: number) {
             <UButton @click="isCompanyModalOpen = false">
               Cancel
             </UButton>
-            <UButton color="primary" @click="handleAddCompany">
+            <UButton
+              color="primary"
+              :loading="isCreateCompanyLoading"
+              @click="handleAddCompany"
+            >
               Save
             </UButton>
           </div>
@@ -319,7 +370,11 @@ async function handleDeleteProduct(id: number) {
             <UButton @click="isCustomerModalOpen = false">
               Cancel
             </UButton>
-            <UButton color="primary" @click="handleAddCustomer">
+            <UButton
+              color="primary"
+              :loading="isCreateCustomerLoading"
+              @click="handleAddCustomer"
+            >
               Save
             </UButton>
           </div>
@@ -353,7 +408,46 @@ async function handleDeleteProduct(id: number) {
             <UButton @click="isProductModalOpen = false">
               Cancel
             </UButton>
-            <UButton color="primary" @click="handleAddProduct">
+            <UButton
+              color="primary"
+              :loading="isCreateProductLoading"
+              @click="handleAddProduct"
+            >
+              Save
+            </UButton>
+          </div>
+        </template>
+      </UCard>
+    </UModal>
+
+    <UModal v-model="isSaleModalOpen">
+      <UCard>
+        <template #header>
+          <h2 class="text-lg font-bold">
+            Add New Sale
+          </h2>
+        </template>
+        <div class="space-y-4">
+          <UFormField name="customer_id" label="Customer ID">
+            <UInput v-model.number="newSale.customer_id" type="number" />
+          </UFormField>
+          <UFormField name="product_id" label="Product ID">
+            <UInput v-model.number="newSale.product_id" type="number" />
+          </UFormField>
+          <UFormField name="quantity" label="Quantity">
+            <UInput v-model.number="newSale.quantity" type="number" />
+          </UFormField>
+        </div>
+        <template #footer>
+          <div class="flex justify-end space-x-2">
+            <UButton @click="isSaleModalOpen = false">
+              Cancel
+            </UButton>
+            <UButton
+              color="primary"
+              :loading="isCreateSaleLoading"
+              @click="handleAddSale"
+            >
               Save
             </UButton>
           </div>

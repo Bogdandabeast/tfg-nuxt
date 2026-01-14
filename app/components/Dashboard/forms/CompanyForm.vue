@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { getFetchErrorMessage } from "~~/utils/error-handler";
-
 const companiesStore = useCompaniesStore();
-const { $csrfFetch } = useNuxtApp();
 const toast = useToast();
+const { isCreateCompanyLoading, createCompany, isDeleteCompanyLoading, deleteCompany } = useCompaniesApi();
 
 const newCompanyName = ref("");
 const companyToDeleteId = ref("");
@@ -19,11 +17,8 @@ async function createCompanyHandler() {
     });
     return;
   }
-  try {
-    await $csrfFetch("/api/companies", {
-      method: "POST",
-      body: { name: newCompanyName.value },
-    });
+  const result = await createCompany({ name: newCompanyName.value });
+  if (result) {
     await companiesStore.refreshCompanies();
     newCompanyName.value = "";
     toast.add({
@@ -33,9 +28,6 @@ async function createCompanyHandler() {
     });
     error.value = "";
   }
-  catch (e) {
-    error.value = getFetchErrorMessage(e);
-  }
 }
 
 async function deleteCompanyHandler() {
@@ -44,10 +36,8 @@ async function deleteCompanyHandler() {
     error.value = "Please enter a valid Company ID to delete.";
     return;
   }
-  try {
-    await $csrfFetch(`/api/companies/${id}`, {
-      method: "DELETE",
-    });
+  const success = await deleteCompany(id);
+  if (success) {
     await companiesStore.refreshCompanies();
     if (companiesStore.currentCompany?.id === id) {
       const firstCompany = companiesStore.companies?.[0] ?? null;
@@ -60,9 +50,6 @@ async function deleteCompanyHandler() {
       color: "success",
     });
     error.value = "";
-  }
-  catch (e) {
-    error.value = getFetchErrorMessage(e);
   }
 }
 </script>
@@ -81,7 +68,7 @@ async function deleteCompanyHandler() {
       <UInput v-model="newCompanyName" placeholder="Enter company name" />
     </UFormField>
 
-    <UButton @click="createCompanyHandler">
+    <UButton :loading="isCreateCompanyLoading" @click="createCompanyHandler">
       Create Company
     </UButton>
   </UCard>
@@ -99,7 +86,11 @@ async function deleteCompanyHandler() {
       <UInput v-model="companyToDeleteId" placeholder="Enter company ID to delete" />
     </UFormField>
 
-    <UButton color="primary" @click="deleteCompanyHandler">
+    <UButton
+      color="primary"
+      :loading="isDeleteCompanyLoading"
+      @click="deleteCompanyHandler"
+    >
       Delete Company
     </UButton>
   </UCard>

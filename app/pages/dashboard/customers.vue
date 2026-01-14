@@ -6,7 +6,13 @@ definePageMeta({
   layout: "dashboard",
 });
 
+const companiesStore = useCompaniesStore();
 const customersStore = useCustomersStore();
+
+// Refresh data asynchronously for lazy loading
+companiesStore.refreshCompanies();
+customersStore.refreshCustomers();
+
 const { customers, pending } = storeToRefs(customersStore);
 </script>
 

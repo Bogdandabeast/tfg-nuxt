@@ -4,62 +4,12 @@ import type { NavigationMenuItem } from "@nuxt/ui";
 import { ROUTES } from "~~/lib/constants";
 
 const toast = useToast();
-const route = useRoute();
-
-// stores
-
-const companiesStore = useCompaniesStore();
-const salesStore = useSalesStore();
-const customersStore = useCustomersStore();
-const productsStore = useProductsStore();
 
 const open = ref(false);
 
+// Auth initialization for layout components
 const authStore = useAuthStore();
 await authStore.init();
-
-// logic for refetching data ssr friendly
-
-if (route.path.includes(ROUTES.dashboard)) {
-  try {
-    await companiesStore.refreshCompanies();
-  }
-  catch {
-    toast.add({ title: "Error", description: "Failed to refresh companies data", color: "error" });
-  }
-}
-
-if (route.path.includes(ROUTES.dashboardCustomers)) {
-  try {
-    await customersStore.refreshCustomers();
-  }
-  catch {
-    toast.add({ title: "Error", description: "Failed to refresh customers data", color: "error" });
-  }
-}
-
-if (route.path.includes(ROUTES.dashboardProducts)) {
-  try {
-    await productsStore.refreshProducts();
-  }
-  catch {
-    toast.add({ title: "Error", description: "Failed to refresh products data", color: "error" });
-  }
-}
-
-if (route.path.includes(ROUTES.dashboardSales)) {
-  const results = await Promise.allSettled([
-    customersStore.refreshCustomers(),
-    productsStore.refreshProducts(),
-    salesStore.refreshSales(),
-  ]);
-  results.forEach((result, index) => {
-    if (result.status === "rejected") {
-      const resource = ["customers", "products", "sales"][index];
-      toast.add({ title: "Error", description: `Failed to refresh ${resource} data`, color: "error" });
-    }
-  });
-}
 
 const links = [
   [

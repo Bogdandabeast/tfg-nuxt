@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import type { Member } from "~/types";
+type Member = {
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  emailVerified: boolean;
+  image?: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 const { data: members } = await useFetch<Member[]>("/api/members", { default: () => [] });
 
