@@ -4,6 +4,7 @@ import { getFetchErrorMessage } from "~~/utils/error-handler";
 export function useProductsApi() {
   const { $csrfFetch } = useNuxtApp();
   const isCreateProductLoading = ref(false);
+  const isUpdateProductLoading = ref(false);
   const isDeleteProductLoading = ref(false);
 
   async function createProduct(productData: NewProduct) {
@@ -21,6 +22,24 @@ export function useProductsApi() {
     }
     finally {
       isCreateProductLoading.value = false;
+    }
+  }
+
+  async function updateProduct(id: number, productData: Partial<NewProduct>) {
+    isUpdateProductLoading.value = true;
+    try {
+      const response = await $csrfFetch<Product>(`/api/products/${id}`, {
+        method: "PUT",
+        body: productData,
+      });
+      return response;
+    }
+    catch (error) {
+      getFetchErrorMessage(error);
+      return null;
+    }
+    finally {
+      isUpdateProductLoading.value = false;
     }
   }
 
@@ -44,6 +63,8 @@ export function useProductsApi() {
   return {
     isCreateProductLoading,
     createProduct,
+    isUpdateProductLoading,
+    updateProduct,
     isDeleteProductLoading,
     deleteProduct,
   };
