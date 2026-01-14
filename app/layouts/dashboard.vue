@@ -4,61 +4,12 @@ import type { NavigationMenuItem } from "@nuxt/ui";
 import { ROUTES } from "~~/lib/constants";
 
 const toast = useToast();
-const route = useRoute();
-
-// stores
-
-const companiesStore = useCompaniesStore();
-const salesStore = useSalesStore();
-const customersStore = useCustomersStore();
-const productsStore = useProductsStore();
 
 const open = ref(false);
+
+// Auth initialization for layout components
 const authStore = useAuthStore();
 await authStore.init();
-
-// logic for refetching data ssr friendly
-
-if (route.path.includes(ROUTES.dashboard)) {
-  try {
-    await companiesStore.refreshCompanies();
-  }
-  catch {
-    toast.add({ title: "Error", description: "Failed to refresh companies data", color: "error" });
-  }
-}
-
-if (route.path.includes(ROUTES.dashboardCustomers)) {
-  try {
-    await customersStore.refreshCustomers();
-  }
-  catch {
-    toast.add({ title: "Error", description: "Failed to refresh customers data", color: "error" });
-  }
-}
-
-if (route.path.includes(ROUTES.dashboardProducts)) {
-  try {
-    await productsStore.refreshProducts();
-  }
-  catch {
-    toast.add({ title: "Error", description: "Failed to refresh products data", color: "error" });
-  }
-}
-
-if (route.path.includes(ROUTES.dashboardSales)) {
-  const results = await Promise.allSettled([
-    customersStore.refreshCustomers(),
-    productsStore.refreshProducts(),
-    salesStore.refreshSales(),
-  ]);
-  results.forEach((result, index) => {
-    if (result.status === "rejected") {
-      const resource = ["customers", "products", "sales"][index];
-      toast.add({ title: "Error", description: `Failed to refresh ${resource} data`, color: "error" });
-    }
-  });
-}
 
 const links = [
   [
@@ -94,44 +45,7 @@ const links = [
         open.value = false;
       },
     },
-    {
-      label: "Settings",
-      to: `${ROUTES.dashboard}/settings`,
-      icon: "i-lucide-settings",
-      defaultOpen: true,
-      type: "trigger",
-      children: [
-        {
-          label: "General",
-          to: `${ROUTES.dashboard}/settings`,
-          exact: true,
-          onSelect: () => {
-            open.value = false;
-          },
-        },
-        {
-          label: "Members",
-          to: `${ROUTES.dashboard}/settings/members`,
-          onSelect: () => {
-            open.value = false;
-          },
-        },
-        {
-          label: "Notifications",
-          to: `${ROUTES.dashboard}/settings/notifications`,
-          onSelect: () => {
-            open.value = false;
-          },
-        },
-        {
-          label: "Security",
-          to: `${ROUTES.dashboard}/settings/security`,
-          onSelect: () => {
-            open.value = false;
-          },
-        },
-      ],
-    },
+
   ],
   [
     {
@@ -218,8 +132,8 @@ onMounted(async () => {
         />
       </template>
 
-      <template #footer="{ collapsed }">
-        <DashboardUserMenu :collapsed="collapsed" />
+      <template #footer>
+        <!-- Footer content can be added here if needed -->
       </template>
     </UDashboardSidebar>
 

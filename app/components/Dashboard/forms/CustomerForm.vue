@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { getFetchErrorMessage } from "~~/utils/error-handler";
 import FormErrorAlert from "./FormErrorAlert.vue";
 
 const customersStore = useCustomersStore();
 const companiesStore = useCompaniesStore();
-const { $csrfFetch } = useNuxtApp();
 const toast = useToast();
+const { isCreateCustomerLoading, createCustomer, isDeleteCustomerLoading, deleteCustomer } = useCustomersApi();
 
 const newCustomer = ref({
   name: "",
@@ -25,14 +24,12 @@ async function createCustomerHandler() {
     error.value = "Please fill in at least name and email.";
     return;
   }
-  try {
-    await $csrfFetch("/api/customers", {
-      method: "POST",
-      body: {
-        ...newCustomer.value,
-        company_id: companiesStore.currentCompany.id,
-      },
-    });
+  const customerData = {
+    ...newCustomer.value,
+    company_id: companiesStore.currentCompany.id,
+  };
+  const result = await createCustomer(customerData);
+  if (result) {
     await customersStore.refreshCustomers();
     newCustomer.value = { name: "", email: "", phone: "", address: "" };
     toast.add({
@@ -42,9 +39,6 @@ async function createCustomerHandler() {
     });
     error.value = "";
   }
-  catch (e) {
-    error.value = getFetchErrorMessage(e);
-  }
 }
 
 async function deleteCustomerHandler() {
@@ -53,10 +47,8 @@ async function deleteCustomerHandler() {
     error.value = "Please enter a valid Customer ID to delete.";
     return;
   }
-  try {
-    await $csrfFetch(`/api/customers/${id}`, {
-      method: "DELETE",
-    });
+  const success = await deleteCustomer(id);
+  if (success) {
     customersStore.refreshCustomers();
     customerToDeleteId.value = "";
     toast.add({
@@ -65,9 +57,6 @@ async function deleteCustomerHandler() {
       color: "success",
     });
     error.value = "";
-  }
-  catch (e) {
-    error.value = getFetchErrorMessage(e);
   }
 }
 </script>
@@ -113,7 +102,7 @@ async function deleteCustomerHandler() {
     </div>
 
     <template #footer>
-      <UButton @click="createCustomerHandler">
+      <UButton :loading="isCreateCustomerLoading" @click="createCustomerHandler">
         Create Customer
       </UButton>
     </template>
@@ -132,7 +121,11 @@ async function deleteCustomerHandler() {
       <UInput v-model="customerToDeleteId" placeholder="Enter customer ID to delete" />
     </UFormField>
 
-    <UButton color="primary" @click="deleteCustomerHandler">
+    <UButton
+      color="primary"
+      :loading="isDeleteCustomerLoading"
+      @click="deleteCustomerHandler"
+    >
       Delete Customer
     </UButton>
   </UCard>

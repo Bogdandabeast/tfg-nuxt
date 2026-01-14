@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     "nuxt-csurf",
   ],
   vite: {
-    // @ts-expect-error vite version mismatch
+
     plugins: [tailwindcss()],
   },
   css: ["~/assets/css/main.css"],

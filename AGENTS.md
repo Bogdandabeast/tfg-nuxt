@@ -84,6 +84,7 @@ Full-stack Nuxt.js app for managing companies, customers, products, and sales.
 - Errors: Try-catch, toast messages
 - Loading: Show indicators for async ops
 - Validation: Use Zod schemas
+- **API Mutations**: POST/DELETE operations are handled through composables (e.g., `use<Entity>Api`) located in `composables/`. GET operations remain in Pinia stores. Forms should use composables instead of direct `$csrfFetch` calls.
 
 ### Styling & UI
 

@@ -2,14 +2,13 @@
 import type { Customer } from "~~/lib/db/queries/customers";
 import type { Product } from "~~/lib/db/queries/products";
 import { storeToRefs } from "pinia";
-import { getFetchErrorMessage } from "~~/utils/error-handler";
 
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
 const companiesStore = useCompaniesStore();
-const { $csrfFetch } = useNuxtApp();
 const toast = useToast();
+const { isCreateSaleLoading, createSale, isDeleteSaleLoading, deleteSale } = useSalesApi();
 
 const { customers } = storeToRefs(customersStore);
 const { products } = storeToRefs(productsStore);
@@ -19,7 +18,6 @@ const newSale = reactive({
   product_id: undefined as number | undefined,
   quantity: 1,
 });
-const isCreating = ref(false);
 const saleToDeleteId = ref("");
 const error = ref("");
 
@@ -39,17 +37,14 @@ async function createSaleHandler() {
     error.value = "Please select a customer, a product, and enter a valid quantity.";
     return;
   }
-  isCreating.value = true;
-  try {
-    await $csrfFetch("/api/sales", {
-      method: "POST",
-      body: {
-        customer_id: Number(newSale.customer_id),
-        product_id: Number(newSale.product_id),
-        quantity: newSale.quantity,
-        company_id: companiesStore.currentCompany.id,
-      },
-    });
+  const saleData = {
+    customer_id: Number(newSale.customer_id),
+    product_id: Number(newSale.product_id),
+    quantity: newSale.quantity,
+    company_id: companiesStore.currentCompany.id,
+  };
+  const result = await createSale(saleData);
+  if (result) {
     salesStore.refreshSales();
     newSale.customer_id = undefined;
     newSale.product_id = undefined;
@@ -61,12 +56,6 @@ async function createSaleHandler() {
     });
     error.value = "";
   }
-  catch (e) {
-    error.value = getFetchErrorMessage(e);
-  }
-  finally {
-    isCreating.value = false;
-  }
 }
 
 async function deleteSaleHandler() {
@@ -75,10 +64,8 @@ async function deleteSaleHandler() {
     error.value = "Please enter a valid Sale ID to delete.";
     return;
   }
-  try {
-    await $csrfFetch(`/api/sales/${id}`, {
-      method: "DELETE",
-    });
+  const success = await deleteSale(id);
+  if (success) {
     salesStore.refreshSales();
     saleToDeleteId.value = "";
     toast.add({
@@ -87,9 +74,6 @@ async function deleteSaleHandler() {
       color: "success",
     });
     error.value = "";
-  }
-  catch (e) {
-    error.value = getFetchErrorMessage(e);
   }
 }
 </script>
@@ -119,12 +103,6 @@ async function deleteSaleHandler() {
         />
       </UFormField>
 
-      <h1>
-        {{
-          products
-        }}
-      </h1>
-
       <UFormField label="Quantity" name="saleQuantity">
         <UInput
           v-model.number="newSale.quantity"
@@ -135,7 +113,7 @@ async function deleteSaleHandler() {
     </div>
 
     <template #footer>
-      <UButton :loading="isCreating" @click="createSaleHandler">
+      <UButton :loading="isCreateSaleLoading" @click="createSaleHandler">
         Create Sale
       </UButton>
     </template>
@@ -154,7 +132,11 @@ async function deleteSaleHandler() {
       <UInput v-model="saleToDeleteId" placeholder="Enter sale ID to delete" />
     </UFormField>
 
-    <UButton color="secondary" @click="deleteSaleHandler">
+    <UButton
+      color="secondary"
+      :loading="isDeleteSaleLoading"
+      @click="deleteSaleHandler"
+    >
       Delete Sale
     </UButton>
   </UCard>

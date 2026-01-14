@@ -12,6 +12,11 @@ const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
 
+// Refresh data on page load asynchronously for lazy loading
+salesStore.refreshSales();
+customersStore.refreshCustomers();
+productsStore.refreshProducts();
+
 const { sales, pending: salesPending } = storeToRefs(salesStore);
 const { customers, pending: customersPending } = storeToRefs(customersStore);
 const { products, pending: productsPending } = storeToRefs(productsStore);
@@ -32,7 +37,7 @@ const detailedSales = computed(() => {
 </script>
 
 <template>
-  <div class="space-y-4">
+  <div class="space-y-4 w-full">
     <h1>Sales Management</h1>
 
     <SaleForm />

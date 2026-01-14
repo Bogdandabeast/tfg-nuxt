@@ -6,12 +6,18 @@ definePageMeta({
   layout: "dashboard",
 });
 
+const companiesStore = useCompaniesStore();
 const productsStore = useProductsStore();
+
+// Refresh data asynchronously for lazy loading
+companiesStore.refreshCompanies();
+productsStore.refreshProducts();
+
 const { products, pending } = storeToRefs(productsStore);
 </script>
 
 <template>
-  <div class="space-y-4">
+  <div class="space-y-4 w-full">
     <h1>Products Management</h1>
 
     <ProductForm />
