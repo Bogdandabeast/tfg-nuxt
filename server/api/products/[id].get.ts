@@ -1,25 +1,33 @@
+import { getCompaniesByUserId } from "~~/lib/db/queries/company";
 import { getProductById } from "~~/lib/db/queries/products";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
+import { handleError } from "~~/utils/error-handler";
+import { productIdParamSchema } from "~~/utils/schemas/products";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  const productId = Number(event.context.params?.id);
+  try {
+    const { id } = productIdParamSchema.parse(event.context.params);
 
-  if (!productId || Number.isNaN(productId)) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: "Invalid product ID",
-    });
+    const product = await getProductById(id);
+    if (!product || !product.length) {
+      throw createError({ statusCode: 404, statusMessage: "Not Found" });
+    }
+
+    const productData = product[0]!;
+    if (!productData.company_id) {
+      throw createError({ statusCode: 404, statusMessage: "Not Found" });
+    }
+
+    const userId = event.context.user.id;
+    const userCompanies = await getCompaniesByUserId(userId);
+    const userCompanyIds = userCompanies.map(c => c.id);
+    if (!userCompanyIds.includes(productData.company_id)) {
+      throw createError({ statusCode: 404, statusMessage: "Not Found" });
+    }
+
+    return { product: productData };
   }
-
-  // TODO: Add authorization to check if user has access to this product
-  const product = await getProductById(productId);
-
-  if (!product) {
-    throw createError({
-      statusCode: 404,
-      statusMessage: "Product not found",
-    });
+  catch (error) {
+    throw handleError(error, { route: "products.[id].get", user: event.context.user?.id });
   }
-
-  return product;
 });

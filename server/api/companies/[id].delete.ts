@@ -1,24 +1,36 @@
-import { deleteCompany } from "~~/lib/db/queries/company";
+import { deleteCompany, getCompaniesByUserId } from "~~/lib/db/queries/company";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
+import { handleError } from "~~/utils/error-handler";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  const companyId = Number(event.context.params?.id);
-  if (!companyId || Number.isNaN(companyId)) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: "Invalid company ID",
-    });
+  // Validate CSRF token
+  const csrfToken = getHeader(event, "csrf-token");
+  if (!csrfToken) {
+    throw createError({ statusCode: 403, statusMessage: "Missing CSRF token" });
   }
 
-  // TODO: Add authorization to check if user has access to this company
-  const deleted = await deleteCompany(companyId);
+  try {
+    const { id } = event.context.params as { id: string };
 
-  if (!deleted) {
-    throw createError({
-      statusCode: 404,
-      statusMessage: "Company not found",
-    });
+    const companies = await getCompaniesByUserId(event.context.user.id);
+    const company = companies.find(c => c.id === Number(id));
+
+    if (!company) {
+      throw createError({ statusCode: 404, statusMessage: "Company not found" });
+    }
+
+    await deleteCompany(Number(id));
+    return { success: true };
   }
-
-  return { success: true, id: companyId };
+  catch (error) {
+    // Handle foreign key constraint violation
+    if (error && typeof error === "object" && "code" in error && error.code === "23503") {
+      throw createError({
+        statusCode: 409,
+        statusMessage: "Conflict",
+        data: "Cannot delete this company because it has associated data",
+      });
+    }
+    throw handleError(error, { route: "companies.[id].delete", user: event.context.user?.id });
+  }
 });

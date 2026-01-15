@@ -64,7 +64,7 @@ async function deleteSaleHandler() {
     error.value = "Please enter a valid Sale ID to delete.";
     return;
   }
-  const success = await deleteSale(id);
+  const success = await deleteSale(id, companiesStore.currentCompany!.id);
   if (success) {
     salesStore.refreshSales();
     saleToDeleteId.value = "";
