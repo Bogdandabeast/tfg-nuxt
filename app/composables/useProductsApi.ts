@@ -43,11 +43,12 @@ export function useProductsApi() {
     }
   }
 
-  async function deleteProduct(id: number) {
+  async function deleteProduct(id: number, companyId: number) {
     isDeleteProductLoading.value = true;
     try {
       await $csrfFetch(`/api/products/${id}`, {
         method: "DELETE",
+        body: { company_id: companyId },
       });
       return true;
     }

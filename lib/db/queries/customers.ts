@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "../index";
 import { customersTable } from "../schema/companies";
 
@@ -21,6 +21,6 @@ export async function updateCustomer(id: number, data: Partial<CustomerInsert>) 
   return db.update(customersTable).set(data).where(eq(customersTable.id, id)).returning();
 }
 
-export async function deleteCustomer(id: number) {
-  return db.delete(customersTable).where(eq(customersTable.id, id)).returning();
+export async function deleteCustomer(id: number, company_id: number) {
+  return db.delete(customersTable).where(and(eq(customersTable.id, id), eq(customersTable.company_id, company_id))).returning();
 }

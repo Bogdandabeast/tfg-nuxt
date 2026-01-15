@@ -1,28 +1,42 @@
-import { updateCustomer } from "~~/lib/db/queries/customers";
+import { getCompaniesByUserId } from "~~/lib/db/queries/company";
+import { getCustomerById, updateCustomer } from "~~/lib/db/queries/customers";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { handleError } from "~~/utils/error-handler";
-import { customerIdParamSchema, customerUpdateSchema } from "~~/utils/schemas/customers";
+import { customerCreateSchema } from "~~/utils/schemas/customers";
 
 export default defineAuthenticatedEventHandler(async (event) => {
+  // Validate CSRF token
+  const csrfToken = getHeader(event, "csrf-token");
+  if (!csrfToken) {
+    throw createError({ statusCode: 403, statusMessage: "Missing CSRF token" });
+  }
+
   try {
-    const { id: customerId } = customerIdParamSchema.parse(event.context.params);
+    const { id } = event.context.params as { id: string };
 
     const body = await readBody(event);
-    const data = customerUpdateSchema.parse(body);
+    const parsedData = customerCreateSchema.partial().parse(body);
 
-    // TODO: Add authorization to check if user has access to this customer
-    const updated = await updateCustomer(customerId, data);
-
-    if (!updated || updated.length === 0) {
-      throw createError({
-        statusCode: 404,
-        statusMessage: "Customer not found",
-      });
+    const customer = await getCustomerById(Number(id));
+    if (!customer || !customer.length) {
+      throw createError({ statusCode: 404, statusMessage: "Customer not found" });
     }
 
-    return updated[0];
+    const customerData = customer[0]!;
+    if (!customerData.company_id) {
+      throw createError({ statusCode: 404, statusMessage: "Customer not found" });
+    }
+
+    const userCompanies = await getCompaniesByUserId(event.context.user.id);
+    const userCompanyIds = userCompanies.map(c => c.id);
+    if (!userCompanyIds.includes(customerData!.company_id)) {
+      throw createError({ statusCode: 404, statusMessage: "Not Found" });
+    }
+
+    const updatedCustomer = await updateCustomer(Number(id), parsedData);
+    return updatedCustomer;
   }
   catch (error) {
-    handleError(error, { route: "customers.[id].put", user: event.context.user?.id });
+    throw handleError(error, { route: "customers.[id].put", user: event.context.user?.id });
   }
 });

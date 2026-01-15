@@ -5,6 +5,12 @@ import { handleError } from "~~/utils/error-handler";
 import { saleIdParamSchema } from "~~/utils/schemas/sales";
 
 export default defineAuthenticatedEventHandler(async (event) => {
+  // Validate CSRF token
+  const csrfToken = getHeader(event, "csrf-token");
+  if (!csrfToken) {
+    throw createError({ statusCode: 403, statusMessage: "Missing CSRF token" });
+  }
+
   try {
     const { id } = saleIdParamSchema.parse(event.context.params);
 

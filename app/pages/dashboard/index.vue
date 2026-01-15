@@ -123,7 +123,7 @@ async function handleAddCustomer() {
 }
 
 async function handleDeleteCustomer(id: number) {
-  const success = await deleteCustomer(id);
+  const success = await deleteCustomer(id, companiesStore.currentCompany!.id);
   if (success) {
     customersStore.refreshCustomers();
     toast.add({ title: "Success", description: "Customer deleted." });
@@ -151,7 +151,7 @@ async function handleAddProduct() {
 }
 
 async function handleDeleteProduct(id: number) {
-  const success = await deleteProduct(id);
+  const success = await deleteProduct(id, companiesStore.currentCompany!.id);
   if (success) {
     productsStore.refreshProducts();
     toast.add({ title: "Success", description: "Product deleted." });
@@ -176,7 +176,7 @@ async function handleAddSale() {
 }
 
 async function handleDeleteSale(id: number) {
-  const result = await deleteSaleById(id, () => deleteSale(id));
+  const result = await deleteSaleById(id, () => deleteSale(id, companiesStore.currentCompany!.id));
   if (result === true) {
     salesStore.refreshSales();
     toast.add({ title: "Success", description: "Sale deleted." });

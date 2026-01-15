@@ -55,11 +55,12 @@ export function useCustomersApi() {
     }
   }
 
-  async function deleteCustomer(id: number) {
+  async function deleteCustomer(id: number, companyId: number) {
     isDeleteCustomerLoading.value = true;
     try {
       await $csrfFetch(`/api/customers/${id}`, {
         method: "DELETE",
+        body: { company_id: companyId },
       });
       return true;
     }
