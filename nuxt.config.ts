@@ -40,6 +40,9 @@ export default defineNuxtConfig({
     headerName: "csrf-token", // the header where the csrf token is stored
   },
   routeRules: {
+    "/": {
+      redirect: "/es",
+    },
     "/api/**": {
       cors: true,
     },
@@ -53,12 +56,13 @@ export default defineNuxtConfig({
     },
   },
   i18n: {
-    strategy: "prefix_except_default",
+    strategy: "prefix",
     defaultLocale: "es",
     locales: [
       { code: "en", name: "English", file: "en.json" },
       { code: "es", name: "Spanish", file: "es.json" },
     ],
+    detectBrowserLanguage: false,
   },
 
   colorMode: {

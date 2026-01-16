@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import SaleForm from "~/components/Dashboard/forms/SaleForm.vue";
+import { getSalePath } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
@@ -23,8 +24,8 @@ const pending = computed(() => salesPending.value || customersPending.value || p
 
 const detailedSales = computed(() => {
   return sales.value?.map((sale) => {
-    const customer = customers.value?.find((c: Customer) => c.id === sale.customer_id);
-    const product = products.value?.find((p: Product) => p.id === sale.product_id);
+    const customer = customers.value?.find((c: any) => c.id === sale.customer_id);
+    const product = products.value?.find((p: any) => p.id === sale.product_id);
     return {
       ...sale,
       customerName: customer ? customer.name : "Unknown",
@@ -36,20 +37,20 @@ const detailedSales = computed(() => {
 
 <template>
   <div class="space-y-4 w-full">
-    <h1>Sales Management</h1>
+    <h1>{{ $t('dashboard.sales.title') }}</h1>
 
     <SaleForm />
 
     <UCard class="mt-4">
       <template #header>
-        <h3>Existing Sales</h3>
+        <h3>{{ $t('dashboard.sales.existing') }}</h3>
       </template>
       <div v-if="pending">
-        Loading sales...
+        {{ $t('dashboard.sales.loading') }}
       </div>
       <ul v-else>
         <li v-for="sale in detailedSales" :key="sale.id">
-          <NuxtLink :to="`/dashboard/sales/${sale.id}`" class="text-blue-600 hover:underline">
+          <NuxtLink :to="useLocalePath()(getSalePath(sale.id))" class="text-blue-600 hover:underline">
             Sale #{{ sale.id }}: {{ sale.customerName }} bought {{ sale.quantity }} x {{ sale.productName }}
           </NuxtLink>
         </li>

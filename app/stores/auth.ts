@@ -1,4 +1,5 @@
 import { createAuthClient } from "better-auth/vue";
+import { ROUTES } from "~/utils/routes";
 
 const authClient = createAuthClient();
 
@@ -48,7 +49,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
       email,
       password,
       rememberMe,
-      callbackURL: "http://localhost:3000/dashboard",
+      callbackURL: `http://localhost:3000${useLocalePath()(ROUTES.DASHBOARD)}`,
       fetchOptions: {
         headers,
       },
@@ -58,7 +59,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
       console.error(error);
       return;
     }
-    navigateTo("/dashboard");
+    navigateTo(useLocalePath()(ROUTES.DASHBOARD));
   }
 
   async function signOut() {
@@ -70,7 +71,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         headers,
       },
     });
-    navigateTo("/");
+    navigateTo(useLocalePath()(ROUTES.HOME));
   }
 
   return {

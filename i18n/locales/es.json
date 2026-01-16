@@ -258,6 +258,76 @@
     "choose": "Elige la empresa con la que deseas trabajar:",
     "none": "No tienes empresas registradas.",
     "createFirst": "Crea tu primera empresa para comenzar.",
-    "goToDashboard": "Ir al Panel"
+    "goToDashboard": "Ir al Panel",
+    "menu": {
+      "create": "Crear empresa",
+      "manage": "Gestionar empresas"
+    },
+    "select": "Seleccionar Empresa"
+  },
+  "dashboard": {
+    "products": {
+      "title": "Gestión de Productos",
+      "existing": "Productos Existentes"
+    },
+    "customers": {
+      "title": "Gestión de Clientes",
+      "existing": "Clientes Existentes",
+      "loading": "Cargando clientes..."
+    },
+    "sales": {
+      "title": "Gestión de Ventas",
+      "existing": "Ventas Existentes",
+      "loading": "Cargando ventas..."
+    }
+  },
+  "forms": {
+    "selectCustomer": "Seleccionar cliente",
+    "selectProduct": "Seleccionar producto",
+    "customerForm": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "address": "Dirección",
+      "create": "Crear Cliente",
+      "deleteTitle": "Eliminar Cliente por ID",
+      "id": "ID del Cliente",
+      "delete": "Eliminar Cliente"
+    },
+    "productForm": {
+      "name": "Nombre",
+      "description": "Descripción",
+      "price": "Precio",
+      "stock": "Stock",
+      "create": "Crear Producto",
+      "deleteTitle": "Eliminar Producto por ID",
+      "id": "ID del Producto",
+      "delete": "Eliminar Producto"
+    },
+    "saleForm": {
+      "customer": "Cliente",
+      "product": "Producto",
+      "quantity": "Cantidad",
+      "create": "Crear Venta",
+      "delete": "Eliminar Venta"
+    }
+  },
+  "navigation": {
+    "home": "Inicio",
+    "customers": "Clientes",
+    "products": "Productos",
+    "sales": "Ventas",
+    "feedback": "Comentarios",
+    "help": "Ayuda y Soporte",
+    "goTo": "Ir a"
+  },
+  "cookieConsent": {
+    "message": "Usamos cookies propias para mejorar tu experiencia en nuestro sitio web.",
+    "accept": "Aceptar",
+    "optOut": "Rechazar"
+  },
+  "auth": {
+    "signUpSuccess": "Cuenta creada exitosamente",
+    "signInError": "Correo electrónico o contraseña inválidos"
   }
 }

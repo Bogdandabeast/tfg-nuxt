@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from "@nuxt/ui";
 import { storeToRefs } from "pinia";
+import { ROUTES } from "~/utils/routes";
 
 defineProps<{
   collapsed?: boolean;
@@ -9,6 +10,7 @@ defineProps<{
 const companiesStore = useCompaniesStore();
 const { companies, currentCompany } = storeToRefs(companiesStore);
 const router = useRouter();
+const localePath = useLocalePath();
 
 const items = computed<DropdownMenuItem[][]>(() => {
   return [companies.value.map(company => ({
@@ -22,13 +24,13 @@ const items = computed<DropdownMenuItem[][]>(() => {
     label: "Create company",
     icon: "i-lucide-circle-plus",
     onSelect: () => {
-      router.push("/dashboard/companies");
+      router.push(localePath(ROUTES.COMPANIES));
     },
   }, {
     label: "Manage companies",
     icon: "i-lucide-cog",
     onSelect: () => {
-      router.push("/dashboard/companies");
+      router.push(localePath(ROUTES.COMPANIES));
     },
   }]];
 });
@@ -42,7 +44,7 @@ const items = computed<DropdownMenuItem[][]>(() => {
   >
     <UButton
       v-bind="{
-        label: collapsed ? undefined : currentCompany?.name || 'Select Company',
+        label: collapsed ? undefined : currentCompany?.name || $t('companies.select'),
         trailingIcon: collapsed ? undefined : 'i-lucide-chevrons-up-down',
       }"
       color="neutral"

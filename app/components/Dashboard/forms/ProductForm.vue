@@ -56,21 +56,21 @@ async function deleteProductHandler() {
 
     <div class="space-y-4">
       <UFormField
-        label="Product Name"
+        :label="$t('forms.productForm.name')"
         name="newProductName"
       >
         <UInput v-model="newProduct.name" placeholder="Enter product name" />
       </UFormField>
 
       <UFormField
-        label="Description"
+        :label="$t('forms.productForm.description')"
         name="newProductDescription"
       >
         <UInput v-model="newProduct.description" placeholder="Enter description" />
       </UFormField>
 
       <UFormField
-        label="Price"
+        :label="$t('forms.productForm.price')"
         name="newProductPrice"
       >
         <UInput
@@ -81,7 +81,7 @@ async function deleteProductHandler() {
       </UFormField>
 
       <UFormField
-        label="Stock"
+        :label="$t('forms.productForm.stock')"
         name="newProductStock"
       >
         <UInput
@@ -94,18 +94,18 @@ async function deleteProductHandler() {
 
     <template #footer>
       <UButton :loading="isCreateProductLoading" @click="createProductHandler">
-        Create Product
+        {{ $t('forms.productForm.create') }}
       </UButton>
     </template>
   </UCard>
 
   <UCard>
     <template #header>
-      <h3>Delete Product by ID</h3>
+      <h3>{{ $t('forms.productForm.deleteTitle') }}</h3>
     </template>
 
     <UFormField
-      label="Product ID"
+      :label="$t('forms.productForm.id')"
       name="productToDeleteId"
       class="mb-4"
     >
@@ -117,7 +117,7 @@ async function deleteProductHandler() {
       :loading="isDeleteProductLoading"
       @click="deleteProductHandler"
     >
-      Delete Product
+      {{ $t('forms.productForm.delete') }}
     </UButton>
   </UCard>
 

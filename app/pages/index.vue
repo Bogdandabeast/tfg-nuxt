@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { t } = useI18n();
+const localePath = useLocalePath();
 useSeoMeta({
   titleTemplate: "",
   title: t("homepage.title"),
@@ -17,7 +18,7 @@ useSeoMeta({
       :links="[
         {
           label: t('homepage.get_started_button'),
-          to: '/signup',
+          to: localePath('/signup'),
           icon: 'i-heroicons-rocket-launch',
         },
       ]"
@@ -65,7 +66,7 @@ useSeoMeta({
       :links="[
         {
           label: t('homepage.cta.signup_button'),
-          to: '/signup',
+          to: localePath('/signup'),
           color: 'primary',
         },
       ]"

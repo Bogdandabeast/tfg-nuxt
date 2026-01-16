@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import CustomerForm from "~~/app/components/Dashboard/forms/CustomerForm.vue";
+import { getCustomerPath } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
@@ -18,20 +19,20 @@ const { customers, pending } = storeToRefs(customersStore);
 
 <template>
   <div class="space-y-4 w-full">
-    <h1>Customers Management</h1>
+    <h1>{{ $t('dashboard.customers.title') }}</h1>
 
     <CustomerForm />
 
     <UCard class="mt-4">
       <template #header>
-        <h3>Existing Customers</h3>
+        <h3>{{ $t('dashboard.customers.existing') }}</h3>
       </template>
       <div v-if="pending">
-        Loading customers...
+        {{ $t('dashboard.customers.loading') }}
       </div>
       <ul v-else>
         <li v-for="customer in customers" :key="customer.id">
-          <NuxtLink :to="`/dashboard/customers/${customer.id}`" class="text-blue-600 hover:underline">
+          <NuxtLink :to="useLocalePath()(getCustomerPath(customer.id))" class="text-blue-600 hover:underline">
             {{ customer.id }} - {{ customer.name }}
           </NuxtLink>
         </li>

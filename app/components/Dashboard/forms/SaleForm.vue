@@ -90,7 +90,7 @@ async function deleteSaleHandler() {
           v-model="newSale.customer_id"
           :items="customerOptions"
           option-attribute="value"
-          placeholder="Select a customer"
+          :placeholder="$t('forms.selectCustomer')"
         />
       </UFormField>
 
@@ -103,7 +103,7 @@ async function deleteSaleHandler() {
         />
       </UFormField>
 
-      <UFormField label="Quantity" name="saleQuantity">
+      <UFormField :label="$t('forms.saleForm.quantity')" name="saleQuantity">
         <UInput
           v-model.number="newSale.quantity"
           type="number"

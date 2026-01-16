@@ -1,8 +1,9 @@
 import { storeToRefs } from "pinia";
 import { useCompanySelection } from "~~/composables/useCompanySelection";
+import { getCompaniesWithRedirect } from "~/utils/routes";
 
 export default defineNuxtRouteMiddleware((to) => {
-  if (!to.path.startsWith("/dashboard")) {
+  if (!to.path.includes("/dashboard")) {
     return;
   }
 
@@ -12,11 +13,11 @@ export default defineNuxtRouteMiddleware((to) => {
   const { selectedCompanyId } = useCompanySelection();
 
   const hasNoCurrentCompany = !currentCompany.value && !selectedCompanyId.value;
-  const isCompaniesPage = to.path.startsWith("/dashboard/companies");
+  const isCompaniesPage = to.path.includes("/companies");
 
   // If no company selected and no saved ID, and route is under /dashboard but not under /dashboard/companies, redirect
   if (hasNoCurrentCompany && !isCompaniesPage) {
     const redirectParam = encodeURIComponent(to.fullPath);
-    return navigateTo(`/dashboard/companies?redirect=${redirectParam}`);
+    return navigateTo(useLocalePath()(getCompaniesWithRedirect(redirectParam)));
   }
 });

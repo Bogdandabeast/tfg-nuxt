@@ -1,8 +1,12 @@
+<script setup lang="ts">
+import { ROUTES } from "~/utils/routes";
+</script>
+
 <template>
   <div class="h-screen flex items-center justify-center px-4">
     <UButton
       icon="i-lucide-chevron-left"
-      to="/"
+      :to="useLocalePath()(ROUTES.HOME)"
       size="xl"
       color="neutral"
       variant="subtle"

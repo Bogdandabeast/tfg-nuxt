@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
+import { useI18n } from "vue-i18n";
 
 import { ROUTES } from "~~/lib/constants";
 
+const { t } = useI18n();
 const toast = useToast();
 
 const open = ref(false);
@@ -14,7 +16,7 @@ await authStore.init();
 const links = [
   [
     {
-      label: "Home",
+      label: t("navigation.home"),
       icon: "lucide:house",
       to: "/",
       onSelect: () => {
@@ -22,7 +24,7 @@ const links = [
       },
     },
     {
-      label: "Customers",
+      label: t("navigation.customers"),
       icon: "lucide:users",
       to: ROUTES.dashboardCustomers,
       onSelect: () => {
@@ -30,7 +32,7 @@ const links = [
       },
     },
     {
-      label: "Products",
+      label: t("navigation.products"),
       icon: "lucide:boxes",
       to: ROUTES.dashboardProducts,
       onSelect: () => {
@@ -38,7 +40,7 @@ const links = [
       },
     },
     {
-      label: "Sales",
+      label: t("navigation.sales"),
       icon: "lucide:dollar-sign",
       to: ROUTES.dashboardSales,
       onSelect: () => {
@@ -49,13 +51,13 @@ const links = [
   ],
   [
     {
-      label: "Feedback",
+      label: t("navigation.feedback"),
       icon: "i-lucide-message-circle",
       to: "https://github.com/nuxt-ui-templates/dashboard",
       target: "_blank",
     },
     {
-      label: "Help & Support",
+      label: t("navigation.help"),
       icon: "i-lucide-info",
       to: "https://github.com/nuxt-ui-templates/dashboard",
       target: "_blank",
@@ -66,7 +68,7 @@ const links = [
 const groups = computed(() => [
   {
     id: "links",
-    label: "Go to",
+    label: t("navigation.goTo"),
     items: links.flat(),
   },
 ]);
@@ -78,12 +80,12 @@ onMounted(async () => {
   }
 
   toast.add({
-    title: "We use first-party cookies to enhance your experience on our website.",
+    title: t("cookieConsent.message"),
     duration: 0,
     close: false,
     actions: [
       {
-        label: "Accept",
+        label: t("cookieConsent.accept"),
         color: "neutral",
         variant: "outline",
         onClick: () => {
@@ -91,7 +93,7 @@ onMounted(async () => {
         },
       },
       {
-        label: "Opt out",
+        label: t("cookieConsent.optOut"),
         color: "neutral",
         variant: "ghost",
       },

@@ -258,6 +258,76 @@
     "choose": "Choose the company you want to work with:",
     "none": "You have no registered companies.",
     "createFirst": "Create your first company to get started.",
-    "goToDashboard": "Go to Dashboard"
+    "goToDashboard": "Go to Dashboard",
+    "menu": {
+      "create": "Create company",
+      "manage": "Manage companies"
+    },
+    "select": "Select Company"
+  },
+  "dashboard": {
+    "products": {
+      "title": "Products Management",
+      "existing": "Existing Products"
+    },
+    "customers": {
+      "title": "Customers Management",
+      "existing": "Existing Customers",
+      "loading": "Loading customers..."
+    },
+    "sales": {
+      "title": "Sales Management",
+      "existing": "Existing Sales",
+      "loading": "Loading sales..."
+    }
+  },
+  "forms": {
+    "selectCustomer": "Select a customer",
+    "selectProduct": "Select a product",
+    "customerForm": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "create": "Create Customer",
+      "deleteTitle": "Delete Customer by ID",
+      "id": "Customer ID",
+      "delete": "Delete Customer"
+    },
+    "productForm": {
+      "name": "Name",
+      "description": "Description",
+      "price": "Price",
+      "stock": "Stock",
+      "create": "Create Product",
+      "deleteTitle": "Delete Product by ID",
+      "id": "Product ID",
+      "delete": "Delete Product"
+    },
+    "saleForm": {
+      "customer": "Customer",
+      "product": "Product",
+      "quantity": "Quantity",
+      "create": "Create Sale",
+      "delete": "Delete Sale"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "customers": "Customers",
+    "products": "Products",
+    "sales": "Sales",
+    "feedback": "Feedback",
+    "help": "Help & Support",
+    "goTo": "Go to"
+  },
+  "cookieConsent": {
+    "message": "We use first-party cookies to enhance your experience on our website.",
+    "accept": "Accept",
+    "optOut": "Opt out"
+  },
+  "auth": {
+    "signUpSuccess": "Account created successfully",
+    "signInError": "Invalid email or password"
   }
 }

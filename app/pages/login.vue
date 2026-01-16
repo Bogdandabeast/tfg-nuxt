@@ -2,6 +2,7 @@
 import type { FormSubmitEvent } from "@nuxt/ui";
 import * as z from "zod";
 import { useAuthStore } from "~~/app/stores/auth";
+import { ROUTES } from "~/utils/routes";
 
 definePageMeta({
   layout: "auth",
@@ -64,14 +65,14 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
   >
     <template #description>
       {{ t("login.form.no_account") }}
-      <ULink to="/signup" class="text-primary font-medium">
+      <ULink :to="useLocalePath()(ROUTES.SIGNUP)" class="text-primary font-medium">
         {{ t("login.form.signup_link") }}
       </ULink>.
     </template>
 
     <template #password-hint>
       <ULink
-        to="/"
+        :to="useLocalePath()(ROUTES.HOME)"
         class="text-primary font-medium"
         tabindex="-1"
       >
@@ -82,7 +83,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     <template #footer>
       {{ t("login.form.agree_terms_part1") }}
       <ULink
-        to="/terms"
+        :to="useLocalePath()(ROUTES.TERMS)"
         class="text-primary font-medium"
       >
         {{ t("login.form.terms_of_service_link") }}

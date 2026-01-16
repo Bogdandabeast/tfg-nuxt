@@ -57,7 +57,7 @@ async function deleteCustomerHandler() {
 
     <div class="space-y-4">
       <UFormField
-        label="Customer Name"
+        :label="$t('forms.customerForm.name')"
         name="newCustomerName"
       >
         <UInput v-model="newCustomer.name" placeholder="Enter customer name" />
