@@ -31,7 +31,9 @@ const { customers, pending } = storeToRefs(customersStore);
       </div>
       <ul v-else>
         <li v-for="customer in customers" :key="customer.id">
-          {{ customer.id }} - {{ customer.name }}
+          <NuxtLink :to="`/dashboard/customers/${customer.id}`" class="text-blue-600 hover:underline">
+            {{ customer.id }} - {{ customer.name }}
+          </NuxtLink>
         </li>
       </ul>
     </UCard>

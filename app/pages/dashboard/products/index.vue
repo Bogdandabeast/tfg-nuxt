@@ -29,7 +29,9 @@ const { products, pending } = storeToRefs(productsStore);
       <USkeleton v-if="pending" class="h-20 w-full" />
       <ul v-else>
         <li v-for="product in products" :key="product.id">
-          {{ product.id }} - {{ product.name }}
+          <NuxtLink :to="`/dashboard/products/${product.id}`" class="text-blue-600 hover:underline">
+            {{ product.id }} - {{ product.name }}
+          </NuxtLink>
         </li>
       </ul>
     </UCard>

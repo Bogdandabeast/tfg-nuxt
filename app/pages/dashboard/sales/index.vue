@@ -51,7 +51,9 @@ const detailedSales = computed(() => {
       </div>
       <ul v-else>
         <li v-for="sale in detailedSales" :key="sale.id">
-          Sale #{{ sale.id }}: {{ sale.customerName }} bought {{ sale.quantity }} x {{ sale.productName }}
+          <NuxtLink :to="`/dashboard/sales/${sale.id}`" class="text-blue-600 hover:underline">
+            Sale #{{ sale.id }}: {{ sale.customerName }} bought {{ sale.quantity }} x {{ sale.productName }}
+          </NuxtLink>
         </li>
       </ul>
     </UCard>

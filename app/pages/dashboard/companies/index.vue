@@ -17,7 +17,9 @@ const isLoading = ref(true);
 onMounted(async () => {
   await companiesStore.refreshCompanies();
   await nextTick();
-  if (companiesStore.currentCompany) {
+  const route = useRoute();
+  const hasRedirect = route.query.redirect as string;
+  if (companiesStore.currentCompany && !hasRedirect) {
     await navigateTo("/dashboard");
     return;
   }
@@ -26,7 +28,14 @@ onMounted(async () => {
 
 function selectCompany(company: Company) {
   companiesStore.setCurrentCompany(company);
-  navigateTo("/dashboard");
+  const route = useRoute();
+  const redirectTo = route.query.redirect as string;
+  if (redirectTo) {
+    navigateTo(decodeURIComponent(redirectTo));
+  }
+  else {
+    navigateTo("/dashboard");
+  }
 }
 </script>
 

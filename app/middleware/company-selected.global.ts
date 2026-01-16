@@ -16,6 +16,7 @@ export default defineNuxtRouteMiddleware((to) => {
 
   // If no company selected and no saved ID, and route is under /dashboard but not under /dashboard/companies, redirect
   if (hasNoCurrentCompany && !isCompaniesPage) {
-    return navigateTo("/dashboard/companies");
+    const redirectParam = encodeURIComponent(to.fullPath);
+    return navigateTo(`/dashboard/companies?redirect=${redirectParam}`);
   }
 });
