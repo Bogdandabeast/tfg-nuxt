@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Customer } from "~~/lib/db/queries/customers";
-import type { Product } from "~~/lib/db/queries/products";
 import { storeToRefs } from "pinia";
 import SaleForm from "~/components/Dashboard/forms/SaleForm.vue";
 

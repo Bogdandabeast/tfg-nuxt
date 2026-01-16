@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Company } from "~~/lib/db/queries/companies";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { useCompaniesStore } from "~~/app/stores/companies";
