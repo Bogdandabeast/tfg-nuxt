@@ -20,8 +20,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
     }
 
     // Get the customer to check ownership
-    const rows = await getCustomerById(customerId);
-    const customerData = rows[0];
+    const customerData = await getCustomerById(customerId);
     if (!customerData || !customerData.company_id) {
       throw createError({ statusCode: 404, statusMessage: "Customer not found" });
     }

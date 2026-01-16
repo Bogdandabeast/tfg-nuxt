@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { t } = useI18n();
 const productsStore = useProductsStore();
 const companiesStore = useCompaniesStore();
 const toast = useToast();
@@ -15,11 +16,11 @@ const error = ref("");
 
 async function createProductHandler() {
   if (!companiesStore.currentCompany?.id) {
-    error.value = "No company selected.";
+    error.value = t('forms.productForm.noCompany');
     return;
   }
   if (!newProduct.value.name || !newProduct.value.description || !newProduct.value.price) {
-    error.value = "Please fill in all product details.";
+    error.value = t('forms.productForm.invalidData');
     return;
   }
   const productData = {
@@ -33,7 +34,7 @@ async function createProductHandler() {
     newProduct.value = { name: "", description: "", price: "", stock: 0 };
     toast.add({
       title: "Success",
-      description: "Product created successfully!",
+      description: t('forms.productForm.createdSuccess'),
       color: "success",
     });
     error.value = "";
@@ -51,7 +52,7 @@ async function deleteProductHandler() {
 <template>
   <UCard class="mb-4">
     <template #header>
-      <h3>Create New Product</h3>
+      <h3>{{ t('forms.productForm.createTitle') }}</h3>
     </template>
 
     <div class="space-y-4">
@@ -59,14 +60,14 @@ async function deleteProductHandler() {
         :label="$t('forms.productForm.name')"
         name="newProductName"
       >
-        <UInput v-model="newProduct.name" placeholder="Enter product name" />
+        <UInput v-model="newProduct.name" :placeholder="t('forms.productForm.namePlaceholder')" />
       </UFormField>
 
       <UFormField
         :label="$t('forms.productForm.description')"
         name="newProductDescription"
       >
-        <UInput v-model="newProduct.description" placeholder="Enter description" />
+        <UInput v-model="newProduct.description" :placeholder="t('forms.productForm.descriptionPlaceholder')" />
       </UFormField>
 
       <UFormField
@@ -75,7 +76,7 @@ async function deleteProductHandler() {
       >
         <UInput
           v-model="newProduct.price"
-          placeholder="Enter price"
+          :placeholder="t('forms.productForm.pricePlaceholder')"
           type="number"
         />
       </UFormField>
@@ -86,7 +87,7 @@ async function deleteProductHandler() {
       >
         <UInput
           v-model.number="newProduct.stock"
-          placeholder="Enter stock quantity"
+          :placeholder="t('forms.productForm.stockPlaceholder')"
           type="number"
         />
       </UFormField>
@@ -109,7 +110,7 @@ async function deleteProductHandler() {
       name="productToDeleteId"
       class="mb-4"
     >
-      <UInput v-model="productToDeleteId" placeholder="Enter product ID to delete" />
+      <UInput v-model="productToDeleteId" :placeholder="t('forms.productForm.idPlaceholder')" />
     </UFormField>
 
     <UButton

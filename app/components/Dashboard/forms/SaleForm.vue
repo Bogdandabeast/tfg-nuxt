@@ -3,6 +3,7 @@ import type { Customer } from "~~/lib/db/queries/customers";
 import type { Product } from "~~/lib/db/queries/products";
 import { storeToRefs } from "pinia";
 
+const { t } = useI18n();
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
@@ -30,11 +31,11 @@ const productOptions = computed(() =>
 
 async function createSaleHandler() {
   if (!companiesStore.currentCompany?.id) {
-    error.value = "No company selected.";
+    error.value = t('forms.saleForm.noCompany');
     return;
   }
   if (!newSale.customer_id || !newSale.product_id || newSale.quantity <= 0) {
-    error.value = "Please select a customer, a product, and enter a valid quantity.";
+    error.value = t('forms.saleForm.invalidData');
     return;
   }
   const saleData = {
@@ -51,7 +52,7 @@ async function createSaleHandler() {
     newSale.quantity = 1;
     toast.add({
       title: "Success",
-      description: "Sale created successfully!",
+      description: t('forms.saleForm.createdSuccess'),
       color: "success",
     });
     error.value = "";
@@ -61,7 +62,7 @@ async function createSaleHandler() {
 async function deleteSaleHandler() {
   const id = Number(saleToDeleteId.value);
   if (!saleToDeleteId.value || Number.isNaN(id)) {
-    error.value = "Please enter a valid Sale ID to delete.";
+    error.value = t('forms.saleForm.idInvalid');
     return;
   }
   const success = await deleteSale(id, companiesStore.currentCompany!.id);
@@ -70,7 +71,7 @@ async function deleteSaleHandler() {
     saleToDeleteId.value = "";
     toast.add({
       title: "Success",
-      description: "Sale deleted successfully!",
+      description: t('forms.saleForm.deletedSuccess'),
       color: "success",
     });
     error.value = "";
@@ -81,11 +82,11 @@ async function deleteSaleHandler() {
 <template>
   <UCard class="mb-4">
     <template #header>
-      <h3>Create New Sale</h3>
+      <h3>{{ t('forms.saleForm.createTitle') }}</h3>
     </template>
 
     <div class="space-y-4">
-      <UFormField label="Customer" name="saleCustomer">
+      <UFormField :label="t('forms.saleForm.customerLabel')" name="saleCustomer">
         <USelect
           v-model="newSale.customer_id"
           :items="customerOptions"
@@ -94,12 +95,12 @@ async function deleteSaleHandler() {
         />
       </UFormField>
 
-      <UFormField label="Product" name="saleProduct">
+      <UFormField :label="t('forms.saleForm.productLabel')" name="saleProduct">
         <USelect
           v-model="newSale.product_id"
           :items="productOptions"
           option-attribute="value"
-          placeholder="Select a product"
+          :placeholder="t('forms.saleForm.productPlaceholder')"
         />
       </UFormField>
 
@@ -114,22 +115,22 @@ async function deleteSaleHandler() {
 
     <template #footer>
       <UButton :loading="isCreateSaleLoading" @click="createSaleHandler">
-        Create Sale
+        {{ t('forms.saleForm.createButton') }}
       </UButton>
     </template>
   </UCard>
 
   <UCard>
     <template #header>
-      <h3>Delete Sale by ID</h3>
+      <h3>{{ t('forms.saleForm.deleteTitle') }}</h3>
     </template>
 
     <UFormField
-      label="Sale ID"
+      :label="t('forms.saleForm.idLabel')"
       name="saleToDeleteId"
       class="mb-4"
     >
-      <UInput v-model="saleToDeleteId" placeholder="Enter sale ID to delete" />
+      <UInput v-model="saleToDeleteId" :placeholder="t('forms.saleForm.idPlaceholder')" />
     </UFormField>
 
     <UButton
@@ -137,7 +138,7 @@ async function deleteSaleHandler() {
       :loading="isDeleteSaleLoading"
       @click="deleteSaleHandler"
     >
-      Delete Sale
+      {{ t('forms.saleForm.deleteButton') }}
     </UButton>
   </UCard>
 

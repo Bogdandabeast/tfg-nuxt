@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { t } = useI18n();
 const companiesStore = useCompaniesStore();
 const toast = useToast();
 const { isCreateCompanyLoading, createCompany, isDeleteCompanyLoading, deleteCompany } = useCompaniesApi();
@@ -9,10 +10,10 @@ const error = ref("");
 
 async function createCompanyHandler() {
   if (!newCompanyName.value) {
-    error.value = "Company name is required";
+    error.value = t('forms.companyForm.nameRequired');
     toast.add({
       title: "Error",
-      description: "Company name is required",
+      description: t('forms.companyForm.nameRequired'),
       color: "error",
     });
     return;
@@ -23,7 +24,7 @@ async function createCompanyHandler() {
     newCompanyName.value = "";
     toast.add({
       title: "Success",
-      description: "Company created successfully!",
+      description: t('forms.companyForm.createdSuccess'),
       color: "success",
     });
     error.value = "";
@@ -33,7 +34,7 @@ async function createCompanyHandler() {
 async function deleteCompanyHandler() {
   const id = Number(companyToDeleteId.value);
   if (!companyToDeleteId.value || Number.isNaN(id)) {
-    error.value = "Please enter a valid Company ID to delete.";
+    error.value = t('forms.companyForm.idInvalid');
     return;
   }
   const success = await deleteCompany(id);
@@ -46,7 +47,7 @@ async function deleteCompanyHandler() {
     companyToDeleteId.value = "";
     toast.add({
       title: "Success",
-      description: "Company deleted successfully!",
+      description: t('forms.companyForm.deletedSuccess'),
       color: "success",
     });
     error.value = "";
@@ -57,33 +58,33 @@ async function deleteCompanyHandler() {
 <template>
   <UCard class="mb-4">
     <template #header>
-      <h3>Create New Company</h3>
+      <h3>{{ t('forms.companyForm.createTitle') }}</h3>
     </template>
 
     <UFormField
-      label="Company Name"
+      :label="t('forms.companyForm.nameLabel')"
       name="newCompanyName"
       class="mb-4"
     >
-      <UInput v-model="newCompanyName" placeholder="Enter company name" />
+      <UInput v-model="newCompanyName" :placeholder="t('forms.companyForm.namePlaceholder')" />
     </UFormField>
 
     <UButton :loading="isCreateCompanyLoading" @click="createCompanyHandler">
-      Create Company
+      {{ t('forms.companyForm.createButton') }}
     </UButton>
   </UCard>
 
   <UCard>
     <template #header>
-      <h3>Delete Company by ID</h3>
+      <h3>{{ t('forms.companyForm.deleteTitle') }}</h3>
     </template>
 
     <UFormField
-      label="Company ID"
+      :label="t('forms.companyForm.idLabel')"
       name="companyToDeleteId"
       class="mb-4"
     >
-      <UInput v-model="companyToDeleteId" placeholder="Enter company ID to delete" />
+      <UInput v-model="companyToDeleteId" :placeholder="t('forms.companyForm.idPlaceholder')" />
     </UFormField>
 
     <UButton
@@ -91,7 +92,7 @@ async function deleteCompanyHandler() {
       :loading="isDeleteCompanyLoading"
       @click="deleteCompanyHandler"
     >
-      Delete Company
+      {{ t('forms.companyForm.deleteButton') }}
     </UButton>
   </UCard>
   <UAlert

@@ -8,11 +8,11 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const { id } = companyIdParamSchema.parse(event.context.params);
 
     const company = await getCompanyById(id);
-    if (!company || !company.length) {
+    if (!company) {
       throw createError({ statusCode: 404, statusMessage: "Not Found" });
     }
 
-    const companyData = company[0]!;
+    const companyData = company;
 
     // Check if user owns the company
     const userId = event.context.user.id;

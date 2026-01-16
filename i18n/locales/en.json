@@ -284,6 +284,20 @@
   "forms": {
     "selectCustomer": "Select a customer",
     "selectProduct": "Select a product",
+    "companyForm": {
+      "createTitle": "Create New Company",
+      "nameLabel": "Company Name",
+      "namePlaceholder": "Enter company name",
+      "createButton": "Create Company",
+      "deleteTitle": "Delete Company by ID",
+      "idLabel": "Company ID",
+      "idPlaceholder": "Enter company ID to delete",
+      "deleteButton": "Delete Company",
+      "nameRequired": "Company name is required",
+      "createdSuccess": "Company created successfully!",
+      "idInvalid": "Please enter a valid Company ID to delete.",
+      "deletedSuccess": "Company deleted successfully!"
+    },
     "customerForm": {
       "name": "Name",
       "email": "Email",
@@ -292,7 +306,22 @@
       "create": "Create Customer",
       "deleteTitle": "Delete Customer by ID",
       "id": "Customer ID",
-      "delete": "Delete Customer"
+      "delete": "Delete Customer",
+      "createTitle": "Create New Customer",
+      "emailLabel": "Email",
+      "phoneLabel": "Phone",
+      "addressLabel": "Address",
+      "namePlaceholder": "Enter customer name",
+      "emailPlaceholder": "Enter email",
+      "phonePlaceholder": "Enter phone number",
+      "addressPlaceholder": "Enter address",
+      "createButton": "Create Customer",
+      "idLabel": "Customer ID",
+      "idPlaceholder": "Enter customer ID to delete",
+      "deleteButton": "Delete Customer",
+      "noCompany": "No company selected.",
+      "invalidData": "Please fill in at least name and email.",
+      "createdSuccess": "Customer created successfully!"
     },
     "productForm": {
       "name": "Name",
@@ -302,14 +331,37 @@
       "create": "Create Product",
       "deleteTitle": "Delete Product by ID",
       "id": "Product ID",
-      "delete": "Delete Product"
+      "delete": "Delete Product",
+      "createTitle": "Create New Product",
+      "namePlaceholder": "Enter product name",
+      "descriptionPlaceholder": "Enter description",
+      "pricePlaceholder": "Enter price",
+      "stockPlaceholder": "Enter stock quantity",
+      "idPlaceholder": "Enter product ID to delete",
+      "noCompany": "No company selected.",
+      "invalidData": "Please fill in all product details.",
+      "createdSuccess": "Product created successfully!"
     },
     "saleForm": {
       "customer": "Customer",
       "product": "Product",
       "quantity": "Quantity",
       "create": "Create Sale",
-      "delete": "Delete Sale"
+      "delete": "Delete Sale",
+      "createTitle": "Create New Sale",
+      "customerLabel": "Customer",
+      "productLabel": "Product",
+      "productPlaceholder": "Select a product",
+      "createButton": "Create Sale",
+      "deleteTitle": "Delete Sale by ID",
+      "idLabel": "Sale ID",
+      "idPlaceholder": "Enter sale ID to delete",
+      "deleteButton": "Delete Sale",
+      "noCompany": "No company selected.",
+      "invalidData": "Please select a customer, a product, and enter a valid quantity.",
+      "createdSuccess": "Sale created successfully!",
+      "idInvalid": "Please enter a valid Sale ID to delete.",
+      "deletedSuccess": "Sale deleted successfully!"
     }
   },
   "navigation": {

@@ -9,8 +9,9 @@ export async function createCustomer(data: CustomerInsert) {
   return db.insert(customersTable).values(data).returning();
 }
 
-export async function getCustomerById(id: number) {
-  return db.select().from(customersTable).where(eq(customersTable.id, id));
+export async function getCustomerById(id: number): Promise<Customer | null> {
+  const result = await db.select().from(customersTable).where(eq(customersTable.id, id)).limit(1);
+  return result[0] || null;
 }
 
 export async function getCustomersByCompanyId(companyId: number) {

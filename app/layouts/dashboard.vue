@@ -6,6 +6,7 @@ import { ROUTES } from "~~/lib/constants";
 
 const { t } = useI18n();
 const toast = useToast();
+const localePath = useLocalePath();
 
 const open = ref(false);
 
@@ -18,7 +19,7 @@ const links = [
     {
       label: t("navigation.home"),
       icon: "lucide:house",
-      to: "/",
+      to: localePath("/"),
       onSelect: () => {
         open.value = false;
       },
@@ -26,7 +27,7 @@ const links = [
     {
       label: t("navigation.customers"),
       icon: "lucide:users",
-      to: ROUTES.dashboardCustomers,
+      to: localePath(ROUTES.dashboardCustomers),
       onSelect: () => {
         open.value = false;
       },
@@ -34,7 +35,7 @@ const links = [
     {
       label: t("navigation.products"),
       icon: "lucide:boxes",
-      to: ROUTES.dashboardProducts,
+      to: localePath(ROUTES.dashboardProducts),
       onSelect: () => {
         open.value = false;
       },
@@ -42,7 +43,7 @@ const links = [
     {
       label: t("navigation.sales"),
       icon: "lucide:dollar-sign",
-      to: ROUTES.dashboardSales,
+      to: localePath(ROUTES.dashboardSales),
       onSelect: () => {
         open.value = false;
       },

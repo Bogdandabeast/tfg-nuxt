@@ -18,11 +18,11 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const parsedData = customerCreateSchema.partial().parse(body);
 
     const customer = await getCustomerById(Number(id));
-    if (!customer || !customer.length) {
+    if (!customer) {
       throw createError({ statusCode: 404, statusMessage: "Customer not found" });
     }
 
-    const customerData = customer[0]!;
+    const customerData = customer;
     if (!customerData.company_id) {
       throw createError({ statusCode: 404, statusMessage: "Customer not found" });
     }
