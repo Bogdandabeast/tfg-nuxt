@@ -34,22 +34,6 @@ const items = computed(() => [
         class="lg:hidden"
       />
 
-      <UButton
-        :label="$t('header.signIn')"
-        color="neutral"
-        variant="outline"
-        to="/login"
-        class="hidden lg:inline-flex"
-      />
-
-      <UButton
-        :label="$t('header.signUp')"
-        color="neutral"
-        trailing-icon="i-lucide-arrow-right"
-        class="hidden lg:inline-flex"
-        to="/signup"
-      />
-
       <LandingLocaleSelector />
       <UColorModeSwitch />
     </template>
