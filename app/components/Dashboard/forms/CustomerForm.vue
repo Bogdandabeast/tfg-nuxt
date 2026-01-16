@@ -42,21 +42,9 @@ async function createCustomerHandler() {
 }
 
 async function deleteCustomerHandler() {
-  const id = Number(customerToDeleteId.value);
-  if (!customerToDeleteId.value || Number.isNaN(id)) {
-    error.value = "Please enter a valid Customer ID to delete.";
-    return;
-  }
-  const success = await deleteCustomer(id);
+  const success = await deleteCustomer(customerToDeleteId.value);
   if (success) {
-    customersStore.refreshCustomers();
     customerToDeleteId.value = "";
-    toast.add({
-      title: "Success",
-      description: "Customer deleted successfully!",
-      color: "success",
-    });
-    error.value = "";
   }
 }
 </script>

@@ -55,17 +55,38 @@ export function useCustomersApi() {
     }
   }
 
-  async function deleteCustomer(id: number, companyId: number) {
+  async function deleteCustomer(id: string) {
+    const parsedId = Number(id);
+    if (!id || Number.isNaN(parsedId)) {
+      toast.add({
+        title: t("error.title") || "Error",
+        description: t("customers.invalidId") || "Please enter a valid Customer ID to delete.",
+        color: "error",
+      });
+      return false;
+    }
     isDeleteCustomerLoading.value = true;
     try {
-      await $csrfFetch(`/api/customers/${id}`, {
+      const companiesStore = useCompaniesStore();
+      await $csrfFetch(`/api/customers/${parsedId}`, {
         method: "DELETE",
-        body: { company_id: companyId },
+        body: { company_id: companiesStore.currentCompany!.id },
+      });
+      const customersStore = useCustomersStore();
+      customersStore.refreshCustomers();
+      toast.add({
+        title: "Success",
+        description: "Customer deleted successfully!",
       });
       return true;
     }
     catch (error) {
-      getFetchErrorMessage(error);
+      const message = getFetchErrorMessage(error);
+      toast.add({
+        title: t("error.title") || "Error",
+        description: t("error.generic") || message,
+        color: "error",
+      });
       return false;
     }
     finally {

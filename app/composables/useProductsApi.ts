@@ -43,17 +43,41 @@ export function useProductsApi() {
     }
   }
 
-  async function deleteProduct(id: number, companyId: number) {
+  async function deleteProduct(id: string) {
+    const parsedId = Number(id);
+    if (!id || Number.isNaN(parsedId)) {
+      const toast = useToast();
+      toast.add({
+        title: "Error",
+        description: "Please enter a valid Product ID to delete.",
+        color: "error",
+      });
+      return false;
+    }
     isDeleteProductLoading.value = true;
     try {
-      await $csrfFetch(`/api/products/${id}`, {
+      const companiesStore = useCompaniesStore();
+      await $csrfFetch(`/api/products/${parsedId}`, {
         method: "DELETE",
-        body: { company_id: companyId },
+        body: { company_id: companiesStore.currentCompany!.id },
+      });
+      const productsStore = useProductsStore();
+      productsStore.refreshProducts();
+      const toast = useToast();
+      toast.add({
+        title: "Success",
+        description: "Product deleted successfully!",
       });
       return true;
     }
     catch (error) {
-      getFetchErrorMessage(error);
+      const message = getFetchErrorMessage(error);
+      const toast = useToast();
+      toast.add({
+        title: "Error",
+        description: message,
+        color: "error",
+      });
       return false;
     }
     finally {

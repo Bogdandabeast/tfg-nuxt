@@ -14,10 +14,14 @@ const { companies } = storeToRefs(companiesStore);
 const isLoading = ref(true);
 
 // Fetch companies on mount to trigger the lazy fetch
-onMounted(() => {
-  companiesStore.refreshCompanies().finally(() => {
-    isLoading.value = false;
-  });
+onMounted(async () => {
+  await companiesStore.refreshCompanies();
+  await nextTick();
+  if (companiesStore.currentCompany) {
+    await navigateTo("/dashboard");
+    return;
+  }
+  isLoading.value = false;
 });
 
 function selectCompany(company: Company) {
