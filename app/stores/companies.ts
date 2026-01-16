@@ -27,7 +27,7 @@ export const useCompaniesStore = defineStore("companies", () => {
     if (newCompanies && newCompanies.length > 0 && !currentCompany.value) {
       const savedId = selectedCompanyId.value;
       if (savedId) {
-        const company = newCompanies.find(c => c.id === Number.parseInt(savedId));
+        const company = newCompanies.find(c => c.id === Number.parseInt(savedId, 10));
         if (company) {
           currentCompany.value = company;
         }

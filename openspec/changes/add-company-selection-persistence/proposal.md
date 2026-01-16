@@ -13,5 +13,5 @@ Mejorar la experiencia del usuario al recordar la empresa seleccionada entre rec
 ## Impact
 
 - Affected specs: Nueva capacidad `company-management` (persistencia de selección).
-- Affected code: `app/stores/companies.ts` (modificación), nuevo composable en `composables/useLocalStorage.ts`.
+- Affected code: `app/stores/companies.ts` (modificación), nuevos composables en `composables/useLocalStorage.ts` y `composables/useCompanySelection.ts`.
 - No cambios en APIs, UI o seguridad; solo lógica de estado.

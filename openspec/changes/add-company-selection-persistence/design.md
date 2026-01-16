@@ -22,3 +22,10 @@ Necesidad de persistir estado de usuario sin backend. localStorage es adecuado p
 ## Migration Plan
 
 Ninguna migración necesaria; funcionalidad aditiva.
+
+## Open Questions
+
+- Behavior when the stored company ID no longer exists — auto-select first vs prompt user
+- Whether to include a TTL/versioning for stored IDs
+- How to handle multi-tab sync and updates to `currentCompany`
+- Accessibility/UX implications of the implemented approach (useCompanySelection composable, storing only ID, watcher on `companies`, and storing `currentCompany`)

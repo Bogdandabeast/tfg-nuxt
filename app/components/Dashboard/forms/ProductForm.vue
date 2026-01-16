@@ -41,21 +41,9 @@ async function createProductHandler() {
 }
 
 async function deleteProductHandler() {
-  const id = Number(productToDeleteId.value);
-  if (!productToDeleteId.value || Number.isNaN(id)) {
-    error.value = "Please enter a valid Product ID to delete.";
-    return;
-  }
-  const success = await deleteProduct(id);
+  const success = await deleteProduct(productToDeleteId.value);
   if (success) {
-    productsStore.refreshProducts();
     productToDeleteId.value = "";
-    toast.add({
-      title: "Success",
-      description: "Product deleted successfully!",
-      color: "success",
-    });
-    error.value = "";
   }
 }
 </script>
