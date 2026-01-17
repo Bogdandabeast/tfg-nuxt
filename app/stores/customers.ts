@@ -30,7 +30,7 @@ export const useCustomersStore = defineStore("customers", () => {
     data: currentCustomerResponse,
     pending: currentCustomerPending,
     error: currentCustomerError,
-  } = useFetch<Customer>(() => currentCustomerId.value ? `/api/customers/${currentCustomerId.value}` : "", {
+  } = useFetch<{ customer: Customer }>(() => currentCustomerId.value ? `/api/customers/${currentCustomerId.value}` : "", {
     lazy: true,
   });
 
@@ -38,7 +38,7 @@ export const useCustomersStore = defineStore("customers", () => {
   const getCustomerById = (customerId: number) => {
     currentCustomerId.value = customerId;
     return {
-      data: computed(() => currentCustomerResponse.value || null),
+      data: computed(() => currentCustomerResponse.value?.customer || null),
       pending: currentCustomerPending,
       error: currentCustomerError,
     };

@@ -6,12 +6,211 @@ const route = useRoute();
 const customerId = Number(route.params.id);
 
 const customersStore = useCustomersStore();
-const { data } = customersStore.getCustomerById(customerId);
+const { data, pending, error } = customersStore.getCustomerById(customerId);
+
+const isDeleteModalOpen = ref(false);
+
+const handleDelete = async () => {
+  // Implement delete logic
+  isDeleteModalOpen.value = false;
+};
 </script>
 
 <template>
-  <div>
-    <div>customer id requested {{ customerId }}</div>
-    <pre>{{ data }}</pre>
-  </div>
+  <UContainer>
+    <UPageHeader
+      title="Customer Details"
+      :description="`Viewing customer ${customerId}`"
+    >
+      <template #headline>
+        <UBreadcrumb
+          :items="[
+            { label: 'Dashboard', to: '/dashboard' },
+            { label: 'Customers', to: '/dashboard/customers' },
+            { label: `Customer ${customerId}` }
+          ]"
+        />
+      </template>
+
+      <template #actions>
+        <UColorModeButton />
+        <UDropdownMenu mode="click">
+          <UButton
+            color="gray"
+            variant="soft"
+            icon="i-heroicons-ellipsis-horizontal-20-solid"
+            square
+            aria-label="More actions"
+          />
+          <template #items>
+            <UDropdownMenuItem
+              icon="i-heroicons-pencil-square-20-solid"
+              label="Edit Customer"
+            />
+            <UDropdownMenuItem
+              icon="i-heroicons-envelope-20-solid"
+              label="Send Email"
+            />
+            <UDropdownMenuItem
+              icon="i-heroicons-trash-20-solid"
+              label="Delete Customer"
+              @click="isDeleteModalOpen = true"
+            />
+          </template>
+        </UDropdownMenu>
+      </template>
+    </UPageHeader>
+
+    <div class="space-y-6">
+      <UAlert
+        v-if="error"
+        color="red"
+        variant="subtle"
+        icon="i-heroicons-exclamation-triangle-20-solid"
+        title="Error loading customer"
+        :description="error?.message || 'An error occurred'"
+      />
+
+      <UCard v-else-if="pending">
+        <template #header>
+          <USkeleton class="h-6 w-32" />
+        </template>
+        <div class="space-y-4">
+          <USkeleton class="h-4 w-full" />
+          <USkeleton class="h-4 w-3/4" />
+          <USkeleton class="h-4 w-1/2" />
+        </div>
+      </UCard>
+
+      <UCard v-else-if="data">
+        <template #header>
+          <div class="flex items-center gap-3">
+            <UAvatar
+              :src="null"
+              :alt="data.name"
+              size="2xl"
+              :initials="data.name.split(' ').map(n => n[0]).join('').toUpperCase()"
+            />
+            <div>
+              <h3 class="text-lg font-semibold">{{ data.name }}</h3>
+              <p class="text-sm text-gray-500">Customer ID: {{ data.id }}</p>
+            </div>
+            <UBadge color="blue" variant="subtle">Active</UBadge>
+          </div>
+        </template>
+
+        <UTabs>
+          <UTab name="contact" label="Contact Information">
+            <UTable
+              :rows="[
+                { label: 'ID', value: data.id },
+                { label: 'Name', value: data.name },
+                { label: 'Email', value: data.email },
+                { label: 'Phone', value: data.phone },
+                { label: 'Address', value: data.address },
+                { label: 'Company ID', value: data.company_id }
+              ]"
+              :columns="[
+                { key: 'label', label: 'Field' },
+                { key: 'value', label: 'Value' }
+              ]"
+              class="w-full"
+            >
+              <template #label-data="{ row }">
+                <span class="font-medium">{{ row.label }}</span>
+              </template>
+              <template #value-data="{ row }">
+                <UBadge v-if="row.label === 'ID'" color="blue" variant="soft">{{ row.value }}</UBadge>
+                <ULink v-else-if="row.label === 'Email'" :to="`mailto:${row.value}`" target="_blank">{{ row.value }}</ULink>
+                <ULink v-else-if="row.label === 'Phone'" :to="`tel:${row.value}`">{{ row.value }}</ULink>
+                <span v-else>{{ row.value }}</span>
+              </template>
+            </UTable>
+          </UTab>
+
+          <UTab name="actions" label="Actions">
+            <div class="space-y-4">
+              <UButton
+                icon="i-heroicons-pencil-square-20-solid"
+                size="lg"
+                block
+              >
+                Edit Customer
+              </UButton>
+              <UButton
+                icon="i-heroicons-chat-bubble-left-right-20-solid"
+                variant="outline"
+                size="lg"
+                block
+              >
+                View Conversations
+              </UButton>
+              <UButton
+                icon="i-heroicons-eye-20-solid"
+                variant="outline"
+                size="lg"
+                block
+                to="/dashboard/customers"
+              >
+                View All Customers
+              </UButton>
+            </div>
+          </UTab>
+        </UTabs>
+
+        <template #footer>
+          <div class="flex justify-between">
+            <UButton
+              icon="i-heroicons-arrow-left-20-solid"
+              variant="ghost"
+              to="/dashboard/customers"
+            >
+              Back to Customers
+            </UButton>
+            <div class="flex gap-2">
+              <UTooltip text="Export customer data">
+                <UButton
+                  icon="i-heroicons-arrow-down-tray-20-solid"
+                  variant="ghost"
+                  size="sm"
+                />
+              </UTooltip>
+              <UButton
+                icon="i-heroicons-bookmark-20-solid"
+                variant="ghost"
+                size="sm"
+              >
+                Bookmark
+              </UButton>
+            </div>
+          </div>
+        </template>
+      </UCard>
+
+      <UCard v-else>
+        <UEmpty
+          icon="i-heroicons-users-20-solid"
+          title="Customer not found"
+          description="The requested customer could not be found."
+        >
+          <UButton to="/dashboard/customers">Back to Customers</UButton>
+        </UEmpty>
+      </UCard>
+    </div>
+
+    <UModal v-model="isDeleteModalOpen">
+      <UCard>
+        <template #header>
+          <h3 class="text-lg font-semibold">Delete Customer</h3>
+        </template>
+        <p>Are you sure you want to delete this customer? This action cannot be undone.</p>
+        <template #footer>
+          <div class="flex justify-end gap-2">
+            <UButton variant="ghost" @click="isDeleteModalOpen = false">Cancel</UButton>
+            <UButton color="red" @click="handleDelete">Delete</UButton>
+          </div>
+        </template>
+      </UCard>
+    </UModal>
+  </UContainer>
 </template>
