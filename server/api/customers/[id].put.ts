@@ -22,7 +22,11 @@ export default defineAuthenticatedEventHandler(async (event) => {
       throw createError({ statusCode: 404, statusMessage: "Customer not found" });
     }
 
-    const updatedCustomer = await updateCustomer(Number(id), customer.company_id!, parsedData);
+    if (!customer.company_id) {
+      throw createError({ statusCode: 400, statusMessage: "Customer company not found" });
+    }
+
+    const updatedCustomer = await updateCustomer(Number(id), customer.company_id, parsedData);
     return updatedCustomer;
   }
   catch (error) {

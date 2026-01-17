@@ -1,6 +1,7 @@
 import { and, eq, inArray } from "drizzle-orm";
 import { db } from "../index";
 import { customersTable } from "../schema/companies";
+import { getCompaniesByUserId } from "./company";
 
 export type CustomerInsert = typeof customersTable.$inferInsert;
 export type Customer = typeof customersTable.$inferSelect;
@@ -15,7 +16,6 @@ export async function getCustomerById(id: number, company_id: number): Promise<C
 }
 
 export async function findCustomerInUserCompanies(customerId: number, userId: string): Promise<Customer | null> {
-  const { getCompaniesByUserId } = await import("./company");
   const userCompanies = await getCompaniesByUserId(userId);
   const companyIds = userCompanies.map(c => c.id);
   const result = await db.select().from(customersTable).where(and(eq(customersTable.id, customerId), inArray(customersTable.company_id, companyIds))).limit(1);
