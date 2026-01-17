@@ -10,6 +10,9 @@ const localePath = useLocalePath();
 
 const open = ref(false);
 
+// Breadcrumb logic extracted to composable
+const { breadcrumbItems } = useBreadcrumbs()
+
 // Auth initialization for layout components
 const authStore = useAuthStore();
 await authStore.init();
@@ -141,6 +144,11 @@ onMounted(async () => {
     </UDashboardSidebar>
 
     <UDashboardSearch :groups="groups" />
+
+    <UDashboardToolbar>
+      <UBreadcrumb :items="breadcrumbItems" />
+    </UDashboardToolbar>
+
     <slot />
   </UDashboardGroup>
 </template>

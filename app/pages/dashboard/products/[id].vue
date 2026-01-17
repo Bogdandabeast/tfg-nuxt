@@ -27,16 +27,6 @@ const stockPercentage = computed(() => {
       title="Product Details"
       :description="`Viewing product ${productId}`"
     >
-      <template #headline>
-        <UBreadcrumb
-          :items="[
-            { label: 'Dashboard', to: '/dashboard' },
-            { label: 'Products', to: '/dashboard/products' },
-            { label: `Product ${productId}` }
-          ]"
-        />
-      </template>
-
       <template #actions>
         <UColorModeButton />
         <UDropdownMenu mode="click">

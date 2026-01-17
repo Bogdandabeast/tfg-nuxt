@@ -22,16 +22,6 @@ const handleDelete = async () => {
       title="Sale Details"
       :description="`Viewing sale ${saleId}`"
     >
-      <template #headline>
-        <UBreadcrumb
-          :items="[
-            { label: 'Dashboard', to: '/dashboard' },
-            { label: 'Sales', to: '/dashboard/sales' },
-            { label: `Sale ${saleId}` }
-          ]"
-        />
-      </template>
-
       <template #actions>
         <UColorModeButton />
         <UDropdownMenu mode="click">
