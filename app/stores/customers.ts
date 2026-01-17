@@ -22,9 +22,32 @@ export const useCustomersStore = defineStore("customers", () => {
     watch: [apiUrl],
   });
 
+  // Reactive variable for specific customer ID
+  const currentCustomerId = ref<number | null>(null);
+
+  // useFetch for specific customer
+  const {
+    data: currentCustomerResponse,
+    pending: currentCustomerPending,
+    error: currentCustomerError,
+  } = useFetch<Customer>(() => currentCustomerId.value ? `/api/customers/${currentCustomerId.value}` : "", {
+    lazy: true,
+  });
+
+  // Method to fetch a specific customer by ID
+  const getCustomerById = (customerId: number) => {
+    currentCustomerId.value = customerId;
+    return {
+      data: computed(() => currentCustomerResponse.value || null),
+      pending: currentCustomerPending,
+      error: currentCustomerError,
+    };
+  };
+
   return {
     customers,
     pending,
     refreshCustomers: refresh,
+    getCustomerById,
   };
 });

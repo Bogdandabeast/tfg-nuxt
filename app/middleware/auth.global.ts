@@ -1,5 +1,7 @@
+import { ROUTES } from "~/utils/routes";
+
 export default defineNuxtRouteMiddleware(async (to) => {
-  if (!to.path.startsWith("/dashboard")) {
+  if (!to.path.includes("/dashboard")) {
     return;
   }
 
@@ -9,10 +11,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
   }
   catch (error) {
     console.error("Auth middleware error", error);
-    return navigateTo("/");
+    return navigateTo(useLocalePath()(ROUTES.LOGIN));
   }
 
   if (!authStore.user) {
-    return navigateTo("/");
+    return navigateTo(useLocalePath()(ROUTES.LOGIN));
   }
 });

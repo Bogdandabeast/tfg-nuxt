@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Company } from "~~/lib/db/queries/companies";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { useCompaniesStore } from "~~/app/stores/companies";
+import { ROUTES } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
@@ -17,16 +17,25 @@ const isLoading = ref(true);
 onMounted(async () => {
   await companiesStore.refreshCompanies();
   await nextTick();
-  if (companiesStore.currentCompany) {
-    await navigateTo("/dashboard");
+  const route = useRoute();
+  const hasRedirect = route.query.redirect as string;
+  if (companiesStore.currentCompany && !hasRedirect) {
+    await navigateTo(useLocalePath()(ROUTES.DASHBOARD));
     return;
   }
   isLoading.value = false;
 });
 
-function selectCompany(company: Company) {
+function selectCompany(company: any) {
   companiesStore.setCurrentCompany(company);
-  navigateTo("/dashboard");
+  const route = useRoute();
+  const redirectTo = route.query.redirect as string;
+  if (redirectTo) {
+    navigateTo(useLocalePath()(decodeURIComponent(redirectTo)));
+  }
+  else {
+    navigateTo(useLocalePath()(ROUTES.DASHBOARD));
+  }
 }
 </script>
 
@@ -62,7 +71,7 @@ function selectCompany(company: Company) {
         <p class="mt-2">
           {{ t('companies.createFirst') }}
         </p>
-        <UButton class="mt-4" @click="navigateTo('/dashboard')">
+        <UButton class="mt-4" @click="navigateTo(useLocalePath()(ROUTES.DASHBOARD))">
           {{ t('companies.goToDashboard') }}
         </UButton>
       </div>

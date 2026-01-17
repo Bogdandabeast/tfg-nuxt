@@ -32,9 +32,32 @@ export const useProductsStore = defineStore("products", () => {
     watch: [apiUrl],
   });
 
+  // Reactive variable for specific product ID
+  const currentProductId = ref<number | null>(null);
+
+  // useFetch for specific product
+  const {
+    data: currentProductResponse,
+    pending: currentProductPending,
+    error: currentProductError,
+  } = useFetch<Product>(() => currentProductId.value ? `/api/products/${currentProductId.value}` : "", {
+    lazy: true,
+  });
+
+  // Method to fetch a specific product by ID
+  const getProductById = (productId: number) => {
+    currentProductId.value = productId;
+    return {
+      data: computed(() => currentProductResponse.value || null),
+      pending: currentProductPending,
+      error: currentProductError,
+    };
+  };
+
   return {
     products,
     pending,
     refreshProducts: refresh,
+    getProductById,
   };
 });

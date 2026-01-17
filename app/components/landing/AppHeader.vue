@@ -1,16 +1,18 @@
 <script setup lang="ts">
+import { ROUTES } from "~/utils/routes";
+
 const { t } = useI18n();
 const route = useRoute();
 
 const items = computed(() => [
   {
     label: t("header.crm"),
-    to: "/dashboard",
-    active: route.path.startsWith("/dashboard"),
+    to: useLocalePath()(ROUTES.DASHBOARD),
+    active: route.path.startsWith(useLocalePath()(ROUTES.DASHBOARD)),
   },
   {
     label: t("header.pricing"),
-    to: "/pricing",
+    to: useLocalePath()(ROUTES.PRICING),
   },
 ]);
 </script>
@@ -18,7 +20,7 @@ const items = computed(() => [
 <template>
   <UHeader>
     <template #left>
-      <NuxtLink to="/">
+      <NuxtLink :to="useLocalePath()(ROUTES.HOME)">
         <LandingAppLogo class="w-auto h-6 py-4 shrink-0" />
       </NuxtLink>
     </template>
@@ -30,24 +32,8 @@ const items = computed(() => [
         icon="i-lucide-log-in"
         color="neutral"
         variant="ghost"
-        to="/login"
+        :to="useLocalePath()(ROUTES.LOGIN)"
         class="lg:hidden"
-      />
-
-      <UButton
-        :label="$t('header.signIn')"
-        color="neutral"
-        variant="outline"
-        to="/login"
-        class="hidden lg:inline-flex"
-      />
-
-      <UButton
-        :label="$t('header.signUp')"
-        color="neutral"
-        trailing-icon="i-lucide-arrow-right"
-        class="hidden lg:inline-flex"
-        to="/signup"
       />
 
       <LandingLocaleSelector />
@@ -67,7 +53,7 @@ const items = computed(() => [
         :label="$t('header.signIn')"
         color="neutral"
         variant="subtle"
-        to="/login"
+        :to="useLocalePath()(ROUTES.LOGIN)"
         block
         class="mb-3"
       />
@@ -75,7 +61,7 @@ const items = computed(() => [
       <UButton
         :label="$t('header.signUp')"
         color="neutral"
-        to="/signup"
+        :to="useLocalePath()(ROUTES.SIGNUP)"
         block
       />
     </template>

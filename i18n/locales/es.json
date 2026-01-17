@@ -1,4 +1,8 @@
 {
+  "common": {
+    "error": "Error",
+    "success": "Éxito"
+  },
   "homepage": {
     "title": "Bienvenido a EscorialCRM",
     "description": "EscorialCRM es tu solución sencilla y potente para gestionar empresas, productos, clientes y ventas en un solo lugar.",
@@ -258,6 +262,128 @@
     "choose": "Elige la empresa con la que deseas trabajar:",
     "none": "No tienes empresas registradas.",
     "createFirst": "Crea tu primera empresa para comenzar.",
-    "goToDashboard": "Ir al Panel"
+    "goToDashboard": "Ir al Panel",
+    "menu": {
+      "create": "Crear empresa",
+      "manage": "Gestionar empresas"
+    },
+    "select": "Seleccionar Empresa"
+  },
+  "dashboard": {
+    "products": {
+      "title": "Gestión de Productos",
+      "existing": "Productos Existentes"
+    },
+    "customers": {
+      "title": "Gestión de Clientes",
+      "existing": "Clientes Existentes",
+      "loading": "Cargando clientes..."
+    },
+    "sales": {
+      "title": "Gestión de Ventas",
+      "existing": "Ventas Existentes",
+      "loading": "Cargando ventas..."
+    }
+  },
+  "forms": {
+    "selectCustomer": "Seleccionar cliente",
+    "selectProduct": "Seleccionar producto",
+    "companyForm": {
+      "createTitle": "Crear Nueva Empresa",
+      "nameLabel": "Nombre de la Empresa",
+      "namePlaceholder": "Ingresa el nombre de la empresa",
+      "createButton": "Crear Empresa",
+      "deleteTitle": "Eliminar Empresa por ID",
+      "idLabel": "ID de la Empresa",
+      "idPlaceholder": "Ingresa el ID de la empresa a eliminar",
+      "deleteButton": "Eliminar Empresa",
+      "nameRequired": "El nombre de la empresa es requerido",
+      "createdSuccess": "¡Empresa creada exitosamente!",
+      "idInvalid": "Por favor, ingresa un ID de Empresa válido para eliminar.",
+      "deletedSuccess": "¡Empresa eliminada exitosamente!"
+    },
+    "customerForm": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "address": "Dirección",
+      "create": "Crear Cliente",
+      "deleteTitle": "Eliminar Cliente por ID",
+      "id": "ID del Cliente",
+      "delete": "Eliminar Cliente",
+      "createTitle": "Crear Nuevo Cliente",
+      "emailLabel": "Correo Electrónico",
+      "phoneLabel": "Teléfono",
+      "addressLabel": "Dirección",
+      "namePlaceholder": "Ingresa el nombre del cliente",
+      "emailPlaceholder": "Ingresa el correo electrónico",
+      "phonePlaceholder": "Ingresa el número de teléfono",
+      "addressPlaceholder": "Ingresa la dirección",
+      "createButton": "Crear Cliente",
+      "idLabel": "ID del Cliente",
+      "idPlaceholder": "Ingresa el ID del cliente a eliminar",
+      "deleteButton": "Eliminar Cliente",
+      "noCompany": "No se ha seleccionado empresa.",
+      "invalidData": "Por favor, completa al menos nombre y correo electrónico.",
+      "createdSuccess": "¡Cliente creado exitosamente!"
+    },
+    "productForm": {
+      "name": "Nombre",
+      "description": "Descripción",
+      "price": "Precio",
+      "stock": "Stock",
+      "create": "Crear Producto",
+      "deleteTitle": "Eliminar Producto por ID",
+      "id": "ID del Producto",
+      "delete": "Eliminar Producto",
+      "createTitle": "Crear Nuevo Producto",
+      "namePlaceholder": "Ingresa el nombre del producto",
+      "descriptionPlaceholder": "Ingresa la descripción",
+      "pricePlaceholder": "Ingresa el precio",
+      "stockPlaceholder": "Ingresa la cantidad en stock",
+      "idPlaceholder": "Ingresa el ID del producto a eliminar",
+      "noCompany": "No se ha seleccionado empresa.",
+      "invalidData": "Por favor, completa todos los detalles del producto.",
+      "createdSuccess": "¡Producto creado exitosamente!"
+    },
+    "saleForm": {
+      "customer": "Cliente",
+      "product": "Producto",
+      "quantity": "Cantidad",
+      "create": "Crear Venta",
+      "delete": "Eliminar Venta",
+      "createTitle": "Crear Nueva Venta",
+      "customerLabel": "Cliente",
+      "productLabel": "Producto",
+      "productPlaceholder": "Seleccionar un producto",
+      "createButton": "Crear Venta",
+      "deleteTitle": "Eliminar Venta por ID",
+      "idLabel": "ID de la Venta",
+      "idPlaceholder": "Ingresa el ID de la venta a eliminar",
+      "deleteButton": "Eliminar Venta",
+      "noCompany": "No se ha seleccionado empresa.",
+      "invalidData": "Por favor, selecciona un cliente, un producto e ingresa una cantidad válida.",
+      "createdSuccess": "¡Venta creada exitosamente!",
+      "idInvalid": "Por favor, ingresa un ID de Venta válido para eliminar.",
+      "deletedSuccess": "¡Venta eliminada exitosamente!"
+    }
+  },
+  "navigation": {
+    "home": "Inicio",
+    "customers": "Clientes",
+    "products": "Productos",
+    "sales": "Ventas",
+    "feedback": "Comentarios",
+    "help": "Ayuda y Soporte",
+    "goTo": "Ir a"
+  },
+  "cookieConsent": {
+    "message": "Usamos cookies propias para mejorar tu experiencia en nuestro sitio web.",
+    "accept": "Aceptar",
+    "optOut": "Rechazar"
+  },
+  "auth": {
+    "signUpSuccess": "Cuenta creada exitosamente",
+    "signInError": "Correo electrónico o contraseña inválidos"
   }
 }

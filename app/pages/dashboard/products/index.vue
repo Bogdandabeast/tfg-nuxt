@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import ProductForm from "~/components/Dashboard/forms/ProductForm.vue";
+import { getProductPath } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
@@ -18,18 +19,20 @@ const { products, pending } = storeToRefs(productsStore);
 
 <template>
   <div class="space-y-4 w-full">
-    <h1>Products Management</h1>
+    <h1>{{ $t('dashboard.products.title') }}</h1>
 
     <ProductForm />
 
     <UCard class="mt-4">
       <template #header>
-        <h3>Existing Products</h3>
+        <h3>{{ $t('dashboard.products.existing') }}</h3>
       </template>
       <USkeleton v-if="pending" class="h-20 w-full" />
       <ul v-else>
         <li v-for="product in products" :key="product.id">
-          {{ product.id }} - {{ product.name }}
+          <NuxtLink :to="useLocalePath()(getProductPath(product.id))" class="text-blue-600 hover:underline">
+            {{ product.id }} - {{ product.name }}
+          </NuxtLink>
         </li>
       </ul>
     </UCard>

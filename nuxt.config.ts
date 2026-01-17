@@ -53,11 +53,13 @@ export default defineNuxtConfig({
     },
   },
   i18n: {
+    strategy: "prefix",
     defaultLocale: "es",
     locales: [
       { code: "en", name: "English", file: "en.json" },
-      { code: "es", name: "Spanish", file: "es.json" },
+      { code: "es", name: "Español", file: "es.json" },
     ],
+
   },
 
   colorMode: {

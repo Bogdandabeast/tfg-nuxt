@@ -31,9 +31,32 @@ export const useSalesStore = defineStore("sales", () => {
 
   const sales = computed(() => salesResponse.value?.sales || []);
 
+  // Reactive variable for specific sale ID
+  const currentSaleId = ref<number | null>(null);
+
+  // useFetch for specific sale
+  const {
+    data: currentSaleResponse,
+    pending: currentSalePending,
+    error: currentSaleError,
+  } = useFetch<{ sale: Sale }>(() => currentSaleId.value ? `/api/sales/${currentSaleId.value}` : "", {
+    lazy: true,
+  });
+
+  // Method to fetch a specific sale by ID
+  const getSaleById = (saleId: number) => {
+    currentSaleId.value = saleId;
+    return {
+      data: computed(() => currentSaleResponse.value?.sale || null),
+      pending: currentSalePending,
+      error: currentSaleError,
+    };
+  };
+
   return {
     sales,
     pending,
     refreshSales: refresh,
+    getSaleById,
   };
 });
