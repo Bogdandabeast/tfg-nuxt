@@ -34,7 +34,7 @@ async function createCustomerHandler() {
     await customersStore.refreshCustomers();
     newCustomer.value = { name: "", email: "", phone: "", address: "" };
     toast.add({
-      title: "Success",
+      title: t("common.success"),
       description: t("forms.customerForm.createdSuccess"),
       color: "success",
     });

@@ -51,7 +51,7 @@ async function createSaleHandler() {
     newSale.product_id = undefined;
     newSale.quantity = 1;
     toast.add({
-      title: "Success",
+      title: t('common.success'),
       description: t('forms.saleForm.createdSuccess'),
       color: "success",
     });
@@ -70,7 +70,7 @@ async function deleteSaleHandler() {
     salesStore.refreshSales();
     saleToDeleteId.value = "";
     toast.add({
-      title: "Success",
+      title: t('common.success'),
       description: t('forms.saleForm.deletedSuccess'),
       color: "success",
     });
@@ -91,7 +91,7 @@ async function deleteSaleHandler() {
           v-model="newSale.customer_id"
           :items="customerOptions"
           option-attribute="value"
-          :placeholder="$t('forms.selectCustomer')"
+          :placeholder="t('forms.selectCustomer')"
         />
       </UFormField>
 
@@ -104,7 +104,7 @@ async function deleteSaleHandler() {
         />
       </UFormField>
 
-      <UFormField :label="$t('forms.saleForm.quantity')" name="saleQuantity">
+      <UFormField :label="t('forms.saleForm.quantity')" name="saleQuantity">
         <UInput
           v-model.number="newSale.quantity"
           type="number"

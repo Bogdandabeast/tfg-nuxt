@@ -1,4 +1,8 @@
 {
+  "common": {
+    "error": "Error",
+    "success": "Éxito"
+  },
   "homepage": {
     "title": "Bienvenido a EscorialCRM",
     "description": "EscorialCRM es tu solución sencilla y potente para gestionar empresas, productos, clientes y ventas en un solo lugar.",

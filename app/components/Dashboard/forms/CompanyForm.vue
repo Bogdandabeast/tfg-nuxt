@@ -12,7 +12,7 @@ async function createCompanyHandler() {
   if (!newCompanyName.value) {
     error.value = t('forms.companyForm.nameRequired');
     toast.add({
-      title: "Error",
+      title: t('common.error'),
       description: t('forms.companyForm.nameRequired'),
       color: "error",
     });
@@ -23,7 +23,7 @@ async function createCompanyHandler() {
     await companiesStore.refreshCompanies();
     newCompanyName.value = "";
     toast.add({
-      title: "Success",
+      title: t('common.success'),
       description: t('forms.companyForm.createdSuccess'),
       color: "success",
     });
@@ -46,7 +46,7 @@ async function deleteCompanyHandler() {
     }
     companyToDeleteId.value = "";
     toast.add({
-      title: "Success",
+      title: t('common.success'),
       description: t('forms.companyForm.deletedSuccess'),
       color: "success",
     });

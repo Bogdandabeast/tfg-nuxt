@@ -33,7 +33,7 @@ async function createProductHandler() {
     await productsStore.refreshProducts();
     newProduct.value = { name: "", description: "", price: "", stock: 0 };
     toast.add({
-      title: "Success",
+      title: t('common.success'),
       description: t('forms.productForm.createdSuccess'),
       color: "success",
     });
@@ -57,21 +57,21 @@ async function deleteProductHandler() {
 
     <div class="space-y-4">
       <UFormField
-        :label="$t('forms.productForm.name')"
+        :label="t('forms.productForm.name')"
         name="newProductName"
       >
         <UInput v-model="newProduct.name" :placeholder="t('forms.productForm.namePlaceholder')" />
       </UFormField>
 
       <UFormField
-        :label="$t('forms.productForm.description')"
+        :label="t('forms.productForm.description')"
         name="newProductDescription"
       >
         <UInput v-model="newProduct.description" :placeholder="t('forms.productForm.descriptionPlaceholder')" />
       </UFormField>
 
       <UFormField
-        :label="$t('forms.productForm.price')"
+        :label="t('forms.productForm.price')"
         name="newProductPrice"
       >
         <UInput
@@ -82,7 +82,7 @@ async function deleteProductHandler() {
       </UFormField>
 
       <UFormField
-        :label="$t('forms.productForm.stock')"
+        :label="t('forms.productForm.stock')"
         name="newProductStock"
       >
         <UInput
@@ -95,18 +95,18 @@ async function deleteProductHandler() {
 
     <template #footer>
       <UButton :loading="isCreateProductLoading" @click="createProductHandler">
-        {{ $t('forms.productForm.create') }}
+        {{ t('forms.productForm.create') }}
       </UButton>
     </template>
   </UCard>
 
   <UCard>
     <template #header>
-      <h3>{{ $t('forms.productForm.deleteTitle') }}</h3>
+      <h3>{{ t('forms.productForm.deleteTitle') }}</h3>
     </template>
 
     <UFormField
-      :label="$t('forms.productForm.id')"
+      :label="t('forms.productForm.id')"
       name="productToDeleteId"
       class="mb-4"
     >
@@ -118,7 +118,7 @@ async function deleteProductHandler() {
       :loading="isDeleteProductLoading"
       @click="deleteProductHandler"
     >
-      {{ $t('forms.productForm.delete') }}
+      {{ t('forms.productForm.delete') }}
     </UButton>
   </UCard>
 

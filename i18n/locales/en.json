@@ -1,4 +1,8 @@
 {
+  "common": {
+    "error": "Error",
+    "success": "Success"
+  },
   "homepage": {
     "title": "Welcome to EscorialCRM",
     "description": "EscorialCRM is your simple yet powerful solution to manage companies, products, clients, and sales all in one place.",

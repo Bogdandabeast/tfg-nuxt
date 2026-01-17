@@ -1,5 +1,6 @@
 import { getCompaniesByUserId } from "~~/lib/db/queries/company";
 import { getCustomerById, updateCustomer } from "~~/lib/db/queries/customers";
+import type { Customer } from "~~/lib/db/queries/customers";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { handleError } from "~~/utils/error-handler";
 import { customerCreateSchema } from "~~/utils/schemas/customers";
@@ -17,20 +18,16 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const body = await readBody(event);
     const parsedData = customerCreateSchema.partial().parse(body);
 
-    const customer = await getCustomerById(Number(id));
-    if (!customer) {
-      throw createError({ statusCode: 404, statusMessage: "Customer not found" });
-    }
-
-    const customerData = customer;
-    if (!customerData.company_id) {
-      throw createError({ statusCode: 404, statusMessage: "Customer not found" });
-    }
-
     const userCompanies = await getCompaniesByUserId(event.context.user.id);
     const userCompanyIds = userCompanies.map(c => c.id);
-    if (!userCompanyIds.includes(customerData!.company_id)) {
-      throw createError({ statusCode: 404, statusMessage: "Not Found" });
+
+    let customer: Customer | null = null;
+    for (const companyId of userCompanyIds) {
+      customer = await getCustomerById(Number(id), companyId);
+      if (customer) break;
+    }
+    if (!customer) {
+      throw createError({ statusCode: 404, statusMessage: "Customer not found" });
     }
 
     const updatedCustomer = await updateCustomer(Number(id), parsedData);
