@@ -18,6 +18,7 @@ export async function getCustomerById(id: number, company_id: number): Promise<C
 export async function findCustomerInUserCompanies(customerId: number, userId: string): Promise<Customer | null> {
   const userCompanies = await getCompaniesByUserId(userId);
   const companyIds = userCompanies.map(c => c.id);
+  if (companyIds.length === 0) return null;
   const result = await db.select().from(customersTable).where(and(eq(customersTable.id, customerId), inArray(customersTable.company_id, companyIds))).limit(1);
   return result[0] || null;
 }
