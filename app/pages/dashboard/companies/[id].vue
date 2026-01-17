@@ -1,9 +1,17 @@
-<script lang="ts">
+<script lang="ts" setup>
+definePageMeta({
+  layout: "dashboard",
+});
+const route = useRoute();
+const companyId = route.params.id as string;
 
+const companiesStore = useCompaniesStore();
+const { data } = companiesStore.getCompanyById(Number(companyId));
 </script>
 
 <template>
   <div>
-    <h1>Hola el id es: {{ $route.params.id }}</h1>
+    <div>company id requested {{ companyId }}</div>
+    <pre>{{ data }}</pre>
   </div>
 </template>
