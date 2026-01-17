@@ -1,6 +1,4 @@
-import { getCompaniesByUserId } from "~~/lib/db/queries/company";
-import { deleteCustomer, getCustomerById } from "~~/lib/db/queries/customers";
-import type { Customer } from "~~/lib/db/queries/customers";
+import { findCustomerInUserCompanies, deleteCustomer } from "~~/lib/db/queries/customers";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { handleError } from "~~/utils/error-handler";
 
@@ -21,14 +19,8 @@ export default defineAuthenticatedEventHandler(async (event) => {
     }
 
     // Get the customer to check ownership
-    const userCompanies = await getCompaniesByUserId(event.context.user.id);
-    const userCompanyIds = userCompanies.map(c => c.id);
-
-    let customerData: Customer | null = null;
-    for (const companyId of userCompanyIds) {
-      customerData = await getCustomerById(customerId, companyId);
-      if (customerData) break;
-    }
+    const userId = event.context.user.id;
+    const customerData = await findCustomerInUserCompanies(customerId, userId);
     if (!customerData || !customerData.company_id) {
       throw createError({ statusCode: 404, statusMessage: "Customer not found" });
     }
