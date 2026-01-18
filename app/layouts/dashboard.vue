@@ -20,7 +20,15 @@ const links = [
     {
       label: t("navigation.home"),
       icon: "lucide:house",
-      to: localePath("/"),
+      to: localePath(ROUTES.home),
+      onSelect: () => {
+        open.value = false;
+      },
+    },
+    {
+      label: t("navigation.metrics"),
+      icon: "lucide:dollar-sign",
+      to: localePath(ROUTES.dashboard),
       onSelect: () => {
         open.value = false;
       },
