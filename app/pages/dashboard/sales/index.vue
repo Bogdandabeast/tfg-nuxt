@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { TableColumn } from "@nuxt/ui";
-import { h } from "vue";
+import type { Sale } from "~/types";
 import { storeToRefs } from "pinia";
+import { h, resolveComponent } from "vue";
 import SaleForm from "~/components/Dashboard/forms/SaleForm.vue";
 
 definePageMeta({
@@ -11,6 +11,8 @@ definePageMeta({
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
+const companiesStore = useCompaniesStore();
+const { deleteSale } = useSalesApi();
 
 // Refresh data on page load asynchronously for lazy loading
 salesStore.refreshSales();
@@ -25,7 +27,7 @@ const detailedSales = computed(() => {
   return sales.value?.map((sale) => {
     const customer = customers.value?.find(c => c.id === sale.customer_id);
     const product = products.value?.find(p => p.id === sale.product_id);
-    const amount = product ? product.price * sale.quantity : 0;
+    const amount = product ? Number(product.price) * sale.quantity : 0;
     return {
       ...sale,
       customerName: customer ? customer.name : "Unknown",
@@ -37,14 +39,14 @@ const detailedSales = computed(() => {
 
 const isEditModalOpen = ref(false);
 const isDeleteModalOpen = ref(false);
-const selectedSale = ref(null);
+const selectedSale = ref<Sale | null>(null);
 
-function openEditModal(sale) {
+function openEditModal(sale: Sale) {
   selectedSale.value = sale;
   isEditModalOpen.value = true;
 }
 
-function openDeleteModal(sale) {
+function openDeleteModal(sale: Sale) {
   selectedSale.value = sale;
   isDeleteModalOpen.value = true;
 }
@@ -57,21 +59,24 @@ function closeModals() {
 
 async function handleDelete() {
   if (selectedSale.value) {
-    await salesStore.deleteSale(selectedSale.value.id);
-    closeModals();
+    const success = await deleteSale(selectedSale.value.id.toString(), companiesStore.currentCompany!.id.toString());
+    if (success) {
+      salesStore.refreshSales();
+      closeModals();
+    }
   }
 }
 
-const columns: TableColumn[] = [
+const columns = [
   {
     accessorKey: "id",
     header: "ID",
-    cell: ({ row }) => `#${row.getValue("id")}`,
+    cell: ({ row }: any) => `#${row.getValue("id")}`,
   },
   {
     accessorKey: "sale_date",
     header: "Date",
-    cell: ({ row }) => {
+    cell: ({ row }: any) => {
       return new Date(row.getValue("sale_date")).toLocaleString("en-US", {
         day: "numeric",
         month: "short",
@@ -84,12 +89,12 @@ const columns: TableColumn[] = [
   {
     accessorKey: "customerName",
     header: "Customer",
-    cell: ({ row }) => row.getValue("customerName"),
+    cell: ({ row }: any) => row.getValue("customerName"),
   },
   {
     accessorKey: "productName",
     header: "Product",
-    cell: ({ row }) => row.getValue("productName"),
+    cell: ({ row }: any) => row.getValue("productName"),
   },
   {
     accessorKey: "quantity",
@@ -98,7 +103,7 @@ const columns: TableColumn[] = [
   {
     accessorKey: "amount",
     header: () => h("div", { class: "text-right" }, "Amount"),
-    cell: ({ row }) => {
+    cell: ({ row }: any) => {
       const amount = Number.parseFloat(row.getValue("amount"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -110,10 +115,13 @@ const columns: TableColumn[] = [
   {
     id: "actions",
     header: "Actions",
-    cell: ({ row }) => h("div", { class: "flex gap-2" }, [
-      h("UButton", { size: "xs", variant: "outline", color: "primary", onClick: () => openEditModal(row.original) }, "Edit"),
-      h("UButton", { size: "xs", variant: "outline", color: "error", onClick: () => openDeleteModal(row.original) }, "Delete"),
-    ]),
+    cell: ({ row }: any) => {
+      const UButton = resolveComponent("UButton");
+      return h("div", { class: "flex gap-2" }, [
+        h(UButton, { size: "xs", variant: "outline", color: "primary", onClick: () => openEditModal(row.original) }, "Edit"),
+        h(UButton, { size: "xs", variant: "outline", color: "error", onClick: () => openDeleteModal(row.original) }, "Delete"),
+      ]);
+    },
   },
 ];
 </script>
@@ -132,7 +140,7 @@ const columns: TableColumn[] = [
       <template #body>
         <SaleForm
           :edit-mode="!!selectedSale"
-          :sale-data="selectedSale"
+          :sale-data="selectedSale as any"
           @close="closeModals"
         />
       </template>
