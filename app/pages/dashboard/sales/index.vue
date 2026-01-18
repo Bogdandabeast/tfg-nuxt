@@ -3,7 +3,6 @@ import type { TableColumn } from "@nuxt/ui";
 import { h } from "vue";
 import { storeToRefs } from "pinia";
 import SaleForm from "~/components/Dashboard/forms/SaleForm.vue";
-import SaleForm from "~/components/Dashboard/forms/SaleForm.vue";
 
 definePageMeta({
   layout: "dashboard",
