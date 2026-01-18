@@ -18,7 +18,7 @@ const { customers, pending } = storeToRefs(customersStore);
 </script>
 
 <template>
-  <div class="space-y-4 w-full">
+  <UContainer class="space-y-4 w-full">
     <h1>{{ $t('dashboard.customers.title') }}</h1>
 
     <CustomerForm />
@@ -38,5 +38,5 @@ const { customers, pending } = storeToRefs(customersStore);
         </li>
       </ul>
     </UCard>
-  </div>
+  </UContainer>
 </template>

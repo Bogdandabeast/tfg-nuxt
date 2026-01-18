@@ -36,7 +36,7 @@ const detailedSales = computed(() => {
 </script>
 
 <template>
-  <div class="space-y-4 w-full">
+  <UContainer class="space-y-4 w-full">
     <h1>{{ $t('dashboard.sales.title') }}</h1>
 
     <SaleForm />
@@ -56,5 +56,5 @@ const detailedSales = computed(() => {
         </li>
       </ul>
     </UCard>
-  </div>
+  </UContainer>
 </template>

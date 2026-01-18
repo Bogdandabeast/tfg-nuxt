@@ -10,10 +10,10 @@ const error = ref("");
 
 async function createCompanyHandler() {
   if (!newCompanyName.value) {
-    error.value = t('forms.companyForm.nameRequired');
+    error.value = t("forms.companyForm.nameRequired");
     toast.add({
-      title: t('common.error'),
-      description: t('forms.companyForm.nameRequired'),
+      title: t("common.error"),
+      description: t("forms.companyForm.nameRequired"),
       color: "error",
     });
     return;
@@ -23,8 +23,8 @@ async function createCompanyHandler() {
     await companiesStore.refreshCompanies();
     newCompanyName.value = "";
     toast.add({
-      title: t('common.success'),
-      description: t('forms.companyForm.createdSuccess'),
+      title: t("common.success"),
+      description: t("forms.companyForm.createdSuccess"),
       color: "success",
     });
     error.value = "";
@@ -34,7 +34,7 @@ async function createCompanyHandler() {
 async function deleteCompanyHandler() {
   const id = Number(companyToDeleteId.value);
   if (!companyToDeleteId.value || Number.isNaN(id)) {
-    error.value = t('forms.companyForm.idInvalid');
+    error.value = t("forms.companyForm.idInvalid");
     return;
   }
   const success = await deleteCompany(id);
@@ -46,8 +46,8 @@ async function deleteCompanyHandler() {
     }
     companyToDeleteId.value = "";
     toast.add({
-      title: t('common.success'),
-      description: t('forms.companyForm.deletedSuccess'),
+      title: t("common.success"),
+      description: t("forms.companyForm.deletedSuccess"),
       color: "success",
     });
     error.value = "";

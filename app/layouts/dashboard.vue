@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { useI18n } from "vue-i18n";
-
 import { ROUTES } from "~~/lib/constants";
+
+import CompaniesMenu from "~/components/Dashboard/CompaniesMenu.vue";
 
 const { t } = useI18n();
 const toast = useToast();
@@ -101,7 +102,7 @@ onMounted(async () => {
       :ui="{ footer: 'lg:border-t lg:border-default' }"
     >
       <template #header="{ collapsed }">
-        <TeamsMenu :collapsed="collapsed" />
+        <CompaniesMenu :collapsed="collapsed" />
       </template>
 
       <template #default="{ collapsed }">
@@ -123,16 +124,10 @@ onMounted(async () => {
           class="mt-auto"
         />
       </template>
-
-      <template #footer="{ collapsed }">
-        <UserMenu :collapsed="collapsed" />
-      </template>
     </UDashboardSidebar>
 
     <UDashboardSearch :groups="groups" />
 
     <slot />
-
-    <NotificationsSlideover />
   </UDashboardGroup>
 </template>

@@ -10,10 +10,35 @@ const { data, pending, error } = companiesStore.getCompanyById(Number(companyId)
 
 const isDeleteModalOpen = ref(false);
 
-const handleDelete = async () => {
+async function handleDelete() {
   // Implement delete logic
   isDeleteModalOpen.value = false;
-};
+}
+
+const UBadge = resolveComponent("UBadge");
+
+const tableData = computed(() => [
+  { label: "ID", value: data.value?.id },
+  { label: "Name", value: data.value?.name },
+  { label: "User ID", value: data.value?.user_id },
+]);
+
+const tableColumns = [
+  { accessorKey: "label", header: "Field", cell: ({ row }: { row: Record<string, any> }) => h("span", { class: "font-medium" }, row.getValue("label")) },
+  { accessorKey: "value", header: "Value", cell: ({ row }: { row: Record<string, any> }) => {
+    const label = row.original.label;
+    const value = row.getValue("value");
+    if (label === "ID") {
+      return h(UBadge, { color: "primary", variant: "soft" }, () => value);
+    }
+    return h("span", {}, () => value);
+  } },
+];
+
+const tabItems = [
+  { label: "General Information", slot: "general" },
+  { label: "Actions", slot: "actions" },
+];
 </script>
 
 <template>
@@ -26,7 +51,7 @@ const handleDelete = async () => {
         <UColorModeButton />
         <UDropdownMenu mode="click">
           <UButton
-            color="gray"
+            color="neutral"
             variant="soft"
             icon="i-heroicons-ellipsis-horizontal-20-solid"
             square
@@ -50,7 +75,7 @@ const handleDelete = async () => {
     <div class="space-y-6">
       <UAlert
         v-if="error"
-        color="red"
+        color="error"
         variant="subtle"
         icon="i-heroicons-exclamation-triangle-20-solid"
         title="Error loading company"
@@ -73,38 +98,29 @@ const handleDelete = async () => {
           <div class="flex items-center gap-3">
             <UIcon name="i-heroicons-building-office-20-solid" class="h-8 w-8 text-primary" />
             <div>
-              <h3 class="text-lg font-semibold">{{ data.name }}</h3>
-              <p class="text-sm text-gray-500">Company ID: {{ data.id }}</p>
+              <h3 class="text-lg font-semibold">
+                {{ data.name }}
+              </h3>
+              <p class="text-sm text-gray-500">
+                Company ID: {{ data.id }}
+              </p>
             </div>
-            <UBadge color="green" variant="subtle">Active</UBadge>
+            <UBadge color="green" variant="subtle">
+              Active
+            </UBadge>
           </div>
         </template>
 
-        <UTabs>
-          <UTab name="general" label="General Information">
+        <UTabs :items="[{ label: 'General Information', slot: 'general' }, { label: 'Actions', slot: 'actions' }]">
+          <template #general>
             <UTable
-              :rows="[
-                { label: 'ID', value: data.id },
-                { label: 'Name', value: data.name },
-                { label: 'User ID', value: data.user_id }
-              ]"
-              :columns="[
-                { key: 'label', label: 'Field' },
-                { key: 'value', label: 'Value' }
-              ]"
+              :data="tableData"
+              :columns="tableColumns"
               class="w-full"
-            >
-              <template #label-data="{ row }">
-                <span class="font-medium">{{ row.label }}</span>
-              </template>
-              <template #value-data="{ row }">
-                <UBadge v-if="row.label === 'ID'" color="blue" variant="soft">{{ row.value }}</UBadge>
-                <span v-else>{{ row.value }}</span>
-              </template>
-            </UTable>
-          </UTab>
+            />
+          </template>
 
-          <UTab name="actions" label="Actions">
+          <template #actions>
             <div class="space-y-4">
               <UButton
                 icon="i-heroicons-pencil-square-20-solid"
@@ -123,7 +139,7 @@ const handleDelete = async () => {
                 View All Companies
               </UButton>
             </div>
-          </UTab>
+          </template>
         </UTabs>
 
         <template #footer>
@@ -161,7 +177,9 @@ const handleDelete = async () => {
           title="Company not found"
           description="The requested company could not be found."
         >
-          <UButton to="/dashboard/companies">Back to Companies</UButton>
+          <UButton to="/dashboard/companies">
+            Back to Companies
+          </UButton>
         </UEmpty>
       </UCard>
     </div>
@@ -169,13 +187,19 @@ const handleDelete = async () => {
     <UModal v-model="isDeleteModalOpen">
       <UCard>
         <template #header>
-          <h3 class="text-lg font-semibold">Delete Company</h3>
+          <h3 class="text-lg font-semibold">
+            Delete Company
+          </h3>
         </template>
         <p>Are you sure you want to delete this company? This action cannot be undone.</p>
         <template #footer>
           <div class="flex justify-end gap-2">
-            <UButton variant="ghost" @click="isDeleteModalOpen = false">Cancel</UButton>
-            <UButton color="red" @click="handleDelete">Delete</UButton>
+            <UButton variant="ghost" @click="isDeleteModalOpen = false">
+              Cancel
+            </UButton>
+            <UButton color="error" @click="handleDelete">
+              Delete
+            </UButton>
           </div>
         </template>
       </UCard>

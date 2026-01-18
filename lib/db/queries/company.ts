@@ -7,8 +7,6 @@ export async function createCompany(data: CompanyInsert) {
   return db.insert(companiesTable).values(data).returning();
 }
 
-
-
 export async function getCompaniesByUserId(userId: string) {
   return db.select().from(companiesTable).where(eq(companiesTable.user_id, userId));
 }

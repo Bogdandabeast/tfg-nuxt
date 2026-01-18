@@ -16,11 +16,11 @@ const error = ref("");
 
 async function createProductHandler() {
   if (!companiesStore.currentCompany?.id) {
-    error.value = t('forms.productForm.noCompany');
+    error.value = t("forms.productForm.noCompany");
     return;
   }
   if (!newProduct.value.name || !newProduct.value.description || !newProduct.value.price) {
-    error.value = t('forms.productForm.invalidData');
+    error.value = t("forms.productForm.invalidData");
     return;
   }
   const productData = {
@@ -33,8 +33,8 @@ async function createProductHandler() {
     await productsStore.refreshProducts();
     newProduct.value = { name: "", description: "", price: "", stock: 0 };
     toast.add({
-      title: t('common.success'),
-      description: t('forms.productForm.createdSuccess'),
+      title: t("common.success"),
+      description: t("forms.productForm.createdSuccess"),
       color: "success",
     });
     error.value = "";

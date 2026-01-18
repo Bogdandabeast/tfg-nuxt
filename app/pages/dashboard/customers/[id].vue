@@ -10,10 +10,49 @@ const { data, pending, error } = customersStore.getCustomerById(customerId);
 
 const isDeleteModalOpen = ref(false);
 
-const handleDelete = async () => {
+async function handleDelete() {
   // Implement delete logic
   isDeleteModalOpen.value = false;
-};
+}
+
+const UBadge = resolveComponent("UBadge");
+
+const tableData = computed(() => [
+  { label: "ID", value: data.value?.id },
+  { label: "Name", value: data.value?.name },
+  { label: "Email", value: data.value?.email },
+  { label: "Phone", value: data.value?.phone },
+  { label: "Address", value: data.value?.address },
+  { label: "Company ID", value: data.value?.company_id },
+]);
+
+const tableColumns = [
+  {
+    accessorKey: "label",
+    header: "Field",
+    cell: ({ row }: { row: Record<string, any> }) =>
+      h("span", { class: "font-medium" }, row.getValue("label")),
+  },
+  {
+    accessorKey: "value",
+    header: "Value",
+    cell: ({ row }: { row: Record<string, any> }) => {
+      const label = row.original.label;
+      const value = row.getValue("value");
+
+      if (label === "ID") {
+        return h(UBadge, { color: "primary", variant: "soft" }, () => String(value));
+      }
+
+      return h("span", {}, String(value));
+    },
+  },
+];
+
+const tabItems = [
+  { label: "Contact Information", slot: "contact" },
+  { label: "Actions", slot: "actions" },
+];
 </script>
 
 <template>
@@ -26,7 +65,7 @@ const handleDelete = async () => {
         <UColorModeButton />
         <UDropdownMenu mode="click">
           <UButton
-            color="gray"
+            color="neutral"
             variant="soft"
             icon="i-heroicons-ellipsis-horizontal-20-solid"
             square
@@ -54,7 +93,7 @@ const handleDelete = async () => {
     <div class="space-y-6">
       <UAlert
         v-if="error"
-        color="red"
+        color="error"
         variant="subtle"
         icon="i-heroicons-exclamation-triangle-20-solid"
         title="Error loading customer"
@@ -82,43 +121,29 @@ const handleDelete = async () => {
               :initials="data.name.split(' ').map(n => n[0]).join('').toUpperCase()"
             />
             <div>
-              <h3 class="text-lg font-semibold">{{ data.name }}</h3>
-              <p class="text-sm text-gray-500">Customer ID: {{ data.id }}</p>
+              <h3 class="text-lg font-semibold">
+                {{ data.name }}
+              </h3>
+              <p class="text-sm text-gray-500">
+                Customer ID: {{ data.id }}
+              </p>
             </div>
-            <UBadge color="blue" variant="subtle">Active</UBadge>
+            <UBadge color="blue" variant="subtle">
+              Active
+            </UBadge>
           </div>
         </template>
 
-        <UTabs>
-          <UTab name="contact" label="Contact Information">
+        <UTabs :items="tabItems">
+          <template #contact>
             <UTable
-              :rows="[
-                { label: 'ID', value: data.id },
-                { label: 'Name', value: data.name },
-                { label: 'Email', value: data.email },
-                { label: 'Phone', value: data.phone },
-                { label: 'Address', value: data.address },
-                { label: 'Company ID', value: data.company_id }
-              ]"
-              :columns="[
-                { key: 'label', label: 'Field' },
-                { key: 'value', label: 'Value' }
-              ]"
+              :data="tableData"
+              :columns="tableColumns"
               class="w-full"
-            >
-              <template #label-data="{ row }">
-                <span class="font-medium">{{ row.label }}</span>
-              </template>
-              <template #value-data="{ row }">
-                <UBadge v-if="row.label === 'ID'" color="blue" variant="soft">{{ row.value }}</UBadge>
-                <ULink v-else-if="row.label === 'Email'" :to="`mailto:${row.value}`" target="_blank">{{ row.value }}</ULink>
-                <ULink v-else-if="row.label === 'Phone'" :to="`tel:${row.value}`">{{ row.value }}</ULink>
-                <span v-else>{{ row.value }}</span>
-              </template>
-            </UTable>
-          </UTab>
+            />
+          </template>
 
-          <UTab name="actions" label="Actions">
+          <template #actions>
             <div class="space-y-4">
               <UButton
                 icon="i-heroicons-pencil-square-20-solid"
@@ -140,12 +165,12 @@ const handleDelete = async () => {
                 variant="outline"
                 size="lg"
                 block
-                to="/dashboard/customers"
+                :to="localePath(ROUTES.CUSTOMERS)"
               >
                 View All Customers
               </UButton>
             </div>
-          </UTab>
+          </template>
         </UTabs>
 
         <template #footer>
@@ -183,7 +208,9 @@ const handleDelete = async () => {
           title="Customer not found"
           description="The requested customer could not be found."
         >
-          <UButton to="/dashboard/customers">Back to Customers</UButton>
+          <UButton to="/dashboard/customers">
+            Back to Customers
+          </UButton>
         </UEmpty>
       </UCard>
     </div>
@@ -191,13 +218,19 @@ const handleDelete = async () => {
     <UModal v-model="isDeleteModalOpen">
       <UCard>
         <template #header>
-          <h3 class="text-lg font-semibold">Delete Customer</h3>
+          <h3 class="text-lg font-semibold">
+            Delete Customer
+          </h3>
         </template>
         <p>Are you sure you want to delete this customer? This action cannot be undone.</p>
         <template #footer>
           <div class="flex justify-end gap-2">
-            <UButton variant="ghost" @click="isDeleteModalOpen = false">Cancel</UButton>
-            <UButton color="red" @click="handleDelete">Delete</UButton>
+            <UButton variant="ghost" @click="isDeleteModalOpen = false">
+              Cancel
+            </UButton>
+            <UButton color="red" @click="handleDelete">
+              Delete
+            </UButton>
           </div>
         </template>
       </UCard>

@@ -40,7 +40,7 @@ function selectCompany(company: any) {
 </script>
 
 <template>
-  <div class="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+  <UContainer class="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
     <UCard class="w-full max-w-md">
       <template #header>
         <h1 class="text-2xl font-bold text-center">
@@ -76,5 +76,5 @@ function selectCompany(company: any) {
         </UButton>
       </div>
     </UCard>
-  </div>
+  </UContainer>
 </template>

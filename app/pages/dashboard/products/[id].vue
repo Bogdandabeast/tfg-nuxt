@@ -10,13 +10,74 @@ const { data, pending, error } = productsStore.getProductById(productId);
 
 const isDeleteModalOpen = ref(false);
 
-const handleDelete = async () => {
+async function handleDelete() {
   // Implement delete logic
   isDeleteModalOpen.value = false;
-};
+}
+
+const UBadge = resolveComponent("UBadge");
+
+const tableData = computed(() => [
+  { label: "ID", value: data.value?.id },
+  { label: "Name", value: data.value?.name },
+  { label: "Description", value: data.value?.description },
+  { label: "Price", value: data.value?.price ? `$${data.value.price}` : "N/A" },
+  { label: "Stock", value: data.value?.stock },
+  { label: "Company ID", value: data.value?.company_id },
+]);
+
+const tableColumns: TableColumn[] = [
+  {
+    accessorKey: "label",
+    header: "Field",
+    meta: {
+      class: {
+        th: "w-1/3",
+        td: "w-1/3",
+      },
+    },
+    cell: ({ row }) => h("span", { class: "font-medium text-gray-700" }, row.getValue("label")),
+  },
+  {
+    accessorKey: "value",
+    header: "Value",
+    meta: {
+      class: {
+        th: "w-2/3",
+        td: "w-2/3",
+      },
+    },
+    cell: ({ row }) => {
+      const label = row.original.label;
+      const value = row.getValue("value");
+
+      if (value == null || value === "") {
+        return h("span", { class: "text-gray-400 italic" }, "N/A");
+      }
+
+      if (label === "ID") {
+        return h(UBadge, { color: "primary", variant: "soft" }, () => String(value));
+      }
+
+      if (label === "Stock") {
+        const stockValue = Number(value);
+        const color = stockValue > 0 ? "success" : "error";
+        return h(UBadge, { color, variant: "subtle" }, () => String(value));
+      }
+
+      return h("span", {}, String(value));
+    },
+  },
+];
+
+const tabItems = [
+  { label: "Product Details", slot: "details" },
+  { label: "Actions", slot: "actions" },
+];
 
 const stockPercentage = computed(() => {
-  if (!data) return 0;
+  if (!data)
+    return 0;
   return Math.min((data.stock / 100) * 100, 100); // Assuming max stock 100 for demo
 });
 </script>
@@ -27,11 +88,17 @@ const stockPercentage = computed(() => {
       title="Product Details"
       :description="`Viewing product ${productId}`"
     >
+      <div v-if="pending">
+        loading ...
+      </div>
+      <div v-else>
+        {{ tableData }}
+      </div>
       <template #actions>
         <UColorModeButton />
         <UDropdownMenu mode="click">
           <UButton
-            color="gray"
+            color="neutral"
             variant="soft"
             icon="i-heroicons-ellipsis-horizontal-20-solid"
             square
@@ -59,7 +126,7 @@ const stockPercentage = computed(() => {
     <div class="space-y-6">
       <UAlert
         v-if="error"
-        color="red"
+        color="error"
         variant="subtle"
         icon="i-heroicons-exclamation-triangle-20-solid"
         title="Error loading product"
@@ -82,8 +149,12 @@ const stockPercentage = computed(() => {
           <div class="flex items-center gap-3">
             <UIcon name="i-heroicons-cube-20-solid" class="h-8 w-8 text-primary" />
             <div>
-              <h3 class="text-lg font-semibold">{{ data.name }}</h3>
-              <p class="text-sm text-gray-500">Product ID: {{ data.id }}</p>
+              <h3 class="text-lg font-semibold">
+                {{ data.name }}
+              </h3>
+              <p class="text-sm text-gray-500">
+                Product ID: {{ data.id }}
+              </p>
             </div>
             <UBadge :color="data.stock > 0 ? 'green' : 'red'" variant="subtle">
               {{ data.stock > 0 ? 'In Stock' : 'Out of Stock' }}
@@ -91,43 +162,18 @@ const stockPercentage = computed(() => {
           </div>
         </template>
 
-        <UTabs>
-          <UTab name="details" label="Product Details">
+        <UTabs :items="tabItems">
+          <template #details>
             <div class="space-y-6">
               <UTable
-                :rows="[
-                  { label: 'ID', value: data.id },
-                  { label: 'Name', value: data.name },
-                  { label: 'Description', value: data.description },
-                  { label: 'Price', value: `$${data.price}` },
-                  { label: 'Stock', value: data.stock },
-                  { label: 'Company ID', value: data.company_id }
-                ]"
-                :columns="[
-                  { key: 'label', label: 'Field' },
-                  { key: 'value', label: 'Value' }
-                ]"
+                :data="tableData"
+                :columns="tableColumns"
                 class="w-full"
-              >
-                <template #label-data="{ row }">
-                  <span class="font-medium">{{ row.label }}</span>
-                </template>
-                <template #value-data="{ row }">
-                  <UBadge v-if="row.label === 'ID'" color="blue" variant="soft">{{ row.value }}</UBadge>
-                  <UBadge v-else-if="row.label === 'Stock'" :color="row.value > 0 ? 'green' : 'red'" variant="soft">{{ row.value }}</UBadge>
-                  <span v-else>{{ row.value }}</span>
-                </template>
-              </UTable>
-
-              <div>
-                <label class="text-sm font-medium">Stock Level</label>
-                <UProgress :percentage="stockPercentage" class="mt-2" />
-                <p class="text-xs text-gray-500 mt-1">{{ data.stock }} units available</p>
-              </div>
+              />
             </div>
-          </UTab>
+          </template>
 
-          <UTab name="actions" label="Actions">
+          <template #actions>
             <div class="space-y-4">
               <UButton
                 icon="i-heroicons-pencil-square-20-solid"
@@ -149,12 +195,12 @@ const stockPercentage = computed(() => {
                 variant="outline"
                 size="lg"
                 block
-                to="/dashboard/products"
+                :to="localePath(ROUTES.PRODUCTS)"
               >
                 View All Products
               </UButton>
             </div>
-          </UTab>
+          </template>
         </UTabs>
 
         <template #footer>
@@ -199,7 +245,9 @@ const stockPercentage = computed(() => {
           title="Product not found"
           description="The requested product could not be found."
         >
-          <UButton to="/dashboard/products">Back to Products</UButton>
+          <UButton to="/dashboard/products">
+            Back to Products
+          </UButton>
         </UEmpty>
       </UCard>
     </div>
@@ -207,13 +255,19 @@ const stockPercentage = computed(() => {
     <UModal v-model="isDeleteModalOpen">
       <UCard>
         <template #header>
-          <h3 class="text-lg font-semibold">Delete Product</h3>
+          <h3 class="text-lg font-semibold">
+            Delete Product
+          </h3>
         </template>
         <p>Are you sure you want to delete this product? This action cannot be undone.</p>
         <template #footer>
           <div class="flex justify-end gap-2">
-            <UButton variant="ghost" @click="isDeleteModalOpen = false">Cancel</UButton>
-            <UButton color="red" @click="handleDelete">Delete</UButton>
+            <UButton variant="ghost" @click="isDeleteModalOpen = false">
+              Cancel
+            </UButton>
+            <UButton color="red" @click="handleDelete">
+              Delete
+            </UButton>
           </div>
         </template>
       </UCard>

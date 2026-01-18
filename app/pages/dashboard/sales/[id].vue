@@ -6,14 +6,78 @@ const route = useRoute();
 const saleId = route.params.id as string;
 
 const salesStore = useSalesStore();
-const { data, pending, error } = salesStore.getSaleById(saleId);
+const customersStore = useCustomersStore();
+const productsStore = useProductsStore();
+const { data: saleData, pending, error } = salesStore.getSaleById(saleId);
+const { data: customerData } = customersStore.getCustomerById(saleData.value!.customer_id);
+const { data: productData } = productsStore.getProductById(saleData.value!.product_id);
 
 const isDeleteModalOpen = ref(false);
 
-const handleDelete = async () => {
+const timelineItems = computed(() => [
+  {
+    title: "Sale Created",
+    description: `Sale #${saleData.value?.id} was created on ${saleData.value?.sale_date ? new Date(saleData.value.sale_date).toLocaleDateString() : ""}.`,
+    icon: "i-heroicons-shopping-bag-20-solid",
+  },
+  {
+    title: "Payment Processed",
+    description: "Payment was successfully processed.",
+    icon: "i-heroicons-currency-dollar-20-solid",
+  },
+  {
+    title: "Order Fulfilled",
+    description: "Order has been fulfilled and shipped.",
+    icon: "i-heroicons-truck-20-solid",
+  },
+]);
+
+async function handleDelete() {
   // Implement delete logic
   isDeleteModalOpen.value = false;
-};
+}
+
+const UBadge = resolveComponent("UBadge");
+
+const tableData = computed(() => [
+  { label: "Sale ID", value: saleData.value?.id },
+  { label: "Customer Name", value: customerData.value?.name || "Loading..." },
+  { label: "Customer Email", value: customerData.value?.email || "Loading..." },
+  { label: "Product Name", value: productData.value?.name || "Loading..." },
+  { label: "Product Price", value: productData.value?.price ? `$${productData.value.price}` : "Loading..." },
+  { label: "Product Stock", value: productData.value?.stock || "Loading..." },
+  { label: "Quantity", value: saleData.value?.quantity },
+  { label: "Sale Date", value: saleData.value?.sale_date ? new Date(saleData.value.sale_date).toLocaleString() : "N/A" },
+  { label: "Company ID", value: saleData.value?.company_id },
+]);
+
+const tableColumns = [
+  {
+    accessorKey: "label",
+    header: "Field",
+    cell: ({ row }: { row: Record<string, any> }) =>
+      h("span", { class: "font-medium" }, row.getValue("label")),
+  },
+  {
+    accessorKey: "value",
+    header: "Value",
+    cell: ({ row }: { row: Record<string, any> }) => {
+      const label = row.original.label;
+      const value = row.getValue("value");
+
+      // Manejar valores vacíos
+      if (value == null || value === "") {
+        return h("span", { class: "text-gray-400 italic" }, "N/A");
+      }
+
+      if (label === "Sale ID" || label === "Quantity") {
+        return h(UBadge, { color: "secondary", variant: "soft" }, () => String(value));
+      }
+
+      return h("span", {}, String(value));
+    },
+  },
+];
 </script>
 
 <template>
@@ -26,7 +90,7 @@ const handleDelete = async () => {
         <UColorModeButton />
         <UDropdownMenu mode="click">
           <UButton
-            color="gray"
+            color="neutral"
             variant="soft"
             icon="i-heroicons-ellipsis-horizontal-20-solid"
             square
@@ -54,7 +118,7 @@ const handleDelete = async () => {
     <div class="space-y-6">
       <UAlert
         v-if="error"
-        color="red"
+        color="error"
         variant="subtle"
         icon="i-heroicons-exclamation-triangle-20-solid"
         title="Error loading sale"
@@ -72,15 +136,21 @@ const handleDelete = async () => {
         </div>
       </UCard>
 
-      <UCard v-else-if="data">
+      <UCard v-else-if="saleData">
         <template #header>
           <div class="flex items-center gap-3">
             <UIcon name="i-heroicons-shopping-bag-20-solid" class="h-8 w-8 text-primary" />
             <div>
-              <h3 class="text-lg font-semibold">Sale #{{ data.id }}</h3>
-              <p class="text-sm text-gray-500">Sale Date: {{ new Date(data.sale_date).toLocaleDateString() }}</p>
+              <h3 class="text-lg font-semibold">
+                Sale #{{ saleData.id }}
+              </h3>
+              <p class="text-sm text-gray-500">
+                Sale Date: {{ new Date(saleData.sale_date).toLocaleDateString() }}
+              </p>
             </div>
-            <UBadge color="green" variant="subtle">Completed</UBadge>
+            <UBadge color="success" variant="subtle">
+              Completed
+            </UBadge>
           </div>
         </template>
 
@@ -88,51 +158,18 @@ const handleDelete = async () => {
           <UTab name="details" label="Sale Details">
             <div class="space-y-6">
               <UTable
-                :rows="[
-                  { label: 'ID', value: data.id },
-                  { label: 'Customer ID', value: data.customer_id },
-                  { label: 'Product ID', value: data.product_id },
-                  { label: 'Quantity', value: data.quantity },
-                  { label: 'Sale Date', value: new Date(data.sale_date).toLocaleString() },
-                  { label: 'Company ID', value: data.company_id }
-                ]"
-                :columns="[
-                  { key: 'label', label: 'Field' },
-                  { key: 'value', label: 'Value' }
-                ]"
+                :data="tableData"
+                :columns="tableColumns"
                 class="w-full"
-              >
-                <template #label-data="{ row }">
-                  <span class="font-medium">{{ row.label }}</span>
-                </template>
-                <template #value-data="{ row }">
-                  <UBadge v-if="row.label === 'ID'" color="blue" variant="soft">{{ row.value }}</UBadge>
-                  <UBadge v-else-if="row.label === 'Quantity'" color="purple" variant="soft">{{ row.value }}</UBadge>
-                  <span v-else>{{ row.value }}</span>
-                </template>
-              </UTable>
+              />
 
               <USeparator />
 
               <div>
-                <h4 class="text-lg font-semibold mb-4">Sale Timeline</h4>
-                <UTimeline>
-                  <UTimelineItem
-                    title="Sale Created"
-                    :description="`Sale #${data.id} was created on ${new Date(data.sale_date).toLocaleDateString()}`"
-                    icon="i-heroicons-shopping-bag-20-solid"
-                  />
-                  <UTimelineItem
-                    title="Payment Processed"
-                    description="Payment was successfully processed"
-                    icon="i-heroicons-currency-dollar-20-solid"
-                  />
-                  <UTimelineItem
-                    title="Order Fulfilled"
-                    description="Order has been fulfilled and shipped"
-                    icon="i-heroicons-truck-20-solid"
-                  />
-                </UTimeline>
+                <h4 class="text-lg font-semibold mb-4">
+                  Sale Timeline
+                </h4>
+                <UTimeline :items="timelineItems" />
               </div>
             </div>
           </UTab>
@@ -209,7 +246,9 @@ const handleDelete = async () => {
           title="Sale not found"
           description="The requested sale could not be found."
         >
-          <UButton to="/dashboard/sales">Back to Sales</UButton>
+          <UButton to="/dashboard/sales">
+            Back to Sales
+          </UButton>
         </UEmpty>
       </UCard>
     </div>
@@ -217,13 +256,19 @@ const handleDelete = async () => {
     <UModal v-model="isDeleteModalOpen">
       <UCard>
         <template #header>
-          <h3 class="text-lg font-semibold">Delete Sale</h3>
+          <h3 class="text-lg font-semibold">
+            Delete Sale
+          </h3>
         </template>
         <p>Are you sure you want to delete this sale? This action cannot be undone.</p>
         <template #footer>
           <div class="flex justify-end gap-2">
-            <UButton variant="ghost" @click="isDeleteModalOpen = false">Cancel</UButton>
-            <UButton color="red" @click="handleDelete">Delete</UButton>
+            <UButton variant="ghost" @click="isDeleteModalOpen = false">
+              Cancel
+            </UButton>
+            <UButton color="error" @click="handleDelete">
+              Delete
+            </UButton>
           </div>
         </template>
       </UCard>
