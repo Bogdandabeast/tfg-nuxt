@@ -48,11 +48,6 @@ const tableColumns = [
     },
   },
 ];
-
-const tabItems = [
-  { label: "Contact Information", slot: "contact" },
-  { label: "Actions", slot: "actions" },
-];
 </script>
 
 <template>
@@ -134,44 +129,40 @@ const tabItems = [
           </div>
         </template>
 
-        <UTabs :items="tabItems">
-          <template #contact>
-            <UTable
-              :data="tableData"
-              :columns="tableColumns"
-              class="w-full"
-            />
-          </template>
+        <UTable
+          :data="tableData"
+          :columns="tableColumns"
+          class="w-full"
+        />
 
-          <template #actions>
-            <div class="space-y-4">
-              <UButton
-                icon="i-heroicons-pencil-square-20-solid"
-                size="lg"
-                block
-              >
-                Edit Customer
-              </UButton>
-              <UButton
-                icon="i-heroicons-chat-bubble-left-right-20-solid"
-                variant="outline"
-                size="lg"
-                block
-              >
-                View Conversations
-              </UButton>
-              <UButton
-                icon="i-heroicons-eye-20-solid"
-                variant="outline"
-                size="lg"
-                block
-                :to="localePath(ROUTES.CUSTOMERS)"
-              >
-                View All Customers
-              </UButton>
-            </div>
-          </template>
-        </UTabs>
+        <USeparator />
+
+        <div class="space-y-4">
+          <UButton
+            icon="i-heroicons-pencil-square-20-solid"
+            size="lg"
+            block
+          >
+            Edit Customer
+          </UButton>
+          <UButton
+            icon="i-heroicons-chat-bubble-left-right-20-solid"
+            variant="outline"
+            size="lg"
+            block
+          >
+            View Conversations
+          </UButton>
+          <UButton
+            icon="i-heroicons-eye-20-solid"
+            variant="outline"
+            size="lg"
+            block
+            :to="localePath(ROUTES.CUSTOMERS)"
+          >
+            View All Customers
+          </UButton>
+        </div>
 
         <template #footer>
           <div class="flex justify-between">

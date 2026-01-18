@@ -154,55 +154,51 @@ const tableColumns = [
           </div>
         </template>
 
-        <UTabs>
-          <UTab name="details" label="Sale Details">
-            <div class="space-y-6">
-              <UTable
-                :data="tableData"
-                :columns="tableColumns"
-                class="w-full"
-              />
+        <div class="space-y-6">
+          <UTable
+            :data="tableData"
+            :columns="tableColumns"
+            class="w-full"
+          />
 
-              <USeparator />
+          <USeparator />
 
-              <div>
-                <h4 class="text-lg font-semibold mb-4">
-                  Sale Timeline
-                </h4>
-                <UTimeline :items="timelineItems" />
-              </div>
-            </div>
-          </UTab>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">
+              Sale Timeline
+            </h4>
+            <UTimeline :items="timelineItems" />
+          </div>
+        </div>
 
-          <UTab name="actions" label="Actions">
-            <div class="space-y-4">
-              <UButton
-                icon="i-heroicons-pencil-square-20-solid"
-                size="lg"
-                block
-              >
-                Edit Sale
-              </UButton>
-              <UButton
-                icon="i-heroicons-receipt-refund-20-solid"
-                variant="outline"
-                size="lg"
-                block
-              >
-                Process Refund
-              </UButton>
-              <UButton
-                icon="i-heroicons-eye-20-solid"
-                variant="outline"
-                size="lg"
-                block
-                to="/dashboard/sales"
-              >
-                View All Sales
-              </UButton>
-            </div>
-          </UTab>
-        </UTabs>
+        <USeparator />
+
+        <div class="space-y-4">
+          <UButton
+            icon="i-heroicons-pencil-square-20-solid"
+            size="lg"
+            block
+          >
+            Edit Sale
+          </UButton>
+          <UButton
+            icon="i-heroicons-receipt-refund-20-solid"
+            variant="outline"
+            size="lg"
+            block
+          >
+            Process Refund
+          </UButton>
+          <UButton
+            icon="i-heroicons-eye-20-solid"
+            variant="outline"
+            size="lg"
+            block
+            to="/dashboard/sales"
+          >
+            View All Sales
+          </UButton>
+        </div>
 
         <template #footer>
           <div class="flex justify-between">

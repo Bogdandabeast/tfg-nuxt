@@ -34,11 +34,6 @@ const tableColumns = [
     return h("span", {}, () => value);
   } },
 ];
-
-const tabItems = [
-  { label: "General Information", slot: "general" },
-  { label: "Actions", slot: "actions" },
-];
 </script>
 
 <template>
@@ -111,36 +106,32 @@ const tabItems = [
           </div>
         </template>
 
-        <UTabs :items="[{ label: 'General Information', slot: 'general' }, { label: 'Actions', slot: 'actions' }]">
-          <template #general>
-            <UTable
-              :data="tableData"
-              :columns="tableColumns"
-              class="w-full"
-            />
-          </template>
+        <UTable
+          :data="tableData"
+          :columns="tableColumns"
+          class="w-full"
+        />
 
-          <template #actions>
-            <div class="space-y-4">
-              <UButton
-                icon="i-heroicons-pencil-square-20-solid"
-                size="lg"
-                block
-              >
-                Edit Company
-              </UButton>
-              <UButton
-                icon="i-heroicons-eye-20-solid"
-                variant="outline"
-                size="lg"
-                block
-                to="/dashboard/companies"
-              >
-                View All Companies
-              </UButton>
-            </div>
-          </template>
-        </UTabs>
+        <USeparator />
+
+        <div class="space-y-4">
+          <UButton
+            icon="i-heroicons-pencil-square-20-solid"
+            size="lg"
+            block
+          >
+            Edit Company
+          </UButton>
+          <UButton
+            icon="i-heroicons-eye-20-solid"
+            variant="outline"
+            size="lg"
+            block
+            to="/dashboard/companies"
+          >
+            View All Companies
+          </UButton>
+        </div>
 
         <template #footer>
           <div class="flex justify-between">
