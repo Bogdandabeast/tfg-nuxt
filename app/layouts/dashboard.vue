@@ -10,9 +10,6 @@ const localePath = useLocalePath();
 
 const open = ref(false);
 
-// Breadcrumb logic extracted to composable
-const { breadcrumbItems } = useBreadcrumbs()
-
 // Auth initialization for layout components
 const authStore = useAuthStore();
 await authStore.init();
@@ -53,20 +50,7 @@ const links = [
     },
 
   ],
-  [
-    {
-      label: t("navigation.feedback"),
-      icon: "i-lucide-message-circle",
-      to: "https://github.com/nuxt-ui-templates/dashboard",
-      target: "_blank",
-    },
-    {
-      label: t("navigation.help"),
-      icon: "i-lucide-info",
-      to: "https://github.com/nuxt-ui-templates/dashboard",
-      target: "_blank",
-    },
-  ],
+
 ] satisfies NavigationMenuItem[][];
 
 const groups = computed(() => [
@@ -117,10 +101,12 @@ onMounted(async () => {
       :ui="{ footer: 'lg:border-t lg:border-default' }"
     >
       <template #header="{ collapsed }">
-        <DashboardCompaniesMenu :collapsed="collapsed" />
+        <TeamsMenu :collapsed="collapsed" />
       </template>
 
       <template #default="{ collapsed }">
+        <UDashboardSearchButton :collapsed="collapsed" class="bg-transparent ring-default" />
+
         <UNavigationMenu
           :collapsed="collapsed"
           :items="links[0]"
@@ -138,17 +124,15 @@ onMounted(async () => {
         />
       </template>
 
-      <template #footer>
-        <!-- Footer content can be added here if needed -->
+      <template #footer="{ collapsed }">
+        <UserMenu :collapsed="collapsed" />
       </template>
     </UDashboardSidebar>
 
     <UDashboardSearch :groups="groups" />
 
-    <UDashboardToolbar>
-      <UBreadcrumb :items="breadcrumbItems" />
-    </UDashboardToolbar>
-
     <slot />
+
+    <NotificationsSlideover />
   </UDashboardGroup>
 </template>
