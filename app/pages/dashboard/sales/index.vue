@@ -2,7 +2,8 @@
 import type { Sale } from "~/types";
 import { storeToRefs } from "pinia";
 import { h, resolveComponent } from "vue";
-import SaleForm from "~/components/Dashboard/forms/SaleForm.vue";
+import SalesDeleteModal from "~/components/Dashboard/forms/sales/SalesDeleteModal.vue";
+import SalesFormModal from "~/components/Dashboard/forms/sales/SalesFormModal.vue";
 
 definePageMeta({
   layout: "dashboard",
@@ -11,8 +12,6 @@ definePageMeta({
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
-const companiesStore = useCompaniesStore();
-const { deleteSale } = useSalesApi();
 
 // Refresh data on page load asynchronously for lazy loading
 salesStore.refreshSales();
@@ -40,32 +39,6 @@ const detailedSales = computed(() => {
 const isEditModalOpen = ref(false);
 const isDeleteModalOpen = ref(false);
 const selectedSale = ref<Sale | null>(null);
-
-function openEditModal(sale: Sale) {
-  selectedSale.value = sale;
-  isEditModalOpen.value = true;
-}
-
-function openDeleteModal(sale: Sale) {
-  selectedSale.value = sale;
-  isDeleteModalOpen.value = true;
-}
-
-function closeModals() {
-  isEditModalOpen.value = false;
-  isDeleteModalOpen.value = false;
-  selectedSale.value = null;
-}
-
-async function handleDelete() {
-  if (selectedSale.value) {
-    const success = await deleteSale(selectedSale.value.id.toString(), companiesStore.currentCompany!.id.toString());
-    if (success) {
-      salesStore.refreshSales();
-      closeModals();
-    }
-  }
-}
 
 const columns = [
   {
@@ -118,8 +91,24 @@ const columns = [
     cell: ({ row }: any) => {
       const UButton = resolveComponent("UButton");
       return h("div", { class: "flex gap-2" }, [
-        h(UButton, { size: "xs", variant: "outline", color: "primary", onClick: () => openEditModal(row.original) }, "Edit"),
-        h(UButton, { size: "xs", variant: "outline", color: "error", onClick: () => openDeleteModal(row.original) }, "Delete"),
+        h(UButton, {
+          size: "xs",
+          variant: "outline",
+          color: "primary",
+          onClick: () => {
+            selectedSale.value = row.original;
+            isEditModalOpen.value = true;
+          }
+        }, "Edit"),
+        h(UButton, {
+          size: "xs",
+          variant: "outline",
+          color: "error",
+          onClick: () => {
+            selectedSale.value = row.original;
+            isDeleteModalOpen.value = true;
+          }
+        }, "Delete"),
       ]);
     },
   },
@@ -133,41 +122,19 @@ const columns = [
     <UButton
       label="Add Sale"
       color="primary"
-      @click="isEditModalOpen = true; selectedSale = null"
+      @click="isEditModalOpen = true"
     />
 
-    <UModal v-model="isEditModalOpen">
-      <template #body>
-        <SaleForm
-          :edit-mode="!!selectedSale"
-          :sale-data="selectedSale as any"
-          @close="closeModals"
-        />
-      </template>
-    </UModal>
+    <SalesFormModal
+      v-model:open="isEditModalOpen"
+      :edit-mode="!!selectedSale"
+      :sale-data="selectedSale"
+    />
 
-    <UModal v-model="isDeleteModalOpen">
-      <template #header>
-        <h3>Delete Sale</h3>
-      </template>
-      <template #body>
-        <p>Are you sure you want to delete Sale #{{ selectedSale?.id }}?</p>
-        <div class="flex gap-2 mt-4">
-          <UButton
-            variant="outline"
-            @click="closeModals"
-          >
-            Cancel
-          </UButton>
-          <UButton
-            color="error"
-            @click="handleDelete"
-          >
-            Delete
-          </UButton>
-        </div>
-      </template>
-    </UModal>
+    <SalesDeleteModal
+      v-model:open="isDeleteModalOpen"
+      :sale="selectedSale"
+    />
 
     <UTable
       :data="detailedSales"
