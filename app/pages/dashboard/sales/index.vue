@@ -98,7 +98,7 @@ const columns = [
           onClick: () => {
             selectedSale.value = row.original;
             isEditModalOpen.value = true;
-          }
+          },
         }, "Edit"),
         h(UButton, {
           size: "xs",
@@ -107,7 +107,7 @@ const columns = [
           onClick: () => {
             selectedSale.value = row.original;
             isDeleteModalOpen.value = true;
-          }
+          },
         }, "Delete"),
       ]);
     },

@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import type { TableColumn } from "@nuxt/ui";
+import type { Product } from "~/types";
 import { storeToRefs } from "pinia";
-import ProductForm from "~/components/Dashboard/forms/ProductForm.vue";
-import { getProductPath } from "~/utils/routes";
+import { h, resolveComponent } from "vue";
+import ProductDeleteModal from "~/components/Dashboard/forms/products/ProductDeleteModal.vue";
+import ProductFormModal from "~/components/Dashboard/forms/products/ProductFormModal.vue";
 
 definePageMeta({
   layout: "dashboard",
@@ -15,26 +18,88 @@ companiesStore.refreshCompanies();
 productsStore.refreshProducts();
 
 const { products, pending } = storeToRefs(productsStore);
+
+const isAddModalOpen = ref(false);
+const isDeleteModalOpen = ref(false);
+const selectedProduct = ref<Product | null>(null);
+
+const columns: TableColumn[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "price",
+    header: "Price",
+    cell: ({ row }: any) => `€${row.getValue("price")}`,
+  },
+  {
+    accessorKey: "stock",
+    header: "Stock",
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }: any) => {
+      const UButton = resolveComponent("UButton");
+      return h("div", { class: "flex gap-2" }, [
+        h(UButton, {
+          size: "xs",
+          variant: "outline",
+          color: "primary",
+          onClick: () => {
+            selectedProduct.value = row.original;
+            isAddModalOpen.value = true;
+          },
+        }, "Edit"),
+        h(UButton, {
+          size: "xs",
+          variant: "outline",
+          color: "error",
+          onClick: () => {
+            selectedProduct.value = row.original;
+            isDeleteModalOpen.value = true;
+          },
+        }, "Delete"),
+      ]);
+    },
+  },
+];
 </script>
 
 <template>
   <UContainer class="space-y-4 w-full">
     <h1>{{ $t('dashboard.products.title') }}</h1>
 
-    <ProductForm />
+    <UButton
+      label="Add Product"
+      color="primary"
+      @click="isAddModalOpen = true; selectedProduct = null"
+    />
 
-    <UCard class="mt-4">
-      <template #header>
-        <h3>{{ $t('dashboard.products.existing') }}</h3>
-      </template>
-      <USkeleton v-if="pending" class="h-20 w-full" />
-      <ul v-else>
-        <li v-for="product in products" :key="product.id">
-          <NuxtLink :to="useLocalePath()(getProductPath(product.id))" class="text-blue-600 hover:underline">
-            {{ product.id }} - {{ product.name }}
-          </NuxtLink>
-        </li>
-      </ul>
-    </UCard>
+    <ProductFormModal
+      v-model:open="isAddModalOpen"
+      :edit-mode="!!selectedProduct"
+      :product-data="selectedProduct"
+    />
+
+    <ProductDeleteModal v-model:open="isDeleteModalOpen" :product="selectedProduct" />
+
+    <UTable
+      :data="products"
+      :columns="columns"
+      class="shrink-0"
+      :ui="{
+        base: 'table-fixed border-separate border-spacing-0',
+        thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+        tbody: '[&>tr]:last:[&>td]:border-b-0',
+        th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
+        td: 'border-b border-default',
+      }"
+    />
   </UContainer>
 </template>

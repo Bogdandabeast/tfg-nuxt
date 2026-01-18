@@ -1,34 +1,34 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
-  count?: number
-  open?: boolean
-  product?: any
+  count?: number;
+  open?: boolean;
+  product?: any;
 }>(), {
   count: 0,
   open: false,
-  product: null
-})
+  product: null,
+});
 
 const emit = defineEmits<{
-  "update:open": [value: boolean]
-}>()
+  "update:open": [value: boolean];
+}>();
 
 const open = computed({
   get: () => props.open,
-  set: (value) => emit("update:open", value)
-})
+  set: value => emit("update:open", value),
+});
 
 async function onSubmit() {
-  await new Promise(resolve => setTimeout(resolve, 1000))
-  emit("update:open", false)
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  emit("update:open", false);
 }
 </script>
 
 <template>
   <UModal
     v-model:open="open"
-    :title="`Delete Product #${product?.id || ""}`"
-    :description="`Are you sure you want to delete this product? This action cannot be undone.`"
+    :title="'Delete Product #' + (product?.id || '')"
+    description="Are you sure you want to delete this product? This action cannot be undone."
   >
     <slot />
 
