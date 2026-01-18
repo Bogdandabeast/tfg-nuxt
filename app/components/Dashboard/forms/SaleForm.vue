@@ -3,6 +3,13 @@ import type { Customer } from "~~/lib/db/queries/customers";
 import type { Product } from "~~/lib/db/queries/products";
 import { storeToRefs } from "pinia";
 
+const props = defineProps({
+  editMode: { type: Boolean, default: false },
+  saleData: { type: Object, default: null },
+});
+
+const emit = defineEmits(["close"]);
+
 const { t } = useI18n();
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
@@ -19,6 +26,13 @@ const newSale = reactive({
   product_id: undefined as number | undefined,
   quantity: 1,
 });
+
+if (props.editMode && props.saleData) {
+  newSale.customer_id = props.saleData.customer_id;
+  newSale.product_id = props.saleData.product_id;
+  newSale.quantity = props.saleData.quantity;
+}
+
 const saleToDeleteId = ref("");
 const error = ref("");
 
@@ -56,6 +70,7 @@ async function createSaleHandler() {
       color: "success",
     });
     error.value = "";
+    emit("close");
   }
 }
 
