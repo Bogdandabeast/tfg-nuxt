@@ -70,6 +70,11 @@ const tableColumns: TableColumn[] = [
   },
 ];
 
+const tabItems = [
+  { label: "Product Details", slot: "details" },
+  { label: "Actions", slot: "actions" },
+];
+
 const stockPercentage = computed(() => {
   if (!data)
     return 0;
@@ -157,42 +162,46 @@ const stockPercentage = computed(() => {
           </div>
         </template>
 
-        <div class="space-y-6">
-          <UTable
-            :data="tableData"
-            :columns="tableColumns"
-            class="w-full"
-          />
-        </div>
+        <UTabs :items="tabItems">
+          <template #details>
+            <div class="space-y-6">
+              <UTable
+                :data="tableData"
+                :columns="tableColumns"
+                class="w-full"
+              />
+            </div>
+          </template>
 
-        <USeparator />
-
-        <div class="space-y-4">
-          <UButton
-            icon="i-heroicons-pencil-square-20-solid"
-            size="lg"
-            block
-          >
-            Edit Product
-          </UButton>
-          <UButton
-            icon="i-heroicons-shopping-cart-20-solid"
-            variant="outline"
-            size="lg"
-            block
-          >
-            Add to Cart
-          </UButton>
-          <UButton
-            icon="i-heroicons-eye-20-solid"
-            variant="outline"
-            size="lg"
-            block
-            :to="localePath(ROUTES.PRODUCTS)"
-          >
-            View All Products
-          </UButton>
-        </div>
+          <template #actions>
+            <div class="space-y-4">
+              <UButton
+                icon="i-heroicons-pencil-square-20-solid"
+                size="lg"
+                block
+              >
+                Edit Product
+              </UButton>
+              <UButton
+                icon="i-heroicons-shopping-cart-20-solid"
+                variant="outline"
+                size="lg"
+                block
+              >
+                Add to Cart
+              </UButton>
+              <UButton
+                icon="i-heroicons-eye-20-solid"
+                variant="outline"
+                size="lg"
+                block
+                :to="localePath(ROUTES.PRODUCTS)"
+              >
+                View All Products
+              </UButton>
+            </div>
+          </template>
+        </UTabs>
 
         <template #footer>
           <div class="flex justify-between">
