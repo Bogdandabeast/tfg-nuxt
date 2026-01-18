@@ -370,6 +370,7 @@
   },
   "navigation": {
     "home": "Home",
+    "metrics": "Metrics",
     "customers": "Customers",
     "products": "Products",
     "sales": "Sales",
