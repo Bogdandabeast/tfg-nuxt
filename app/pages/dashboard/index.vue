@@ -71,13 +71,20 @@ const statsData = computed<Stat[]>(() => [
 
 // Detectar si todas las métricas están vacías
 const allMetricsEmpty = computed(() => {
+  // Si no hay empresa seleccionada, mostrar mensaje vacío
+  if (!companiesStore.currentCompany?.id) {
+    return true;
+  }
+
+  // Si la empresa existe pero no tiene actividad comercial (todos valores 0)
   return (
-    (totalRevenue.value === null || totalRevenue.value === 0) &&
-    (totalCustomers.value === null || totalCustomers.value === 0) &&
-    (newCustomers.value === null || newCustomers.value === 0) &&
-    (averageTicket.value === null || averageTicket.value === 0) &&
+    totalRevenue.value === 0 &&
+    totalCustomers.value === 0 &&
+    newCustomers.value === 0 &&
+    averageTicket.value === 0 &&
     (!topSellingProducts.value || topSellingProducts.value.length === 0) &&
-    (!salesByPeriod.value || salesByPeriod.value.length === 0)
+    (!salesByPeriod.value || salesByPeriod.value.length === 0) &&
+    totalSalesCount.value === 0
   );
 });
 

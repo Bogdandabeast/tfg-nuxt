@@ -7,7 +7,7 @@ const localePath = useLocalePath();
 <template>
   <UButton
     :to="localePath(ROUTES.SIGNOUT)"
-    icon="i-lucide-door"
+    icon="lucide:arrow-big-down-dash"
     size="md"
     color="error"
     variant="solid"
