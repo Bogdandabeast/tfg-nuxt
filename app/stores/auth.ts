@@ -38,7 +38,6 @@ export const useAuthStore = defineStore("useAuthStore", () => {
       name,
       email,
       password,
-      callbackURL: `${config.public.appUrl || "http://localhost:3000"}${useLocalePath()(ROUTES.DASHBOARD)}`,
       fetchOptions: {
         headers,
       },
