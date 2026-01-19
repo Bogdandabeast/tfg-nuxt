@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { useI18n } from "vue-i18n";
-
 import { ROUTES } from "~~/lib/constants";
+
+import CompaniesMenu from "~/components/Dashboard/CompaniesMenu.vue";
 
 const { t } = useI18n();
 const toast = useToast();
@@ -19,7 +20,15 @@ const links = [
     {
       label: t("navigation.home"),
       icon: "lucide:house",
-      to: localePath("/"),
+      to: localePath(ROUTES.home),
+      onSelect: () => {
+        open.value = false;
+      },
+    },
+    {
+      label: t("navigation.metrics"),
+      icon: "lucide:dollar-sign",
+      to: localePath(ROUTES.dashboard),
       onSelect: () => {
         open.value = false;
       },
@@ -50,20 +59,7 @@ const links = [
     },
 
   ],
-  [
-    {
-      label: t("navigation.feedback"),
-      icon: "i-lucide-message-circle",
-      to: "https://github.com/nuxt-ui-templates/dashboard",
-      target: "_blank",
-    },
-    {
-      label: t("navigation.help"),
-      icon: "i-lucide-info",
-      to: "https://github.com/nuxt-ui-templates/dashboard",
-      target: "_blank",
-    },
-  ],
+
 ] satisfies NavigationMenuItem[][];
 
 const groups = computed(() => [
@@ -114,10 +110,12 @@ onMounted(async () => {
       :ui="{ footer: 'lg:border-t lg:border-default' }"
     >
       <template #header="{ collapsed }">
-        <DashboardCompaniesMenu :collapsed="collapsed" />
+        <CompaniesMenu :collapsed="collapsed" />
       </template>
 
       <template #default="{ collapsed }">
+        <UDashboardSearchButton :collapsed="collapsed" class="bg-transparent ring-default" />
+
         <UNavigationMenu
           :collapsed="collapsed"
           :items="links[0]"
@@ -125,22 +123,12 @@ onMounted(async () => {
           tooltip
           popover
         />
-
-        <UNavigationMenu
-          :collapsed="collapsed"
-          :items="links[1]"
-          orientation="vertical"
-          tooltip
-          class="mt-auto"
-        />
-      </template>
-
-      <template #footer>
-        <!-- Footer content can be added here if needed -->
+        <DashboardSignOut />
       </template>
     </UDashboardSidebar>
 
     <UDashboardSearch :groups="groups" />
+
     <slot />
   </UDashboardGroup>
 </template>

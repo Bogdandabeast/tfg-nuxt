@@ -11,6 +11,7 @@ const companiesStore = useCompaniesStore();
 const { companies, currentCompany } = storeToRefs(companiesStore);
 const router = useRouter();
 const localePath = useLocalePath();
+const { t } = useI18n();
 
 const items = computed<DropdownMenuItem[][]>(() => {
   return [companies.value.map(company => ({
@@ -21,16 +22,16 @@ const items = computed<DropdownMenuItem[][]>(() => {
       companiesStore.setCurrentCompany(company);
     },
   })), [{
-    label: "Create company",
+    label: t("companies.menu.create"),
     icon: "i-lucide-circle-plus",
     onSelect: () => {
-      router.push(localePath(ROUTES.COMPANIES));
+      router.push(localePath(ROUTES.COMPANIES_CREATE));
     },
   }, {
-    label: "Manage companies",
+    label: t("companies.menu.manage"),
     icon: "i-lucide-cog",
     onSelect: () => {
-      router.push(localePath(ROUTES.COMPANIES));
+      router.push(localePath(ROUTES.COMPANIES_MANAGE));
     },
   }]];
 });
@@ -44,7 +45,7 @@ const items = computed<DropdownMenuItem[][]>(() => {
   >
     <UButton
       v-bind="{
-        label: collapsed ? undefined : currentCompany?.name || $t('companies.select'),
+        label: collapsed ? undefined : currentCompany?.name || t('companies.select'),
         trailingIcon: collapsed ? undefined : 'i-lucide-chevrons-up-down',
       }"
       color="neutral"

@@ -267,7 +267,14 @@
       "create": "Create company",
       "manage": "Manage companies"
     },
-    "select": "Select Company"
+    "select": "Select Company",
+    "manage": {
+      "title": "Manage Companies",
+      "description": "Create, view, and manage your companies",
+      "create": "Create Company",
+      "deleteLastCompanyErrorTitle": "Cannot Delete Last Company",
+      "deleteLastCompanyErrorDescription": "At least one company must remain in the system."
+    }
   },
   "dashboard": {
     "products": {
@@ -283,6 +290,21 @@
       "title": "Sales Management",
       "existing": "Existing Sales",
       "loading": "Loading sales..."
+    },
+    "metrics": {
+      "customers": "Customers",
+      "conversions": "Conversions",
+      "revenue": "Revenue",
+      "orders": "Orders",
+      "newCustomers": "New Customers",
+      "averageTicket": "Average Ticket",
+      "topProduct": "Top Product",
+      "totalSales": "Total Sales"
+    },
+    "emptyMetrics": {
+      "title": "No metrics available",
+      "description": "To see metrics you need to add business records to your CRM. Start by adding customers, products and sales.",
+      "cta": "Start by adding customers"
     }
   },
   "forms": {
@@ -370,6 +392,7 @@
   },
   "navigation": {
     "home": "Home",
+    "metrics": "Metrics",
     "customers": "Customers",
     "products": "Products",
     "sales": "Sales",
@@ -385,5 +408,110 @@
   "auth": {
     "signUpSuccess": "Account created successfully",
     "signInError": "Invalid email or password"
+  },
+  "details": {
+    "customer": {
+      "title": "Customer Details",
+      "description": "Viewing customer {id}",
+      "error": {
+        "title": "Error loading customer",
+        "description": "An error occurred"
+      }
+    },
+    "product": {
+      "title": "Product Details",
+      "description": "Viewing product {id}",
+      "error": {
+        "title": "Error loading product",
+        "description": "An error occurred"
+      }
+    },
+    "sale": {
+      "title": "Sale Details",
+      "description": "Viewing sale {id}",
+      "error": {
+        "title": "Error loading sale",
+        "description": "An error occurred"
+      }
+    },
+    "company": {
+      "title": "Company Details",
+      "description": "Viewing company {id}",
+      "error": {
+        "title": "Error loading company",
+        "description": "An error occurred"
+      },
+      "notFound": {
+        "title": "Company not found",
+        "description": "The requested company could not be found."
+      }
+    }
+  },
+  "actions": {
+    "more": "More actions",
+    "edit": {
+      "customer": "Edit Customer",
+      "product": "Edit Product",
+      "sale": "Edit Sale",
+      "company": "Edit Company"
+    },
+    "sendEmail": "Send Email",
+    "updatePrice": "Update Price",
+    "processRefund": "Process Refund",
+    "delete": {
+      "customer": "Delete Customer",
+      "product": "Delete Product",
+      "sale": "Delete Sale",
+      "company": "Delete Company"
+    }
+  },
+  "tables": {
+    "headers": {
+      "id": "ID",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "companyId": "Company ID",
+      "userId": "User ID",
+      "price": "Price",
+      "stock": "Stock",
+      "field": "Field",
+      "value": "Value",
+      "date": "Date",
+      "customer": "Customer",
+      "product": "Product",
+      "quantity": "Quantity",
+      "amount": "Amount",
+      "actions": "Actions"
+    },
+    "data": {
+      "unknown": "Unknown",
+      "na": "N/A",
+      "active": "Active",
+      "loading": "Loading..."
+    },
+    "actions": {
+      "products": "Products Actions",
+      "sales": "Sales Actions"
+    }
+  },
+  "footer": {
+    "newsletter": {
+      "placeholder": "Enter your email",
+      "subscribe": "Subscribe",
+      "label": "Subscribe to our newsletter"
+    }
+  },
+  "errors": {
+    "unknown": "Unknown error",
+    "invalidReference": "Invalid reference",
+    "resourceExists": "Resource already exists",
+    "cannotDeleteInUse": "Cannot delete this item because it is currently in use"
+  },
+  "validation": {
+    "invalidEmail": "Invalid email",
+    "tooShort": "Too short",
+    "nameRequired": "Name is required"
   }
 }

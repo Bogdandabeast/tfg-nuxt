@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import type { TableColumn } from "@nuxt/ui";
 import { storeToRefs } from "pinia";
-import ProductForm from "~/components/Dashboard/forms/ProductForm.vue";
 import { getProductPath } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
 });
+
+const localePath = useLocalePath();
+const { t } = useI18n();
 
 const companiesStore = useCompaniesStore();
 const productsStore = useProductsStore();
@@ -14,27 +17,73 @@ const productsStore = useProductsStore();
 companiesStore.refreshCompanies();
 productsStore.refreshProducts();
 
-const { products, pending } = storeToRefs(productsStore);
+const { products, pending: loadingProducts } = storeToRefs(productsStore);
+
+const columns: TableColumn[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+    cell: ({ row }: any) => {
+      const id = row.getValue("id");
+      return h(
+        resolveComponent("UButton"),
+        {
+          to: localePath(getProductPath(id)),
+          variant: "link",
+          color: "primary",
+          padded: false,
+        },
+        () => `#${id}`,
+      );
+    },
+  },
+  {
+    accessorKey: "name",
+    header: t("tables.headers.name"),
+  },
+  {
+    accessorKey: "price",
+    header: t("tables.headers.price"),
+    cell: ({ row }: any) => `€${row.getValue("price")}`,
+  },
+  {
+    accessorKey: "stock",
+    header: t("tables.headers.stock"),
+  },
+
+];
 </script>
 
 <template>
-  <div class="space-y-4 w-full">
-    <h1>{{ $t('dashboard.products.title') }}</h1>
+  <UContainer class="space-y-4 w-full mt-10">
+    <UModal>
+      <UButton
+        :label="t('tables.actions.products')"
+        color="neutral"
+        variant="subtle"
+      />
 
-    <ProductForm />
-
-    <UCard class="mt-4">
-      <template #header>
-        <h3>{{ $t('dashboard.products.existing') }}</h3>
+      <template #content>
+        <DashboardFormsProductForm />
       </template>
-      <USkeleton v-if="pending" class="h-20 w-full" />
-      <ul v-else>
-        <li v-for="product in products" :key="product.id">
-          <NuxtLink :to="useLocalePath()(getProductPath(product.id))" class="text-blue-600 hover:underline">
-            {{ product.id }} - {{ product.name }}
-          </NuxtLink>
-        </li>
-      </ul>
-    </UCard>
-  </div>
+    </UModal>
+    <DashboardTableSkeleton
+      :loading="loadingProducts"
+      :columns="4"
+      :rows="10"
+    >
+      <UTable
+        :data="products"
+        :columns="columns"
+        class="shrink-0"
+        :ui="{
+          base: 'table-fixed border-separate border-spacing-0',
+          thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+          tbody: '[&>tr]:last:[&>td]:border-b-0',
+          th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
+          td: 'border-b border-default',
+        }"
+      />
+    </DashboardTableSkeleton>
+  </UContainer>
 </template>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
+import CompanyForm from "~~/app/components/Dashboard/forms/CompanyForm.vue";
 import { useCompaniesStore } from "~~/app/stores/companies";
 import { ROUTES } from "~/utils/routes";
 
@@ -12,6 +13,9 @@ const { t } = useI18n();
 const companiesStore = useCompaniesStore();
 const { companies } = storeToRefs(companiesStore);
 const isLoading = ref(true);
+const toast = useToast();
+
+const { isCreateCompanyLoading, createCompany } = useCompaniesApi();
 
 // Fetch companies on mount to trigger the lazy fetch
 onMounted(async () => {
@@ -31,16 +35,31 @@ function selectCompany(company: any) {
   const route = useRoute();
   const redirectTo = route.query.redirect as string;
   if (redirectTo) {
-    navigateTo(useLocalePath()(decodeURIComponent(redirectTo)));
+    navigateTo((decodeURIComponent(redirectTo)));
   }
   else {
     navigateTo(useLocalePath()(ROUTES.DASHBOARD));
   }
 }
+
+async function handleCreateCompany(companyData: { name: string }) {
+  const result = await createCompany(companyData);
+  if (result) {
+    await companiesStore.refreshCompanies();
+    await nextTick();
+    // After creating company, redirect to dashboard
+    await navigateTo(useLocalePath()(ROUTES.DASHBOARD));
+    toast.add({
+      title: t("common.success"),
+      description: t("forms.companyForm.createdSuccess"),
+      color: "success",
+    });
+  }
+}
 </script>
 
 <template>
-  <div class="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+  <UContainer class="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900 mt-10">
     <UCard class="w-full max-w-md">
       <template #header>
         <h1 class="text-2xl font-bold text-center">
@@ -66,15 +85,12 @@ function selectCompany(company: any) {
           </UButton>
         </div>
       </div>
-      <div v-else class="text-center">
-        <p>{{ t('companies.none') }}</p>
-        <p class="mt-2">
-          {{ t('companies.createFirst') }}
-        </p>
-        <UButton class="mt-4" @click="navigateTo(useLocalePath()(ROUTES.DASHBOARD))">
-          {{ t('companies.goToDashboard') }}
-        </UButton>
+      <div v-else>
+        <CompanyForm
+          :on-submit="handleCreateCompany"
+          :loading="isCreateCompanyLoading"
+        />
       </div>
     </UCard>
-  </div>
+  </UContainer>
 </template>

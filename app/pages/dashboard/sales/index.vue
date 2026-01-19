@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import SaleForm from "~/components/Dashboard/forms/SaleForm.vue";
-import { getSalePath } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
 });
-
+const localePath = useLocalePath();
+const { t } = useI18n();
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
@@ -16,45 +15,124 @@ salesStore.refreshSales();
 customersStore.refreshCustomers();
 productsStore.refreshProducts();
 
-const { sales, pending: salesPending } = storeToRefs(salesStore);
-const { customers, pending: customersPending } = storeToRefs(customersStore);
-const { products, pending: productsPending } = storeToRefs(productsStore);
-
-const pending = computed(() => salesPending.value || customersPending.value || productsPending.value);
+const { sales, pending: loadingSales } = storeToRefs(salesStore);
+const { customers } = storeToRefs(customersStore);
+const { products } = storeToRefs(productsStore);
 
 const detailedSales = computed(() => {
   return sales.value?.map((sale) => {
-    const customer = customers.value?.find((c: any) => c.id === sale.customer_id);
-    const product = products.value?.find((p: any) => p.id === sale.product_id);
+    const customer = customers.value?.find(c => c.id === sale.customer_id);
+    const product = products.value?.find(p => p.id === sale.product_id);
+    const amount = product ? Number(product.price) * sale.quantity : 0;
     return {
       ...sale,
-      customerName: customer ? customer.name : "Unknown",
-      productName: product ? product.name : "Unknown",
+      customerName: customer ? customer.name : t("tables.data.unknown"),
+      productName: product ? product.name : t("tables.data.unknown"),
+      amount,
     };
   });
 });
+
+const columns = [
+  {
+    accessorKey: "id",
+    header: "ID",
+    cell: ({ row }: any) => {
+      const id = row.getValue("id");
+      return h(
+        resolveComponent("UButton"),
+        {
+          to: localePath(getSalePath(id)),
+          variant: "link",
+          color: "primary",
+          padded: false,
+        },
+        () => `#${id}`,
+      );
+    },
+  },
+  {
+    accessorKey: "sale_date",
+    header: t("tables.headers.date"),
+    cell: ({ row }: any) => {
+      return new Date(row.getValue("sale_date")).toLocaleString("en-US", {
+        day: "numeric",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      });
+    },
+  },
+  {
+    accessorKey: "customerName",
+    header: "Customer",
+    cell: ({ row }: any) => row.getValue("customerName"),
+  },
+  {
+    accessorKey: "productName",
+    header: "Product",
+    cell: ({ row }: any) => row.getValue("productName"),
+  },
+  {
+    accessorKey: "customerName",
+    header: t("tables.headers.customer"),
+  },
+  {
+    accessorKey: "productName",
+    header: t("tables.headers.product"),
+  },
+  {
+    accessorKey: "quantity",
+    header: t("tables.headers.quantity"),
+  },
+  {
+    accessorKey: "amount",
+    header: () => h("div", { class: "text-right" }, t("tables.headers.amount")),
+    cell: ({ row }: any) => {
+      const amount = Number.parseFloat(row.getValue("amount"));
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "EUR",
+      }).format(amount);
+      return h("div", { class: "text-right font-medium" }, formatted);
+    },
+  },
+
+];
 </script>
 
 <template>
-  <div class="space-y-4 w-full">
-    <h1>{{ $t('dashboard.sales.title') }}</h1>
+  <UContainer class="space-y-4 w-full mt-10">
+    <UModal>
+      <UButton
+        :label="t('tables.actions.sales')"
+        color="neutral"
+        variant="subtle"
+      />
 
-    <SaleForm />
-
-    <UCard class="mt-4">
-      <template #header>
-        <h3>{{ $t('dashboard.sales.existing') }}</h3>
+      <template #content>
+        <DashboardFormsSaleForm />
       </template>
-      <div v-if="pending">
-        {{ $t('dashboard.sales.loading') }}
-      </div>
-      <ul v-else>
-        <li v-for="sale in detailedSales" :key="sale.id">
-          <NuxtLink :to="useLocalePath()(getSalePath(sale.id))" class="text-blue-600 hover:underline">
-            Sale #{{ sale.id }}: {{ sale.customerName }} bought {{ sale.quantity }} x {{ sale.productName }}
-          </NuxtLink>
-        </li>
-      </ul>
-    </UCard>
-  </div>
+    </UModal>
+
+    <DashboardTableSkeleton
+      :loading="loadingSales"
+      :columns="6"
+      :rows="12"
+    >
+      <UTable
+        :data="detailedSales"
+        :columns="columns"
+        class="shrink-0"
+        :ui="{
+          base: 'table-fixed border-separate border-spacing-0',
+          thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+          tbody: '[&>tr]:last:[&>td]:border-b-0',
+          th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
+          td: 'border-b border-default',
+        }"
+      />
+    </DashboardTableSkeleton>
+  </UContainer>
 </template>

@@ -8,6 +8,7 @@ dist
 
 # Node dependencies
 node_modules
+presentation
 
 # Logs
 logs
@@ -22,5 +23,5 @@ logs
 .env
 .env.*
 !.env.example
-
 opencode.json
+wrangler.toml

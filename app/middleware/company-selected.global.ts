@@ -1,5 +1,5 @@
 import { storeToRefs } from "pinia";
-import { useCompanySelection } from "~~/composables/useCompanySelection";
+import { useCompanySelection } from "~~/app/composables/useCompanySelection";
 import { getCompaniesWithRedirect } from "~/utils/routes";
 
 export default defineNuxtRouteMiddleware((to) => {

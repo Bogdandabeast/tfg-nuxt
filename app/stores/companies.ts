@@ -39,11 +39,34 @@ export const useCompaniesStore = defineStore("companies", () => {
     }
   });
 
+  // Reactive variable for specific company ID
+  const currentCompanyId = ref<number | null>(null);
+
+  // useFetch for specific company
+  const {
+    data: currentCompanyResponse,
+    pending: currentCompanyPending,
+    error: currentCompanyError,
+  } = useFetch<{ company: Company }>(() => currentCompanyId.value ? `/api/companies/${currentCompanyId.value}` : "", {
+    lazy: true,
+  });
+
+  // Method to fetch a specific company by ID
+  const getCompanyById = (companyId: number) => {
+    currentCompanyId.value = companyId;
+    return {
+      data: computed(() => currentCompanyResponse.value?.company || null),
+      pending: currentCompanyPending,
+      error: currentCompanyError,
+    };
+  };
+
   return {
     companies,
     pending,
     refreshCompanies: refresh,
     currentCompany,
     setCurrentCompany,
+    getCompanyById,
   };
 });

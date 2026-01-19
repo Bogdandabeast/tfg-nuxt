@@ -44,12 +44,6 @@ type Schema = z.output<typeof schema>;
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
   await authStore.signUp(payload.data.name, payload.data.email, payload.data.password);
-  /*  if (authStore.loggedIn) {
-    toast.add({ title: t("signup.toast.success.title"), description: t("signup.toast.success.description"), color: "green" });
-  }
-  else {
-    toast.add({ title: t("signup.toast.error.title"), description: t("signup.toast.error.description"), color: "primary" });
-  } */
 }
 </script>
 

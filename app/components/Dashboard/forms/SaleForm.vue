@@ -3,6 +3,20 @@ import type { Customer } from "~~/lib/db/queries/customers";
 import type { Product } from "~~/lib/db/queries/products";
 import { storeToRefs } from "pinia";
 
+interface SaleData {
+  id: number;
+  customer_id: number;
+  product_id: number;
+  quantity: number;
+}
+
+const props = defineProps<{
+  editMode: boolean;
+  saleData: SaleData | null;
+}>();
+
+const emit = defineEmits(["close"]);
+
 const { t } = useI18n();
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
@@ -19,6 +33,15 @@ const newSale = reactive({
   product_id: undefined as number | undefined,
   quantity: 1,
 });
+
+watch(() => props.saleData, (newSaleData) => {
+  if (newSaleData) {
+    newSale.customer_id = newSaleData.customer_id;
+    newSale.product_id = newSaleData.product_id;
+    newSale.quantity = newSaleData.quantity;
+  }
+}, { immediate: true });
+
 const saleToDeleteId = ref("");
 const error = ref("");
 
@@ -31,11 +54,11 @@ const productOptions = computed(() =>
 
 async function createSaleHandler() {
   if (!companiesStore.currentCompany?.id) {
-    error.value = t('forms.saleForm.noCompany');
+    error.value = t("forms.saleForm.noCompany");
     return;
   }
   if (!newSale.customer_id || !newSale.product_id || newSale.quantity <= 0) {
-    error.value = t('forms.saleForm.invalidData');
+    error.value = t("forms.saleForm.invalidData");
     return;
   }
   const saleData = {
@@ -51,18 +74,19 @@ async function createSaleHandler() {
     newSale.product_id = undefined;
     newSale.quantity = 1;
     toast.add({
-      title: t('common.success'),
-      description: t('forms.saleForm.createdSuccess'),
+      title: t("common.success"),
+      description: t("forms.saleForm.createdSuccess"),
       color: "success",
     });
     error.value = "";
+    emit("close");
   }
 }
 
 async function deleteSaleHandler() {
   const id = Number(saleToDeleteId.value);
   if (!saleToDeleteId.value || Number.isNaN(id)) {
-    error.value = t('forms.saleForm.idInvalid');
+    error.value = t("forms.saleForm.idInvalid");
     return;
   }
   const success = await deleteSale(id, companiesStore.currentCompany!.id);
@@ -70,8 +94,8 @@ async function deleteSaleHandler() {
     salesStore.refreshSales();
     saleToDeleteId.value = "";
     toast.add({
-      title: t('common.success'),
-      description: t('forms.saleForm.deletedSuccess'),
+      title: t("common.success"),
+      description: t("forms.saleForm.deletedSuccess"),
       color: "success",
     });
     error.value = "";

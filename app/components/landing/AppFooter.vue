@@ -76,21 +76,21 @@ function onSubmit() {
             <form @submit.prevent="onSubmit">
               <UFormField
                 name="email"
-                label="Subscribe to our newsletter"
+                :label="$t('footer.newsletter.label')"
                 size="lg"
               >
                 <UInput
                   v-model="email"
                   type="email"
                   class="w-full"
-                  placeholder="Enter your email"
+                  :placeholder="$t('footer.newsletter.placeholder')"
                 >
                   <template #trailing>
                     <UButton
                       type="submit"
                       size="xs"
                       color="neutral"
-                      label="Subscribe"
+                      :label="$t('footer.newsletter.subscribe')"
                     />
                   </template>
                 </UInput>

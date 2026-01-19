@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import type { TableColumn } from "@nuxt/ui";
 import { storeToRefs } from "pinia";
-import CustomerForm from "~~/app/components/Dashboard/forms/CustomerForm.vue";
 import { getCustomerPath } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
 });
+
+const localePath = useLocalePath();
+const { t } = useI18n();
 
 const companiesStore = useCompaniesStore();
 const customersStore = useCustomersStore();
@@ -14,29 +17,72 @@ const customersStore = useCustomersStore();
 companiesStore.refreshCompanies();
 customersStore.refreshCustomers();
 
-const { customers, pending } = storeToRefs(customersStore);
+const { customers, pending: loadingCustomers } = storeToRefs(customersStore);
+
+const columns: TableColumn[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+    cell: ({ row }: any) => {
+      const id = row.getValue("id");
+      return h(
+        resolveComponent("UButton"),
+        {
+          to: localePath(getCustomerPath(id)),
+          variant: "link",
+          color: "primary",
+          padded: false,
+        },
+        () => `#${id}`,
+      );
+    },
+  },
+  {
+    accessorKey: "name",
+    header: t("tables.headers.name"),
+  },
+  {
+    accessorKey: "email",
+    header: t("tables.headers.email"),
+  },
+  {
+    accessorKey: "phone",
+    header: t("tables.headers.phone"),
+  },
+];
 </script>
 
 <template>
-  <div class="space-y-4 w-full">
-    <h1>{{ $t('dashboard.customers.title') }}</h1>
+  <UContainer class="space-y-4 w-full mt-10">
+    <UModal>
+      <UButton
+        label="Sales Actions"
+        color="neutral"
+        variant="subtle"
+      />
 
-    <CustomerForm />
-
-    <UCard class="mt-4">
-      <template #header>
-        <h3>{{ $t('dashboard.customers.existing') }}</h3>
+      <template #content>
+        <DashboardFormsCustomerForm />
       </template>
-      <div v-if="pending">
-        {{ $t('dashboard.customers.loading') }}
-      </div>
-      <ul v-else>
-        <li v-for="customer in customers" :key="customer.id">
-          <NuxtLink :to="useLocalePath()(getCustomerPath(customer.id))" class="text-blue-600 hover:underline">
-            {{ customer.id }} - {{ customer.name }}
-          </NuxtLink>
-        </li>
-      </ul>
-    </UCard>
-  </div>
+    </UModal>
+
+    <DashboardTableSkeleton
+      :loading="loadingCustomers"
+      :columns="4"
+      :rows="8"
+    >
+      <UTable
+        :data="customers"
+        :columns="columns"
+        class="shrink-0"
+        :ui="{
+          base: 'table-fixed border-separate border-spacing-0',
+          thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+          tbody: '[&>tr]:last:[&>td]:border-b-0',
+          th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
+          td: 'border-b border-default',
+        }"
+      />
+    </DashboardTableSkeleton>
+  </UContainer>
 </template>

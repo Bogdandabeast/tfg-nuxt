@@ -1,4 +1,4 @@
-import { findCustomerInUserCompanies, deleteCustomer } from "~~/lib/db/queries/customers";
+import { deleteCustomer, findCustomerInUserCompanies } from "~~/lib/db/queries/customers";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { handleError } from "~~/utils/error-handler";
 
@@ -24,8 +24,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
     if (!customerData || !customerData.company_id) {
       throw createError({ statusCode: 404, statusMessage: "Customer not found" });
     }
-
-
 
     // Delete the customer
     const deleted = await deleteCustomer(customerId, customerData.company_id);
