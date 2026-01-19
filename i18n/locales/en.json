@@ -284,16 +284,21 @@
        "existing": "Existing Sales",
        "loading": "Loading sales..."
      },
-     "metrics": {
-       "customers": "Customers",
-       "conversions": "Conversions",
-       "revenue": "Revenue",
-       "orders": "Orders",
-       "newCustomers": "New Customers",
-       "averageTicket": "Average Ticket",
-       "topProduct": "Top Product",
-       "totalSales": "Total Sales"
-     }
+      "metrics": {
+        "customers": "Customers",
+        "conversions": "Conversions",
+        "revenue": "Revenue",
+        "orders": "Orders",
+        "newCustomers": "New Customers",
+        "averageTicket": "Average Ticket",
+        "topProduct": "Top Product",
+        "totalSales": "Total Sales"
+      },
+      "emptyMetrics": {
+        "title": "No metrics available",
+        "description": "To see metrics you need to add business records to your CRM. Start by adding customers, products and sales.",
+        "cta": "Start by adding customers"
+      }
    },
   "forms": {
     "selectCustomer": "Select a customer",

@@ -284,16 +284,21 @@
        "existing": "Ventas Existentes",
        "loading": "Cargando ventas..."
      },
-     "metrics": {
-       "customers": "Clientes",
-       "conversions": "Conversiones",
-       "revenue": "Ingresos",
-       "orders": "Pedidos",
-       "newCustomers": "Nuevos Clientes",
-       "averageTicket": "Ticket Promedio",
-       "topProduct": "Producto Más Vendido",
-       "totalSales": "Ventas Totales"
-     }
+      "metrics": {
+        "customers": "Clientes",
+        "conversions": "Conversiones",
+        "revenue": "Ingresos",
+        "orders": "Pedidos",
+        "newCustomers": "Nuevos Clientes",
+        "averageTicket": "Ticket Promedio",
+        "topProduct": "Producto Más Vendido",
+        "totalSales": "Ventas Totales"
+      },
+      "emptyMetrics": {
+        "title": "No hay métricas disponibles",
+        "description": "Para ver las métricas tienes que añadir registros de tu negocio al CRM. Comienza agregando clientes, productos y ventas.",
+        "cta": "Comenzar agregando clientes"
+      }
    },
   "forms": {
     "selectCustomer": "Seleccionar cliente",

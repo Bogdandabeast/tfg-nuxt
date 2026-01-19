@@ -123,14 +123,7 @@ onMounted(async () => {
           tooltip
           popover
         />
-
-        <UNavigationMenu
-          :collapsed="collapsed"
-          :items="links[1]"
-          orientation="vertical"
-          tooltip
-          class="mt-auto"
-        />
+        <DashboardSignOut />
       </template>
     </UDashboardSidebar>
 
