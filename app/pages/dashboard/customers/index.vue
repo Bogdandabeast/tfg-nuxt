@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
-import type { Customer } from "~/types";
 import { storeToRefs } from "pinia";
-import { h, resolveComponent } from "vue";
-import CustomerDeleteModal from "~/components/Dashboard/forms/customers/CustomerDeleteModal.vue";
-import CustomerFormModal from "~/components/Dashboard/forms/customers/CustomerFormModal.vue";
+import { getCustomerPath } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
 });
+
+const localePath = useLocalePath();
+const { t } = useI18n();
 
 const companiesStore = useCompaniesStore();
 const customersStore = useCustomersStore();
@@ -17,76 +17,54 @@ const customersStore = useCustomersStore();
 companiesStore.refreshCompanies();
 customersStore.refreshCustomers();
 
-const { customers, pending } = storeToRefs(customersStore);
-
-const isAddModalOpen = ref(false);
-const isDeleteModalOpen = ref(false);
-const selectedCustomer = ref<Customer | null>(null);
+const { customers, pending: _pending } = storeToRefs(customersStore);
 
 const columns: TableColumn[] = [
   {
     accessorKey: "id",
     header: "ID",
+    cell: ({ row }: any) => {
+      const id = row.getValue("id");
+      return h(
+        resolveComponent("UButton"),
+        {
+          to: localePath(getCustomerPath(id)),
+          variant: "link",
+          color: "primary",
+          padded: false,
+        },
+        () => `#${id}`,
+      );
+    },
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: t('tables.headers.name'),
   },
   {
     accessorKey: "email",
-    header: "Email",
+    header: t('tables.headers.email'),
   },
   {
     accessorKey: "phone",
-    header: "Phone",
-  },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }: any) => {
-      const UButton = resolveComponent("UButton");
-      return h("div", { class: "flex gap-2" }, [
-        h(UButton, {
-          size: "xs",
-          variant: "outline",
-          color: "primary",
-          onClick: () => {
-            selectedCustomer.value = row.original;
-            isAddModalOpen.value = true;
-          },
-        }, "Edit"),
-        h(UButton, {
-          size: "xs",
-          variant: "outline",
-          color: "error",
-          onClick: () => {
-            selectedCustomer.value = row.original;
-            isDeleteModalOpen.value = true;
-          },
-        }, "Delete"),
-      ]);
-    },
+    header: t('tables.headers.phone'),
   },
 ];
 </script>
 
 <template>
-  <UContainer class="space-y-4 w-full">
-    <h1>{{ $t('dashboard.customers.title') }}</h1>
+  <UContainer class="space-y-4 w-full mt-10">
+    <UModal>
+      <UButton
+        label="Sales Actions"
+        color="neutral"
+        variant="subtle"
+      />
 
-    <UButton
-      label="Add Customer"
-      color="primary"
-      @click="isAddModalOpen = true; selectedCustomer = null"
-    />
-
-    <CustomerFormModal
-      v-model:open="isAddModalOpen"
-      :edit-mode="!!selectedCustomer"
-      :customer-data="selectedCustomer"
-    />
-
-    <CustomerDeleteModal v-model:open="isDeleteModalOpen" :customer="selectedCustomer" />
+      <template #content>
+        <DashboardFormsCustomerForm />
+      </template>
+    </UModal>
 
     <UTable
       :data="customers"

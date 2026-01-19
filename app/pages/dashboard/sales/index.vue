@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import type { Sale } from "~/types";
 import { storeToRefs } from "pinia";
-import { h, resolveComponent } from "vue";
-import SalesDeleteModal from "~/components/Dashboard/forms/sales/SalesDeleteModal.vue";
-import SalesFormModal from "~/components/Dashboard/forms/sales/SalesFormModal.vue";
+import { ROUTES } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
 });
-
+const localePath = useLocalePath();
+const { t } = useI18n();
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
@@ -29,26 +28,34 @@ const detailedSales = computed(() => {
     const amount = product ? Number(product.price) * sale.quantity : 0;
     return {
       ...sale,
-      customerName: customer ? customer.name : "Unknown",
-      productName: product ? product.name : "Unknown",
+      customerName: customer ? customer.name : t('tables.data.unknown'),
+      productName: product ? product.name : t('tables.data.unknown'),
       amount,
     };
   });
 });
 
-const isEditModalOpen = ref(false);
-const isDeleteModalOpen = ref(false);
-const selectedSale = ref<Sale | null>(null);
-
 const columns = [
   {
     accessorKey: "id",
     header: "ID",
-    cell: ({ row }: any) => `#${row.getValue("id")}`,
+    cell: ({ row }: any) => {
+      const id = row.getValue("id");
+      return h(
+        resolveComponent("UButton"),
+        {
+          to: localePath(getSalePath(id)),
+          variant: "link",
+          color: "primary",
+          padded: false,
+        },
+        () => `#${id}`,
+      );
+    },
   },
   {
     accessorKey: "sale_date",
-    header: "Date",
+    header: t('tables.headers.date'),
     cell: ({ row }: any) => {
       return new Date(row.getValue("sale_date")).toLocaleString("en-US", {
         day: "numeric",
@@ -70,12 +77,20 @@ const columns = [
     cell: ({ row }: any) => row.getValue("productName"),
   },
   {
+    accessorKey: "customerName",
+    header: t('tables.headers.customer'),
+  },
+  {
+    accessorKey: "productName",
+    header: t('tables.headers.product'),
+  },
+  {
     accessorKey: "quantity",
-    header: "Quantity",
+    header: t('tables.headers.quantity'),
   },
   {
     accessorKey: "amount",
-    header: () => h("div", { class: "text-right" }, "Amount"),
+    header: () => h("div", { class: "text-right" }, t('tables.headers.amount')),
     cell: ({ row }: any) => {
       const amount = Number.parseFloat(row.getValue("amount"));
       const formatted = new Intl.NumberFormat("en-US", {
@@ -85,56 +100,23 @@ const columns = [
       return h("div", { class: "text-right font-medium" }, formatted);
     },
   },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }: any) => {
-      const UButton = resolveComponent("UButton");
-      return h("div", { class: "flex gap-2" }, [
-        h(UButton, {
-          size: "xs",
-          variant: "outline",
-          color: "primary",
-          onClick: () => {
-            selectedSale.value = row.original;
-            isEditModalOpen.value = true;
-          },
-        }, "Edit"),
-        h(UButton, {
-          size: "xs",
-          variant: "outline",
-          color: "error",
-          onClick: () => {
-            selectedSale.value = row.original;
-            isDeleteModalOpen.value = true;
-          },
-        }, "Delete"),
-      ]);
-    },
-  },
+
 ];
 </script>
 
 <template>
-  <UContainer class="space-y-4 w-full">
-    <h1>{{ $t('dashboard.sales.title') }}</h1>
+  <UContainer class="space-y-4 w-full mt-10">
+    <UModal>
+      <UButton
+        :label="t('tables.actions.sales')"
+        color="neutral"
+        variant="subtle"
+      />
 
-    <UButton
-      label="Add Sale"
-      color="primary"
-      @click="isEditModalOpen = true"
-    />
-
-    <SalesFormModal
-      v-model:open="isEditModalOpen"
-      :edit-mode="!!selectedSale"
-      :sale-data="selectedSale"
-    />
-
-    <SalesDeleteModal
-      v-model:open="isDeleteModalOpen"
-      :sale="selectedSale"
-    />
+      <template #content>
+        <DashboardFormsSaleForm />
+      </template>
+    </UModal>
 
     <UTable
       :data="detailedSales"

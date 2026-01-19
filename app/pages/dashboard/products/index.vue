@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
-import type { Product } from "~/types";
 import { storeToRefs } from "pinia";
-import { h, resolveComponent } from "vue";
-import ProductDeleteModal from "~/components/Dashboard/forms/products/ProductDeleteModal.vue";
-import ProductFormModal from "~/components/Dashboard/forms/products/ProductFormModal.vue";
+import { getProductPath } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
 });
+
+const localePath = useLocalePath();
+const { t } = useI18n();
 
 const companiesStore = useCompaniesStore();
 const productsStore = useProductsStore();
@@ -17,78 +17,56 @@ const productsStore = useProductsStore();
 companiesStore.refreshCompanies();
 productsStore.refreshProducts();
 
-const { products, pending } = storeToRefs(productsStore);
-
-const isAddModalOpen = ref(false);
-const isDeleteModalOpen = ref(false);
-const selectedProduct = ref<Product | null>(null);
+const { products, pending: _pending } = storeToRefs(productsStore);
 
 const columns: TableColumn[] = [
   {
     accessorKey: "id",
     header: "ID",
+    cell: ({ row }: any) => {
+      const id = row.getValue("id");
+      return h(
+        resolveComponent("UButton"),
+        {
+          to: localePath(getProductPath(id)),
+          variant: "link",
+          color: "primary",
+          padded: false,
+        },
+        () => `#${id}`,
+      );
+    },
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: t('tables.headers.name'),
   },
   {
     accessorKey: "price",
-    header: "Price",
+    header: t('tables.headers.price'),
     cell: ({ row }: any) => `€${row.getValue("price")}`,
   },
   {
     accessorKey: "stock",
-    header: "Stock",
+    header: t('tables.headers.stock'),
   },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }: any) => {
-      const UButton = resolveComponent("UButton");
-      return h("div", { class: "flex gap-2" }, [
-        h(UButton, {
-          size: "xs",
-          variant: "outline",
-          color: "primary",
-          onClick: () => {
-            selectedProduct.value = row.original;
-            isAddModalOpen.value = true;
-          },
-        }, "Edit"),
-        h(UButton, {
-          size: "xs",
-          variant: "outline",
-          color: "error",
-          onClick: () => {
-            selectedProduct.value = row.original;
-            isDeleteModalOpen.value = true;
-          },
-        }, "Delete"),
-      ]);
-    },
-  },
+
 ];
 </script>
 
 <template>
-  <UContainer class="space-y-4 w-full">
-    <h1>{{ $t('dashboard.products.title') }}</h1>
+  <UContainer class="space-y-4 w-full mt-10">
+    <UModal>
+      <UButton
+        :label="t('tables.actions.products')"
+        color="neutral"
+        variant="subtle"
+      />
 
-    <UButton
-      label="Add Product"
-      color="primary"
-      @click="isAddModalOpen = true; selectedProduct = null"
-    />
-
-    <ProductFormModal
-      v-model:open="isAddModalOpen"
-      :edit-mode="!!selectedProduct"
-      :product-data="selectedProduct"
-    />
-
-    <ProductDeleteModal v-model:open="isDeleteModalOpen" :product="selectedProduct" />
-
+      <template #content>
+        <DashboardFormsProductForm />
+      </template>
+    </UModal>
     <UTable
       :data="products"
       :columns="columns"

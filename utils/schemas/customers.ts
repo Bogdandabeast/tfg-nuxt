@@ -1,16 +1,16 @@
 import { z } from "zod";
 
 export const customerCreateSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email"),
+  name: z.string().min(1, "validation.nameRequired"),
+  email: z.string().email("validation.invalidEmail"),
   phone: z.string().optional(),
   address: z.string().optional(),
   company_id: z.number().int(),
 });
 
 export const customerUpdateSchema = z.object({
-  name: z.string().min(1, "Name is required").optional(),
-  email: z.string().email("Invalid email").optional(),
+  name: z.string().min(1, "validation.nameRequired").optional(),
+  email: z.string().email("validation.invalidEmail").optional(),
   phone: z.string().optional(),
   address: z.string().optional(),
 });

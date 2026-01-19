@@ -7,6 +7,7 @@ const customerId = Number(route.params.id);
 
 const customersStore = useCustomersStore();
 const { data, pending, error } = customersStore.getCustomerById(customerId);
+const { t } = useI18n();
 
 const isDeleteModalOpen = ref(false);
 
@@ -18,24 +19,24 @@ async function handleDelete() {
 const UBadge = resolveComponent("UBadge");
 
 const tableData = computed(() => [
-  { label: "ID", value: data.value?.id },
-  { label: "Name", value: data.value?.name },
-  { label: "Email", value: data.value?.email },
-  { label: "Phone", value: data.value?.phone },
-  { label: "Address", value: data.value?.address },
-  { label: "Company ID", value: data.value?.company_id },
+  { label: t('tables.headers.id'), value: data.value?.id },
+  { label: t('tables.headers.name'), value: data.value?.name },
+  { label: t('tables.headers.email'), value: data.value?.email },
+  { label: t('tables.headers.phone'), value: data.value?.phone },
+  { label: t('tables.headers.address'), value: data.value?.address },
+  { label: t('tables.headers.companyId'), value: data.value?.company_id },
 ]);
 
 const tableColumns = [
   {
     accessorKey: "label",
-    header: "Field",
+    header: t('tables.headers.field'),
     cell: ({ row }: { row: Record<string, any> }) =>
       h("span", { class: "font-medium" }, row.getValue("label")),
   },
   {
     accessorKey: "value",
-    header: "Value",
+    header: t('tables.headers.value'),
     cell: ({ row }: { row: Record<string, any> }) => {
       const label = row.original.label;
       const value = row.getValue("value");
@@ -53,8 +54,8 @@ const tableColumns = [
 <template>
   <UContainer>
     <UPageHeader
-      title="Customer Details"
-      :description="`Viewing customer ${customerId}`"
+      :title="$t('details.customer.title')"
+      :description="$t('details.customer.description', { id: customerId })"
     >
       <template #actions>
         <UColorModeButton />
@@ -64,20 +65,20 @@ const tableColumns = [
             variant="soft"
             icon="i-heroicons-ellipsis-horizontal-20-solid"
             square
-            aria-label="More actions"
+            :aria-label="$t('actions.more')"
           />
           <template #items>
             <UDropdownMenuItem
               icon="i-heroicons-pencil-square-20-solid"
-              label="Edit Customer"
+              :label="$t('actions.edit.customer')"
             />
             <UDropdownMenuItem
               icon="i-heroicons-envelope-20-solid"
-              label="Send Email"
+              :label="$t('actions.sendEmail')"
             />
             <UDropdownMenuItem
               icon="i-heroicons-trash-20-solid"
-              label="Delete Customer"
+              :label="$t('actions.delete.customer')"
               @click="isDeleteModalOpen = true"
             />
           </template>
@@ -86,14 +87,14 @@ const tableColumns = [
     </UPageHeader>
 
     <div class="space-y-6">
-      <UAlert
-        v-if="error"
-        color="error"
-        variant="subtle"
-        icon="i-heroicons-exclamation-triangle-20-solid"
-        title="Error loading customer"
-        :description="error?.message || 'An error occurred'"
-      />
+        <UAlert
+          v-if="error"
+          color="error"
+          variant="subtle"
+          icon="i-heroicons-exclamation-triangle-20-solid"
+          :title="$t('details.customer.error.title')"
+          :description="error?.message || $t('details.customer.error.description')"
+        />
 
       <UCard v-else-if="pending">
         <template #header>
@@ -124,7 +125,7 @@ const tableColumns = [
               </p>
             </div>
             <UBadge color="blue" variant="subtle">
-              Active
+              {{ t('tables.data.active') }}
             </UBadge>
           </div>
         </template>
@@ -134,97 +135,7 @@ const tableColumns = [
           :columns="tableColumns"
           class="w-full"
         />
-
-        <USeparator />
-
-        <div class="space-y-4">
-          <UButton
-            icon="i-heroicons-pencil-square-20-solid"
-            size="lg"
-            block
-          >
-            Edit Customer
-          </UButton>
-          <UButton
-            icon="i-heroicons-chat-bubble-left-right-20-solid"
-            variant="outline"
-            size="lg"
-            block
-          >
-            View Conversations
-          </UButton>
-          <UButton
-            icon="i-heroicons-eye-20-solid"
-            variant="outline"
-            size="lg"
-            block
-            :to="localePath(ROUTES.CUSTOMERS)"
-          >
-            View All Customers
-          </UButton>
-        </div>
-
-        <template #footer>
-          <div class="flex justify-between">
-            <UButton
-              icon="i-heroicons-arrow-left-20-solid"
-              variant="ghost"
-              to="/dashboard/customers"
-            >
-              Back to Customers
-            </UButton>
-            <div class="flex gap-2">
-              <UTooltip text="Export customer data">
-                <UButton
-                  icon="i-heroicons-arrow-down-tray-20-solid"
-                  variant="ghost"
-                  size="sm"
-                />
-              </UTooltip>
-              <UButton
-                icon="i-heroicons-bookmark-20-solid"
-                variant="ghost"
-                size="sm"
-              >
-                Bookmark
-              </UButton>
-            </div>
-          </div>
-        </template>
-      </UCard>
-
-      <UCard v-else>
-        <UEmpty
-          icon="i-heroicons-users-20-solid"
-          title="Customer not found"
-          description="The requested customer could not be found."
-        >
-          <UButton to="/dashboard/customers">
-            Back to Customers
-          </UButton>
-        </UEmpty>
       </UCard>
     </div>
-
-    <UModal v-model="isDeleteModalOpen">
-      <UCard>
-        <template #header>
-          <h3 class="text-lg font-semibold">
-            Delete Customer
-          </h3>
-        </template>
-        <p>Are you sure you want to delete this customer? This action cannot be undone.</p>
-        <template #footer>
-          <div class="flex justify-end gap-2">
-            <UButton variant="ghost" @click="isDeleteModalOpen = false">
-              Cancel
-            </UButton>
-            <UButton color="red" @click="handleDelete">
-              Delete
-            </UButton>
-          </div>
-        </template>
-      </UCard>
-    </UModal>
   </UContainer>
 </template>

@@ -21,13 +21,13 @@ const items = computed<DropdownMenuItem[][]>(() => {
       companiesStore.setCurrentCompany(company);
     },
   })), [{
-    label: "Create company",
+    label: $t('companies.menu.create'),
     icon: "i-lucide-circle-plus",
     onSelect: () => {
       router.push(localePath(ROUTES.COMPANIES));
     },
   }, {
-    label: "Manage companies",
+    label: $t('companies.menu.manage'),
     icon: "i-lucide-cog",
     onSelect: () => {
       router.push(localePath(ROUTES.COMPANIES));

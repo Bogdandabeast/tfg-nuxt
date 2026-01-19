@@ -40,27 +40,27 @@ async function handleDelete() {
 const UBadge = resolveComponent("UBadge");
 
 const tableData = computed(() => [
-  { label: "Sale ID", value: saleData.value?.id },
-  { label: "Customer Name", value: customerData.value?.name || "Loading..." },
-  { label: "Customer Email", value: customerData.value?.email || "Loading..." },
-  { label: "Product Name", value: productData.value?.name || "Loading..." },
-  { label: "Product Price", value: productData.value?.price ? `$${productData.value.price}` : "Loading..." },
-  { label: "Product Stock", value: productData.value?.stock || "Loading..." },
-  { label: "Quantity", value: saleData.value?.quantity },
-  { label: "Sale Date", value: saleData.value?.sale_date ? new Date(saleData.value.sale_date).toLocaleString() : "N/A" },
-  { label: "Company ID", value: saleData.value?.company_id },
+  { label: t('tables.headers.id'), value: saleData.value?.id },
+  { label: t('tables.headers.customer'), value: customerData.value?.name || t('tables.data.loading') },
+  { label: t('tables.headers.email'), value: customerData.value?.email || t('tables.data.loading') },
+  { label: t('tables.headers.product'), value: productData.value?.name || t('tables.data.unknown') },
+  { label: t('tables.headers.price'), value: productData.value?.price ? `$${productData.value.price}` : t('tables.data.loading') },
+  { label: t('tables.headers.stock'), value: productData.value?.stock || t('tables.data.loading') },
+  { label: t('tables.headers.quantity'), value: saleData.value?.quantity },
+  { label: t('tables.headers.date'), value: saleData.value?.sale_date ? new Date(saleData.value.sale_date).toLocaleString() : t('tables.data.na') },
+  { label: t('tables.headers.companyId'), value: saleData.value?.company_id },
 ]);
 
 const tableColumns = [
   {
     accessorKey: "label",
-    header: "Field",
+    header: t('tables.headers.field'),
     cell: ({ row }: { row: Record<string, any> }) =>
       h("span", { class: "font-medium" }, row.getValue("label")),
   },
   {
     accessorKey: "value",
-    header: "Value",
+    header: t('tables.headers.value'),
     cell: ({ row }: { row: Record<string, any> }) => {
       const label = row.original.label;
       const value = row.getValue("value");
@@ -83,8 +83,8 @@ const tableColumns = [
 <template>
   <UContainer>
     <UPageHeader
-      title="Sale Details"
-      :description="`Viewing sale ${saleId}`"
+      :title="$t('details.sale.title')"
+      :description="$t('details.sale.description', { id: saleId })"
     >
       <template #actions>
         <UColorModeButton />
@@ -94,20 +94,20 @@ const tableColumns = [
             variant="soft"
             icon="i-heroicons-ellipsis-horizontal-20-solid"
             square
-            aria-label="More actions"
+            :aria-label="$t('actions.more')"
           />
           <template #items>
             <UDropdownMenuItem
               icon="i-heroicons-pencil-square-20-solid"
-              label="Edit Sale"
+              :label="$t('actions.edit.sale')"
             />
             <UDropdownMenuItem
               icon="i-heroicons-receipt-refund-20-solid"
-              label="Process Refund"
+              :label="$t('actions.processRefund')"
             />
             <UDropdownMenuItem
               icon="i-heroicons-trash-20-solid"
-              label="Delete Sale"
+              :label="$t('actions.delete.sale')"
               @click="isDeleteModalOpen = true"
             />
           </template>
@@ -121,8 +121,8 @@ const tableColumns = [
         color="error"
         variant="subtle"
         icon="i-heroicons-exclamation-triangle-20-solid"
-        title="Error loading sale"
-        :description="error?.message || 'An error occurred'"
+        :title="$t('details.sale.error.title')"
+        :description="error?.message || $t('details.sale.error.description')"
       />
 
       <UCard v-else-if="pending">
@@ -160,114 +160,8 @@ const tableColumns = [
             :columns="tableColumns"
             class="w-full"
           />
-
-          <USeparator />
-
-          <div>
-            <h4 class="text-lg font-semibold mb-4">
-              Sale Timeline
-            </h4>
-            <UTimeline :items="timelineItems" />
-          </div>
         </div>
-
-        <USeparator />
-
-        <div class="space-y-4">
-          <UButton
-            icon="i-heroicons-pencil-square-20-solid"
-            size="lg"
-            block
-          >
-            Edit Sale
-          </UButton>
-          <UButton
-            icon="i-heroicons-receipt-refund-20-solid"
-            variant="outline"
-            size="lg"
-            block
-          >
-            Process Refund
-          </UButton>
-          <UButton
-            icon="i-heroicons-eye-20-solid"
-            variant="outline"
-            size="lg"
-            block
-            to="/dashboard/sales"
-          >
-            View All Sales
-          </UButton>
-        </div>
-
-        <template #footer>
-          <div class="flex justify-between">
-            <UButton
-              icon="i-heroicons-arrow-left-20-solid"
-              variant="ghost"
-              to="/dashboard/sales"
-            >
-              Back to Sales
-            </UButton>
-            <div class="flex gap-2">
-              <UTooltip text="Print receipt">
-                <UButton
-                  icon="i-heroicons-printer-20-solid"
-                  variant="ghost"
-                  size="sm"
-                />
-              </UTooltip>
-              <UButton
-                icon="i-heroicons-share-20-solid"
-                variant="ghost"
-                size="sm"
-              >
-                Share
-              </UButton>
-              <UButton
-                icon="i-heroicons-bookmark-20-solid"
-                variant="ghost"
-                size="sm"
-              >
-                Bookmark
-              </UButton>
-            </div>
-          </div>
-        </template>
-      </UCard>
-
-      <UCard v-else>
-        <UEmpty
-          icon="i-heroicons-shopping-bag-20-solid"
-          title="Sale not found"
-          description="The requested sale could not be found."
-        >
-          <UButton to="/dashboard/sales">
-            Back to Sales
-          </UButton>
-        </UEmpty>
-      </UCard>
+      </Ucard>
     </div>
-
-    <UModal v-model="isDeleteModalOpen">
-      <UCard>
-        <template #header>
-          <h3 class="text-lg font-semibold">
-            Delete Sale
-          </h3>
-        </template>
-        <p>Are you sure you want to delete this sale? This action cannot be undone.</p>
-        <template #footer>
-          <div class="flex justify-end gap-2">
-            <UButton variant="ghost" @click="isDeleteModalOpen = false">
-              Cancel
-            </UButton>
-            <UButton color="error" @click="handleDelete">
-              Delete
-            </UButton>
-          </div>
-        </template>
-      </UCard>
-    </UModal>
   </UContainer>
 </template>

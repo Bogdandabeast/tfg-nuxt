@@ -18,14 +18,14 @@ async function handleDelete() {
 const UBadge = resolveComponent("UBadge");
 
 const tableData = computed(() => [
-  { label: "ID", value: data.value?.id },
-  { label: "Name", value: data.value?.name },
-  { label: "User ID", value: data.value?.user_id },
+  { label: t('tables.headers.id'), value: data.value?.id },
+  { label: t('tables.headers.name'), value: data.value?.name },
+  { label: t('tables.headers.userId'), value: data.value?.user_id },
 ]);
 
 const tableColumns = [
-  { accessorKey: "label", header: "Field", cell: ({ row }: { row: Record<string, any> }) => h("span", { class: "font-medium" }, row.getValue("label")) },
-  { accessorKey: "value", header: "Value", cell: ({ row }: { row: Record<string, any> }) => {
+  { accessorKey: "label", header: t('tables.headers.field'), cell: ({ row }: { row: Record<string, any> }) => h("span", { class: "font-medium" }, row.getValue("label")) },
+  { accessorKey: "value", header: t('tables.headers.value'), cell: ({ row }: { row: Record<string, any> }) => {
     const label = row.original.label;
     const value = row.getValue("value");
     if (label === "ID") {
@@ -39,8 +39,8 @@ const tableColumns = [
 <template>
   <UContainer>
     <UPageHeader
-      title="Company Details"
-      :description="`Viewing company ${companyId}`"
+      :title="$t('details.company.title')"
+      :description="$t('details.company.description', { id: companyId })"
     >
       <template #actions>
         <UColorModeButton />
@@ -50,16 +50,16 @@ const tableColumns = [
             variant="soft"
             icon="i-heroicons-ellipsis-horizontal-20-solid"
             square
-            aria-label="More actions"
+            :aria-label="$t('actions.more')"
           />
           <template #items>
             <UDropdownMenuItem
               icon="i-heroicons-pencil-square-20-solid"
-              label="Edit Company"
+              :label="$t('actions.edit.company')"
             />
             <UDropdownMenuItem
               icon="i-heroicons-trash-20-solid"
-              label="Delete Company"
+              :label="$t('actions.delete.company')"
               @click="isDeleteModalOpen = true"
             />
           </template>
@@ -73,8 +73,8 @@ const tableColumns = [
         color="error"
         variant="subtle"
         icon="i-heroicons-exclamation-triangle-20-solid"
-        title="Error loading company"
-        :description="error?.message || 'An error occurred'"
+        :title="$t('details.company.error.title')"
+        :description="error?.message || $t('details.company.error.description')"
       />
 
       <UCard v-else-if="pending">
@@ -165,8 +165,8 @@ const tableColumns = [
       <UCard v-else>
         <UEmpty
           icon="i-heroicons-building-office-20-solid"
-          title="Company not found"
-          description="The requested company could not be found."
+          :title="$t('details.company.notFound.title')"
+          :description="$t('details.company.notFound.description')"
         >
           <UButton to="/dashboard/companies">
             Back to Companies

@@ -6,9 +6,9 @@ export function useSettings() {
   const fileRef = ref<HTMLInputElement>();
 
   const profileSchema = z.object({
-    name: z.string().min(2, "Too short"),
-    email: z.string().email("Invalid email"),
-    username: z.string().min(2, "Too short"),
+    name: z.string().min(2, "validation.tooShort"),
+    email: z.string().email("validation.invalidEmail"),
+    username: z.string().min(2, "validation.tooShort"),
     avatar: z.string().optional(),
     bio: z.string().optional(),
   });

@@ -383,8 +383,120 @@
     "accept": "Accept",
     "optOut": "Opt out"
   },
-  "auth": {
-    "signUpSuccess": "Account created successfully",
-    "signInError": "Invalid email or password"
-  }
-}
+   "auth": {
+     "signUpSuccess": "Account created successfully",
+     "signInError": "Invalid email or password"
+   },
+   "details": {
+     "customer": {
+       "title": "Customer Details",
+       "description": "Viewing customer {id}",
+       "error": {
+         "title": "Error loading customer",
+         "description": "An error occurred"
+       }
+     },
+     "product": {
+       "title": "Product Details",
+       "description": "Viewing product {id}",
+       "error": {
+         "title": "Error loading product",
+         "description": "An error occurred"
+       }
+     },
+     "sale": {
+       "title": "Sale Details",
+       "description": "Viewing sale {id}",
+       "error": {
+         "title": "Error loading sale",
+         "description": "An error occurred"
+       }
+     },
+     "company": {
+       "title": "Company Details",
+       "description": "Viewing company {id}",
+       "error": {
+         "title": "Error loading company",
+         "description": "An error occurred"
+       },
+       "notFound": {
+         "title": "Company not found",
+         "description": "The requested company could not be found."
+       }
+     }
+   },
+   "actions": {
+     "more": "More actions",
+     "edit": {
+       "customer": "Edit Customer",
+       "product": "Edit Product",
+       "sale": "Edit Sale",
+       "company": "Edit Company"
+     },
+     "sendEmail": "Send Email",
+     "updatePrice": "Update Price",
+     "processRefund": "Process Refund",
+     "delete": {
+       "customer": "Delete Customer",
+       "product": "Delete Product",
+       "sale": "Delete Sale",
+       "company": "Delete Company"
+     }
+   },
+   "tables": {
+     "headers": {
+       "id": "ID",
+       "name": "Name",
+       "email": "Email",
+       "phone": "Phone",
+       "address": "Address",
+       "companyId": "Company ID",
+       "userId": "User ID",
+       "price": "Price",
+       "stock": "Stock",
+       "field": "Field",
+       "value": "Value",
+       "date": "Date",
+       "customer": "Customer",
+       "product": "Product",
+       "quantity": "Quantity",
+       "amount": "Amount"
+     },
+     "data": {
+       "unknown": "Unknown",
+       "na": "N/A",
+       "active": "Active",
+       "loading": "Loading..."
+     },
+     "actions": {
+       "products": "Products Actions",
+       "sales": "Sales Actions"
+     }
+   },
+   "dashboard": {
+     "metrics": {
+       "customers": "Customers",
+       "conversions": "Conversions",
+       "revenue": "Revenue",
+       "orders": "Orders"
+     }
+   },
+   "footer": {
+     "newsletter": {
+       "placeholder": "Enter your email",
+       "subscribe": "Subscribe",
+       "label": "Subscribe to our newsletter"
+     }
+   },
+   "errors": {
+     "unknown": "Unknown error",
+     "invalidReference": "Invalid reference",
+     "resourceExists": "Resource already exists",
+     "cannotDeleteInUse": "Cannot delete this item because it is currently in use"
+   },
+   "validation": {
+     "invalidEmail": "Invalid email",
+     "tooShort": "Too short",
+     "nameRequired": "Name is required"
+   }
+ }

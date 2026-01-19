@@ -31,7 +31,7 @@ function selectCompany(company: any) {
   const route = useRoute();
   const redirectTo = route.query.redirect as string;
   if (redirectTo) {
-    navigateTo(useLocalePath()(decodeURIComponent(redirectTo)));
+    navigateTo((decodeURIComponent(redirectTo)));
   }
   else {
     navigateTo(useLocalePath()(ROUTES.DASHBOARD));
@@ -40,7 +40,7 @@ function selectCompany(company: any) {
 </script>
 
 <template>
-  <UContainer class="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+  <UContainer class="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900 mt-10">
     <UCard class="w-full max-w-md">
       <template #header>
         <h1 class="text-2xl font-bold text-center">

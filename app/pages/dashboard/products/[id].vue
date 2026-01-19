@@ -18,18 +18,18 @@ async function handleDelete() {
 const UBadge = resolveComponent("UBadge");
 
 const tableData = computed(() => [
-  { label: "ID", value: data.value?.id },
-  { label: "Name", value: data.value?.name },
-  { label: "Description", value: data.value?.description },
-  { label: "Price", value: data.value?.price ? `$${data.value.price}` : "N/A" },
-  { label: "Stock", value: data.value?.stock },
-  { label: "Company ID", value: data.value?.company_id },
+  { label: t('tables.headers.id'), value: data.value?.id },
+  { label: t('tables.headers.name'), value: data.value?.name },
+  { label: t('tables.headers.description'), value: data.value?.description },
+  { label: t('tables.headers.price'), value: data.value?.price ? `$${data.value.price}` : t('tables.data.na') },
+  { label: t('tables.headers.stock'), value: data.value?.stock },
+  { label: t('tables.headers.companyId'), value: data.value?.company_id },
 ]);
 
 const tableColumns: TableColumn[] = [
   {
     accessorKey: "label",
-    header: "Field",
+    header: t('tables.headers.field'),
     meta: {
       class: {
         th: "w-1/3",
@@ -40,7 +40,7 @@ const tableColumns: TableColumn[] = [
   },
   {
     accessorKey: "value",
-    header: "Value",
+    header: t('tables.headers.value'),
     meta: {
       class: {
         th: "w-2/3",
@@ -80,8 +80,8 @@ const stockPercentage = computed(() => {
 <template>
   <UContainer>
     <UPageHeader
-      title="Product Details"
-      :description="`Viewing product ${productId}`"
+      :title="$t('details.product.title')"
+      :description="$t('details.product.description', { id: productId })"
     >
       <div v-if="pending">
         loading ...
@@ -97,20 +97,20 @@ const stockPercentage = computed(() => {
             variant="soft"
             icon="i-heroicons-ellipsis-horizontal-20-solid"
             square
-            aria-label="More actions"
+            :aria-label="$t('actions.more')"
           />
           <template #items>
             <UDropdownMenuItem
               icon="i-heroicons-pencil-square-20-solid"
-              label="Edit Product"
+              :label="$t('actions.edit.product')"
             />
             <UDropdownMenuItem
               icon="i-heroicons-currency-dollar-20-solid"
-              label="Update Price"
+              :label="$t('actions.updatePrice')"
             />
             <UDropdownMenuItem
               icon="i-heroicons-trash-20-solid"
-              label="Delete Product"
+              :label="$t('actions.delete.product')"
               @click="isDeleteModalOpen = true"
             />
           </template>
@@ -124,8 +124,8 @@ const stockPercentage = computed(() => {
         color="error"
         variant="subtle"
         icon="i-heroicons-exclamation-triangle-20-solid"
-        title="Error loading product"
-        :description="error?.message || 'An error occurred'"
+        :title="$t('details.product.error.title')"
+        :description="error?.message || $t('details.product.error.description')"
       />
 
       <UCard v-else-if="pending">
@@ -164,104 +164,7 @@ const stockPercentage = computed(() => {
             class="w-full"
           />
         </div>
-
-        <USeparator />
-
-        <div class="space-y-4">
-          <UButton
-            icon="i-heroicons-pencil-square-20-solid"
-            size="lg"
-            block
-          >
-            Edit Product
-          </UButton>
-          <UButton
-            icon="i-heroicons-shopping-cart-20-solid"
-            variant="outline"
-            size="lg"
-            block
-          >
-            Add to Cart
-          </UButton>
-          <UButton
-            icon="i-heroicons-eye-20-solid"
-            variant="outline"
-            size="lg"
-            block
-            :to="localePath(ROUTES.PRODUCTS)"
-          >
-            View All Products
-          </UButton>
-        </div>
-
-        <template #footer>
-          <div class="flex justify-between">
-            <UButton
-              icon="i-heroicons-arrow-left-20-solid"
-              variant="ghost"
-              to="/dashboard/products"
-            >
-              Back to Products
-            </UButton>
-            <div class="flex gap-2">
-              <UTooltip text="Print product details">
-                <UButton
-                  icon="i-heroicons-printer-20-solid"
-                  variant="ghost"
-                  size="sm"
-                />
-              </UTooltip>
-              <UButton
-                icon="i-heroicons-share-20-solid"
-                variant="ghost"
-                size="sm"
-              >
-                Share
-              </UButton>
-              <UButton
-                icon="i-heroicons-bookmark-20-solid"
-                variant="ghost"
-                size="sm"
-              >
-                Bookmark
-              </UButton>
-            </div>
-          </div>
-        </template>
-      </UCard>
-
-      <UCard v-else>
-        <UEmpty
-          icon="i-heroicons-cube-20-solid"
-          title="Product not found"
-          description="The requested product could not be found."
-        >
-          <UButton to="/dashboard/products">
-            Back to Products
-          </UButton>
-        </UEmpty>
       </UCard>
     </div>
-
-    <UModal v-model="isDeleteModalOpen">
-      <UCard>
-        <template #header>
-          <h3 class="text-lg font-semibold">
-            Delete Product
-          </h3>
-        </template>
-        <p>Are you sure you want to delete this product? This action cannot be undone.</p>
-        <template #footer>
-          <div class="flex justify-end gap-2">
-            <UButton variant="ghost" @click="isDeleteModalOpen = false">
-              Cancel
-            </UButton>
-            <UButton color="red" @click="handleDelete">
-              Delete
-            </UButton>
-          </div>
-        </template>
-      </UCard>
-    </UModal>
   </UContainer>
 </template>

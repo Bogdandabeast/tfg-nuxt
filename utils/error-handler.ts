@@ -1,5 +1,21 @@
 import { H3Error } from "h3";
 
+export function getTranslatedErrorMessage(error: unknown): string {
+  // This function would be called from a context where i18n is available
+  // For now, we'll return keys that can be translated at the component level
+  if (error instanceof Error) {
+    return error.message;
+  }
+  if (typeof error === "object" && error !== null && "data" in error) {
+    const h3Error = error as { data: { statusMessage?: string; message?: string } | string };
+    if (typeof h3Error.data === "object" && h3Error.data !== null) {
+      return h3Error.data.statusMessage || h3Error.data.message || "errors.unknown";
+    }
+    return String(h3Error.data) || "errors.unknown";
+  }
+  return "errors.unknown";
+}
+
 export function getFetchErrorMessage(error: unknown): string {
   if (error instanceof Error) {
     return error.message;
@@ -41,25 +57,25 @@ export function handleError(error: unknown, context?: Record<string, unknown>): 
       throw createError({
         statusCode: 409,
         statusMessage: "Conflict",
-        data: "Resource already exists",
+        data: "errors.resourceExists",
       });
     }
     if (errorWithCode.code === "23503") { // foreign key violation
       // Check if this is a delete operation causing constraint violation
       if (typeof context?.route === "string" && context.route.includes(".delete")) {
         console.warn("Cannot delete entity due to foreign key constraint:", errorWithCode.message, context);
-        throw createError({
-          statusCode: 409,
-          statusMessage: "Conflict",
-          data: "Cannot delete this item because it is currently in use",
-        });
+      throw createError({
+        statusCode: 409,
+        statusMessage: "Conflict",
+        data: "errors.cannotDeleteInUse",
+      });
       }
       // Existing logic for other foreign key violations
       console.warn("Database foreign key violation:", errorWithCode.message, context);
       throw createError({
         statusCode: 400,
         statusMessage: "Bad Request",
-        data: "Invalid reference",
+        data: "errors.invalidReference",
       });
     }
   }

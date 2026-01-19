@@ -11,27 +11,29 @@ const range = ref<Range>({
   end: new Date(),
 });
 
+const { t } = useI18n();
+
 const statsData: Stat[] = [
   {
-    title: "Customers",
+    title: t('dashboard.metrics.customers'),
     icon: "i-lucide-users",
     value: 850,
     variation: 12,
   },
   {
-    title: "Conversions",
+    title: t('dashboard.metrics.conversions'),
     icon: "i-lucide-chart-pie",
     value: 1450,
     variation: 8,
   },
   {
-    title: "Revenue",
+    title: t('dashboard.metrics.revenue'),
     icon: "i-lucide-circle-dollar-sign",
     value: "$425,000",
     variation: -5,
   },
   {
-    title: "Orders",
+    title: t('dashboard.metrics.orders'),
     icon: "i-lucide-shopping-cart",
     value: 275,
     variation: 15,
