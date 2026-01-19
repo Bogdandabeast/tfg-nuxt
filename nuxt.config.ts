@@ -3,7 +3,13 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
-  nitro: { preset: "cloudflare" },
+  nitro: {
+    preset: "cloudflare_module",
+    cloudflare: {
+      deployConfig: true,
+      nodeCompat: true,
+    },
+  },
   devtools: { enabled: true },
   srcDir: "app",
   modules: [
@@ -61,9 +67,15 @@ export default defineNuxtConfig({
       { code: "es", name: "Español", file: "es.json" },
     ],
 
-  },
+   },
 
-  colorMode: {
-    dataValue: "theme",
-  },
+   runtimeConfig: {
+     public: {
+       appUrl: process.env.NUXT_PUBLIC_APP_URL,
+     },
+   },
+
+   colorMode: {
+     dataValue: "theme",
+   },
 });

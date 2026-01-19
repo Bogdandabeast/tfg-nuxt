@@ -25,3 +25,4 @@ logs
 !.env.example
 opencode.json
 wrangler.toml
+wrangler.json

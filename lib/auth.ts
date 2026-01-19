@@ -11,6 +11,19 @@ export type UserWithId = Omit<User, "id"> & {
 };
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  trustedOrigins: [
+    "https://bogdanweb.dev",
+    "http://localhost:3000"
+  ],
+  cookies: {
+    sessionToken: {
+      secure: true,
+      sameSite: "none",
+      path: "/",
+      domain: "bogdanweb.dev"
+    }
+  },
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
       if (ctx.path === "/get-session") {

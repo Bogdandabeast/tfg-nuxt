@@ -1,14 +1,10 @@
+import { neon } from "@neondatabase/serverless";
 import { config } from "dotenv";
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
+import { drizzle } from "drizzle-orm/neon-http";
 
 // const isProd = process.env.NODE_ENV === "production";
 
 config({ path: ".env" });
 
-const pool = new Pool({
-  // eslint-disable-next-line node/no-process-env
-  connectionString: process.env.DATABASE_URL,
-});
-
-export const db = drizzle(pool);
+const sql = neon(process.env.DATABASE_URL!);
+export const db = drizzle(sql);
