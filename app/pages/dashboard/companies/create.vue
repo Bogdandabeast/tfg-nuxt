@@ -9,19 +9,20 @@ const { t } = useI18n();
 const router = useRouter();
 const toast = useToast();
 const { isCreateCompanyLoading, createCompany } = useCompaniesApi();
+const { refreshCompanies } = useCompaniesStore();
 
-const handleCreateCompany = async (companyData: { name: string }) => {
+async function handleCreateCompany(companyData: { name: string }) {
   const result = await createCompany(companyData);
   if (result) {
-    // Redirect to dashboard after successful creation
-    await router.push('/dashboard');
+    refreshCompanies();
+    router.push("/dashboard");
     toast.add({
       title: t("common.success"),
       description: t("forms.companyForm.createdSuccess"),
       color: "success",
     });
   }
-};
+}
 </script>
 
 <template>

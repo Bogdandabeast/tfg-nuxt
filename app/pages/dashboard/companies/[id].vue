@@ -8,6 +8,8 @@ const companyId = route.params.id as string;
 const companiesStore = useCompaniesStore();
 const { data, pending, error } = companiesStore.getCompanyById(Number(companyId));
 
+const { t } = useI18n();
+
 const isDeleteModalOpen = ref(false);
 
 async function handleDelete() {

@@ -11,6 +11,30 @@ const { t } = useI18n();
 
 const isDeleteModalOpen = ref(false);
 
+const menuItems = computed(() => [
+  {
+    label: t('actions.edit.customer'),
+    icon: 'i-heroicons-pencil-square-20-solid',
+    click: () => {
+      // TODO: Implement edit customer logic
+    }
+  },
+  {
+    label: t('actions.sendEmail'),
+    icon: 'i-heroicons-envelope-20-solid',
+    click: () => {
+      // TODO: Implement send email logic
+    }
+  },
+  {
+    label: t('actions.delete.customer'),
+    icon: 'i-heroicons-trash-20-solid',
+    click: () => {
+      isDeleteModalOpen.value = true;
+    }
+  }
+]);
+
 async function handleDelete() {
   // Implement delete logic
   isDeleteModalOpen.value = false;
@@ -67,21 +91,7 @@ const tableColumns = [
             square
             :aria-label="$t('actions.more')"
           />
-          <template #items>
-            <UDropdownMenuItem
-              icon="i-heroicons-pencil-square-20-solid"
-              :label="$t('actions.edit.customer')"
-            />
-            <UDropdownMenuItem
-              icon="i-heroicons-envelope-20-solid"
-              :label="$t('actions.sendEmail')"
-            />
-            <UDropdownMenuItem
-              icon="i-heroicons-trash-20-solid"
-              :label="$t('actions.delete.customer')"
-              @click="isDeleteModalOpen = true"
-            />
-          </template>
+          :items="menuItems"
         </UDropdownMenu>
       </template>
     </UPageHeader>

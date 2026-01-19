@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 definePageMeta({
   layout: "dashboard",
 });
@@ -9,6 +9,8 @@ const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
 const { data: saleData, pending, error } = salesStore.getSaleById(saleId);
+
+const { t } = useI18n();
 
 // Make customer data reactive - only fetch when saleData is available
 const customerData = computed(() => {
@@ -26,30 +28,29 @@ const productData = computed(() => {
 
 const isDeleteModalOpen = ref(false);
 
-const timelineItems = computed(() => [
+const menuItems = computed(() => [
   {
-    title: "Sale Created",
-    description: `Sale #${saleData.value?.id} was created on ${saleData.value?.sale_date ? new Date(saleData.value.sale_date).toLocaleDateString() : ""}.`,
-    icon: "i-heroicons-shopping-bag-20-solid",
+    label: t('actions.edit.sale'),
+    icon: 'i-heroicons-pencil-square-20-solid',
+    click: () => {
+      // TODO: Implement edit sale logic
+    }
   },
   {
-    title: "Payment Processed",
-    description: "Payment was successfully processed.",
-    icon: "i-heroicons-currency-dollar-20-solid",
+    label: t('actions.processRefund'),
+    icon: 'i-heroicons-receipt-refund-20-solid',
+    click: () => {
+      // TODO: Implement process refund logic
+    }
   },
   {
-    title: "Order Fulfilled",
-    description: "Order has been fulfilled and shipped.",
-    icon: "i-heroicons-truck-20-solid",
-  },
+    label: t('actions.delete.sale'),
+    icon: 'i-heroicons-trash-20-solid',
+    click: () => {
+      isDeleteModalOpen.value = true;
+    }
+  }
 ]);
-
-async function handleDelete() {
-  // Implement delete logic
-  isDeleteModalOpen.value = false;
-}
-
-const UBadge = resolveComponent("UBadge");
 
 const tableData = computed(() => [
   { label: t('tables.headers.id'), value: saleData.value?.id },
@@ -77,16 +78,17 @@ const tableColumns = [
       const label = row.original.label;
       const value = row.getValue("value");
 
-      // Manejar valores vacíos
-      if (value == null || value === "") {
-        return h("span", { class: "text-gray-400 italic" }, "N/A");
-      }
+       // Manejar valores vacíos
+       if (value == null || value === "") {
+         return h("span", { class: "text-gray-400 italic" }, "N/A");
+       }
 
-      if (label === "Sale ID" || label === "Quantity") {
-        return h(UBadge, { color: "secondary", variant: "soft" }, () => String(value));
-      }
+       // Use badges for ID and quantity fields
+       if (label === t('tables.headers.id') || label === t('tables.headers.quantity')) {
+         return h("UBadge", { color: "secondary", variant: "soft" }, () => String(value));
+       }
 
-      return h("span", {}, String(value));
+       return h("span", {}, String(value));
     },
   },
 ];
@@ -108,21 +110,7 @@ const tableColumns = [
             square
             :aria-label="$t('actions.more')"
           />
-          <template #items>
-            <UDropdownMenuItem
-              icon="i-heroicons-pencil-square-20-solid"
-              :label="$t('actions.edit.sale')"
-            />
-            <UDropdownMenuItem
-              icon="i-heroicons-receipt-refund-20-solid"
-              :label="$t('actions.processRefund')"
-            />
-            <UDropdownMenuItem
-              icon="i-heroicons-trash-20-solid"
-              :label="$t('actions.delete.sale')"
-              @click="isDeleteModalOpen = true"
-            />
-          </template>
+          :items="menuItems"
         </UDropdownMenu>
       </template>
     </UPageHeader>
@@ -182,7 +170,7 @@ const tableColumns = [
             class="w-full"
           />
         </div>
-      </Ucard>
+      </UCard>
     </div>
   </UContainer>
 </template>

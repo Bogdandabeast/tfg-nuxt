@@ -8,6 +8,8 @@ const productId = Number(route.params.id);
 const productsStore = useProductsStore();
 const { data, pending, error } = productsStore.getProductById(productId);
 
+const { t } = useI18n();
+
 const isDeleteModalOpen = ref(false);
 
 async function handleDelete() {
@@ -18,18 +20,18 @@ async function handleDelete() {
 const UBadge = resolveComponent("UBadge");
 
 const tableData = computed(() => [
-  { label: t('tables.headers.id'), value: data.value?.id },
-  { label: t('tables.headers.name'), value: data.value?.name },
-  { label: t('tables.headers.description'), value: data.value?.description },
-  { label: t('tables.headers.price'), value: data.value?.price ? `$${data.value.price}` : t('tables.data.na') },
-  { label: t('tables.headers.stock'), value: data.value?.stock },
-  { label: t('tables.headers.companyId'), value: data.value?.company_id },
+  { label: t("tables.headers.id"), value: data.value?.id },
+  { label: t("tables.headers.name"), value: data.value?.name },
+  { label: t("tables.headers.description"), value: data.value?.description },
+  { label: t("tables.headers.price"), value: data.value?.price ? `$${data.value.price}` : t("tables.data.na") },
+  { label: t("tables.headers.stock"), value: data.value?.stock },
+  { label: t("tables.headers.companyId"), value: data.value?.company_id },
 ]);
 
 const tableColumns: TableColumn[] = [
   {
     accessorKey: "label",
-    header: t('tables.headers.field'),
+    header: t("tables.headers.field"),
     meta: {
       class: {
         th: "w-1/3",
@@ -40,7 +42,7 @@ const tableColumns: TableColumn[] = [
   },
   {
     accessorKey: "value",
-    header: t('tables.headers.value'),
+    header: t("tables.headers.value"),
     meta: {
       class: {
         th: "w-2/3",
@@ -69,12 +71,6 @@ const tableColumns: TableColumn[] = [
     },
   },
 ];
-
-const stockPercentage = computed(() => {
-  if (!data)
-    return 0;
-  return Math.min((data.stock / 100) * 100, 100); // Assuming max stock 100 for demo
-});
 </script>
 
 <template>
@@ -128,7 +124,12 @@ const stockPercentage = computed(() => {
         :description="error?.message || $t('details.product.error.description')"
       />
 
-      <DashboardTableSkeleton v-else-if="pending" :columns="2" :rows="6" :show-header="false">
+      <DashboardTableSkeleton
+        v-else-if="pending"
+        :columns="2"
+        :rows="6"
+        :show-header="false"
+      >
         <UCard>
           <template #header>
             <div class="flex items-center gap-3">
