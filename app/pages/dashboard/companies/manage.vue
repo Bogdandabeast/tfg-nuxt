@@ -32,20 +32,29 @@ async function handleCreateCompany(companyData: { name: string }) {
 }
 
 async function handleDeleteCompany(companyId: string) {
+  if (companies.value.length <= 1) {
+    toast.add({
+      title: t('companies.manage.deleteLastCompanyErrorTitle'),
+      description: t('companies.manage.deleteLastCompanyErrorDescription'),
+      color: 'error'
+    });
+    return;
+  }
+
   const success = await deleteCompany(Number(companyId));
   if (success === true) {
     await companiesStore.refreshCompanies();
     toast.add({
-      title: t("common.success"),
-      description: t("forms.companyForm.deletedSuccess"),
-      color: "success",
+      title: t('common.success'),
+      description: t('forms.companyForm.deletedSuccess'),
+      color: 'success'
     });
   }
   else {
     toast.add({
-      title: t("common.error"),
+      title: t('common.error'),
       description: success as string,
-      color: "error",
+      color: 'error'
     });
   }
 }
