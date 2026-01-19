@@ -67,7 +67,7 @@ const columns: TableColumn[] = [
         <DashboardFormsProductForm />
       </template>
     </UModal>
-    <TableSkeleton :loading="loadingProducts" :columns="4" :rows="10">
+    <DashboardTableSkeleton :loading="loadingProducts" :columns="4" :rows="10">
       <UTable
         :data="products"
         :columns="columns"
@@ -80,6 +80,6 @@ const columns: TableColumn[] = [
           td: 'border-b border-default',
         }"
       />
-    </TableSkeleton>
+    </DashboardTableSkeleton>
   </UContainer>
 </template>

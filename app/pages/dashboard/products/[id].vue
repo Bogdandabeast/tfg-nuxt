@@ -128,7 +128,7 @@ const stockPercentage = computed(() => {
         :description="error?.message || $t('details.product.error.description')"
       />
 
-      <TableSkeleton v-else-if="pending" :columns="2" :rows="6" :show-header="false">
+      <DashboardTableSkeleton v-else-if="pending" :columns="2" :rows="6" :show-header="false">
         <UCard>
           <template #header>
             <div class="flex items-center gap-3">
@@ -146,7 +146,7 @@ const stockPercentage = computed(() => {
             class="w-full"
           />
         </UCard>
-      </TableSkeleton>
+      </DashboardTableSkeleton>
 
       <UCard v-else-if="data">
         <template #header>

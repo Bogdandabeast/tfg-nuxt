@@ -118,7 +118,7 @@ const columns = [
       </template>
     </UModal>
 
-    <TableSkeleton :loading="loadingSales" :columns="6" :rows="12">
+    <DashboardTableSkeleton :loading="loadingSales" :columns="6" :rows="12">
       <UTable
         :data="detailedSales"
         :columns="columns"
@@ -131,6 +131,6 @@ const columns = [
           td: 'border-b border-default',
         }"
       />
-    </TableSkeleton>
+    </DashboardTableSkeleton>
   </UContainer>
 </template>

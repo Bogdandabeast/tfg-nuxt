@@ -279,12 +279,22 @@
       "existing": "Existing Customers",
       "loading": "Loading customers..."
     },
-    "sales": {
-      "title": "Sales Management",
-      "existing": "Existing Sales",
-      "loading": "Loading sales..."
-    }
-  },
+     "sales": {
+       "title": "Sales Management",
+       "existing": "Existing Sales",
+       "loading": "Loading sales..."
+     },
+     "metrics": {
+       "customers": "Customers",
+       "conversions": "Conversions",
+       "revenue": "Revenue",
+       "orders": "Orders",
+       "newCustomers": "New Customers",
+       "averageTicket": "Average Ticket",
+       "topProduct": "Top Product",
+       "totalSales": "Total Sales"
+     }
+   },
   "forms": {
     "selectCustomer": "Select a customer",
     "selectProduct": "Select a product",
@@ -478,9 +488,13 @@
        "customers": "Customers",
        "conversions": "Conversions",
        "revenue": "Revenue",
-       "orders": "Orders"
-     }
-   },
+        "orders": "Orders",
+        "newCustomers": "New Customers",
+        "averageTicket": "Average Ticket",
+        "topProduct": "Top Product",
+        "totalSales": "Total Sales"
+      }
+    },
    "footer": {
      "newsletter": {
        "placeholder": "Enter your email",

@@ -279,12 +279,22 @@
       "existing": "Clientes Existentes",
       "loading": "Cargando clientes..."
     },
-    "sales": {
-      "title": "Gestión de Ventas",
-      "existing": "Ventas Existentes",
-      "loading": "Cargando ventas..."
-    }
-  },
+     "sales": {
+       "title": "Gestión de Ventas",
+       "existing": "Ventas Existentes",
+       "loading": "Cargando ventas..."
+     },
+     "metrics": {
+       "customers": "Clientes",
+       "conversions": "Conversiones",
+       "revenue": "Ingresos",
+       "orders": "Pedidos",
+       "newCustomers": "Nuevos Clientes",
+       "averageTicket": "Ticket Promedio",
+       "topProduct": "Producto Más Vendido",
+       "totalSales": "Ventas Totales"
+     }
+   },
   "forms": {
     "selectCustomer": "Seleccionar cliente",
     "selectProduct": "Seleccionar producto",
@@ -473,15 +483,7 @@
        "sales": "Acciones de Ventas"
      }
    },
-   "dashboard": {
-     "metrics": {
-       "customers": "Clientes",
-       "conversions": "Conversiones",
-       "revenue": "Ingresos",
-       "orders": "Pedidos"
-     }
-   },
-   "footer": {
+    "footer": {
      "newsletter": {
        "placeholder": "Ingresa tu correo electrónico",
        "subscribe": "Suscribirse",

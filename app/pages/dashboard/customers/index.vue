@@ -66,7 +66,7 @@ const columns: TableColumn[] = [
       </template>
     </UModal>
 
-    <TableSkeleton :loading="loadingCustomers" :columns="4" :rows="8">
+    <DashboardTableSkeleton :loading="loadingCustomers" :columns="4" :rows="8">
       <UTable
         :data="customers"
         :columns="columns"
@@ -79,6 +79,6 @@ const columns: TableColumn[] = [
           td: 'border-b border-default',
         }"
       />
-    </TableSkeleton>
+    </DashboardTableSkeleton>
   </UContainer>
 </template>
