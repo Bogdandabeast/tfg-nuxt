@@ -38,23 +38,23 @@ export const useAuthStore = defineStore("useAuthStore", () => {
       name,
       email,
       password,
-      callbackURL: `${config.public.appUrl || 'http://localhost:3000'}${useLocalePath()(ROUTES.DASHBOARD)}`,
+      callbackURL: `${config.public.appUrl || "http://localhost:3000"}${useLocalePath()(ROUTES.DASHBOARD)}`,
       fetchOptions: {
         headers,
       },
     });
     if (error) {
       toast.add({
-        title: t('signup.toast.error.title'),
-        description: t('signup.toast.error.description'),
-        color: 'error'
+        title: t("signup.toast.error.title"),
+        description: t("signup.toast.error.description"),
+        color: "error",
       });
       return;
     }
     toast.add({
-      title: t('signup.toast.success.title'),
-      description: t('signup.toast.success.description'),
-      color: 'success'
+      title: t("signup.toast.success.title"),
+      description: t("signup.toast.success.description"),
+      color: "success",
     });
     navigateTo(useLocalePath()(ROUTES.DASHBOARD));
   }
@@ -66,7 +66,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
       email,
       password,
       rememberMe,
-      callbackURL: `${config.public.appUrl || 'http://localhost:3000'}${useLocalePath()(ROUTES.DASHBOARD)}`,
+      callbackURL: `${config.public.appUrl || "http://localhost:3000"}${useLocalePath()(ROUTES.DASHBOARD)}`,
       fetchOptions: {
         headers,
       },
@@ -74,17 +74,17 @@ export const useAuthStore = defineStore("useAuthStore", () => {
     if (error) {
       // Handle error
       toast.add({
-        title: t('login.toast.error.title'),
-        description: t('login.toast.error.description'),
-        color: 'error'
+        title: t("login.toast.error.title"),
+        description: t("login.toast.error.description"),
+        color: "error",
       });
       return;
     }
     // Success
     toast.add({
-      title: t('login.toast.success.title'),
-      description: t('login.toast.success.description'),
-      color: 'success'
+      title: t("login.toast.success.title"),
+      description: t("login.toast.success.description"),
+      color: "success",
     });
     navigateTo(useLocalePath()(ROUTES.DASHBOARD));
   }

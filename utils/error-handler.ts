@@ -64,11 +64,11 @@ export function handleError(error: unknown, context?: Record<string, unknown>): 
       // Check if this is a delete operation causing constraint violation
       if (typeof context?.route === "string" && context.route.includes(".delete")) {
         console.warn("Cannot delete entity due to foreign key constraint:", errorWithCode.message, context);
-      throw createError({
-        statusCode: 409,
-        statusMessage: "Conflict",
-        data: "errors.cannotDeleteInUse",
-      });
+        throw createError({
+          statusCode: 409,
+          statusMessage: "Conflict",
+          data: "errors.cannotDeleteInUse",
+        });
       }
       // Existing logic for other foreign key violations
       console.warn("Database foreign key violation:", errorWithCode.message, context);

@@ -1,33 +1,57 @@
-<script lang="ts" setup>
+<script setup lang="ts">
+import { ROUTES } from "~/utils/routes";
+
 definePageMeta({
   layout: "dashboard",
 });
 const route = useRoute();
-const companyId = route.params.id as string;
+const companyIdStr = route.params.id as string;
+const companyId = Number(companyIdStr);
+
+if (Number.isNaN(companyId)) {
+  throw createError({ statusCode: 404, statusMessage: "Invalid company ID" });
+}
 
 const companiesStore = useCompaniesStore();
-const { data, pending, error } = companiesStore.getCompanyById(Number(companyId));
+const { data, pending, error } = companiesStore.getCompanyById(companyId);
 
 const { t } = useI18n();
+const { deleteCompany } = useCompaniesApi();
+const toast = useToast();
+const localePath = useLocalePath();
+const navigateTo = useNavigateTo();
 
 const isDeleteModalOpen = ref(false);
 
+type _RowData = {
+  label: string;
+  value: string | number | undefined;
+};
+
 async function handleDelete() {
-  // Implement delete logic
+  const result = await deleteCompany(companyId);
+  if (result) {
+    toast.add({
+      title: t("common.success"),
+      description: t("forms.companyForm.deletedSuccess"),
+      color: "success",
+    });
+    navigateTo(localePath(ROUTES.DASHBOARD.COMPANIES));
+  }
   isDeleteModalOpen.value = false;
 }
 
 const UBadge = resolveComponent("UBadge");
 
 const tableData = computed(() => [
-  { label: t('tables.headers.id'), value: data.value?.id },
-  { label: t('tables.headers.name'), value: data.value?.name },
-  { label: t('tables.headers.userId'), value: data.value?.user_id },
+  { label: t("tables.headers.id"), value: data.value?.id },
+  { label: t("tables.headers.name"), value: data.value?.name },
+  { label: t("tables.headers.userId"), value: data.value?.user_id },
 ]);
 
 const tableColumns = [
-  { accessorKey: "label", header: t('tables.headers.field'), cell: ({ row }: { row: Record<string, any> }) => h("span", { class: "font-medium" }, row.getValue("label")) },
-  { accessorKey: "value", header: t('tables.headers.value'), cell: ({ row }: { row: Record<string, any> }) => {
+  { accessorKey: "label", header: t("tables.headers.field"), cell: ({ row }: { row: Record<string, any> }) => h("span", { class: "font-medium" }, row.getValue("label")) },
+  { accessorKey: "value", header: t("tables.headers.value"), cell: ({ row }: { row: Record<string, any> }) => {
     const label = row.original.label;
     const value = row.getValue("value");
     if (label === "ID") {
@@ -103,7 +127,7 @@ const tableColumns = [
               </p>
             </div>
             <UBadge color="green" variant="subtle">
-              Active
+              {{ t('status.active') }}
             </UBadge>
           </div>
         </template>
@@ -122,16 +146,16 @@ const tableColumns = [
             size="lg"
             block
           >
-            Edit Company
+            {{ t('company.edit') }}
           </UButton>
           <UButton
             icon="i-heroicons-eye-20-solid"
             variant="outline"
             size="lg"
             block
-            to="/dashboard/companies"
+            :to="localePath(ROUTES.DASHBOARD.COMPANIES)"
           >
-            View All Companies
+            {{ t('company.viewAll') }}
           </UButton>
         </div>
 
@@ -140,9 +164,9 @@ const tableColumns = [
             <UButton
               icon="i-heroicons-arrow-left-20-solid"
               variant="ghost"
-              to="/dashboard/companies"
+              :to="localePath(ROUTES.DASHBOARD.COMPANIES)"
             >
-              Back to Companies
+              {{ t('company.backToList') }}
             </UButton>
             <div class="flex gap-2">
               <UButton
@@ -150,14 +174,14 @@ const tableColumns = [
                 variant="ghost"
                 size="sm"
               >
-                Share
+                {{ t('actions.share') }}
               </UButton>
               <UButton
                 icon="i-heroicons-bookmark-20-solid"
                 variant="ghost"
                 size="sm"
               >
-                Bookmark
+                {{ t('actions.bookmark') }}
               </UButton>
             </div>
           </div>
@@ -170,8 +194,8 @@ const tableColumns = [
           :title="$t('details.company.notFound.title')"
           :description="$t('details.company.notFound.description')"
         >
-          <UButton to="/dashboard/companies">
-            Back to Companies
+          <UButton :to="localePath(ROUTES.DASHBOARD.COMPANIES)">
+            {{ t('company.backToList') }}
           </UButton>
         </UEmpty>
       </UCard>
@@ -181,17 +205,17 @@ const tableColumns = [
       <UCard>
         <template #header>
           <h3 class="text-lg font-semibold">
-            Delete Company
+            {{ t('company.delete.title') }}
           </h3>
         </template>
-        <p>Are you sure you want to delete this company? This action cannot be undone.</p>
+        <p>{{ t('company.delete.description') }}</p>
         <template #footer>
           <div class="flex justify-end gap-2">
             <UButton variant="ghost" @click="isDeleteModalOpen = false">
-              Cancel
+              {{ t('actions.cancel') }}
             </UButton>
             <UButton color="error" @click="handleDelete">
-              Delete
+              {{ t('actions.delete') }}
             </UButton>
           </div>
         </template>

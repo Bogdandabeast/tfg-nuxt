@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import FormErrorAlert from "./FormErrorAlert.vue";
 
-interface Props {
+type Props = {
   onSubmit?: (data: { name: string }) => Promise<void>;
   onDelete?: (id: string) => Promise<void>;
   loading?: boolean;
   deleteLoading?: boolean;
-}
+};
 
 const props = withDefaults(defineProps<Props>(), {
   onSubmit: undefined,
@@ -17,29 +17,34 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { t } = useI18n();
 
-const newCompany = ref({
+const newCompany = reactive({
   name: "",
 });
-const companyToDelete = ref({
+const companyToDelete = reactive({
   id: "",
 });
 const error = ref("");
 
 async function createCompanyHandler() {
-  if (!newCompany.value.name.trim()) {
+  if (!newCompany.name.trim()) {
     error.value = t("forms.companyForm.nameRequired");
     return;
   }
 
   if (props.onSubmit) {
     error.value = "";
-    await props.onSubmit({ name: newCompany.value.name.trim() });
-    newCompany.value = { name: "" };
+    try {
+      await props.onSubmit({ name: newCompany.name.trim() });
+      newCompany.name = "";
+    }
+    catch {
+      error.value = t("forms.companyForm.submitFailed");
+    }
   }
 }
 
 async function deleteCompanyHandler() {
-  const id = companyToDelete.value.id.trim();
+  const id = companyToDelete.id.trim();
   if (!id) {
     error.value = t("forms.companyForm.idInvalid");
     return;
@@ -47,8 +52,13 @@ async function deleteCompanyHandler() {
 
   if (props.onDelete) {
     error.value = "";
-    await props.onDelete(id);
-    companyToDelete.value = { id: "" };
+    try {
+      await props.onDelete(id);
+      companyToDelete.id = "";
+    }
+    catch {
+      error.value = t("forms.companyForm.deleteFailed");
+    }
   }
 }
 </script>

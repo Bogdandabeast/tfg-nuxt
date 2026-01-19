@@ -39,16 +39,16 @@ const columns: TableColumn[] = [
   },
   {
     accessorKey: "name",
-    header: t('tables.headers.name'),
+    header: t("tables.headers.name"),
   },
   {
     accessorKey: "price",
-    header: t('tables.headers.price'),
+    header: t("tables.headers.price"),
     cell: ({ row }: any) => `€${row.getValue("price")}`,
   },
   {
     accessorKey: "stock",
-    header: t('tables.headers.stock'),
+    header: t("tables.headers.stock"),
   },
 
 ];
@@ -67,7 +67,11 @@ const columns: TableColumn[] = [
         <DashboardFormsProductForm />
       </template>
     </UModal>
-    <DashboardTableSkeleton :loading="loadingProducts" :columns="4" :rows="10">
+    <DashboardTableSkeleton
+      :loading="loadingProducts"
+      :columns="4"
+      :rows="10"
+    >
       <UTable
         :data="products"
         :columns="columns"

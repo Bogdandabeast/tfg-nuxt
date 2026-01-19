@@ -1,11 +1,11 @@
-import { and, eq, inArray, sql, gte, lte, desc } from "drizzle-orm";
+import { and, desc, eq, gte, inArray, lte, sql } from "drizzle-orm";
 import { db } from "../index";
-import { salesTables, productsTable, customersTable } from "../schema/companies";
+import { customersTable, productsTable, salesTables } from "../schema/companies";
 
 export async function getTotalRevenue(userCompanyIds: number[]) {
   const result = await db
     .select({
-      total: sql<number>`SUM(${productsTable.price} * ${salesTables.quantity})`
+      total: sql<number>`SUM(${productsTable.price} * ${salesTables.quantity})`,
     })
     .from(salesTables)
     .innerJoin(productsTable, eq(salesTables.product_id, productsTable.id))
@@ -30,7 +30,7 @@ export async function getNewCustomersByPeriod(userCompanyIds: number[], startDat
     .where(and(
       inArray(customersTable.company_id, userCompanyIds),
       gte(customersTable.created_at, startDate),
-      lte(customersTable.created_at, endDate)
+      lte(customersTable.created_at, endDate),
     ));
 
   return result[0]?.count || 0;
@@ -51,7 +51,7 @@ export async function getTopSellingProducts(userCompanyIds: number[], limit: num
     .select({
       id: productsTable.id,
       name: productsTable.name,
-      totalSold: sql<number>`SUM(${salesTables.quantity})`
+      totalSold: sql<number>`SUM(${salesTables.quantity})`,
     })
     .from(salesTables)
     .innerJoin(productsTable, eq(salesTables.product_id, productsTable.id))
@@ -61,19 +61,19 @@ export async function getTopSellingProducts(userCompanyIds: number[], limit: num
     .limit(limit);
 }
 
-export async function getSalesByPeriod(userCompanyIds: number[], period: 'daily'|'weekly'|'monthly') {
+export async function getSalesByPeriod(userCompanyIds: number[], period: "daily" | "weekly" | "monthly") {
   let dateFormat: string;
   switch (period) {
-    case 'daily': dateFormat = "DATE(sale_date)"; break;
-    case 'weekly': dateFormat = "DATE_TRUNC('week', sale_date)"; break;
-    case 'monthly': dateFormat = "DATE_TRUNC('month', sale_date)"; break;
+    case "daily": dateFormat = "DATE(sale_date)"; break;
+    case "weekly": dateFormat = "DATE_TRUNC('week', sale_date)"; break;
+    case "monthly": dateFormat = "DATE_TRUNC('month', sale_date)"; break;
   }
 
   return await db
     .select({
       period: sql<string>`${dateFormat}`,
       totalSales: sql<number>`COUNT(*)`,
-      totalRevenue: sql<number>`SUM(${productsTable.price} * ${salesTables.quantity})`
+      totalRevenue: sql<number>`SUM(${productsTable.price} * ${salesTables.quantity})`,
     })
     .from(salesTables)
     .innerJoin(productsTable, eq(salesTables.product_id, productsTable.id))

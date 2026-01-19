@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import type { Sale } from "~/types";
 import { storeToRefs } from "pinia";
-import { ROUTES } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
@@ -28,8 +26,8 @@ const detailedSales = computed(() => {
     const amount = product ? Number(product.price) * sale.quantity : 0;
     return {
       ...sale,
-      customerName: customer ? customer.name : t('tables.data.unknown'),
-      productName: product ? product.name : t('tables.data.unknown'),
+      customerName: customer ? customer.name : t("tables.data.unknown"),
+      productName: product ? product.name : t("tables.data.unknown"),
       amount,
     };
   });
@@ -55,7 +53,7 @@ const columns = [
   },
   {
     accessorKey: "sale_date",
-    header: t('tables.headers.date'),
+    header: t("tables.headers.date"),
     cell: ({ row }: any) => {
       return new Date(row.getValue("sale_date")).toLocaleString("en-US", {
         day: "numeric",
@@ -78,19 +76,19 @@ const columns = [
   },
   {
     accessorKey: "customerName",
-    header: t('tables.headers.customer'),
+    header: t("tables.headers.customer"),
   },
   {
     accessorKey: "productName",
-    header: t('tables.headers.product'),
+    header: t("tables.headers.product"),
   },
   {
     accessorKey: "quantity",
-    header: t('tables.headers.quantity'),
+    header: t("tables.headers.quantity"),
   },
   {
     accessorKey: "amount",
-    header: () => h("div", { class: "text-right" }, t('tables.headers.amount')),
+    header: () => h("div", { class: "text-right" }, t("tables.headers.amount")),
     cell: ({ row }: any) => {
       const amount = Number.parseFloat(row.getValue("amount"));
       const formatted = new Intl.NumberFormat("en-US", {
@@ -118,7 +116,11 @@ const columns = [
       </template>
     </UModal>
 
-    <DashboardTableSkeleton :loading="loadingSales" :columns="6" :rows="12">
+    <DashboardTableSkeleton
+      :loading="loadingSales"
+      :columns="6"
+      :rows="12"
+    >
       <UTable
         :data="detailedSales"
         :columns="columns"

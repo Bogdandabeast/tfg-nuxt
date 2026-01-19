@@ -39,15 +39,15 @@ const columns: TableColumn[] = [
   },
   {
     accessorKey: "name",
-    header: t('tables.headers.name'),
+    header: t("tables.headers.name"),
   },
   {
     accessorKey: "email",
-    header: t('tables.headers.email'),
+    header: t("tables.headers.email"),
   },
   {
     accessorKey: "phone",
-    header: t('tables.headers.phone'),
+    header: t("tables.headers.phone"),
   },
 ];
 </script>
@@ -66,7 +66,11 @@ const columns: TableColumn[] = [
       </template>
     </UModal>
 
-    <DashboardTableSkeleton :loading="loadingCustomers" :columns="4" :rows="8">
+    <DashboardTableSkeleton
+      :loading="loadingCustomers"
+      :columns="4"
+      :rows="8"
+    >
       <UTable
         :data="customers"
         :columns="columns"

@@ -286,27 +286,27 @@
       "existing": "Clientes Existentes",
       "loading": "Cargando clientes..."
     },
-     "sales": {
-       "title": "Gestión de Ventas",
-       "existing": "Ventas Existentes",
-       "loading": "Cargando ventas..."
-     },
-      "metrics": {
-        "customers": "Clientes",
-        "conversions": "Conversiones",
-        "revenue": "Ingresos",
-        "orders": "Pedidos",
-        "newCustomers": "Nuevos Clientes",
-        "averageTicket": "Ticket Promedio",
-        "topProduct": "Producto Más Vendido",
-        "totalSales": "Ventas Totales"
-      },
-      "emptyMetrics": {
-        "title": "No hay métricas disponibles",
-        "description": "Para ver las métricas tienes que añadir registros de tu negocio al CRM. Comienza agregando clientes, productos y ventas.",
-        "cta": "Comenzar agregando clientes"
-      }
-   },
+    "sales": {
+      "title": "Gestión de Ventas",
+      "existing": "Ventas Existentes",
+      "loading": "Cargando ventas..."
+    },
+    "metrics": {
+      "customers": "Clientes",
+      "conversions": "Conversiones",
+      "revenue": "Ingresos",
+      "orders": "Pedidos",
+      "newCustomers": "Nuevos Clientes",
+      "averageTicket": "Ticket Promedio",
+      "topProduct": "Producto Más Vendido",
+      "totalSales": "Ventas Totales"
+    },
+    "emptyMetrics": {
+      "title": "No hay métricas disponibles",
+      "description": "Para ver las métricas tienes que añadir registros de tu negocio al CRM. Comienza agregando clientes, productos y ventas.",
+      "cta": "Comenzar agregando clientes"
+    }
+  },
   "forms": {
     "selectCustomer": "Seleccionar cliente",
     "selectProduct": "Seleccionar producto",
@@ -405,113 +405,113 @@
     "accept": "Aceptar",
     "optOut": "Rechazar"
   },
-   "auth": {
-     "signUpSuccess": "Cuenta creada exitosamente",
-     "signInError": "Correo electrónico o contraseña inválidos"
-   },
-   "details": {
-     "customer": {
-       "title": "Detalles del Cliente",
-       "description": "Viendo cliente {id}",
-       "error": {
-         "title": "Error cargando cliente",
-         "description": "Ocurrió un error"
-       }
-     },
-     "product": {
-       "title": "Detalles del Producto",
-       "description": "Viendo producto {id}",
-       "error": {
-         "title": "Error cargando producto",
-         "description": "Ocurrió un error"
-       }
-     },
-     "sale": {
-       "title": "Detalles de la Venta",
-       "description": "Viendo venta {id}",
-       "error": {
-         "title": "Error cargando venta",
-         "description": "Ocurrió un error"
-       }
-     },
-     "company": {
-       "title": "Detalles de la Empresa",
-       "description": "Viendo empresa {id}",
-       "error": {
-         "title": "Error cargando empresa",
-         "description": "Ocurrió un error"
-       },
-       "notFound": {
-         "title": "Empresa no encontrada",
-         "description": "La empresa solicitada no pudo ser encontrada."
-       }
-     }
-   },
-   "actions": {
-     "more": "Más acciones",
-     "edit": {
-       "customer": "Editar Cliente",
-       "product": "Editar Producto",
-       "sale": "Editar Venta",
-       "company": "Editar Empresa"
-     },
-     "sendEmail": "Enviar Correo",
-     "updatePrice": "Actualizar Precio",
-     "processRefund": "Procesar Reembolso",
-     "delete": {
-       "customer": "Eliminar Cliente",
-       "product": "Eliminar Producto",
-       "sale": "Eliminar Venta",
-       "company": "Eliminar Empresa"
-     }
-   },
-   "tables": {
-     "headers": {
-       "id": "ID",
-       "name": "Nombre",
-       "email": "Correo electrónico",
-       "phone": "Teléfono",
-       "address": "Dirección",
-       "companyId": "ID de Empresa",
-       "userId": "ID de Usuario",
-       "price": "Precio",
-       "stock": "Stock",
-       "field": "Campo",
-       "value": "Valor",
-       "date": "Fecha",
-       "customer": "Cliente",
-       "product": "Producto",
-        "quantity": "Cantidad",
-        "amount": "Monto",
-        "actions": "Acciones"
+  "auth": {
+    "signUpSuccess": "Cuenta creada exitosamente",
+    "signInError": "Correo electrónico o contraseña inválidos"
+  },
+  "details": {
+    "customer": {
+      "title": "Detalles del Cliente",
+      "description": "Viendo cliente {id}",
+      "error": {
+        "title": "Error cargando cliente",
+        "description": "Ocurrió un error"
+      }
+    },
+    "product": {
+      "title": "Detalles del Producto",
+      "description": "Viendo producto {id}",
+      "error": {
+        "title": "Error cargando producto",
+        "description": "Ocurrió un error"
+      }
+    },
+    "sale": {
+      "title": "Detalles de la Venta",
+      "description": "Viendo venta {id}",
+      "error": {
+        "title": "Error cargando venta",
+        "description": "Ocurrió un error"
+      }
+    },
+    "company": {
+      "title": "Detalles de la Empresa",
+      "description": "Viendo empresa {id}",
+      "error": {
+        "title": "Error cargando empresa",
+        "description": "Ocurrió un error"
       },
-     "data": {
-       "unknown": "Desconocido",
-       "na": "N/A",
-       "active": "Activo",
-       "loading": "Cargando..."
-     },
-     "actions": {
-       "products": "Acciones de Productos",
-       "sales": "Acciones de Ventas"
-     }
-   },
-    "footer": {
-     "newsletter": {
-       "placeholder": "Ingresa tu correo electrónico",
-       "subscribe": "Suscribirse",
-       "label": "Suscríbete a nuestro boletín"
-     }
-   },
-   "errors": {
-     "unknown": "Error desconocido",
-     "invalidReference": "Referencia inválida",
-     "resourceExists": "El recurso ya existe",
-     "cannotDeleteInUse": "No se puede eliminar este elemento porque está actualmente en uso"
-   },
-   "validation": {
-     "invalidEmail": "Correo electrónico inválido",
-     "tooShort": "Demasiado corto",
-     "nameRequired": "El nombre es requerido"
-   }
- }
+      "notFound": {
+        "title": "Empresa no encontrada",
+        "description": "La empresa solicitada no pudo ser encontrada."
+      }
+    }
+  },
+  "actions": {
+    "more": "Más acciones",
+    "edit": {
+      "customer": "Editar Cliente",
+      "product": "Editar Producto",
+      "sale": "Editar Venta",
+      "company": "Editar Empresa"
+    },
+    "sendEmail": "Enviar Correo",
+    "updatePrice": "Actualizar Precio",
+    "processRefund": "Procesar Reembolso",
+    "delete": {
+      "customer": "Eliminar Cliente",
+      "product": "Eliminar Producto",
+      "sale": "Eliminar Venta",
+      "company": "Eliminar Empresa"
+    }
+  },
+  "tables": {
+    "headers": {
+      "id": "ID",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "address": "Dirección",
+      "companyId": "ID de Empresa",
+      "userId": "ID de Usuario",
+      "price": "Precio",
+      "stock": "Stock",
+      "field": "Campo",
+      "value": "Valor",
+      "date": "Fecha",
+      "customer": "Cliente",
+      "product": "Producto",
+      "quantity": "Cantidad",
+      "amount": "Monto",
+      "actions": "Acciones"
+    },
+    "data": {
+      "unknown": "Desconocido",
+      "na": "N/A",
+      "active": "Activo",
+      "loading": "Cargando..."
+    },
+    "actions": {
+      "products": "Acciones de Productos",
+      "sales": "Acciones de Ventas"
+    }
+  },
+  "footer": {
+    "newsletter": {
+      "placeholder": "Ingresa tu correo electrónico",
+      "subscribe": "Suscribirse",
+      "label": "Suscríbete a nuestro boletín"
+    }
+  },
+  "errors": {
+    "unknown": "Error desconocido",
+    "invalidReference": "Referencia inválida",
+    "resourceExists": "El recurso ya existe",
+    "cannotDeleteInUse": "No se puede eliminar este elemento porque está actualmente en uso"
+  },
+  "validation": {
+    "invalidEmail": "Correo electrónico inválido",
+    "tooShort": "Demasiado corto",
+    "nameRequired": "El nombre es requerido"
+  }
+}

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import type { Period, Range, Stat } from "~/types";
-import { useMetricsStore } from "~/stores/metrics";
+import { storeToRefs } from "pinia";
 import { useCompaniesStore } from "~/stores/companies";
+import { useMetricsStore } from "~/stores/metrics";
 
 definePageMeta({
   layout: "dashboard",
@@ -32,37 +32,37 @@ const toast = useToast();
 
 const statsData = computed<Stat[]>(() => [
   {
-    title: t('dashboard.metrics.customers'),
+    title: t("dashboard.metrics.customers"),
     icon: "i-lucide-users",
     value: totalCustomers.value ?? 0,
     variation: 12,
   },
   {
-    title: t('dashboard.metrics.newCustomers'),
+    title: t("dashboard.metrics.newCustomers"),
     icon: "i-lucide-user-plus",
     value: newCustomers.value ?? 0,
     variation: 8,
   },
   {
-    title: t('dashboard.metrics.revenue'),
+    title: t("dashboard.metrics.revenue"),
     icon: "i-lucide-circle-dollar-sign",
     value: totalRevenue.value ? `$${totalRevenue.value.toLocaleString()}` : 0,
     variation: -5,
   },
   {
-    title: t('dashboard.metrics.averageTicket'),
+    title: t("dashboard.metrics.averageTicket"),
     icon: "i-lucide-receipt",
     value: averageTicket.value ? `$${averageTicket.value.toFixed(2)}` : 0,
     variation: 15,
   },
   {
-    title: t('dashboard.metrics.topProduct'),
+    title: t("dashboard.metrics.topProduct"),
     icon: "i-lucide-trending-up",
-    value: topSellingProducts.value?.[0]?.name || 'N/A',
+    value: topSellingProducts.value?.[0]?.name || "N/A",
     variation: 0,
   },
   {
-    title: t('dashboard.metrics.totalSales'),
+    title: t("dashboard.metrics.totalSales"),
     icon: "i-lucide-bar-chart",
     value: totalSalesCount.value || 0,
     variation: 0,
@@ -78,13 +78,13 @@ const allMetricsEmpty = computed(() => {
 
   // Si la empresa existe pero no tiene actividad comercial (todos valores 0)
   return (
-    totalRevenue.value === 0 &&
-    totalCustomers.value === 0 &&
-    newCustomers.value === 0 &&
-    averageTicket.value === 0 &&
-    (!topSellingProducts.value || topSellingProducts.value.length === 0) &&
-    (!salesByPeriod.value || salesByPeriod.value.length === 0) &&
-    totalSalesCount.value === 0
+    totalRevenue.value === 0
+    && totalCustomers.value === 0
+    && newCustomers.value === 0
+    && averageTicket.value === 0
+    && (!topSellingProducts.value || topSellingProducts.value.length === 0)
+    && (!salesByPeriod.value || salesByPeriod.value.length === 0)
+    && totalSalesCount.value === 0
   );
 });
 
@@ -99,11 +99,12 @@ watch(() => companiesStore.currentCompany?.id, async (newCompanyId, oldCompanyId
       if (!result.success) {
         toast.add({
           title: t("common.error"),
-          description: typeof result.error === 'string' ? result.error : t("errors.metrics.load.description"),
+          description: typeof result.error === "string" ? result.error : t("errors.metrics.load.description"),
           color: "error",
         });
       }
-    } catch (error) {
+    }
+    catch (error) {
       toast.add({
         title: t("common.error"),
         description: t("errors.metrics.refresh.description"),

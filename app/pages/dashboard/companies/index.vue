@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
+import CompanyForm from "~~/app/components/Dashboard/forms/CompanyForm.vue";
 import { useCompaniesStore } from "~~/app/stores/companies";
 import { ROUTES } from "~/utils/routes";
-import CompanyForm from "~~/app/components/Dashboard/forms/CompanyForm.vue";
 
 definePageMeta({
   layout: "dashboard",
@@ -42,7 +42,7 @@ function selectCompany(company: any) {
   }
 }
 
-const handleCreateCompany = async (companyData: { name: string }) => {
+async function handleCreateCompany(companyData: { name: string }) {
   const result = await createCompany(companyData);
   if (result) {
     await companiesStore.refreshCompanies();
@@ -55,7 +55,7 @@ const handleCreateCompany = async (companyData: { name: string }) => {
       color: "success",
     });
   }
-};
+}
 </script>
 
 <template>

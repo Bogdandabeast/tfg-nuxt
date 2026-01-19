@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useI18n } from "vue-i18n";
 import CompanyForm from "~~/app/components/Dashboard/forms/CompanyForm.vue";
 import { useCompaniesStore } from "~~/app/stores/companies";
 import { getCompanyPath } from "~/utils/routes";
@@ -15,6 +14,8 @@ const { companies } = storeToRefs(companiesStore);
 const localePath = useLocalePath();
 const toast = useToast();
 const isModalOpen = ref(false);
+const isLoadingCompanies = ref(false);
+const deletingCompanyId = ref<string | null>(null);
 
 const { isCreateCompanyLoading, createCompany, isDeleteCompanyLoading, deleteCompany } = useCompaniesApi();
 
@@ -41,21 +42,26 @@ async function handleDeleteCompany(companyId: string) {
     return;
   }
 
-  const success = await deleteCompany(Number(companyId));
-  if (success === true) {
-    await companiesStore.refreshCompanies();
-    toast.add({
-      title: t("common.success"),
-      description: t("forms.companyForm.deletedSuccess"),
-      color: "success",
-    });
-  }
-  else {
-    toast.add({
-      title: t("common.error"),
-      description: success as string,
-      color: "error",
-    });
+  deletingCompanyId.value = companyId;
+  try {
+    const success = await deleteCompany(Number(companyId));
+    if (success === true) {
+      await companiesStore.refreshCompanies();
+      toast.add({
+        title: t("common.success"),
+        description: t("forms.companyForm.deletedSuccess"),
+        color: "success",
+      });
+    }
+    else {
+      toast.add({
+        title: t("common.error"),
+        description: success as string,
+        color: "error",
+      });
+    }
+  } finally {
+    deletingCompanyId.value = null;
   }
 }
 
@@ -104,7 +110,7 @@ const columns = [
             color: "red",
             size: "xs",
             icon: "i-lucide-trash",
-            loading: isDeleteCompanyLoading.value,
+            loading: deletingCompanyId.value === companyId.toString(),
             onClick: () => handleDeleteCompany(companyId.toString()),
           },
         ),
@@ -114,7 +120,12 @@ const columns = [
 ];
 
 onMounted(async () => {
-  await companiesStore.refreshCompanies();
+  isLoadingCompanies.value = true;
+  try {
+    await companiesStore.refreshCompanies();
+  } finally {
+    isLoadingCompanies.value = false;
+  }
 });
 </script>
 
@@ -133,15 +144,14 @@ onMounted(async () => {
     <UModal v-model="isModalOpen">
       <CompanyForm
         :on-submit="handleCreateCompany"
-        :on-delete="handleDeleteCompany"
         :loading="isCreateCompanyLoading"
-        :delete-loading="isDeleteCompanyLoading"
       />
     </UModal>
 
     <UTable
       :data="companies || []"
       :columns="columns"
+      :loading="isLoadingCompanies"
       class="shrink-0"
       :ui="{
         base: 'table-fixed border-separate border-spacing-0',

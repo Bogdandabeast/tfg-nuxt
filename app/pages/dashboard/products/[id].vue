@@ -1,4 +1,7 @@
-<script lang="ts" setup>
+<script setup lang="ts">
+import type { TableColumn } from "@nuxt/ui";
+import { ROUTES } from "~/utils/routes";
+
 definePageMeta({
   layout: "dashboard",
 });
@@ -9,11 +12,23 @@ const productsStore = useProductsStore();
 const { data, pending, error } = productsStore.getProductById(productId);
 
 const { t } = useI18n();
+const { deleteProduct } = useProductsApi();
+const toast = useToast();
+const localePath = useLocalePath();
+const navigateTo = useNavigateTo();
 
 const isDeleteModalOpen = ref(false);
 
 async function handleDelete() {
-  // Implement delete logic
+  const result = await deleteProduct(productId);
+  if (result) {
+    toast.add({
+      title: t("common.success"),
+      description: t("forms.productForm.deletedSuccess"),
+      color: "success",
+    });
+    navigateTo(localePath(ROUTES.PRODUCTS));
+  }
   isDeleteModalOpen.value = false;
 }
 
@@ -57,14 +72,15 @@ const tableColumns: TableColumn[] = [
         return h("span", { class: "text-gray-400 italic" }, "N/A");
       }
 
-      if (label === "ID") {
+      if (label === t("tables.headers.id")) {
         return h(UBadge, { color: "primary", variant: "soft" }, () => String(value));
       }
 
-      if (label === "Stock") {
+      if (label === t("tables.headers.stock")) {
         const stockValue = Number(value);
         const color = stockValue > 0 ? "success" : "error";
-        return h(UBadge, { color, variant: "subtle" }, () => String(value));
+        const labelText = stockValue > 0 ? t("product.inStock") : t("product.outOfStock");
+        return h(UBadge, { color, variant: "subtle" }, () => labelText);
       }
 
       return h("span", {}, String(value));
@@ -79,12 +95,11 @@ const tableColumns: TableColumn[] = [
       :title="$t('details.product.title')"
       :description="$t('details.product.description', { id: productId })"
     >
-      <div v-if="pending">
-        loading ...
-      </div>
-      <div v-else>
-        {{ tableData }}
-      </div>
+      <UTable
+        :data="tableData"
+        :columns="tableColumns"
+        class="w-full"
+      />
       <template #actions>
         <UColorModeButton />
         <UDropdownMenu mode="click">

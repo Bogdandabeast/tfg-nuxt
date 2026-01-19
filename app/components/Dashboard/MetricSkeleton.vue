@@ -1,19 +1,19 @@
 <script setup lang="ts">
-interface Props {
+type Props = {
   loading?: boolean;
   value?: string | number;
   variation?: number;
   valueClass?: string;
   badgeClass?: string;
   showBadge?: boolean;
-}
+};
 
 const props = withDefaults(defineProps<Props>(), {
   loading: false,
-  value: '',
+  value: "",
   variation: 0,
-  valueClass: 'text-2xl font-semibold text-highlighted',
-  badgeClass: '',
+  valueClass: "text-2xl font-semibold text-highlighted",
+  badgeClass: "",
   showBadge: true,
 });
 </script>

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-interface DashboardMetricsResponse {
+type DashboardMetricsResponse = {
   revenue: { total: number; error?: string };
   customers: { total: number; new: number; error?: string };
   sales: { averageTicket: number; byPeriod: any[]; totalCount: number; error?: string };
@@ -14,7 +14,7 @@ interface DashboardMetricsResponse {
     hasErrors: boolean;
     errorCount: number;
   };
-}
+};
 
 export const useMetricsStore = defineStore("metrics", () => {
   const companiesStore = useCompaniesStore();
@@ -34,7 +34,7 @@ export const useMetricsStore = defineStore("metrics", () => {
     data: dashboardMetricsResponse,
     pending: loadingMetrics,
     refresh: refreshMetrics,
-  } = useFetch<DashboardMetricsResponse>(() => dashboardUrl.value || '', {
+  } = useFetch<DashboardMetricsResponse>(() => dashboardUrl.value || "", {
     lazy: true,
     watch: [() => companiesStore.currentCompany?.id],
   });
@@ -88,7 +88,8 @@ export const useMetricsStore = defineStore("metrics", () => {
       }
 
       return { success: true };
-    } catch (error) {
+    }
+    catch (error) {
       toast.add({
         title: "Network Error",
         description: "Could not load metrics. Please check your connection.",

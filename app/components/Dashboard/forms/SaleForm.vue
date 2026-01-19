@@ -3,10 +3,17 @@ import type { Customer } from "~~/lib/db/queries/customers";
 import type { Product } from "~~/lib/db/queries/products";
 import { storeToRefs } from "pinia";
 
-const props = defineProps({
-  editMode: { type: Boolean, default: false },
-  saleData: { type: Object, default: null },
-});
+interface SaleData {
+  id: number;
+  customer_id: number;
+  product_id: number;
+  quantity: number;
+}
+
+const props = defineProps<{
+  editMode: boolean;
+  saleData: SaleData | null;
+}>();
 
 const emit = defineEmits(["close"]);
 
@@ -27,11 +34,13 @@ const newSale = reactive({
   quantity: 1,
 });
 
-if (props.editMode && props.saleData) {
-  newSale.customer_id = props.saleData.customer_id;
-  newSale.product_id = props.saleData.product_id;
-  newSale.quantity = props.saleData.quantity;
-}
+watch(() => props.saleData, (newSaleData) => {
+  if (newSaleData) {
+    newSale.customer_id = newSaleData.customer_id;
+    newSale.product_id = newSaleData.product_id;
+    newSale.quantity = newSaleData.quantity;
+  }
+}, { immediate: true });
 
 const saleToDeleteId = ref("");
 const error = ref("");

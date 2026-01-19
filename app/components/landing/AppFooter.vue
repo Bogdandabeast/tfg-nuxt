@@ -83,7 +83,7 @@ function onSubmit() {
                   v-model="email"
                   type="email"
                   class="w-full"
-                   :placeholder="$t('footer.newsletter.placeholder')"
+                  :placeholder="$t('footer.newsletter.placeholder')"
                 >
                   <template #trailing>
                     <UButton

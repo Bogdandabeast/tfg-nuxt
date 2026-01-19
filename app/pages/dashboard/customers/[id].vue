@@ -13,26 +13,26 @@ const isDeleteModalOpen = ref(false);
 
 const menuItems = computed(() => [
   {
-    label: t('actions.edit.customer'),
-    icon: 'i-heroicons-pencil-square-20-solid',
+    label: t("actions.edit.customer"),
+    icon: "i-heroicons-pencil-square-20-solid",
     click: () => {
       // TODO: Implement edit customer logic
-    }
+    },
   },
   {
-    label: t('actions.sendEmail'),
-    icon: 'i-heroicons-envelope-20-solid',
+    label: t("actions.sendEmail"),
+    icon: "i-heroicons-envelope-20-solid",
     click: () => {
       // TODO: Implement send email logic
-    }
+    },
   },
   {
-    label: t('actions.delete.customer'),
-    icon: 'i-heroicons-trash-20-solid',
+    label: t("actions.delete.customer"),
+    icon: "i-heroicons-trash-20-solid",
     click: () => {
       isDeleteModalOpen.value = true;
-    }
-  }
+    },
+  },
 ]);
 
 async function handleDelete() {
@@ -43,24 +43,24 @@ async function handleDelete() {
 const UBadge = resolveComponent("UBadge");
 
 const tableData = computed(() => [
-  { label: t('tables.headers.id'), value: data.value?.id },
-  { label: t('tables.headers.name'), value: data.value?.name },
-  { label: t('tables.headers.email'), value: data.value?.email },
-  { label: t('tables.headers.phone'), value: data.value?.phone },
-  { label: t('tables.headers.address'), value: data.value?.address },
-  { label: t('tables.headers.companyId'), value: data.value?.company_id },
+  { label: t("tables.headers.id"), value: data.value?.id },
+  { label: t("tables.headers.name"), value: data.value?.name },
+  { label: t("tables.headers.email"), value: data.value?.email },
+  { label: t("tables.headers.phone"), value: data.value?.phone },
+  { label: t("tables.headers.address"), value: data.value?.address },
+  { label: t("tables.headers.companyId"), value: data.value?.company_id },
 ]);
 
 const tableColumns = [
   {
     accessorKey: "label",
-    header: t('tables.headers.field'),
+    header: t("tables.headers.field"),
     cell: ({ row }: { row: Record<string, any> }) =>
       h("span", { class: "font-medium" }, row.getValue("label")),
   },
   {
     accessorKey: "value",
-    header: t('tables.headers.value'),
+    header: t("tables.headers.value"),
     cell: ({ row }: { row: Record<string, any> }) => {
       const label = row.original.label;
       const value = row.getValue("value");
@@ -97,16 +97,21 @@ const tableColumns = [
     </UPageHeader>
 
     <div class="space-y-6">
-        <UAlert
-          v-if="error"
-          color="error"
-          variant="subtle"
-          icon="i-heroicons-exclamation-triangle-20-solid"
-          :title="$t('details.customer.error.title')"
-          :description="error?.message || $t('details.customer.error.description')"
-        />
+      <UAlert
+        v-if="error"
+        color="error"
+        variant="subtle"
+        icon="i-heroicons-exclamation-triangle-20-solid"
+        :title="$t('details.customer.error.title')"
+        :description="error?.message || $t('details.customer.error.description')"
+      />
 
-      <DashboardTableSkeleton v-else-if="pending" :columns="2" :rows="6" :show-header="false">
+      <DashboardTableSkeleton
+        v-else-if="pending"
+        :columns="2"
+        :rows="6"
+        :show-header="false"
+      >
         <UCard>
           <template #header>
             <div class="flex items-center gap-3">

@@ -26,7 +26,9 @@ export const productsTable = pgTable("products", {
   description: text("description").notNull(),
   price: numeric("price").notNull(),
   stock: integer("stock").notNull(),
-  company_id: integer("company_id").references(() => companiesTable.id),
+  company_id: integer("company_id").references(() => companiesTable.id, {
+    onDelete: "cascade",
+  }),
   created_at: timestamp("created_at").defaultNow().notNull(),
   updated_at: timestamp("updated_at")
     .defaultNow()
@@ -40,7 +42,9 @@ export const customersTable = pgTable("customers", {
   email: text("email").notNull().unique(),
   phone: text("phone"),
   address: text("address"),
-  company_id: integer("company_id").references(() => companiesTable.id),
+  company_id: integer("company_id").references(() => companiesTable.id, {
+    onDelete: "cascade",
+  }),
   created_at: timestamp("created_at").defaultNow().notNull(),
   updated_at: timestamp("updated_at")
     .defaultNow()
@@ -50,9 +54,15 @@ export const customersTable = pgTable("customers", {
 
 export const salesTables = pgTable("sales", {
   id: serial("id").primaryKey(),
-  customer_id: integer("customer_id").references(() => customersTable.id),
-  product_id: integer("product_id").references(() => productsTable.id),
+  customer_id: integer("customer_id").references(() => customersTable.id, {
+    onDelete: "cascade",
+  }),
+  product_id: integer("product_id").references(() => productsTable.id, {
+    onDelete: "cascade",
+  }),
   quantity: integer("quantity").notNull(),
   sale_date: timestamp("sale_date").defaultNow().notNull(),
-  company_id: integer("company_id").references(() => companiesTable.id),
+  company_id: integer("company_id").references(() => companiesTable.id, {
+    onDelete: "cascade",
+  }),
 });

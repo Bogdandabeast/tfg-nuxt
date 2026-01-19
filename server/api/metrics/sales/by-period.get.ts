@@ -7,7 +7,7 @@ import { periodSchema } from "~~/utils/schemas/metrics";
 export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const query = getQuery(event);
-    const period = periodSchema.parse(query.period || 'monthly');
+    const period = periodSchema.parse(query.period || "monthly");
 
     const userId = event.context.user.id;
     const userCompanies = await getCompaniesByUserId(userId);
