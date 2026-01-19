@@ -17,7 +17,7 @@ const productsStore = useProductsStore();
 companiesStore.refreshCompanies();
 productsStore.refreshProducts();
 
-const { products, pending: _pending } = storeToRefs(productsStore);
+const { products, pending: loadingProducts } = storeToRefs(productsStore);
 
 const columns: TableColumn[] = [
   {
@@ -67,17 +67,19 @@ const columns: TableColumn[] = [
         <DashboardFormsProductForm />
       </template>
     </UModal>
-    <UTable
-      :data="products"
-      :columns="columns"
-      class="shrink-0"
-      :ui="{
-        base: 'table-fixed border-separate border-spacing-0',
-        thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
-        tbody: '[&>tr]:last:[&>td]:border-b-0',
-        th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
-        td: 'border-b border-default',
-      }"
-    />
+    <TableSkeleton :loading="loadingProducts" :columns="4" :rows="10">
+      <UTable
+        :data="products"
+        :columns="columns"
+        class="shrink-0"
+        :ui="{
+          base: 'table-fixed border-separate border-spacing-0',
+          thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+          tbody: '[&>tr]:last:[&>td]:border-b-0',
+          th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
+          td: 'border-b border-default',
+        }"
+      />
+    </TableSkeleton>
   </UContainer>
 </template>

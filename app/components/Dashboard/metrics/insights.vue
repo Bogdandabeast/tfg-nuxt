@@ -25,22 +25,11 @@ const props = defineProps<{
       }"
       class="m-5 lg:rounded-none first:rounded-l-lg last:rounded-r-lg hover:z-1"
     >
-      <div class="flex items-center gap-2">
-        <USkeleton v-if="props.loading" class="h-8 w-20" />
-        <span v-else class="text-2xl font-semibold text-highlighted">
-          {{ stat.value }}
-        </span>
-
-        <USkeleton v-if="props.loading" class="h-6 w-12 rounded-full" />
-        <UBadge
-          v-else
-          :color="stat.variation > 0 ? 'success' : 'error'"
-          variant="subtle"
-          class="text-xs"
-        >
-          {{ stat.variation > 0 ? '+' : '' }}{{ stat.variation }}%
-        </UBadge>
-      </div>
+      <DashboardMetricSkeleton
+        :loading="props.loading"
+        :value="stat.value"
+        :variation="stat.variation"
+      />
     </UPageCard>
   </UPageGrid>
 </template>

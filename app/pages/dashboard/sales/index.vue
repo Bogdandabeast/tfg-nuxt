@@ -17,7 +17,7 @@ salesStore.refreshSales();
 customersStore.refreshCustomers();
 productsStore.refreshProducts();
 
-const { sales } = storeToRefs(salesStore);
+const { sales, pending: loadingSales } = storeToRefs(salesStore);
 const { customers } = storeToRefs(customersStore);
 const { products } = storeToRefs(productsStore);
 
@@ -118,17 +118,19 @@ const columns = [
       </template>
     </UModal>
 
-    <UTable
-      :data="detailedSales"
-      :columns="columns"
-      class="shrink-0"
-      :ui="{
-        base: 'table-fixed border-separate border-spacing-0',
-        thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
-        tbody: '[&>tr]:last:[&>td]:border-b-0',
-        th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
-        td: 'border-b border-default',
-      }"
-    />
+    <TableSkeleton :loading="loadingSales" :columns="6" :rows="12">
+      <UTable
+        :data="detailedSales"
+        :columns="columns"
+        class="shrink-0"
+        :ui="{
+          base: 'table-fixed border-separate border-spacing-0',
+          thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+          tbody: '[&>tr]:last:[&>td]:border-b-0',
+          th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
+          td: 'border-b border-default',
+        }"
+      />
+    </TableSkeleton>
   </UContainer>
 </template>

@@ -17,7 +17,7 @@ const customersStore = useCustomersStore();
 companiesStore.refreshCompanies();
 customersStore.refreshCustomers();
 
-const { customers, pending: _pending } = storeToRefs(customersStore);
+const { customers, pending: loadingCustomers } = storeToRefs(customersStore);
 
 const columns: TableColumn[] = [
   {
@@ -66,17 +66,19 @@ const columns: TableColumn[] = [
       </template>
     </UModal>
 
-    <UTable
-      :data="customers"
-      :columns="columns"
-      class="shrink-0"
-      :ui="{
-        base: 'table-fixed border-separate border-spacing-0',
-        thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
-        tbody: '[&>tr]:last:[&>td]:border-b-0',
-        th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
-        td: 'border-b border-default',
-      }"
-    />
+    <TableSkeleton :loading="loadingCustomers" :columns="4" :rows="8">
+      <UTable
+        :data="customers"
+        :columns="columns"
+        class="shrink-0"
+        :ui="{
+          base: 'table-fixed border-separate border-spacing-0',
+          thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+          tbody: '[&>tr]:last:[&>td]:border-b-0',
+          th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
+          td: 'border-b border-default',
+        }"
+      />
+    </TableSkeleton>
   </UContainer>
 </template>

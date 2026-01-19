@@ -96,16 +96,25 @@ const tableColumns = [
           :description="error?.message || $t('details.customer.error.description')"
         />
 
-      <UCard v-else-if="pending">
-        <template #header>
-          <USkeleton class="h-6 w-32" />
-        </template>
-        <div class="space-y-4">
-          <USkeleton class="h-4 w-full" />
-          <USkeleton class="h-4 w-3/4" />
-          <USkeleton class="h-4 w-1/2" />
-        </div>
-      </UCard>
+      <TableSkeleton v-else-if="pending" :columns="2" :rows="6" :show-header="false">
+        <UCard>
+          <template #header>
+            <div class="flex items-center gap-3">
+              <UAvatar size="2xl" />
+              <div class="space-y-2">
+                <USkeleton class="h-6 w-32" />
+                <USkeleton class="h-4 w-24" />
+              </div>
+            </div>
+          </template>
+
+          <UTable
+            :data="tableData"
+            :columns="tableColumns"
+            class="w-full"
+          />
+        </UCard>
+      </TableSkeleton>
 
       <UCard v-else-if="data">
         <template #header>
