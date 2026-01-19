@@ -21,7 +21,6 @@ const { t } = useI18n();
 const { deleteCompany } = useCompaniesApi();
 const toast = useToast();
 const localePath = useLocalePath();
-const navigateTo = useNavigateTo();
 
 const isDeleteModalOpen = ref(false);
 const isDeleting = ref(false);

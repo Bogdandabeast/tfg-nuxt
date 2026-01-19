@@ -17,7 +17,6 @@ const { t } = useI18n();
 const { deleteProduct } = useProductsApi();
 const toast = useToast();
 const localePath = useLocalePath();
-const navigateTo = useNavigateTo();
 
 const isDeleteModalOpen = ref(false);
 
@@ -71,21 +70,19 @@ const tableColumns: TableColumn[] = [
       const value = row.getValue("value");
 
       if (value == null || value === "") {
-        return h("span", { class: "text-gray-400 italic" }, "N/A");
+        return "N/A";
       }
 
       if (label === t("tables.headers.id")) {
-        return h(UBadge, { color: "primary", variant: "soft" }, () => String(value));
+        return String(value);
       }
 
       if (label === t("tables.headers.stock")) {
         const stockValue = Number(value);
-        const color = stockValue > 0 ? "success" : "error";
-        const labelText = stockValue > 0 ? t("product.inStock") : t("product.outOfStock");
-        return h(UBadge, { color, variant: "subtle" }, () => labelText);
+        return stockValue > 0 ? t("product.inStock") : t("product.outOfStock");
       }
 
-      return h("span", {}, String(value));
+      return String(value);
     },
   },
 ];

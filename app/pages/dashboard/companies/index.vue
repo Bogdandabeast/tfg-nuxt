@@ -34,10 +34,23 @@ function selectCompany(company: any) {
   companiesStore.setCurrentCompany(company);
   const route = useRoute();
   const redirectTo = route.query.redirect as string;
+
   if (redirectTo) {
-    navigateTo((decodeURIComponent(redirectTo)));
-  }
-  else {
+    try {
+      const decodedRedirect = decodeURIComponent(redirectTo);
+      // Validar que sea una ruta relativa segura (no URLs externas)
+      if (decodedRedirect.startsWith('/') && !decodedRedirect.includes('://')) {
+        navigateTo(decodedRedirect);
+      } else {
+        // Fallback seguro si la URL no es válida
+        navigateTo(useLocalePath()(ROUTES.DASHBOARD));
+      }
+    } catch (error) {
+      // Manejar errores de decodeURIComponent
+      console.warn('Invalid redirect URL, falling back to dashboard:', redirectTo);
+      navigateTo(useLocalePath()(ROUTES.DASHBOARD));
+    }
+  } else {
     navigateTo(useLocalePath()(ROUTES.DASHBOARD));
   }
 }

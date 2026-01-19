@@ -421,11 +421,13 @@
     "product": {
       "title": "Detalles del Producto",
       "description": "Viendo producto {id}",
-      "error": {
-        "title": "Error cargando producto",
-        "description": "Ocurrió un error"
-      }
-    },
+       "error": {
+         "title": "Error cargando producto",
+         "description": "Ocurrió un error"
+       },
+       "inStock": "En Stock",
+       "outOfStock": "Sin Stock"
+     },
     "sale": {
       "title": "Detalles de la Venta",
       "description": "Viendo venta {id}",

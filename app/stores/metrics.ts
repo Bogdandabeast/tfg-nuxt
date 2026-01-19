@@ -39,7 +39,6 @@ export const useMetricsStore = defineStore("metrics", () => {
     watch: [() => companiesStore.currentCompany?.id],
   });
 
-  // Computed properties para acceso fácil
   const totalRevenue = computed(() => dashboardMetricsResponse.value?.revenue.total ?? null);
   const totalCustomers = computed(() => dashboardMetricsResponse.value?.customers.total ?? null);
   const newCustomers = computed(() => dashboardMetricsResponse.value?.customers.new ?? null);
@@ -48,12 +47,10 @@ export const useMetricsStore = defineStore("metrics", () => {
   const salesByPeriod = computed(() => dashboardMetricsResponse.value?.sales.byPeriod ?? []);
   const totalSalesCount = computed(() => dashboardMetricsResponse.value?.sales.totalCount ?? 0);
 
-  // Method to load all metrics
   const loadAllMetrics = async () => {
     try {
       await refreshMetrics();
 
-      // Verificar errores en la respuesta
       const response = dashboardMetricsResponse.value;
       if (response?.revenue.error) {
         toast.add({
@@ -92,7 +89,6 @@ export const useMetricsStore = defineStore("metrics", () => {
   };
 
   return {
-    // Data
     totalRevenue,
     totalCustomers,
     newCustomers,
@@ -100,11 +96,7 @@ export const useMetricsStore = defineStore("metrics", () => {
     topSellingProducts,
     salesByPeriod,
     totalSalesCount,
-
-    // Loading states
     loadingMetrics,
-
-    // Methods
     loadAllMetrics,
   };
 });

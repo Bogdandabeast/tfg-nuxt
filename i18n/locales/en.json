@@ -421,11 +421,13 @@
     "product": {
       "title": "Product Details",
       "description": "Viewing product {id}",
-      "error": {
-        "title": "Error loading product",
-        "description": "An error occurred"
-      }
-    },
+       "error": {
+         "title": "Error loading product",
+         "description": "An error occurred"
+       },
+       "inStock": "In Stock",
+       "outOfStock": "Out of Stock"
+     },
     "sale": {
       "title": "Sale Details",
       "description": "Viewing sale {id}",
