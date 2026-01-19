@@ -13,6 +13,11 @@ export const companiesTable = pgTable("companies", {
   id: serial("id").primaryKey(),
   user_id: text("user_id").references(() => user.id),
   name: text("name").notNull(),
+  created_at: timestamp("created_at").defaultNow().notNull(),
+  updated_at: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
 });
 
 export const productsTable = pgTable("products", {
@@ -22,6 +27,11 @@ export const productsTable = pgTable("products", {
   price: numeric("price").notNull(),
   stock: integer("stock").notNull(),
   company_id: integer("company_id").references(() => companiesTable.id),
+  created_at: timestamp("created_at").defaultNow().notNull(),
+  updated_at: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
 });
 
 export const customersTable = pgTable("customers", {
@@ -31,6 +41,11 @@ export const customersTable = pgTable("customers", {
   phone: text("phone"),
   address: text("address"),
   company_id: integer("company_id").references(() => companiesTable.id),
+  created_at: timestamp("created_at").defaultNow().notNull(),
+  updated_at: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
 });
 
 export const salesTables = pgTable("sales", {
