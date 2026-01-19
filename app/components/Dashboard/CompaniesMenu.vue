@@ -26,11 +26,17 @@ const items = computed<DropdownMenuItem[][]>(() => {
     onSelect: () => {
       router.push(localePath(ROUTES.COMPANIES));
     },
+   }, {
+    label: $t('companies.menu.create'),
+    icon: "i-lucide-circle-plus",
+    onSelect: () => {
+      router.push(localePath(ROUTES.COMPANIES_CREATE));
+    },
   }, {
     label: $t('companies.menu.manage'),
     icon: "i-lucide-cog",
     onSelect: () => {
-      router.push(localePath(ROUTES.COMPANIES));
+      router.push(localePath(ROUTES.COMPANIES_MANAGE));
     },
   }]];
 });

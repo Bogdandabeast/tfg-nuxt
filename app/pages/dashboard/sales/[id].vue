@@ -9,8 +9,20 @@ const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
 const { data: saleData, pending, error } = salesStore.getSaleById(saleId);
-const { data: customerData } = customersStore.getCustomerById(saleData.value!.customer_id);
-const { data: productData } = productsStore.getProductById(saleData.value!.product_id);
+
+// Make customer data reactive - only fetch when saleData is available
+const customerData = computed(() => {
+  if (!saleData.value?.customer_id) return null;
+  const { data } = customersStore.getCustomerById(saleData.value.customer_id);
+  return data.value;
+});
+
+// Make product data reactive - only fetch when saleData is available
+const productData = computed(() => {
+  if (!saleData.value?.product_id) return null;
+  const { data } = productsStore.getProductById(saleData.value.product_id);
+  return data.value;
+});
 
 const isDeleteModalOpen = ref(false);
 

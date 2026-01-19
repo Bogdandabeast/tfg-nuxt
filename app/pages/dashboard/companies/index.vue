@@ -3,6 +3,7 @@ import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { useCompaniesStore } from "~~/app/stores/companies";
 import { ROUTES } from "~/utils/routes";
+import CompanyForm from "~~/app/components/Dashboard/forms/CompanyForm.vue";
 
 definePageMeta({
   layout: "dashboard",
@@ -12,6 +13,9 @@ const { t } = useI18n();
 const companiesStore = useCompaniesStore();
 const { companies } = storeToRefs(companiesStore);
 const isLoading = ref(true);
+const toast = useToast();
+
+const { isCreateCompanyLoading, createCompany } = useCompaniesApi();
 
 // Fetch companies on mount to trigger the lazy fetch
 onMounted(async () => {
@@ -37,6 +41,21 @@ function selectCompany(company: any) {
     navigateTo(useLocalePath()(ROUTES.DASHBOARD));
   }
 }
+
+const handleCreateCompany = async (companyData: { name: string }) => {
+  const result = await createCompany(companyData);
+  if (result) {
+    await companiesStore.refreshCompanies();
+    await nextTick();
+    // After creating company, redirect to dashboard
+    await navigateTo(useLocalePath()(ROUTES.DASHBOARD));
+    toast.add({
+      title: t("common.success"),
+      description: t("forms.companyForm.createdSuccess"),
+      color: "success",
+    });
+  }
+};
 </script>
 
 <template>
@@ -66,14 +85,11 @@ function selectCompany(company: any) {
           </UButton>
         </div>
       </div>
-      <div v-else class="text-center">
-        <p>{{ t('companies.none') }}</p>
-        <p class="mt-2">
-          {{ t('companies.createFirst') }}
-        </p>
-        <UButton class="mt-4" @click="navigateTo(useLocalePath()(ROUTES.DASHBOARD))">
-          {{ t('companies.goToDashboard') }}
-        </UButton>
+      <div v-else>
+        <CompanyForm
+          :on-submit="handleCreateCompany"
+          :loading="isCreateCompanyLoading"
+        />
       </div>
     </UCard>
   </UContainer>

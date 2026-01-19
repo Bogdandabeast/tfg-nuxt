@@ -1,56 +1,54 @@
 <script setup lang="ts">
-const { t } = useI18n();
-const companiesStore = useCompaniesStore();
-const toast = useToast();
-const { isCreateCompanyLoading, createCompany, isDeleteCompanyLoading, deleteCompany } = useCompaniesApi();
+import FormErrorAlert from "./FormErrorAlert.vue";
 
-const newCompanyName = ref("");
-const companyToDeleteId = ref("");
+interface Props {
+  onSubmit?: (data: { name: string }) => Promise<void>;
+  onDelete?: (id: string) => Promise<void>;
+  loading?: boolean;
+  deleteLoading?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  onSubmit: undefined,
+  onDelete: undefined,
+  loading: false,
+  deleteLoading: false,
+});
+
+const { t } = useI18n();
+
+const newCompany = ref({
+  name: "",
+});
+const companyToDelete = ref({
+  id: "",
+});
 const error = ref("");
 
 async function createCompanyHandler() {
-  if (!newCompanyName.value) {
+  if (!newCompany.value.name.trim()) {
     error.value = t("forms.companyForm.nameRequired");
-    toast.add({
-      title: t("common.error"),
-      description: t("forms.companyForm.nameRequired"),
-      color: "error",
-    });
     return;
   }
-  const result = await createCompany({ name: newCompanyName.value });
-  if (result) {
-    await companiesStore.refreshCompanies();
-    newCompanyName.value = "";
-    toast.add({
-      title: t("common.success"),
-      description: t("forms.companyForm.createdSuccess"),
-      color: "success",
-    });
+
+  if (props.onSubmit) {
     error.value = "";
+    await props.onSubmit({ name: newCompany.value.name.trim() });
+    newCompany.value = { name: "" };
   }
 }
 
 async function deleteCompanyHandler() {
-  const id = Number(companyToDeleteId.value);
-  if (!companyToDeleteId.value || Number.isNaN(id)) {
+  const id = companyToDelete.value.id.trim();
+  if (!id) {
     error.value = t("forms.companyForm.idInvalid");
     return;
   }
-  const success = await deleteCompany(id);
-  if (success) {
-    await companiesStore.refreshCompanies();
-    if (companiesStore.currentCompany?.id === id) {
-      const firstCompany = companiesStore.companies?.[0] ?? null;
-      companiesStore.setCurrentCompany(firstCompany);
-    }
-    companyToDeleteId.value = "";
-    toast.add({
-      title: t("common.success"),
-      description: t("forms.companyForm.deletedSuccess"),
-      color: "success",
-    });
+
+  if (props.onDelete) {
     error.value = "";
+    await props.onDelete(id);
+    companyToDelete.value = { id: "" };
   }
 }
 </script>
@@ -61,44 +59,46 @@ async function deleteCompanyHandler() {
       <h3>{{ t('forms.companyForm.createTitle') }}</h3>
     </template>
 
-    <UFormField
-      :label="t('forms.companyForm.nameLabel')"
-      name="newCompanyName"
-      class="mb-4"
-    >
-      <UInput v-model="newCompanyName" :placeholder="t('forms.companyForm.namePlaceholder')" />
-    </UFormField>
+    <div class="space-y-4">
+      <UFormField
+        :label="t('forms.companyForm.nameLabel')"
+        name="newCompanyName"
+      >
+        <UInput v-model="newCompany.name" :placeholder="t('forms.companyForm.namePlaceholder')" />
+      </UFormField>
+    </div>
 
-    <UButton :loading="isCreateCompanyLoading" @click="createCompanyHandler">
-      {{ t('forms.companyForm.createButton') }}
-    </UButton>
+    <template #footer>
+      <UButton :loading="props.loading" @click="createCompanyHandler">
+        {{ t('forms.companyForm.createButton') }}
+      </UButton>
+    </template>
   </UCard>
 
-  <UCard>
+  <UCard v-if="props.onDelete">
     <template #header>
       <h3>{{ t('forms.companyForm.deleteTitle') }}</h3>
     </template>
 
-    <UFormField
-      :label="t('forms.companyForm.idLabel')"
-      name="companyToDeleteId"
-      class="mb-4"
-    >
-      <UInput v-model="companyToDeleteId" :placeholder="t('forms.companyForm.idPlaceholder')" />
-    </UFormField>
+    <div class="space-y-4">
+      <UFormField
+        :label="t('forms.companyForm.idLabel')"
+        name="companyToDeleteId"
+      >
+        <UInput v-model="companyToDelete.id" :placeholder="t('forms.companyForm.idPlaceholder')" />
+      </UFormField>
+    </div>
 
-    <UButton
-      color="primary"
-      :loading="isDeleteCompanyLoading"
-      @click="deleteCompanyHandler"
-    >
-      {{ t('forms.companyForm.deleteButton') }}
-    </UButton>
+    <template #footer>
+      <UButton
+        color="error"
+        :loading="props.deleteLoading"
+        @click="deleteCompanyHandler"
+      >
+        {{ t('forms.companyForm.deleteButton') }}
+      </UButton>
+    </template>
   </UCard>
-  <UAlert
-    v-if="error"
-    color="error"
-    class="mt-4"
-    :description="error"
-  />
+
+  <FormErrorAlert :error="error" />
 </template>
