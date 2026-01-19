@@ -267,7 +267,14 @@
       "create": "Create company",
       "manage": "Manage companies"
     },
-    "select": "Select Company"
+    "select": "Select Company",
+    "manage": {
+      "title": "Manage Companies",
+      "description": "Create, view, and manage your companies",
+      "create": "Create Company",
+      "deleteLastCompanyErrorTitle": "Cannot Delete Last Company",
+      "deleteLastCompanyErrorDescription": "At least one company must remain in the system."
+    }
   },
   "dashboard": {
     "products": {
@@ -474,9 +481,10 @@
        "date": "Date",
        "customer": "Customer",
        "product": "Product",
-       "quantity": "Quantity",
-       "amount": "Amount"
-     },
+        "quantity": "Quantity",
+        "amount": "Amount",
+        "actions": "Actions"
+      },
      "data": {
        "unknown": "Unknown",
        "na": "N/A",
@@ -487,18 +495,6 @@
        "products": "Products Actions",
        "sales": "Sales Actions"
      }
-   },
-   "dashboard": {
-     "metrics": {
-       "customers": "Customers",
-       "conversions": "Conversions",
-       "revenue": "Revenue",
-        "orders": "Orders",
-        "newCustomers": "New Customers",
-        "averageTicket": "Average Ticket",
-        "topProduct": "Top Product",
-        "totalSales": "Total Sales"
-      }
     },
    "footer": {
      "newsletter": {

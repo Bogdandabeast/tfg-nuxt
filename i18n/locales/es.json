@@ -267,7 +267,14 @@
       "create": "Crear empresa",
       "manage": "Gestionar empresas"
     },
-    "select": "Seleccionar Empresa"
+    "select": "Seleccionar Empresa",
+    "manage": {
+      "title": "Gestionar Empresas",
+      "description": "Crear, ver y gestionar tus empresas",
+      "create": "Crear Empresa",
+      "deleteLastCompanyErrorTitle": "No se Puede Eliminar la Última Empresa",
+      "deleteLastCompanyErrorDescription": "Debe permanecer al menos una empresa en el sistema."
+    }
   },
   "dashboard": {
     "products": {
@@ -474,9 +481,10 @@
        "date": "Fecha",
        "customer": "Cliente",
        "product": "Producto",
-       "quantity": "Cantidad",
-       "amount": "Monto"
-     },
+        "quantity": "Cantidad",
+        "amount": "Monto",
+        "actions": "Acciones"
+      },
      "data": {
        "unknown": "Desconocido",
        "na": "N/A",
