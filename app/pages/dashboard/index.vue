@@ -3,6 +3,7 @@ import type { Period, Range, Stat } from "~/types";
 import { storeToRefs } from "pinia";
 import { useCompaniesStore } from "~/stores/companies";
 import { useMetricsStore } from "~/stores/metrics";
+import { METRIC_ICONS, UI_ICONS } from "~/lib/icons";
 
 definePageMeta({
   layout: "dashboard",
@@ -33,37 +34,37 @@ const toast = useToast();
 const statsData = computed<Stat[]>(() => [
   {
     title: t("dashboard.metrics.customers"),
-    icon: "i-lucide-users",
+    icon: METRIC_ICONS.customers,
     value: totalCustomers.value ?? 0,
     variation: 12,
   },
   {
     title: t("dashboard.metrics.newCustomers"),
-    icon: "i-lucide-user-plus",
+    icon: METRIC_ICONS.customerGrowth,
     value: newCustomers.value ?? 0,
     variation: 8,
   },
   {
     title: t("dashboard.metrics.revenue"),
-    icon: "i-lucide-circle-dollar-sign",
+    icon: METRIC_ICONS.revenue,
     value: totalRevenue.value ? `$${totalRevenue.value.toLocaleString()}` : 0,
     variation: -5,
   },
   {
     title: t("dashboard.metrics.averageTicket"),
-    icon: "i-lucide-receipt",
+    icon: METRIC_ICONS.averageTicket,
     value: averageTicket.value ? `$${averageTicket.value.toFixed(2)}` : 0,
     variation: 15,
   },
   {
     title: t("dashboard.metrics.topProduct"),
-    icon: "i-lucide-trending-up",
+    icon: METRIC_ICONS.topProducts,
     value: topSellingProducts.value?.[0]?.name || "N/A",
     variation: 0,
   },
   {
     title: t("dashboard.metrics.totalSales"),
-    icon: "i-lucide-bar-chart",
+    icon: METRIC_ICONS.salesByPeriod,
     value: totalSalesCount.value || 0,
     variation: 0,
   },
@@ -124,9 +125,8 @@ onMounted(() => {
 
 <template>
   <UContainer class="py-8">
-    <!-- Mostrar mensaje cuando no hay datos -->
     <div v-if="allMetricsEmpty && !isLoading" class="text-center py-12">
-      <UIcon name="i-heroicons-chart-bar-20-solid" class="h-16 w-16 text-gray-400 mx-auto mb-4" />
+      <UIcon :name="UI_ICONS.analytics" class="h-16 w-16 text-gray-400 mx-auto mb-4" />
       <h3 class="text-xl font-semibold text-gray-900 mb-2">
         {{ t('dashboard.emptyMetrics.title') }}
       </h3>
@@ -142,7 +142,6 @@ onMounted(() => {
       </UButton>
     </div>
 
-    <!-- Mostrar métricas cuando hay datos -->
     <DashboardMetricsInsights
       v-else
       :period="period"

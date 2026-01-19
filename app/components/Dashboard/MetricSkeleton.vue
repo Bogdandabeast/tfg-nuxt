@@ -20,7 +20,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 <template>
   <div class="flex items-center gap-2">
-    <!-- Value skeleton or real value -->
     <USkeleton
       v-if="props.loading"
       class="h-8 w-20"
@@ -32,7 +31,6 @@ const props = withDefaults(defineProps<Props>(), {
       {{ props.value }}
     </span>
 
-    <!-- Badge skeleton or real badge (opcional) -->
     <template v-if="props.showBadge">
       <USkeleton
         v-if="props.loading"

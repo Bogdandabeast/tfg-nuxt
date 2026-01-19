@@ -11,6 +11,8 @@ const productId = Number(route.params.id);
 const productsStore = useProductsStore();
 const { data, pending, error } = productsStore.getProductById(productId);
 
+import { ACTION_ICONS, UI_ICONS } from '~/lib/icons';
+
 const { t } = useI18n();
 const { deleteProduct } = useProductsApi();
 const toast = useToast();

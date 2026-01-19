@@ -1,8 +1,6 @@
 import { H3Error } from "h3";
 
 export function getTranslatedErrorMessage(error: unknown): string {
-  // This function would be called from a context where i18n is available
-  // For now, we'll return keys that can be translated at the component level
   if (error instanceof Error) {
     return error.message;
   }
@@ -35,7 +33,6 @@ export function handleError(error: unknown, context?: Record<string, unknown>): 
     throw error;
   }
 
-  // Type guard for ZodError
   if (error !== null && typeof error === "object" && "name" in error && error.name === "ZodError" && "errors" in error) {
     const zodError = error as { errors: unknown };
     console.warn("Validation error:", zodError.errors, context);
@@ -51,8 +48,7 @@ export function handleError(error: unknown, context?: Record<string, unknown>): 
   const errorWithCode = hasCode ? (error as { code: string; message?: string }) : null;
 
   if (errorWithCode?.code) {
-    // Drizzle ORM errors
-    if (errorWithCode.code === "23505") { // unique violation
+    if (errorWithCode.code === "23505") {
       console.warn("Database unique violation:", errorWithCode.message, context);
       throw createError({
         statusCode: 409,
@@ -60,8 +56,7 @@ export function handleError(error: unknown, context?: Record<string, unknown>): 
         data: "errors.resourceExists",
       });
     }
-    if (errorWithCode.code === "23503") { // foreign key violation
-      // Check if this is a delete operation causing constraint violation
+    if (errorWithCode.code === "23503") {
       if (typeof context?.route === "string" && context.route.includes(".delete")) {
         console.warn("Cannot delete entity due to foreign key constraint:", errorWithCode.message, context);
         throw createError({
@@ -70,7 +65,6 @@ export function handleError(error: unknown, context?: Record<string, unknown>): 
           data: "errors.cannotDeleteInUse",
         });
       }
-      // Existing logic for other foreign key violations
       console.warn("Database foreign key violation:", errorWithCode.message, context);
       throw createError({
         statusCode: 400,
@@ -80,7 +74,6 @@ export function handleError(error: unknown, context?: Record<string, unknown>): 
     }
   }
 
-  // Log the error
   const errorMessage = error instanceof Error ? error.message : String(error);
   const errorStack = error instanceof Error ? error.stack : undefined;
   console.error("Unhandled server error:", errorMessage, errorStack, context);

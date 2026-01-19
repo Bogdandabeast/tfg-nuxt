@@ -104,18 +104,6 @@ const columns = [
 
 <template>
   <UContainer class="space-y-4 w-full mt-10">
-    <UModal>
-      <UButton
-        :label="t('tables.actions.sales')"
-        color="neutral"
-        variant="subtle"
-      />
-
-      <template #content>
-        <DashboardFormsSaleForm />
-      </template>
-    </UModal>
-
     <DashboardTableSkeleton
       :loading="loadingSales"
       :columns="6"
@@ -134,5 +122,16 @@ const columns = [
         }"
       />
     </DashboardTableSkeleton>
+    <USlideover side="bottom" title="Slideover with side">
+      <UButton
+        :label="t('tables.actions.sales')"
+        color="neutral"
+        variant="subtle"
+      />
+
+      <template #content>
+        <DashboardFormsSaleForm />
+      </template>
+    </USlideover>
   </UContainer>
 </template>

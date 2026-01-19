@@ -15,6 +15,8 @@ if (Number.isNaN(companyId)) {
 const companiesStore = useCompaniesStore();
 const { data, pending, error } = companiesStore.getCompanyById(companyId);
 
+import { ACTION_ICONS, UI_ICONS } from '~/lib/icons';
+
 const { t } = useI18n();
 const { deleteCompany } = useCompaniesApi();
 const toast = useToast();
@@ -22,6 +24,7 @@ const localePath = useLocalePath();
 const navigateTo = useNavigateTo();
 
 const isDeleteModalOpen = ref(false);
+const isDeleting = ref(false);
 
 type _RowData = {
   label: string;
@@ -29,16 +32,23 @@ type _RowData = {
 };
 
 async function handleDelete() {
-  const result = await deleteCompany(companyId);
-  if (result) {
-    toast.add({
-      title: t("common.success"),
-      description: t("forms.companyForm.deletedSuccess"),
-      color: "success",
-    });
-    navigateTo(localePath(ROUTES.DASHBOARD.COMPANIES));
+  if (isDeleting.value) return; // Prevent multiple delete requests
+
+  isDeleting.value = true;
+  try {
+    const result = await deleteCompany(companyId);
+    if (result) {
+      toast.add({
+        title: t("common.success"),
+        description: t("forms.companyForm.deletedSuccess"),
+        color: "success",
+      });
+      navigateTo(localePath(ROUTES.DASHBOARD.COMPANIES));
+    }
+  } finally {
+    isDeleting.value = false;
+    isDeleteModalOpen.value = false;
   }
-  isDeleteModalOpen.value = false;
 }
 
 const UBadge = resolveComponent("UBadge");
@@ -214,7 +224,12 @@ const tableColumns = [
             <UButton variant="ghost" @click="isDeleteModalOpen = false">
               {{ t('actions.cancel') }}
             </UButton>
-            <UButton color="error" @click="handleDelete">
+            <UButton
+              color="error"
+              :loading="isDeleting"
+              :disabled="isDeleting"
+              @click="handleDelete"
+            >
               {{ t('actions.delete') }}
             </UButton>
           </div>

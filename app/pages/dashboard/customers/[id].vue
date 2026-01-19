@@ -7,6 +7,8 @@ const customerId = Number(route.params.id);
 
 const customersStore = useCustomersStore();
 const { data, pending, error } = customersStore.getCustomerById(customerId);
+import { ACTION_ICONS, UI_ICONS } from '~/lib/icons';
+
 const { t } = useI18n();
 
 const isDeleteModalOpen = ref(false);
@@ -14,21 +16,17 @@ const isDeleteModalOpen = ref(false);
 const menuItems = computed(() => [
   {
     label: t("actions.edit.customer"),
-    icon: "i-heroicons-pencil-square-20-solid",
+    icon: ACTION_ICONS.editCustomer,
     click: () => {
-      // TODO: Implement edit customer logic
     },
   },
   {
     label: t("actions.sendEmail"),
-    icon: "i-heroicons-envelope-20-solid",
-    click: () => {
-      // TODO: Implement send email logic
-    },
+    icon: ACTION_ICONS.sendEmail,
   },
   {
     label: t("actions.delete.customer"),
-    icon: "i-heroicons-trash-20-solid",
+    icon: ACTION_ICONS.deleteCustomer,
     click: () => {
       isDeleteModalOpen.value = true;
     },

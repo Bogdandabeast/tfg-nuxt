@@ -22,7 +22,6 @@ const props = withDefaults(defineProps<Props>(), {
     class="space-y-4"
     :class="props.class"
   >
-    <!-- Header skeleton -->
     <div v-if="props.showHeader" class="flex gap-4 mb-4">
       <USkeleton
         v-for="col in props.columns"
@@ -31,7 +30,6 @@ const props = withDefaults(defineProps<Props>(), {
       />
     </div>
 
-    <!-- Row skeletons -->
     <div
       v-for="row in props.rows"
       :key="`row-${row}`"

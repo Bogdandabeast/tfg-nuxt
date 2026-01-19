@@ -18,7 +18,6 @@ export function useBreadcrumbs() {
       companies: { label: "breadcrumbs.companies", singular: "breadcrumbs.company" },
     };
 
-    // Add current section
     const pathSegments = route.path.split("/").filter(Boolean);
 
     if (pathSegments.includes("customers")) {
@@ -46,13 +45,11 @@ export function useBreadcrumbs() {
       });
     }
 
-    // Add ID if it's a detail page (without 'to' for current page)
     if (route.params.id) {
-      const currentSection = pathSegments[1]; // customers, products, sales, companies
+      const currentSection = pathSegments[1];
       if (currentSection && sectionMap[currentSection]) {
         items.push({
           label: t(sectionMap[currentSection].singular, { id: route.params.id }),
-          // No 'to' for current page
         });
       }
     }

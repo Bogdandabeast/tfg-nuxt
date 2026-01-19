@@ -15,6 +15,9 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   const user = computed(() => session.value?.data?.user);
   const loading = computed(() => session.value?.isPending);
 
+  const isSigningUp = ref(false);
+  const isSigningIn = ref(false);
+
   async function init() {
     if (isInitialized.value) {
       return;
@@ -26,66 +29,77 @@ export const useAuthStore = defineStore("useAuthStore", () => {
       isInitialized.value = true;
     }
     catch (error) {
-      isInitialized.value = true; // Mark as initialized even on error to avoid retries
+      isInitialized.value = true;
       throw error;
     }
   }
 
   async function signUp(name: string, email: string, password: string) {
-    const headers = new Headers();
-    headers.append("csrf-token", csrf);
-    const { error } = await authClient.signUp.email({
-      name,
-      email,
-      password,
-      fetchOptions: {
-        headers,
-      },
-    });
-    if (error) {
-      toast.add({
-        title: t("signup.toast.error.title"),
-        description: t("signup.toast.error.description"),
-        color: "error",
+    if (isSigningUp.value) return;
+
+    isSigningUp.value = true;
+    try {
+      const headers = new Headers();
+      headers.append("csrf-token", csrf);
+      const { error } = await authClient.signUp.email({
+        name,
+        email,
+        password,
+        fetchOptions: {
+          headers,
+        },
       });
-      return;
+      if (error) {
+        toast.add({
+          title: t("signup.toast.error.title"),
+          description: t("signup.toast.error.description"),
+          color: "error",
+        });
+        return;
+      }
+      toast.add({
+        title: t("signup.toast.success.title"),
+        description: t("signup.toast.success.description"),
+        color: "success",
+      });
+      navigateTo(useLocalePath()(ROUTES.DASHBOARD));
+    } finally {
+      isSigningUp.value = false;
     }
-    toast.add({
-      title: t("signup.toast.success.title"),
-      description: t("signup.toast.success.description"),
-      color: "success",
-    });
-    navigateTo(useLocalePath()(ROUTES.DASHBOARD));
   }
 
   async function signIn(email: string, password: string, rememberMe: boolean) {
-    const headers = new Headers();
-    headers.append("csrf-token", csrf);
-    const { error } = await authClient.signIn.email({
-      email,
-      password,
-      rememberMe,
-      callbackURL: `${config.public.appUrl || "http://localhost:3000"}${useLocalePath()(ROUTES.DASHBOARD)}`,
-      fetchOptions: {
-        headers,
-      },
-    });
-    if (error) {
-      // Handle error
-      toast.add({
-        title: t("login.toast.error.title"),
-        description: t("login.toast.error.description"),
-        color: "error",
+    if (isSigningIn.value) return;
+
+    isSigningIn.value = true;
+    try {
+      const headers = new Headers();
+      headers.append("csrf-token", csrf);
+      const { error } = await authClient.signIn.email({
+        email,
+        password,
+        rememberMe,
+        fetchOptions: {
+          headers,
+        },
       });
-      return;
+      if (error) {
+        toast.add({
+          title: t("login.toast.error.title"),
+          description: t("login.toast.error.description"),
+          color: "error",
+        });
+        return;
+      }
+      toast.add({
+        title: t("login.toast.success.title"),
+        description: t("login.toast.success.description"),
+        color: "success",
+      });
+      navigateTo(useLocalePath()(ROUTES.DASHBOARD));
+    } finally {
+      isSigningIn.value = false;
     }
-    // Success
-    toast.add({
-      title: t("login.toast.success.title"),
-      description: t("login.toast.success.description"),
-      color: "success",
-    });
-    navigateTo(useLocalePath()(ROUTES.DASHBOARD));
   }
 
   async function signOut() {
@@ -107,5 +121,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
     signUp,
     signOut,
     user,
+    isSigningUp,
+    isSigningIn,
   };
 });

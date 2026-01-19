@@ -5,7 +5,7 @@ type DashboardMetricsResponse = {
   customers: { total: number; new: number; error?: string };
   sales: { averageTicket: number; byPeriod: any[]; totalCount: number; error?: string };
   products: { topSelling: any[]; error?: string };
-  meta: {
+  meta?: {
     companyId: number;
     period: string;
     topLimit: number;
@@ -55,47 +55,39 @@ export const useMetricsStore = defineStore("metrics", () => {
 
       // Verificar errores en la respuesta
       const response = dashboardMetricsResponse.value;
-      if (response?.meta.hasErrors) {
-        // Mostrar toasts para errores específicos
-        if (response.revenue.error) {
-          toast.add({
-            title: "Error",
-            description: `Revenue: ${response.revenue.error}`,
-            color: "error",
-          });
-        }
-        if (response.customers.error) {
-          toast.add({
-            title: "Error",
-            description: `Customers: ${response.customers.error}`,
-            color: "error",
-          });
-        }
-        if (response.sales.error) {
-          toast.add({
-            title: "Error",
-            description: `Sales: ${response.sales.error}`,
-            color: "error",
-          });
-        }
-        if (response.products.error) {
-          toast.add({
-            title: "Error",
-            description: `Products: ${response.products.error}`,
-            color: "error",
-          });
-        }
+      if (response?.revenue.error) {
+        toast.add({
+          title: "Error",
+          description: `Revenue: ${response.revenue.error}`,
+          color: "error",
+        });
+      }
+      if (response?.customers.error) {
+        toast.add({
+          title: "Error",
+          description: `Customers: ${response.customers.error}`,
+          color: "error",
+        });
+      }
+      if (response?.sales.error) {
+        toast.add({
+          title: "Error",
+          description: `Sales: ${response.sales.error}`,
+          color: "error",
+        });
+      }
+      if (response?.products.error) {
+        toast.add({
+          title: "Error",
+          description: `Products: ${response.products.error}`,
+          color: "error",
+        });
       }
 
       return { success: true };
     }
     catch (error) {
-      toast.add({
-        title: "Network Error",
-        description: "Could not load metrics. Please check your connection.",
-        color: "error",
-      });
-      return { success: false, error };
+      console.warn(error);
     }
   };
 

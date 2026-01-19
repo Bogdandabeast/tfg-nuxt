@@ -509,9 +509,20 @@
     "resourceExists": "El recurso ya existe",
     "cannotDeleteInUse": "No se puede eliminar este elemento porque está actualmente en uso"
   },
-  "validation": {
-    "invalidEmail": "Correo electrónico inválido",
-    "tooShort": "Demasiado corto",
-    "nameRequired": "El nombre es requerido"
-  }
-}
+   "validation": {
+     "invalidEmail": "Correo electrónico inválido",
+     "tooShort": "Demasiado corto",
+     "nameRequired": "El nombre es requerido"
+   },
+   "breadcrumbs": {
+     "dashboard": "Panel de Control",
+     "customers": "Clientes",
+     "customer": "Cliente {id}",
+     "products": "Productos",
+     "product": "Producto {id}",
+     "sales": "Ventas",
+     "sale": "Venta {id}",
+     "companies": "Empresas",
+     "company": "Empresa {id}"
+   }
+ }

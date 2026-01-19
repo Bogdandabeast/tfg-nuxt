@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ROUTES } from "~/utils/routes";
+import { NAVIGATION_ICONS } from "~/lib/icons";
 
 const { t } = useI18n();
 const route = useRoute();
@@ -29,7 +30,7 @@ const items = computed(() => [
 
     <template #right>
       <UButton
-        icon="i-lucide-log-in"
+        :icon="NAVIGATION_ICONS.signIn"
         color="neutral"
         variant="ghost"
         :to="useLocalePath()(ROUTES.LOGIN)"

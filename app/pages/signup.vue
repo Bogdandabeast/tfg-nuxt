@@ -52,7 +52,11 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     :fields="fields"
     :schema="schema"
     :title="t('signup.form.title')"
-    :submit="{ label: t('signup.form.submit_button') }"
+    :submit="{
+      label: t('signup.form.submit_button'),
+      loading: authStore.isSigningUp
+    }"
+    :disabled="authStore.isSigningUp"
     @submit="onSubmit"
   >
     <template #description>

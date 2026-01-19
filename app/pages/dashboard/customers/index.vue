@@ -54,18 +54,6 @@ const columns: TableColumn[] = [
 
 <template>
   <UContainer class="space-y-4 w-full mt-10">
-    <UModal>
-      <UButton
-        label="Sales Actions"
-        color="neutral"
-        variant="subtle"
-      />
-
-      <template #content>
-        <DashboardFormsCustomerForm />
-      </template>
-    </UModal>
-
     <DashboardTableSkeleton
       :loading="loadingCustomers"
       :columns="4"
@@ -84,5 +72,16 @@ const columns: TableColumn[] = [
         }"
       />
     </DashboardTableSkeleton>
+    <UModal>
+      <UButton
+        label="Sales Actions"
+        color="neutral"
+        variant="subtle"
+      />
+
+      <template #content>
+        <DashboardFormsCustomerForm />
+      </template>
+    </UModal>
   </UContainer>
 </template>

@@ -2,12 +2,14 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { useI18n } from "vue-i18n";
 import { ROUTES } from "~~/lib/constants";
+import { NAVIGATION_ICONS } from "~/lib/icons";
 
 import CompaniesMenu from "~/components/Dashboard/CompaniesMenu.vue";
 
 const { t } = useI18n();
 const toast = useToast();
 const localePath = useLocalePath();
+const breadcrumps = useBreadcrumbs();
 
 const open = ref(false);
 
@@ -19,7 +21,7 @@ const links = [
   [
     {
       label: t("navigation.home"),
-      icon: "lucide:house",
+      icon: NAVIGATION_ICONS.home,
       to: localePath(ROUTES.home),
       onSelect: () => {
         open.value = false;
@@ -27,7 +29,7 @@ const links = [
     },
     {
       label: t("navigation.metrics"),
-      icon: "lucide:dollar-sign",
+      icon: NAVIGATION_ICONS.dashboard,
       to: localePath(ROUTES.dashboard),
       onSelect: () => {
         open.value = false;
@@ -35,7 +37,7 @@ const links = [
     },
     {
       label: t("navigation.customers"),
-      icon: "lucide:users",
+      icon: NAVIGATION_ICONS.customers,
       to: localePath(ROUTES.dashboardCustomers),
       onSelect: () => {
         open.value = false;
@@ -43,7 +45,7 @@ const links = [
     },
     {
       label: t("navigation.products"),
-      icon: "lucide:boxes",
+      icon: NAVIGATION_ICONS.products,
       to: localePath(ROUTES.dashboardProducts),
       onSelect: () => {
         open.value = false;
@@ -51,7 +53,7 @@ const links = [
     },
     {
       label: t("navigation.sales"),
-      icon: "lucide:dollar-sign",
+      icon: NAVIGATION_ICONS.sales,
       to: localePath(ROUTES.dashboardSales),
       onSelect: () => {
         open.value = false;
@@ -104,6 +106,7 @@ onMounted(async () => {
     <UDashboardSidebar
       id="default"
       v-model:open="open"
+      mode="drawer"
       collapsible
       resizable
       class="bg-elevated/25"

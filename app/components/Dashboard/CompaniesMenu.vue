@@ -2,6 +2,7 @@
 import type { DropdownMenuItem } from "@nuxt/ui";
 import { storeToRefs } from "pinia";
 import { ROUTES } from "~/utils/routes";
+import { NAVIGATION_ICONS, ACTION_ICONS } from "~/lib/icons";
 
 defineProps<{
   collapsed?: boolean;
@@ -17,19 +18,19 @@ const items = computed<DropdownMenuItem[][]>(() => {
   return [companies.value.map(company => ({
     label: company.name,
     id: company.id,
-    icon: (company.id === currentCompany.value?.id) ? "i-lucide-check" : "i-lucide-building",
+    icon: (company.id === currentCompany.value?.id) ? NAVIGATION_ICONS.companies : NAVIGATION_ICONS.companies,
     onSelect: () => {
       companiesStore.setCurrentCompany(company);
     },
   })), [{
     label: t("companies.menu.create"),
-    icon: "i-lucide-circle-plus",
+    icon: NAVIGATION_ICONS.create,
     onSelect: () => {
       router.push(localePath(ROUTES.COMPANIES_CREATE));
     },
   }, {
     label: t("companies.menu.manage"),
-    icon: "i-lucide-cog",
+    icon: NAVIGATION_ICONS.manage,
     onSelect: () => {
       router.push(localePath(ROUTES.COMPANIES_MANAGE));
     },
@@ -46,7 +47,7 @@ const items = computed<DropdownMenuItem[][]>(() => {
     <UButton
       v-bind="{
         label: collapsed ? undefined : currentCompany?.name || t('companies.select'),
-        trailingIcon: collapsed ? undefined : 'i-lucide-chevrons-up-down',
+        trailingIcon: collapsed ? undefined : NAVIGATION_ICONS.select,
       }"
       color="neutral"
       variant="ghost"

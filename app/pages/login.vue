@@ -8,6 +8,8 @@ definePageMeta({
   layout: "auth",
 });
 
+import { FEATURE_ICONS } from '~/lib/icons';
+
 const { t } = useI18n();
 
 useSeoMeta({
@@ -60,7 +62,12 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     :fields="fields"
     :schema="schema"
     :title="t('login.form.title')"
-    icon="i-lucide-lock"
+    :icon="FEATURE_ICONS.password"
+    :submit="{
+      label: t('login.form.submit_button'),
+      loading: authStore.isSigningIn
+    }"
+    :disabled="authStore.isSigningIn"
     @submit="onSubmit"
   >
     <template #description>

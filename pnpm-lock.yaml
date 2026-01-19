@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@iconify-json/lucide':
-        specifier: ^1.2.81
-        version: 1.2.81
       '@iconify-json/simple-icons':
         specifier: ^1.2.63
         version: 1.2.63
@@ -105,6 +102,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^20.3.1
         version: 20.3.1
+      '@iconify-json/lucide':
+        specifier: ^1.2.81
+        version: 1.2.81
       '@nuxt/test-utils':
         specifier: ^3.20.1
         version: 3.20.1(@vue/test-utils@2.4.6)(happy-dom@20.0.10)(magicast@0.5.1)(playwright-core@1.56.1)(typescript@5.9.3)(vitest@4.0.9(@types/debug@4.1.12)(@types/node@22.19.2)(happy-dom@20.0.10)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))

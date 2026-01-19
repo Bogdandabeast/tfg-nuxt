@@ -509,9 +509,20 @@
     "resourceExists": "Resource already exists",
     "cannotDeleteInUse": "Cannot delete this item because it is currently in use"
   },
-  "validation": {
-    "invalidEmail": "Invalid email",
-    "tooShort": "Too short",
-    "nameRequired": "Name is required"
-  }
-}
+   "validation": {
+     "invalidEmail": "Invalid email",
+     "tooShort": "Too short",
+     "nameRequired": "Name is required"
+   },
+   "breadcrumbs": {
+     "dashboard": "Dashboard",
+     "customers": "Customers",
+     "customer": "Customer {id}",
+     "products": "Products",
+     "product": "Product {id}",
+     "sales": "Sales",
+     "sale": "Sale {id}",
+     "companies": "Companies",
+     "company": "Company {id}"
+   }
+ }

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { UI_ICONS } from '~/lib/icons';
+
 const { t } = useI18n();
 
 const breadcrumbItems = [{
@@ -14,16 +16,16 @@ const breadcrumbItems = [{
 
 const accordionItems = [{
   label: t("terms.accordion.service_usage.label"),
-  icon: "i-heroicons-information-circle",
+  icon: UI_ICONS.info,
   defaultOpen: true,
   content: t("terms.accordion.service_usage.content"),
 }, {
   label: t("terms.accordion.privacy.label"),
-  icon: "i-heroicons-shield-check",
+  icon: UI_ICONS.security,
   content: t("terms.accordion.privacy.content"),
 }, {
   label: t("terms.accordion.limitations.label"),
-  icon: "i-heroicons-exclamation-triangle",
+  icon: UI_ICONS.warning,
   content: t("terms.accordion.limitations.content"),
 }];
 </script>
@@ -37,10 +39,9 @@ const accordionItems = [{
     />
 
     <UPageBody>
-      <UContainer>
-        <!-- Alert for important notices -->
-        <UAlert
-          icon="i-heroicons-bell-alert"
+    <UContainer>
+      <UAlert
+          :icon="UI_ICONS.notification"
           color="secondary"
           variant="subtle"
           :title="t('terms.alert.title')"
@@ -70,7 +71,7 @@ const accordionItems = [{
               <UButton
                 color="secondary"
                 variant="link"
-                icon="i-heroicons-information-circle"
+                :icon="UI_ICONS.info"
                 :label="open ? t('terms.collapsible.hide') : t('terms.collapsible.show')"
               />
             </template>
@@ -104,12 +105,6 @@ const accordionItems = [{
         </UCard>
       </UContainer>
     </UPageBody>
-
-    <!-- Optional: UContentToc could be placed in a side column of UPage if using its layout capabilities -->
-    <!-- For simplicity, I'm noting its usage here but not fully implementing a two-column layout without knowing the page structure -->
-    <!-- <template #right>
-      <UContentToc :links="tocLinks" />
-    </template> -->
 
     <UContentSurround
       :surround="[{

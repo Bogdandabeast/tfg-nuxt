@@ -1,0 +1,205 @@
+type IconName = `lucide:${string}`
+type IconConfig = Record<string, IconName>
+
+export const NAVIGATION_ICONS = {
+  home: 'lucide:home',
+  dashboard: 'lucide:layout-dashboard',
+  customers: 'lucide:users',
+  products: 'lucide:package',
+  sales: 'lucide:receipt',
+  companies: 'lucide:building-2',
+  pricing: 'lucide:credit-card',
+  terms: 'lucide:file-text',
+  signIn: 'lucide:log-in',
+  signUp: 'lucide:user-plus',
+  signOut: 'lucide:log-out',
+  create: 'lucide:plus',
+  manage: 'lucide:cog',
+  select: 'lucide:chevrons-up-down'
+} as const
+
+export const ACTION_ICONS = {
+  create: 'lucide:plus',
+  read: 'lucide:eye',
+  update: 'lucide:edit-2',
+  delete: 'lucide:trash-2',
+  save: 'lucide:save',
+  cancel: 'lucide:x',
+  confirm: 'lucide:check',
+  editCustomer: 'lucide:user-cog',
+  editProduct: 'lucide:package-open',
+  editSale: 'lucide:receipt-text',
+  editCompany: 'lucide:building-gear',
+  deleteCustomer: 'lucide:user-x',
+  deleteProduct: 'lucide:package-x',
+  deleteSale: 'lucide:receipt-x',
+  deleteCompany: 'lucide:building-x',
+  sendEmail: 'lucide:mail',
+  updatePrice: 'lucide:dollar-sign',
+  processRefund: 'lucide:refresh-ccw',
+  share: 'lucide:share',
+  bookmark: 'lucide:bookmark',
+  download: 'lucide:download',
+  search: 'lucide:search',
+  filter: 'lucide:filter',
+  sort: 'lucide:arrow-up-down',
+  more: 'lucide:more-horizontal',
+  expand: 'lucide:chevron-down',
+  collapse: 'lucide:chevron-up'
+} as const
+
+export const ENTITY_ICONS = {
+  user: 'lucide:user',
+  users: 'lucide:users',
+  customer: 'lucide:user',
+  admin: 'lucide:shield',
+  product: 'lucide:package',
+  products: 'lucide:packages',
+  sale: 'lucide:receipt',
+  sales: 'lucide:receipt',
+  invoice: 'lucide:file-text',
+  order: 'lucide:shopping-cart',
+  company: 'lucide:building-2',
+  companies: 'lucide:building-2',
+  department: 'lucide:building',
+  team: 'lucide:users',
+  name: 'lucide:user',
+  email: 'lucide:mail',
+  phone: 'lucide:phone',
+  address: 'lucide:map-pin',
+  description: 'lucide:file-text',
+  price: 'lucide:dollar-sign',
+  stock: 'lucide:package-check',
+  quantity: 'lucide:hash',
+  date: 'lucide:calendar',
+  time: 'lucide:clock'
+} as const
+
+export const METRIC_ICONS = {
+  customers: 'lucide:users',
+  customerGrowth: 'lucide:user-plus',
+  revenue: 'lucide:dollar-sign',
+  revenueGrowth: 'lucide:trending-up',
+  orders: 'lucide:shopping-cart',
+  orderGrowth: 'lucide:shopping-cart',
+  conversions: 'lucide:target',
+  conversionRate: 'lucide:percent',
+  averageTicket: 'lucide:calculator',
+  topProducts: 'lucide:star',
+  salesByPeriod: 'lucide:bar-chart-3',
+  profitMargin: 'lucide:trending-up',
+  active: 'lucide:check-circle',
+  inactive: 'lucide:minus-circle',
+  pending: 'lucide:clock',
+  completed: 'lucide:check'
+} as const
+
+export const UI_ICONS = {
+  success: 'lucide:check-circle',
+  error: 'lucide:alert-triangle',
+  warning: 'lucide:alert-circle',
+  info: 'lucide:info',
+  loading: 'lucide:loader-2',
+  back: 'lucide:arrow-left',
+  forward: 'lucide:arrow-right',
+  up: 'lucide:arrow-up',
+  down: 'lucide:arrow-down',
+  close: 'lucide:x',
+  menu: 'lucide:menu',
+  like: 'lucide:heart',
+  favorite: 'lucide:star',
+  notification: 'lucide:bell',
+  settings: 'lucide:settings',
+  help: 'lucide:help-circle',
+  support: 'lucide:life-buoy',
+  image: 'lucide:image',
+  video: 'lucide:video',
+  document: 'lucide:file-text',
+  attachment: 'lucide:paperclip',
+  link: 'lucide:link',
+  light: 'lucide:sun',
+  dark: 'lucide:moon',
+  theme: 'lucide:monitor'
+} as const
+
+export const FEATURE_ICONS = {
+  login: 'lucide:log-in',
+  logout: 'lucide:log-out',
+  register: 'lucide:user-plus',
+  profile: 'lucide:user',
+  password: 'lucide:lock',
+  security: 'lucide:shield',
+  insights: 'lucide:lightbulb',
+  analytics: 'lucide:bar-chart-3',
+  reports: 'lucide:file-bar-chart',
+  export: 'lucide:download',
+  chat: 'lucide:message-circle',
+  email: 'lucide:mail',
+  call: 'lucide:phone',
+  video: 'lucide:video',
+  api: 'lucide:code',
+  webhook: 'lucide:webhook',
+  database: 'lucide:database',
+  cloud: 'lucide:cloud'
+} as const
+
+export const SOCIAL_ICONS = {
+  github: 'lucide:github',
+  gitlab: 'lucide:git-branch',
+  twitter: 'lucide:twitter',
+  linkedin: 'lucide:linkedin',
+  facebook: 'lucide:facebook',
+  instagram: 'lucide:instagram',
+  youtube: 'lucide:youtube',
+  discord: 'lucide:message-circle',
+  slack: 'lucide:message-square',
+  email: 'lucide:mail',
+  website: 'lucide:globe',
+  blog: 'lucide:book-open',
+  rss: 'lucide:rss'
+} as const
+
+export const TECH_ICONS = {
+  nuxt: 'lucide:zap',
+  vue: 'lucide:triangle',
+  react: 'lucide:atom',
+  angular: 'lucide:hexagon',
+  javascript: 'lucide:code',
+  typescript: 'lucide:code-2',
+  python: 'lucide:code',
+  php: 'lucide:code',
+  css: 'lucide:palette',
+  tailwind: 'lucide:wind',
+  sass: 'lucide:palette',
+  postgresql: 'lucide:database',
+  mysql: 'lucide:database',
+  mongodb: 'lucide:database',
+  redis: 'lucide:database',
+  docker: 'lucide:container',
+  kubernetes: 'lucide:container',
+  aws: 'lucide:cloud',
+  vercel: 'lucide:cloud'
+} as const
+
+export const ICONS = {
+  navigation: NAVIGATION_ICONS,
+  actions: ACTION_ICONS,
+  entities: ENTITY_ICONS,
+  metrics: METRIC_ICONS,
+  ui: UI_ICONS,
+  features: FEATURE_ICONS,
+  social: SOCIAL_ICONS,
+  tech: TECH_ICONS
+} as const
+
+export type NavigationIcon = keyof typeof NAVIGATION_ICONS
+export type ActionIcon = keyof typeof ACTION_ICONS
+export type EntityIcon = keyof typeof ENTITY_ICONS
+export type MetricIcon = keyof typeof METRIC_ICONS
+export type UIIcon = keyof typeof UI_ICONS
+export type FeatureIcon = keyof typeof FEATURE_ICONS
+export type SocialIcon = keyof typeof SOCIAL_ICONS
+export type TechIcon = keyof typeof TECH_ICONS
+
+export type IconCategory = keyof typeof ICONS
+export type AllIconKeys = NavigationIcon | ActionIcon | EntityIcon | MetricIcon | UIIcon | FeatureIcon | SocialIcon | TechIcon

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { UI_ICONS } from '~/lib/icons';
+
 const { t } = useI18n();
 const localePath = useLocalePath();
 useSeoMeta({
@@ -19,7 +21,7 @@ useSeoMeta({
         {
           label: t('homepage.get_started_button'),
           to: localePath('/signup'),
-          icon: 'i-heroicons-rocket-launch',
+          icon: UI_ICONS.success
         },
       ]"
     >
@@ -38,19 +40,19 @@ useSeoMeta({
         <UPageCard
           :title="t('homepage.features.one.title')"
           :description="t('homepage.features.one.description')"
-          icon="i-heroicons-globe-alt"
+          :icon="UI_ICONS.globe"
           spotlight
         />
         <UPageCard
           :title="t('homepage.features.two.title')"
           :description="t('homepage.features.two.description')"
-          icon="i-heroicons-chart-bar"
+          :icon="UI_ICONS.analytics"
           spotlight
         />
         <UPageCard
           :title="t('homepage.features.three.title')"
           :description="t('homepage.features.three.description')"
-          icon="i-heroicons-cog-6-tooth"
+          :icon="UI_ICONS.settings"
           spotlight
         />
       </UPageGrid>

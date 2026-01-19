@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
@@ -34,17 +33,17 @@ export default defineNuxtConfig({
       standalone: false,
     },
   },
-  csurf: { // optional
-    https: false, // default true if in production
-    cookieKey: "", // "__Host-csrf" if https is true otherwise just "csrf"
-    cookie: { // CookieSerializeOptions from unjs/cookie-es
+  csurf: {
+    https: false,
+    cookieKey: "",
+    cookie: {
       path: "/",
       httpOnly: true,
       sameSite: "strict",
     },
-    methodsToProtect: ["POST", "PUT", "PATCH", "DELETE"], // the request methods we want CSRF protection for
-    addCsrfTokenToEventCtx: true, // default false, to run useCsrfFetch on server set it to true
-    headerName: "csrf-token", // the header where the csrf token is stored
+    methodsToProtect: ["POST", "PUT", "PATCH", "DELETE"],
+    addCsrfTokenToEventCtx: true,
+    headerName: "csrf-token",
   },
   routeRules: {
     "/api/**": {

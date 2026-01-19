@@ -3,7 +3,6 @@ import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event
 import { handleError } from "~~/utils/error-handler";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  // Validate CSRF token
   const csrfToken = getHeader(event, "csrf-token");
   if (!csrfToken) {
     throw createError({ statusCode: 403, statusMessage: "Missing CSRF token" });
@@ -18,14 +17,12 @@ export default defineAuthenticatedEventHandler(async (event) => {
       });
     }
 
-    // Get the customer to check ownership
     const userId = event.context.user.id;
     const customerData = await findCustomerInUserCompanies(customerId, userId);
     if (!customerData || !customerData.company_id) {
       throw createError({ statusCode: 404, statusMessage: "Customer not found" });
     }
 
-    // Delete the customer
     const deleted = await deleteCustomer(customerId, customerData.company_id);
 
     if (!deleted.length) {
@@ -38,7 +35,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
     return { success: true, id: customerId };
   }
   catch (error) {
-    // Handle foreign key constraint violation
     if (error && typeof error === "object" && "code" in error && error.code === "23503") {
       throw createError({
         statusCode: 409,

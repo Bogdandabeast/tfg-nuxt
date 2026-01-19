@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ENTITY_ICONS } from '~/lib/icons';
+
 const { t } = useI18n();
 useSeoMeta({
   title: t("pricing.seo.title"),
@@ -48,7 +50,7 @@ const items = ref([
         <UPricingPlan
           :title="t('pricing.plans.basic.title')"
           :description="t('pricing.plans.basic.description')"
-          icon="i-heroicons-user"
+          :icon="ENTITY_ICONS.user"
           :price="`${isYearly === '1' ? 100 : 10}`"
           :billing-cycle="isYearly === '1' ? t('pricing.plans.yearly_cycle') : t('pricing.plans.monthly_cycle')"
           :features="[
@@ -73,7 +75,7 @@ const items = ref([
         <UPricingPlan
           :title="t('pricing.plans.pro.title')"
           :description="t('pricing.plans.pro.description')"
-          icon="i-heroicons-users"
+          :icon="ENTITY_ICONS.users"
           :price="`${isYearly === '1' ? 200 : 20}`"
           :billing-cycle="isYearly === '1' ? t('pricing.plans.yearly_cycle') : t('pricing.plans.monthly_cycle')"
           :features="[

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { SOCIAL_ICONS, TECH_ICONS } from '~/lib/icons';
 const columns = [
   {
     label: "Resources",
@@ -66,7 +67,7 @@ function onSubmit() {
 </script>
 
 <template>
-  <USeparator icon="i-simple-icons-nuxtdotjs" class="h-px" />
+  <USeparator :icon="TECH_ICONS.nuxt" class="h-px" />
 
   <UFooter :ui="{ top: 'border-b border-default' }">
     <template #top>
@@ -111,7 +112,7 @@ function onSubmit() {
       <UButton
         to="https://go.nuxt.com/discord"
         target="_blank"
-        icon="i-simple-icons-discord"
+        :icon="SOCIAL_ICONS.discord"
         aria-label="Nuxt on Discord"
         color="neutral"
         variant="ghost"
@@ -119,7 +120,7 @@ function onSubmit() {
       <UButton
         to="https://go.nuxt.com/x"
         target="_blank"
-        icon="i-simple-icons-x"
+        :icon="SOCIAL_ICONS.twitter"
         aria-label="Nuxt on X"
         color="neutral"
         variant="ghost"
@@ -127,7 +128,7 @@ function onSubmit() {
       <UButton
         to="https://github.com/nuxt-ui-templates/saas"
         target="_blank"
-        icon="i-simple-icons-github"
+        :icon="SOCIAL_ICONS.github"
         aria-label="Nuxt UI on GitHub"
         color="neutral"
         variant="ghost"
