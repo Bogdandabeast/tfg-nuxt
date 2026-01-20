@@ -14,15 +14,15 @@ export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
   trustedOrigins: [
     "https://bogdanweb.dev",
-    "http://localhost:3000"
+    "http://localhost:3000",
   ],
   cookies: {
     sessionToken: {
       secure: true,
       sameSite: "none",
       path: "/",
-      domain: "bogdanweb.dev"
-    }
+      domain: "bogdanweb.dev",
+    },
   },
   hooks: {
     after: createAuthMiddleware(async (ctx) => {

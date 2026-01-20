@@ -66,15 +66,15 @@ export default defineNuxtConfig({
       { code: "es", name: "Español", file: "es.json" },
     ],
 
-   },
+  },
 
-   runtimeConfig: {
-     public: {
-       appUrl: process.env.NUXT_PUBLIC_APP_URL,
-     },
-   },
+  runtimeConfig: {
+    public: {
+      appUrl: process.env.NUXT_PUBLIC_APP_URL,
+    },
+  },
 
-   colorMode: {
-     dataValue: "theme",
-   },
+  colorMode: {
+    dataValue: "theme",
+  },
 });

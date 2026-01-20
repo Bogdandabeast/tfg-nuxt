@@ -19,6 +19,8 @@ productsStore.refreshProducts();
 
 const { products, pending: loadingProducts } = storeToRefs(productsStore);
 
+const isCreateModalOpen = ref(false);
+
 const columns: TableColumn[] = [
   {
     accessorKey: "id",
@@ -55,35 +57,42 @@ const columns: TableColumn[] = [
 </script>
 
 <template>
-  <UContainer class="space-y-4 w-full mt-10">
-    <DashboardTableSkeleton
-      :loading="loadingProducts"
-      :columns="4"
-      :rows="10"
-    >
-      <UTable
-        :data="products"
-        :columns="columns"
-        class="shrink-0"
-        :ui="{
-          base: 'table-fixed border-separate border-spacing-0',
-          thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
-          tbody: '[&>tr]:last:[&>td]:border-b-0',
-          th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
-          td: 'border-b border-default',
-        }"
-      />
-    </DashboardTableSkeleton>
-    <USlideover side="bottom" title="Slideover with side">
-      <UButton
-        :label="t('tables.actions.products')"
-        color="neutral"
-        variant="subtle"
-      />
+  <UDashboardPanel class="overflow-y-auto">
+    <div class="m-5">
+      <DashboardNavbar />
+      <DashboardTableSkeleton
+        :loading="loadingProducts"
+        :columns="4"
+        :rows="10"
+      >
+        <UTable
+          :data="products"
+          :columns="columns"
+          class="shrink-0"
+          :ui="{
+            base: 'table-fixed border-separate border-spacing-0',
+            thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+            tbody: '[&>tr]:last:[&>td]:border-b-0',
+            th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
+            td: 'border-b border-default',
+          }"
+        />
+      </DashboardTableSkeleton>
+      <UModal
+        v-model:open="isCreateModalOpen"
+        :title="t('products.create.title')"
+        :description="t('products.create.description')"
+      >
+        <UButton
+          :label="t('products.create.button')"
+          icon="i-heroicons-plus-20-solid"
+          color="primary"
+        />
 
-      <template #content>
-        <DashboardFormsProductForm />
-      </template>
-    </USlideover>
-  </UContainer>
+        <template #content>
+          <DashboardFormsProductForm />
+        </template>
+      </UModal>
+    </div>
+  </UDashboardPanel>
 </template>

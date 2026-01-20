@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ENTITY_ICONS } from '~/lib/icons';
+import { ENTITY_ICONS } from "~/lib/icons";
 
 const { t } = useI18n();
 useSeoMeta({
@@ -45,7 +45,7 @@ const items = ref([
       </template>
     </UPageHero>
 
-    <UContainer>
+    <UContainer class="py-8 overflow-y-auto">
       <UPricingPlans scale>
         <UPricingPlan
           :title="t('pricing.plans.basic.title')"

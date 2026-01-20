@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UI_ICONS } from '~/lib/icons';
+import { UI_ICONS } from "~/lib/icons";
 
 const { t } = useI18n();
 
@@ -39,8 +39,8 @@ const accordionItems = [{
     />
 
     <UPageBody>
-    <UContainer>
-      <UAlert
+      <UContainer class="py-8 overflow-y-auto">
+        <UAlert
           :icon="UI_ICONS.notification"
           color="secondary"
           variant="subtle"

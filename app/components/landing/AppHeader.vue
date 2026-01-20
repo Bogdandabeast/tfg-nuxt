@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ROUTES } from "~/utils/routes";
 import { NAVIGATION_ICONS } from "~/lib/icons";
+import { ROUTES } from "~/utils/routes";
 
 const { t } = useI18n();
 const route = useRoute();

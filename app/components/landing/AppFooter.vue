@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { SOCIAL_ICONS, TECH_ICONS } from '~/lib/icons';
+import { SOCIAL_ICONS, TECH_ICONS } from "~/lib/icons";
+
 const columns = [
   {
     label: "Resources",
@@ -71,7 +72,7 @@ function onSubmit() {
 
   <UFooter :ui="{ top: 'border-b border-default' }">
     <template #top>
-      <UContainer>
+      <UContainer class="py-8 overflow-y-auto">
         <UFooterColumns :columns="columns">
           <template #right>
             <form @submit.prevent="onSubmit">

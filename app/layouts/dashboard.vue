@@ -2,9 +2,9 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { useI18n } from "vue-i18n";
 import { ROUTES } from "~~/lib/constants";
-import { NAVIGATION_ICONS } from "~/lib/icons";
-
 import CompaniesMenu from "~/components/Dashboard/CompaniesMenu.vue";
+
+import { NAVIGATION_ICONS } from "~/lib/icons";
 
 const { t } = useI18n();
 const toast = useToast();
@@ -105,22 +105,16 @@ onMounted(async () => {
   <UDashboardGroup unit="rem">
     <UDashboardSidebar
       id="default"
-      v-model:open="open"
-      mode="drawer"
+      open
       collapsible
       resizable
       class="bg-elevated/25"
       :ui="{ footer: 'lg:border-t lg:border-default' }"
     >
-      <template #header="{ collapsed }">
-        <CompaniesMenu :collapsed="collapsed" />
-      </template>
-
-      <template #default="{ collapsed }">
-        <UDashboardSearchButton :collapsed="collapsed" class="bg-transparent ring-default" />
+      <template #default>
+        <CompaniesMenu />
 
         <UNavigationMenu
-          :collapsed="collapsed"
           :items="links[0]"
           orientation="vertical"
           tooltip
@@ -129,8 +123,6 @@ onMounted(async () => {
         <DashboardSignOut />
       </template>
     </UDashboardSidebar>
-
-    <UDashboardSearch :groups="groups" />
 
     <slot />
   </UDashboardGroup>

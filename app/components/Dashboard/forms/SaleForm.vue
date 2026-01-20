@@ -3,12 +3,12 @@ import type { Customer } from "~~/lib/db/queries/customers";
 import type { Product } from "~~/lib/db/queries/products";
 import { storeToRefs } from "pinia";
 
-interface SaleData {
+type SaleData = {
   id: number;
   customer_id: number;
   product_id: number;
   quantity: number;
-}
+};
 
 const props = defineProps<{
   editMode: boolean;

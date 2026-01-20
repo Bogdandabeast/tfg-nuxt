@@ -10,8 +10,6 @@ const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
 const { data: saleData, pending, error } = salesStore.getSaleById(saleId);
 
-import { ACTION_ICONS, UI_ICONS } from '~/lib/icons';
-
 const { t, locale } = useI18n();
 
 type TableRow = {
@@ -104,7 +102,8 @@ const tableColumns = [
 </script>
 
 <template>
-  <UContainer>
+  <UDashboardPanel class="overflow-y-auto">
+    <DashboardNavBar />
     <UPageHeader
       :title="$t('details.sale.title')"
       :description="$t('details.sale.description', { id: saleId })"
@@ -185,5 +184,5 @@ const tableColumns = [
         </div>
       </UCard>
     </div>
-  </UContainer>
+  </UDashboardPanel>
 </template>

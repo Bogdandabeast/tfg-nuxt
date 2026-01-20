@@ -2,13 +2,13 @@
 import type { FormSubmitEvent } from "@nuxt/ui";
 import * as z from "zod";
 import { useAuthStore } from "~~/app/stores/auth";
+import { FEATURE_ICONS } from "~/lib/icons";
+
 import { ROUTES } from "~/utils/routes";
 
 definePageMeta({
   layout: "auth",
 });
-
-import { FEATURE_ICONS } from '~/lib/icons';
 
 const { t } = useI18n();
 
@@ -65,7 +65,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     :icon="FEATURE_ICONS.password"
     :submit="{
       label: t('login.form.submit_button'),
-      loading: authStore.isSigningIn
+      loading: authStore.isSigningIn,
     }"
     :disabled="authStore.isSigningIn"
     @submit="onSubmit"

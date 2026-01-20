@@ -15,8 +15,6 @@ if (Number.isNaN(companyId)) {
 const companiesStore = useCompaniesStore();
 const { data, pending, error } = companiesStore.getCompanyById(companyId);
 
-import { ACTION_ICONS, UI_ICONS } from '~/lib/icons';
-
 const { t } = useI18n();
 const { deleteCompany } = useCompaniesApi();
 const toast = useToast();
@@ -31,7 +29,8 @@ type _RowData = {
 };
 
 async function handleDelete() {
-  if (isDeleting.value) return; // Prevent multiple delete requests
+  if (isDeleting.value)
+    return; // Prevent multiple delete requests
 
   isDeleting.value = true;
   try {
@@ -44,7 +43,8 @@ async function handleDelete() {
       });
       navigateTo(localePath(ROUTES.DASHBOARD.COMPANIES));
     }
-  } finally {
+  }
+  finally {
     isDeleting.value = false;
     isDeleteModalOpen.value = false;
   }
@@ -72,7 +72,8 @@ const tableColumns = [
 </script>
 
 <template>
-  <UContainer>
+  <UDashboardPanel class="overflow-y-auto">
+    <DashboardNavBar />
     <UPageHeader
       :title="$t('details.company.title')"
       :description="$t('details.company.description', { id: companyId })"
@@ -210,7 +211,7 @@ const tableColumns = [
       </UCard>
     </div>
 
-    <UModal v-model="isDeleteModalOpen">
+    <UModal v-model="isDeleteModalOpen" :description="t('company.delete.description')">
       <UCard>
         <template #header>
           <h3 class="text-lg font-semibold">
@@ -235,5 +236,5 @@ const tableColumns = [
         </template>
       </UCard>
     </UModal>
-  </UContainer>
+  </UDashboardPanel>
 </template>

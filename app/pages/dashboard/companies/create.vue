@@ -26,7 +26,8 @@ async function handleCreateCompany(companyData: { name: string }) {
 </script>
 
 <template>
-  <UContainer class="max-w-2xl mx-auto mt-10">
+  <UDashboardPanel class="overflow-y-auto">
+    <DashboardNavBar />
     <UPageHeader :title="$t('forms.companyForm.createTitle')" />
 
     <UCard>
@@ -35,5 +36,5 @@ async function handleCreateCompany(companyData: { name: string }) {
         :loading="isCreateCompanyLoading"
       />
     </UCard>
-  </UContainer>
+  </UDashboardPanel>
 </template>

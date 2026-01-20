@@ -273,18 +273,29 @@
       "description": "Crear, ver y gestionar tus empresas",
       "create": "Crear Empresa",
       "deleteLastCompanyErrorTitle": "No se Puede Eliminar la Última Empresa",
-      "deleteLastCompanyErrorDescription": "Debe permanecer al menos una empresa en el sistema."
+      "deleteLastCompanyErrorDescription": "Debe permanecer al menos una empresa en el sistema.",
+      "modal": {
+        "description": "Formulario para crear una nueva empresa en el sistema CRM."
+      }
     }
   },
   "dashboard": {
     "products": {
       "title": "Gestión de Productos",
-      "existing": "Productos Existentes"
+      "existing": "Productos Existentes",
+      "create": {
+        "title": "Crear Producto",
+        "description": "Formulario para crear un nuevo producto en el sistema CRM.",
+        "button": "Crear Producto"
+      }
     },
     "customers": {
       "title": "Gestión de Clientes",
       "existing": "Clientes Existentes",
-      "loading": "Cargando clientes..."
+      "loading": "Cargando clientes...",
+      "modal": {
+        "description": "Formulario para gestionar información de clientes del sistema."
+      }
     },
     "sales": {
       "title": "Gestión de Ventas",
@@ -353,9 +364,8 @@
       "name": "Nombre",
       "description": "Descripción",
       "price": "Precio",
-      "stock": "Stock",
-      "create": "Crear Producto",
-      "deleteTitle": "Eliminar Producto por ID",
+       "stock": "Stock",
+       "deleteTitle": "Eliminar Producto por ID",
       "id": "ID del Producto",
       "delete": "Eliminar Producto",
       "createTitle": "Crear Nuevo Producto",
@@ -367,6 +377,11 @@
       "noCompany": "No se ha seleccionado empresa.",
       "invalidData": "Por favor, completa todos los detalles del producto.",
       "createdSuccess": "¡Producto creado exitosamente!"
+    },
+    "create": {
+      "title": "Crear Producto",
+      "description": "Formulario para agregar un nuevo producto al inventario",
+      "button": "Nuevo Producto"
     },
     "saleForm": {
       "customer": "Cliente",
@@ -388,6 +403,11 @@
       "createdSuccess": "¡Venta creada exitosamente!",
       "idInvalid": "Por favor, ingresa un ID de Venta válido para eliminar.",
       "deletedSuccess": "¡Venta eliminada exitosamente!"
+    },
+    "create": {
+      "title": "Crear Venta",
+      "description": "Formulario para registrar una nueva venta",
+      "button": "Nueva Venta"
     }
   },
   "navigation": {
@@ -421,13 +441,13 @@
     "product": {
       "title": "Detalles del Producto",
       "description": "Viendo producto {id}",
-       "error": {
-         "title": "Error cargando producto",
-         "description": "Ocurrió un error"
-       },
-       "inStock": "En Stock",
-       "outOfStock": "Sin Stock"
-     },
+      "error": {
+        "title": "Error cargando producto",
+        "description": "Ocurrió un error"
+      },
+      "inStock": "En Stock",
+      "outOfStock": "Sin Stock"
+    },
     "sale": {
       "title": "Detalles de la Venta",
       "description": "Viendo venta {id}",
@@ -446,6 +466,10 @@
       "notFound": {
         "title": "Empresa no encontrada",
         "description": "La empresa solicitada no pudo ser encontrada."
+      },
+      "delete": {
+        "title": "Eliminar Empresa",
+        "description": "Esta acción eliminará permanentemente la empresa y todos sus datos asociados. Esta acción no se puede deshacer."
       }
     }
   },
@@ -478,6 +502,7 @@
       "userId": "ID de Usuario",
       "price": "Precio",
       "stock": "Stock",
+      "description": "Descripción",
       "field": "Campo",
       "value": "Valor",
       "date": "Fecha",
@@ -511,20 +536,20 @@
     "resourceExists": "El recurso ya existe",
     "cannotDeleteInUse": "No se puede eliminar este elemento porque está actualmente en uso"
   },
-   "validation": {
-     "invalidEmail": "Correo electrónico inválido",
-     "tooShort": "Demasiado corto",
-     "nameRequired": "El nombre es requerido"
-   },
-   "breadcrumbs": {
-     "dashboard": "Panel de Control",
-     "customers": "Clientes",
-     "customer": "Cliente {id}",
-     "products": "Productos",
-     "product": "Producto {id}",
-     "sales": "Ventas",
-     "sale": "Venta {id}",
-     "companies": "Empresas",
-     "company": "Empresa {id}"
-   }
- }
+  "validation": {
+    "invalidEmail": "Correo electrónico inválido",
+    "tooShort": "Demasiado corto",
+    "nameRequired": "El nombre es requerido"
+  },
+  "breadcrumbs": {
+    "dashboard": "Panel de Control",
+    "customers": "Clientes",
+    "customer": "Cliente {id}",
+    "products": "Productos",
+    "product": "Producto {id}",
+    "sales": "Ventas",
+    "sale": "Venta {id}",
+    "companies": "Empresas",
+    "company": "Empresa {id}"
+  }
+}

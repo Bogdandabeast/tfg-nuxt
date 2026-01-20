@@ -1,5 +1,6 @@
 export function useBreadcrumbs() {
   const { t } = useI18n();
+  const localePath = useLocalePath();
 
   const breadcrumbItems = computed(() => {
     const route = useRoute();
@@ -7,7 +8,7 @@ export function useBreadcrumbs() {
     const items: Array<{ label: string; to?: string }> = [
       {
         label: t("breadcrumbs.dashboard"),
-        to: "/dashboard",
+        to: localePath("/dashboard"),
       },
     ];
 
@@ -23,25 +24,25 @@ export function useBreadcrumbs() {
     if (pathSegments.includes("customers")) {
       items.push({
         label: t(sectionMap.customers.label),
-        to: "/dashboard/customers",
+        to: localePath("/dashboard/customers"),
       });
     }
     else if (pathSegments.includes("products")) {
       items.push({
         label: t(sectionMap.products.label),
-        to: "/dashboard/products",
+        to: localePath("/dashboard/products"),
       });
     }
     else if (pathSegments.includes("sales")) {
       items.push({
         label: t(sectionMap.sales.label),
-        to: "/dashboard/sales",
+        to: localePath("/dashboard/sales"),
       });
     }
     else if (pathSegments.includes("companies")) {
       items.push({
         label: t(sectionMap.companies.label),
-        to: "/dashboard/companies",
+        to: localePath("/dashboard/companies"),
       });
     }
 

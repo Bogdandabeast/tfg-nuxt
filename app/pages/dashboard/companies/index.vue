@@ -6,7 +6,7 @@ import { useCompaniesStore } from "~~/app/stores/companies";
 import { ROUTES } from "~/utils/routes";
 
 definePageMeta({
-  layout: "dashboard",
+  layout: false,
 });
 
 const { t } = useI18n();
@@ -39,18 +39,21 @@ function selectCompany(company: any) {
     try {
       const decodedRedirect = decodeURIComponent(redirectTo);
       // Validar que sea una ruta relativa segura (no URLs externas)
-      if (decodedRedirect.startsWith('/') && !decodedRedirect.includes('://')) {
+      if (decodedRedirect.startsWith("/") && !decodedRedirect.includes("://")) {
         navigateTo(decodedRedirect);
-      } else {
+      }
+      else {
         // Fallback seguro si la URL no es válida
         navigateTo(useLocalePath()(ROUTES.DASHBOARD));
       }
-    } catch (error) {
+    }
+    catch (error) {
       // Manejar errores de decodeURIComponent
-      console.warn('Invalid redirect URL, falling back to dashboard:', redirectTo);
+      console.warn("Invalid redirect URL, falling back to dashboard:", redirectTo);
       navigateTo(useLocalePath()(ROUTES.DASHBOARD));
     }
-  } else {
+  }
+  else {
     navigateTo(useLocalePath()(ROUTES.DASHBOARD));
   }
 }
@@ -72,8 +75,8 @@ async function handleCreateCompany(companyData: { name: string }) {
 </script>
 
 <template>
-  <UContainer class="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900 mt-10">
-    <UCard class="w-full max-w-md">
+  <UDashboardPanel class="overflow-y-auto">
+    <UCard class="w-full max-w-md mx-auto my-auto">
       <template #header>
         <h1 class="text-2xl font-bold text-center">
           {{ t('companies.title') }}
@@ -105,5 +108,5 @@ async function handleCreateCompany(companyData: { name: string }) {
         />
       </div>
     </UCard>
-  </UContainer>
+  </UDashboardPanel>
 </template>

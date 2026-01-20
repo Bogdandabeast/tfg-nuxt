@@ -60,7 +60,8 @@ async function handleDeleteCompany(companyId: string) {
         color: "error",
       });
     }
-  } finally {
+  }
+  finally {
     deletingCompanyId.value = null;
   }
 }
@@ -123,14 +124,16 @@ onMounted(async () => {
   isLoadingCompanies.value = true;
   try {
     await companiesStore.refreshCompanies();
-  } finally {
+  }
+  finally {
     isLoadingCompanies.value = false;
   }
 });
 </script>
 
 <template>
-  <UContainer class="space-y-4 w-full mt-10">
+  <UDashboardPanel class="overflow-y-auto">
+    <DashboardNavBar />
     <UPageHeader :title="$t('companies.manage.title')" :description="$t('companies.manage.description')">
       <template #actions>
         <UButton
@@ -141,7 +144,7 @@ onMounted(async () => {
       </template>
     </UPageHeader>
 
-    <UModal v-model="isModalOpen">
+    <UModal v-model="isModalOpen" :description="t('dashboard.companies.manage.modal.description')">
       <CompanyForm
         :on-submit="handleCreateCompany"
         :loading="isCreateCompanyLoading"
@@ -161,5 +164,5 @@ onMounted(async () => {
         td: 'border-b border-default',
       }"
     />
-  </UContainer>
+  </UDashboardPanel>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ROUTES } from "~/utils/routes";
 import { UI_ICONS } from "~/lib/icons";
+import { ROUTES } from "~/utils/routes";
 </script>
 
 <template>

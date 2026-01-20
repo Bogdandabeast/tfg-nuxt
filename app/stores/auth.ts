@@ -35,7 +35,8 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   }
 
   async function signUp(name: string, email: string, password: string) {
-    if (isSigningUp.value) return;
+    if (isSigningUp.value)
+      return;
 
     isSigningUp.value = true;
     try {
@@ -63,13 +64,15 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         color: "success",
       });
       navigateTo(useLocalePath()(ROUTES.DASHBOARD));
-    } finally {
+    }
+    finally {
       isSigningUp.value = false;
     }
   }
 
   async function signIn(email: string, password: string, rememberMe: boolean) {
-    if (isSigningIn.value) return;
+    if (isSigningIn.value)
+      return;
 
     isSigningIn.value = true;
     try {
@@ -97,7 +100,8 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         color: "success",
       });
       navigateTo(useLocalePath()(ROUTES.DASHBOARD));
-    } finally {
+    }
+    finally {
       isSigningIn.value = false;
     }
   }

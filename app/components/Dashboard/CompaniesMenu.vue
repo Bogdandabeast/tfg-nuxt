@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from "@nuxt/ui";
 import { storeToRefs } from "pinia";
+import { NAVIGATION_ICONS } from "~/lib/icons";
 import { ROUTES } from "~/utils/routes";
-import { NAVIGATION_ICONS, ACTION_ICONS } from "~/lib/icons";
 
 defineProps<{
   collapsed?: boolean;

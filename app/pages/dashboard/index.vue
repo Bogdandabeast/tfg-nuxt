@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { Period, Range, Stat } from "~/types";
 import { storeToRefs } from "pinia";
+
+import { METRIC_ICONS, UI_ICONS } from "~/lib/icons";
 import { useCompaniesStore } from "~/stores/companies";
 import { useMetricsStore } from "~/stores/metrics";
-import { METRIC_ICONS, UI_ICONS } from "~/lib/icons";
 
 definePageMeta({
   layout: "dashboard",
@@ -124,7 +125,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <UContainer class="py-8">
+  <UDashboardPanel class="overflow-y-auto">
+    <DashboardNavBar />
     <div v-if="allMetricsEmpty && !isLoading" class="text-center py-12">
       <UIcon :name="UI_ICONS.analytics" class="h-16 w-16 text-gray-400 mx-auto mb-4" />
       <h3 class="text-xl font-semibold text-gray-900 mb-2">
@@ -149,5 +151,5 @@ onMounted(() => {
       :stats="statsData"
       :loading="isLoading"
     />
-  </UContainer>
+  </UDashboardPanel>
 </template>

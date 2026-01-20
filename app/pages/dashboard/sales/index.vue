@@ -19,6 +19,8 @@ const { sales, pending: loadingSales } = storeToRefs(salesStore);
 const { customers } = storeToRefs(customersStore);
 const { products } = storeToRefs(productsStore);
 
+const isCreateModalOpen = ref(false);
+
 const detailedSales = computed(() => {
   return sales.value?.map((sale) => {
     const customer = customers.value?.find(c => c.id === sale.customer_id);
@@ -103,7 +105,8 @@ const columns = [
 </script>
 
 <template>
-  <UContainer class="space-y-4 w-full mt-10">
+  <UDashboardPanel class="overflow-y-auto py-12">
+    <DashboardNavBar />
     <DashboardTableSkeleton
       :loading="loadingSales"
       :columns="6"
@@ -122,16 +125,20 @@ const columns = [
         }"
       />
     </DashboardTableSkeleton>
-    <USlideover side="bottom" title="Slideover with side">
+    <UModal
+      v-model:open="isCreateModalOpen"
+      :title="t('sales.create.title')"
+      :description="t('sales.create.description')"
+    >
       <UButton
-        :label="t('tables.actions.sales')"
-        color="neutral"
-        variant="subtle"
+        :label="t('sales.create.button')"
+        icon="i-heroicons-plus-20-solid"
+        color="primary"
       />
 
       <template #content>
         <DashboardFormsSaleForm />
       </template>
-    </USlideover>
-  </UContainer>
+    </UModal>
+  </UDashboardPanel>
 </template>

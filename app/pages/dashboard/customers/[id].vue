@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { ACTION_ICONS } from "~/lib/icons";
+
 definePageMeta({
   layout: "dashboard",
 });
@@ -7,7 +9,6 @@ const customerId = Number(route.params.id);
 
 const customersStore = useCustomersStore();
 const { data, pending, error } = customersStore.getCustomerById(customerId);
-import { ACTION_ICONS, UI_ICONS } from '~/lib/icons';
 
 const { t } = useI18n();
 
@@ -74,7 +75,8 @@ const tableColumns = [
 </script>
 
 <template>
-  <UContainer>
+  <UDashboardPanel class="overflow-y-auto">
+    <DashboardNavBar />
     <UPageHeader
       :title="$t('details.customer.title')"
       :description="$t('details.customer.description', { id: customerId })"
@@ -159,5 +161,5 @@ const tableColumns = [
         />
       </UCard>
     </div>
-  </UContainer>
+  </UDashboardPanel>
 </template>

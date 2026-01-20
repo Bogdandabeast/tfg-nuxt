@@ -53,7 +53,8 @@ const columns: TableColumn[] = [
 </script>
 
 <template>
-  <UContainer class="space-y-4 w-full mt-10">
+  <UDashboardPanel class="overflow-y-auto">
+    <DashboardNavBar />
     <DashboardTableSkeleton
       :loading="loadingCustomers"
       :columns="4"
@@ -72,7 +73,7 @@ const columns: TableColumn[] = [
         }"
       />
     </DashboardTableSkeleton>
-    <UModal>
+    <UModal :description="t('dashboard.customers.modal.description')">
       <UButton
         label="Sales Actions"
         color="neutral"
@@ -83,5 +84,5 @@ const columns: TableColumn[] = [
         <DashboardFormsCustomerForm />
       </template>
     </UModal>
-  </UContainer>
+  </UDashboardPanel>
 </template>

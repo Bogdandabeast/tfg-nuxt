@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
+
 import { ROUTES } from "~/utils/routes";
 
 definePageMeta({
@@ -11,14 +12,38 @@ const productId = Number(route.params.id);
 const productsStore = useProductsStore();
 const { data, pending, error } = productsStore.getProductById(productId);
 
-import { ACTION_ICONS, UI_ICONS } from '~/lib/icons';
-
 const { t } = useI18n();
 const { deleteProduct } = useProductsApi();
 const toast = useToast();
 const localePath = useLocalePath();
 
 const isDeleteModalOpen = ref(false);
+
+const menuItems = computed(() => [
+  {
+    label: t("actions.edit.product"),
+    icon: "i-heroicons-pencil-square-20-solid",
+    onSelect: () => {
+      // TODO: Implement edit functionality
+      console.log("Edit product");
+    },
+  },
+  {
+    label: t("actions.updatePrice"),
+    icon: "i-heroicons-currency-dollar-20-solid",
+    onSelect: () => {
+      // TODO: Implement price update functionality
+      console.log("Update price");
+    },
+  },
+  {
+    label: t("actions.delete.product"),
+    icon: "i-heroicons-trash-20-solid",
+    onSelect: () => {
+      isDeleteModalOpen.value = true;
+    },
+  },
+]);
 
 async function handleDelete() {
   const result = await deleteProduct(productId);
@@ -89,7 +114,8 @@ const tableColumns: TableColumn[] = [
 </script>
 
 <template>
-  <UContainer>
+  <UDashboardPanel class="overflow-y-auto">
+    <DashboardNavBar />
     <UPageHeader
       :title="$t('details.product.title')"
       :description="$t('details.product.description', { id: productId })"
@@ -101,7 +127,7 @@ const tableColumns: TableColumn[] = [
       />
       <template #actions>
         <UColorModeButton />
-        <UDropdownMenu mode="click">
+        <UDropdownMenu :items="menuItems" mode="click">
           <UButton
             color="neutral"
             variant="soft"
@@ -109,21 +135,6 @@ const tableColumns: TableColumn[] = [
             square
             :aria-label="$t('actions.more')"
           />
-          <template #items>
-            <UDropdownMenuItem
-              icon="i-heroicons-pencil-square-20-solid"
-              :label="$t('actions.edit.product')"
-            />
-            <UDropdownMenuItem
-              icon="i-heroicons-currency-dollar-20-solid"
-              :label="$t('actions.updatePrice')"
-            />
-            <UDropdownMenuItem
-              icon="i-heroicons-trash-20-solid"
-              :label="$t('actions.delete.product')"
-              @click="isDeleteModalOpen = true"
-            />
-          </template>
         </UDropdownMenu>
       </template>
     </UPageHeader>
@@ -190,5 +201,5 @@ const tableColumns: TableColumn[] = [
         </div>
       </UCard>
     </div>
-  </UContainer>
+  </UDashboardPanel>
 </template>

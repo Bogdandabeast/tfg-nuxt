@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UI_ICONS } from '~/lib/icons';
+import { UI_ICONS } from "~/lib/icons";
 
 const { t } = useI18n();
 const localePath = useLocalePath();
@@ -21,7 +21,7 @@ useSeoMeta({
         {
           label: t('homepage.get_started_button'),
           to: localePath('/signup'),
-          icon: UI_ICONS.success
+          icon: UI_ICONS.success,
         },
       ]"
     >

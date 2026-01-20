@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import FormErrorAlert from "./FormErrorAlert.vue";
+import { ENTITY_ICONS, FEATURE_ICONS } from "~/lib/icons";
 
-import { ENTITY_ICONS, FEATURE_ICONS } from '~/lib/icons';
+import FormErrorAlert from "./FormErrorAlert.vue";
 
 const { t } = useI18n();
 const customersStore = useCustomersStore();
