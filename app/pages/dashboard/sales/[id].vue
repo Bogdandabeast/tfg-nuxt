@@ -1,4 +1,6 @@
 <script setup lang="ts">
+
+
 definePageMeta({
   layout: "dashboard",
 });
@@ -11,11 +13,6 @@ const productsStore = useProductsStore();
 const { data: saleData, pending, error } = salesStore.getSaleById(saleId);
 
 const { t, locale } = useI18n();
-
-type TableRow = {
-  label: string;
-  value: string | number | null | undefined;
-};
 
 // Make customer data reactive - only fetch when saleData is available
 const customerData = computed(() => {
@@ -75,13 +72,13 @@ const tableColumns = [
   {
     accessorKey: "label",
     header: t("tables.headers.field"),
-    cell: ({ row }: { row: TableRow }) =>
+    cell: ({ row }: { row: any }) =>
       h("span", { class: "font-medium" }, row.getValue("label")),
   },
   {
     accessorKey: "value",
     header: t("tables.headers.value"),
-    cell: ({ row }: { row: TableRow }) => {
+    cell: ({ row }: { row: any }) => {
       const label = row.original.label;
       const value = row.getValue("value");
 
@@ -122,7 +119,7 @@ const tableColumns = [
       </template>
     </UPageHeader>
 
-    <div class="space-y-6">
+    <div class="space-y-6 p-4">
       <UAlert
         v-if="error"
         color="error"

@@ -85,6 +85,7 @@ export const useMetricsStore = defineStore("metrics", () => {
     }
     catch (error) {
       console.warn(error);
+      return { success: false, error: "Failed to load metrics" };
     }
   };
 

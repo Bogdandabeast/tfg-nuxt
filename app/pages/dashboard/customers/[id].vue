@@ -14,6 +14,7 @@ const { t } = useI18n();
 
 const isDeleteModalOpen = ref(false);
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const menuItems = computed(() => [
   {
     label: t("actions.edit.customer"),
@@ -34,11 +35,6 @@ const menuItems = computed(() => [
   },
 ]);
 
-async function handleDelete() {
-  // Implement delete logic
-  isDeleteModalOpen.value = false;
-}
-
 const UBadge = resolveComponent("UBadge");
 
 const tableData = computed(() => [
@@ -54,13 +50,13 @@ const tableColumns = [
   {
     accessorKey: "label",
     header: t("tables.headers.field"),
-    cell: ({ row }: { row: Record<string, any> }) =>
+    cell: ({ row }: { row: any }) =>
       h("span", { class: "font-medium" }, row.getValue("label")),
   },
   {
     accessorKey: "value",
     header: t("tables.headers.value"),
-    cell: ({ row }: { row: Record<string, any> }) => {
+    cell: ({ row }: { row: any }) => {
       const label = row.original.label;
       const value = row.getValue("value");
 
@@ -96,7 +92,7 @@ const tableColumns = [
       </template>
     </UPageHeader>
 
-    <div class="space-y-6">
+    <div class="space-y-6 p-4">
       <UAlert
         v-if="error"
         color="error"
@@ -135,7 +131,7 @@ const tableColumns = [
         <template #header>
           <div class="flex items-center gap-3">
             <UAvatar
-              :src="null"
+              :src="undefined"
               :alt="data.name"
               size="2xl"
               :initials="data.name.split(' ').map(n => n[0]).join('').toUpperCase()"

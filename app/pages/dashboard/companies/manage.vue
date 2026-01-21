@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
+import type { TableColumn } from "@nuxt/ui";
+import type { Company } from "~/lib/db/queries/companies";
 import CompanyForm from "~~/app/components/Dashboard/forms/CompanyForm.vue";
 import { useCompaniesStore } from "~~/app/stores/companies";
 import { getCompanyPath } from "~/utils/routes";
@@ -17,7 +19,7 @@ const isModalOpen = ref(false);
 const isLoadingCompanies = ref(false);
 const deletingCompanyId = ref<string | null>(null);
 
-const { isCreateCompanyLoading, createCompany, isDeleteCompanyLoading, deleteCompany } = useCompaniesApi();
+const { isCreateCompanyLoading, createCompany, deleteCompany } = useCompaniesApi();
 
 async function handleCreateCompany(companyData: { name: string }) {
   const result = await createCompany(companyData);
@@ -66,12 +68,12 @@ async function handleDeleteCompany(companyId: string) {
   }
 }
 
-const columns = [
+const columns: TableColumn<Company>[] = [
   {
     accessorKey: "id",
     header: t("tables.headers.id"),
-    cell: ({ row }: any) => {
-      const id = row.getValue("id");
+    cell: ({ row }) => {
+      const id = row.getValue("id") as number;
       return h(
         resolveComponent("UButton"),
         {

@@ -8,7 +8,6 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   const t = nuxtApp.$i18n.t;
   const toast = useToast();
   const { csrf } = useCsrf();
-  const config = useRuntimeConfig();
   const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null);
   const isInitialized = ref(false);
 

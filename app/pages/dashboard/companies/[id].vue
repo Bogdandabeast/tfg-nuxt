@@ -16,41 +16,30 @@ const companiesStore = useCompaniesStore();
 const { data, pending, error } = companiesStore.getCompanyById(companyId);
 
 const { t } = useI18n();
-const { deleteCompany } = useCompaniesApi();
-const toast = useToast();
 const localePath = useLocalePath();
 
 const isDeleteModalOpen = ref(false);
 const isDeleting = ref(false);
 
-type _RowData = {
-  label: string;
-  value: string | number | undefined;
-};
-
-async function handleDelete() {
-  if (isDeleting.value)
-    return; // Prevent multiple delete requests
-
-  isDeleting.value = true;
-  try {
-    const result = await deleteCompany(companyId);
-    if (result) {
-      toast.add({
-        title: t("common.success"),
-        description: t("forms.companyForm.deletedSuccess"),
-        color: "success",
-      });
-      navigateTo(localePath(ROUTES.DASHBOARD.COMPANIES));
-    }
-  }
-  finally {
-    isDeleting.value = false;
-    isDeleteModalOpen.value = false;
-  }
-}
+const menuItems = [
+  {
+    label: t("actions.edit.company"),
+    icon: "i-heroicons-pencil-square-20-solid",
+    click: () => navigateTo(`/dashboard/companies/${route.params.id}/edit`),
+  },
+  {
+    label: t("actions.delete.company"),
+    icon: "i-heroicons-trash-20-solid",
+    click: () => isDeleteModalOpen.value = true,
+  },
+];
 
 const UBadge = resolveComponent("UBadge");
+
+async function handleDelete() {
+  // TODO: Implement delete logic
+  isDeleteModalOpen.value = false;
+}
 
 const tableData = computed(() => [
   { label: t("tables.headers.id"), value: data.value?.id },
@@ -59,8 +48,8 @@ const tableData = computed(() => [
 ]);
 
 const tableColumns = [
-  { accessorKey: "label", header: t("tables.headers.field"), cell: ({ row }: { row: Record<string, any> }) => h("span", { class: "font-medium" }, row.getValue("label")) },
-  { accessorKey: "value", header: t("tables.headers.value"), cell: ({ row }: { row: Record<string, any> }) => {
+  { accessorKey: "label", header: t("tables.headers.field"), cell: ({ row }: { row: any }) => h("span", { class: "font-medium" }, row.getValue("label")) },
+  { accessorKey: "value", header: t("tables.headers.value"), cell: ({ row }: { row: any }) => {
     const label = row.original.label;
     const value = row.getValue("value");
     if (label === "ID") {
@@ -80,25 +69,14 @@ const tableColumns = [
     >
       <template #actions>
         <UColorModeButton />
-        <UDropdownMenu mode="click">
+        <UDropdownMenu :items="menuItems" mode="click">
           <UButton
             color="neutral"
             variant="soft"
             icon="i-heroicons-ellipsis-horizontal-20-solid"
             square
-            :aria-label="$t('actions.more')"
+            :aria-label="t('actions.more')"
           />
-          <template #items>
-            <UDropdownMenuItem
-              icon="i-heroicons-pencil-square-20-solid"
-              :label="$t('actions.edit.company')"
-            />
-            <UDropdownMenuItem
-              icon="i-heroicons-trash-20-solid"
-              :label="$t('actions.delete.company')"
-              @click="isDeleteModalOpen = true"
-            />
-          </template>
         </UDropdownMenu>
       </template>
     </UPageHeader>
@@ -163,7 +141,7 @@ const tableColumns = [
             variant="outline"
             size="lg"
             block
-            :to="localePath(ROUTES.DASHBOARD.COMPANIES)"
+            :to="localePath(ROUTES.COMPANIES)"
           >
             {{ t('company.viewAll') }}
           </UButton>
@@ -174,7 +152,7 @@ const tableColumns = [
             <UButton
               icon="i-heroicons-arrow-left-20-solid"
               variant="ghost"
-              :to="localePath(ROUTES.DASHBOARD.COMPANIES)"
+              :to="localePath(ROUTES.COMPANIES)"
             >
               {{ t('company.backToList') }}
             </UButton>
@@ -204,7 +182,7 @@ const tableColumns = [
           :title="$t('details.company.notFound.title')"
           :description="$t('details.company.notFound.description')"
         >
-          <UButton :to="localePath(ROUTES.DASHBOARD.COMPANIES)">
+          <UButton :to="localePath(ROUTES.COMPANIES)">
             {{ t('company.backToList') }}
           </UButton>
         </UEmpty>

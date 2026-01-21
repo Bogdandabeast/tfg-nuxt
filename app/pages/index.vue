@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppColumns from "~/components/landing/AppColumns.vue";
 import { UI_ICONS } from "~/lib/icons";
 
 const { t } = useI18n();
@@ -28,8 +29,6 @@ useSeoMeta({
       <template #top>
         <LandingHeroBackground />
       </template>
-
-      <LandingPromotionalVideo />
     </UPageHero>
 
     <UPageSection
@@ -40,22 +39,28 @@ useSeoMeta({
         <UPageCard
           :title="t('homepage.features.one.title')"
           :description="t('homepage.features.one.description')"
-          :icon="UI_ICONS.globe"
+          :icon="(UI_ICONS as any).globe"
           spotlight
         />
         <UPageCard
           :title="t('homepage.features.two.title')"
           :description="t('homepage.features.two.description')"
-          :icon="UI_ICONS.analytics"
+          :icon="(UI_ICONS as any).analytics"
           spotlight
         />
         <UPageCard
           :title="t('homepage.features.three.title')"
           :description="t('homepage.features.three.description')"
-          :icon="UI_ICONS.settings"
+          :icon="(UI_ICONS as any).settings"
           spotlight
         />
       </UPageGrid>
+    </UPageSection>
+    <UPageSection
+      title="Testimonios de nuestros clientes"
+      description="testimonios de EscorialCRM"
+    >
+      <AppColumns />
     </UPageSection>
 
     <USeparator />

@@ -50,23 +50,22 @@ const items = ref([
         <UPricingPlan
           :title="t('pricing.plans.basic.title')"
           :description="t('pricing.plans.basic.description')"
-          :icon="ENTITY_ICONS.user"
-          :price="`${isYearly === '1' ? 100 : 10}`"
+          :icon="ENTITY_ICONS.customer"
+          :price="`${isYearly === '1' ? 290 : 29}`"
           :billing-cycle="isYearly === '1' ? t('pricing.plans.yearly_cycle') : t('pricing.plans.monthly_cycle')"
           :features="[
-            t('pricing.plans.basic.features.projects'),
-            t('pricing.plans.basic.features.storage'),
-            t('pricing.plans.basic.features.support'),
-            t('pricing.plans.basic.features.custom_domain'),
-            t('pricing.plans.basic.features.ssl_certificate'),
+            t('pricing.plans.basic.features.contacts'),
+            t('pricing.plans.basic.features.users'),
+            t('pricing.plans.basic.features.companies'),
+            t('pricing.plans.basic.features.email_integration'),
+            t('pricing.plans.basic.features.basic_reporting'),
+            t('pricing.plans.basic.features.contact_management'),
+            t('pricing.plans.basic.features.notes_tasks'),
+            t('pricing.plans.basic.features.basic_support'),
+            t('pricing.plans.basic.features.mobile_app'),
+            t('pricing.plans.basic.features.data_import'),
             t('pricing.plans.basic.features.email_notifications'),
-            t('pricing.plans.basic.features.analytics_dashboard'),
-            t('pricing.plans.basic.features.community_access'),
-            t('pricing.plans.basic.features.api_access'),
-            t('pricing.plans.basic.features.daily_backups'),
-            t('pricing.plans.basic.features.priority_queue'),
-            t('pricing.plans.basic.features.multi_device_sync'),
-            t('pricing.plans.basic.features.basic_integrations'),
+            t('pricing.plans.basic.features.activity_timeline'),
           ]"
           :button-text="t('pricing.plans.basic.button')"
           button-color="primary"
@@ -75,34 +74,30 @@ const items = ref([
         <UPricingPlan
           :title="t('pricing.plans.pro.title')"
           :description="t('pricing.plans.pro.description')"
-          :icon="ENTITY_ICONS.users"
-          :price="`${isYearly === '1' ? 200 : 20}`"
+          :icon="ENTITY_ICONS.companies"
+          :price="`${isYearly === '1' ? 990 : 99}`"
           :billing-cycle="isYearly === '1' ? t('pricing.plans.yearly_cycle') : t('pricing.plans.monthly_cycle')"
           :features="[
-            t('pricing.plans.pro.features.projects'),
-            t('pricing.plans.pro.features.storage'),
-            t('pricing.plans.pro.features.support'),
-            t('pricing.plans.pro.features.dedicated_account_manager'),
-            t('pricing.plans.pro.features.custom_domain'),
-            t('pricing.plans.pro.features.ssl_certificates'),
-            t('pricing.plans.pro.features.analytics_reporting'),
-            t('pricing.plans.pro.features.team_collaboration_tools'),
-            t('pricing.plans.pro.features.role_based_access_control'),
-            t('pricing.plans.pro.features.sso'),
+            t('pricing.plans.pro.features.contacts'),
+            t('pricing.plans.pro.features.users'),
+            t('pricing.plans.pro.features.companies'),
+            t('pricing.plans.pro.features.email_campaigns'),
+            t('pricing.plans.pro.features.automation_workflows'),
+            t('pricing.plans.pro.features.advanced_analytics'),
+            t('pricing.plans.pro.features.custom_fields'),
+            t('pricing.plans.pro.features.api_access'),
+            t('pricing.plans.pro.features.priority_support'),
+            t('pricing.plans.pro.features.integrations'),
+            t('pricing.plans.pro.features.role_based_access'),
             t('pricing.plans.pro.features.audit_logs'),
-            t('pricing.plans.pro.features.api_rate_limits'),
-            t('pricing.plans.pro.features.backups'),
-            t('pricing.plans.pro.features.deployment_queue'),
-            t('pricing.plans.pro.features.multi_device_sync_offline'),
-            t('pricing.plans.pro.features.advanced_integrations'),
-            t('pricing.plans.pro.features.ai_recommendations'),
-            t('pricing.plans.pro.features.custom_branding'),
-            t('pricing.plans.pro.features.beta_access'),
-            t('pricing.plans.pro.features.uptime_sla'),
-            t('pricing.plans.pro.features.geo_redundant_infrastructure'),
-            t('pricing.plans.pro.features.advanced_security'),
-            t('pricing.plans.pro.features.vip_community_access'),
-            t('pricing.plans.pro.features.strategy_review'),
+            t('pricing.plans.pro.features.bulk_operations'),
+            t('pricing.plans.pro.features.advanced_filters'),
+            t('pricing.plans.pro.features.sales_pipeline'),
+            t('pricing.plans.pro.features.deal_tracking'),
+            t('pricing.plans.pro.features.lead_scoring'),
+            t('pricing.plans.pro.features.document_management'),
+            t('pricing.plans.pro.features.calendar_sync'),
+            t('pricing.plans.pro.features.meeting_scheduling'),
           ]"
           :button-text="t('pricing.plans.pro.button')"
           button-color="accent"
@@ -111,27 +106,6 @@ const items = ref([
         />
       </UPricingPlans>
     </UContainer>
-
-    <UPageSection>
-      <UPageLogos>
-        <UIcon
-          name="i-simple-icons-nuxtdotjs"
-          class="w-12 h-12 flex-shrink-0 text-muted"
-        />
-        <UIcon
-          name="i-simple-icons-tailwindcss"
-          class="w-12 h-12 flex-shrink-0 text-muted"
-        />
-        <UIcon
-          name="i-simple-icons-vuedotjs"
-          class="w-12 h-12 flex-shrink-0 text-muted"
-        />
-        <UIcon
-          name="i-simple-icons-github"
-          class="w-12 h-12 flex-shrink-0 text-muted"
-        />
-      </UPageLogos>
-    </UPageSection>
 
     <UPageSection
       :title="t('pricing.faq.title')"

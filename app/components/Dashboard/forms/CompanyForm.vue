@@ -64,51 +64,53 @@ async function deleteCompanyHandler() {
 </script>
 
 <template>
-  <UCard class="mb-4">
-    <template #header>
-      <h3>{{ t('forms.companyForm.createTitle') }}</h3>
-    </template>
+  <div>
+    <UCard class="mb-4">
+      <template #header>
+        <h3>{{ t('forms.companyForm.createTitle') }}</h3>
+      </template>
 
-    <div class="space-y-4">
-      <UFormField
-        :label="t('forms.companyForm.nameLabel')"
-        name="newCompanyName"
-      >
-        <UInput v-model="newCompany.name" :placeholder="t('forms.companyForm.namePlaceholder')" />
-      </UFormField>
-    </div>
+      <div class="space-y-4">
+        <UFormField
+          :label="t('forms.companyForm.nameLabel')"
+          name="newCompanyName"
+        >
+          <UInput v-model="newCompany.name" :placeholder="t('forms.companyForm.namePlaceholder')" />
+        </UFormField>
+      </div>
 
-    <template #footer>
-      <UButton :loading="props.loading" @click="createCompanyHandler">
-        {{ t('forms.companyForm.createButton') }}
-      </UButton>
-    </template>
-  </UCard>
+      <template #footer>
+        <UButton :loading="props.loading" @click="createCompanyHandler">
+          {{ t('forms.companyForm.createButton') }}
+        </UButton>
+      </template>
+    </UCard>
 
-  <UCard v-if="props.onDelete">
-    <template #header>
-      <h3>{{ t('forms.companyForm.deleteTitle') }}</h3>
-    </template>
+    <UCard v-if="props.onDelete">
+      <template #header>
+        <h3>{{ t('forms.companyForm.deleteTitle') }}</h3>
+      </template>
 
-    <div class="space-y-4">
-      <UFormField
-        :label="t('forms.companyForm.idLabel')"
-        name="companyToDeleteId"
-      >
-        <UInput v-model="companyToDelete.id" :placeholder="t('forms.companyForm.idPlaceholder')" />
-      </UFormField>
-    </div>
+      <div class="space-y-4">
+        <UFormField
+          :label="t('forms.companyForm.idLabel')"
+          name="companyToDeleteId"
+        >
+          <UInput v-model="companyToDelete.id" :placeholder="t('forms.companyForm.idPlaceholder')" />
+        </UFormField>
+      </div>
 
-    <template #footer>
-      <UButton
-        color="error"
-        :loading="props.deleteLoading"
-        @click="deleteCompanyHandler"
-      >
-        {{ t('forms.companyForm.deleteButton') }}
-      </UButton>
-    </template>
-  </UCard>
+      <template #footer>
+        <UButton
+          color="error"
+          :loading="props.deleteLoading"
+          @click="deleteCompanyHandler"
+        >
+          {{ t('forms.companyForm.deleteButton') }}
+        </UButton>
+      </template>
+    </UCard>
 
-  <FormErrorAlert :error="error" />
+    <FormErrorAlert :error="error" />
+  </div>
 </template>

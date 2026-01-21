@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import type { TableColumn } from "@nuxt/ui";
 
-import { ROUTES } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
@@ -13,19 +11,17 @@ const productsStore = useProductsStore();
 const { data, pending, error } = productsStore.getProductById(productId);
 
 const { t } = useI18n();
-const { deleteProduct } = useProductsApi();
-const toast = useToast();
-const localePath = useLocalePath();
 
 const isDeleteModalOpen = ref(false);
 
+// eslint-disable-next-line unused-imports/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const menuItems = computed(() => [
   {
     label: t("actions.edit.product"),
     icon: "i-heroicons-pencil-square-20-solid",
     onSelect: () => {
       // TODO: Implement edit functionality
-      console.log("Edit product");
     },
   },
   {
@@ -33,7 +29,6 @@ const menuItems = computed(() => [
     icon: "i-heroicons-currency-dollar-20-solid",
     onSelect: () => {
       // TODO: Implement price update functionality
-      console.log("Update price");
     },
   },
   {
@@ -44,19 +39,6 @@ const menuItems = computed(() => [
     },
   },
 ]);
-
-async function handleDelete() {
-  const result = await deleteProduct(productId);
-  if (result) {
-    toast.add({
-      title: t("common.success"),
-      description: t("forms.productForm.deletedSuccess"),
-      color: "success",
-    });
-    navigateTo(localePath(ROUTES.PRODUCTS));
-  }
-  isDeleteModalOpen.value = false;
-}
 
 const UBadge = resolveComponent("UBadge");
 
@@ -69,7 +51,7 @@ const tableData = computed(() => [
   { label: t("tables.headers.companyId"), value: data.value?.company_id },
 ]);
 
-const tableColumns: TableColumn[] = [
+const tableColumns = [
   {
     accessorKey: "label",
     header: t("tables.headers.field"),
@@ -79,7 +61,7 @@ const tableColumns: TableColumn[] = [
         td: "w-1/3",
       },
     },
-    cell: ({ row }) => h("span", { class: "font-medium text-gray-700" }, row.getValue("label")),
+    cell: ({ row }: { row: any }) => h("span", { class: "font-medium text-gray-700" }, row.getValue("label")),
   },
   {
     accessorKey: "value",
@@ -90,7 +72,7 @@ const tableColumns: TableColumn[] = [
         td: "w-2/3",
       },
     },
-    cell: ({ row }) => {
+    cell: ({ row }: { row: any }) => {
       const label = row.original.label;
       const value = row.getValue("value");
 
@@ -119,27 +101,9 @@ const tableColumns: TableColumn[] = [
     <UPageHeader
       :title="$t('details.product.title')"
       :description="$t('details.product.description', { id: productId })"
-    >
-      <UTable
-        :data="tableData"
-        :columns="tableColumns"
-        class="w-full"
-      />
-      <template #actions>
-        <UColorModeButton />
-        <UDropdownMenu :items="menuItems" mode="click">
-          <UButton
-            color="neutral"
-            variant="soft"
-            icon="i-heroicons-ellipsis-horizontal-20-solid"
-            square
-            :aria-label="$t('actions.more')"
-          />
-        </UDropdownMenu>
-      </template>
-    </UPageHeader>
+    />
 
-    <div class="space-y-6">
+    <div class="space-y-6 p-4">
       <UAlert
         v-if="error"
         color="error"

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Sale } from "~/lib/db/queries/sales";
+import type { TableColumn } from "@nuxt/ui";
 import { storeToRefs } from "pinia";
 
 definePageMeta({
@@ -35,12 +37,12 @@ const detailedSales = computed(() => {
   });
 });
 
-const columns = [
+const columns: TableColumn<Sale>[] = [
   {
     accessorKey: "id",
     header: "ID",
-    cell: ({ row }: any) => {
-      const id = row.getValue("id");
+    cell: ({ row }) => {
+      const id = row.getValue("id") as number;
       return h(
         resolveComponent("UButton"),
         {
@@ -56,7 +58,7 @@ const columns = [
   {
     accessorKey: "sale_date",
     header: t("tables.headers.date"),
-    cell: ({ row }: any) => {
+    cell: ({ row }) => {
       return new Date(row.getValue("sale_date")).toLocaleString("en-US", {
         day: "numeric",
         month: "short",
@@ -69,12 +71,12 @@ const columns = [
   {
     accessorKey: "customerName",
     header: "Customer",
-    cell: ({ row }: any) => row.getValue("customerName"),
+    cell: ({ row }) => row.getValue("customerName"),
   },
   {
     accessorKey: "productName",
     header: "Product",
-    cell: ({ row }: any) => row.getValue("productName"),
+    cell: ({ row }) => row.getValue("productName"),
   },
   {
     accessorKey: "customerName",
@@ -91,7 +93,7 @@ const columns = [
   {
     accessorKey: "amount",
     header: () => h("div", { class: "text-right" }, t("tables.headers.amount")),
-    cell: ({ row }: any) => {
+    cell: ({ row }) => {
       const amount = Number.parseFloat(row.getValue("amount"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -105,40 +107,45 @@ const columns = [
 </script>
 
 <template>
-  <UDashboardPanel class="overflow-y-auto py-12">
-    <DashboardNavBar />
-    <DashboardTableSkeleton
-      :loading="loadingSales"
-      :columns="6"
-      :rows="12"
-    >
-      <UTable
-        :data="detailedSales"
-        :columns="columns"
-        class="shrink-0"
-        :ui="{
-          base: 'table-fixed border-separate border-spacing-0',
-          thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
-          tbody: '[&>tr]:last:[&>td]:border-b-0',
-          th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
-          td: 'border-b border-default',
-        }"
-      />
-    </DashboardTableSkeleton>
-    <UModal
-      v-model:open="isCreateModalOpen"
-      :title="t('sales.create.title')"
-      :description="t('sales.create.description')"
-    >
-      <UButton
-        :label="t('sales.create.button')"
-        icon="i-heroicons-plus-20-solid"
-        color="primary"
-      />
+  <UDashboardPanel class="overflow-y-auto">
+    <div class="p-4">
+      <DashboardNavBar />
+      <DashboardTableSkeleton
+        :loading="loadingSales"
+        :columns="6"
+        :rows="12"
+      >
+        <UTable
+          :data="detailedSales"
+          :columns="columns"
+          class="shrink-0"
+          :ui="{
+            base: 'table-fixed border-separate border-spacing-0',
+            thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+            tbody: '[&>tr]:last:[&>td]:border-b-0',
+            th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
+            td: 'border-b border-default',
+          }"
+        />
+      </DashboardTableSkeleton>
+      <UModal
+        v-model:open="isCreateModalOpen"
+        :title="t('sales.create.title')"
+        :description="t('sales.create.description')"
+      >
+        <UButton
+          :label="t('sales.create.button')"
+          icon="i-heroicons-plus-20-solid"
+          color="primary"
+        />
 
-      <template #content>
-        <DashboardFormsSaleForm />
-      </template>
-    </UModal>
+        <template #content>
+          <DashboardFormsSaleForm
+            :edit-mode="false"
+            :sale-data="null"
+          />
+        </template>
+      </UModal>
+    </div>
   </UDashboardPanel>
 </template>

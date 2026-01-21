@@ -16,13 +16,19 @@ export const auth = betterAuth({
     "https://bogdanweb.dev",
     "http://localhost:3000",
   ],
-  cookies: {
-    sessionToken: {
-      secure: true,
-      sameSite: "none",
-      path: "/",
-      domain: "bogdanweb.dev",
+  advanced: {
+    cookies: {
+      session_token: {
+        name: "session_token",
+        attributes: {
+          secure: true,
+          sameSite: "none",
+          path: "/",
+          domain: "bogdanweb.dev",
+        },
+      },
     },
+    disableCSRFCheck: true,
   },
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
@@ -41,11 +47,8 @@ export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: user_schema,
-
   }),
-
   emailAndPassword: {
     enabled: true,
-
   },
 });

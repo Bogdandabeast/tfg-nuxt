@@ -47,7 +47,7 @@ export function useBreadcrumbs() {
     }
 
     if (route.params.id) {
-      const currentSection = pathSegments[1];
+      const currentSection = pathSegments[1] as keyof typeof sectionMap;
       if (currentSection && sectionMap[currentSection]) {
         items.push({
           label: t(sectionMap[currentSection].singular, { id: route.params.id }),

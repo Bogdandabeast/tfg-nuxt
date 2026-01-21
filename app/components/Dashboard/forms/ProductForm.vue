@@ -1,9 +1,26 @@
 <script setup lang="ts">
+import { ENTITY_ICONS, FEATURE_ICONS } from "~/lib/icons";
+
+import FormErrorAlert from "./FormErrorAlert.vue";
+
 const { t } = useI18n();
 const productsStore = useProductsStore();
 const companiesStore = useCompaniesStore();
 const toast = useToast();
 const { isCreateProductLoading, createProduct, isDeleteProductLoading, deleteProduct } = useProductsApi();
+
+const items = [
+  {
+    label: "Create",
+    icon: ENTITY_ICONS.product,
+    slot: "create",
+  },
+  {
+    label: "Delete",
+    icon: FEATURE_ICONS.password,
+    slot: "delete",
+  },
+];
 
 const newProduct = ref({
   name: "",
@@ -50,79 +67,81 @@ async function deleteProductHandler() {
 </script>
 
 <template>
-  <UCard class="mb-4">
-    <template #header>
-      <h3>{{ t('forms.productForm.createTitle') }}</h3>
+  <UTabs :items="items">
+    <template #create>
+      <UCard class="mb-4">
+        <template #header>
+          <h3>{{ t('forms.productForm.createTitle') }}</h3>
+        </template>
+
+        <div class="space-y-4">
+          <UFormField
+            :label="t('forms.productForm.name')"
+            name="newProductName"
+          >
+            <UInput v-model="newProduct.name" :placeholder="t('forms.productForm.namePlaceholder')" />
+          </UFormField>
+
+          <UFormField
+            :label="t('forms.productForm.description')"
+            name="newProductDescription"
+          >
+            <UInput v-model="newProduct.description" :placeholder="t('forms.productForm.descriptionPlaceholder')" />
+          </UFormField>
+
+          <UFormField
+            :label="t('forms.productForm.price')"
+            name="newProductPrice"
+          >
+            <UInput
+              v-model="newProduct.price"
+              :placeholder="t('forms.productForm.pricePlaceholder')"
+              type="number"
+            />
+          </UFormField>
+
+          <UFormField
+            :label="t('forms.productForm.stock')"
+            name="newProductStock"
+          >
+            <UInput
+              v-model.number="newProduct.stock"
+              :placeholder="t('forms.productForm.stockPlaceholder')"
+              type="number"
+            />
+          </UFormField>
+        </div>
+
+        <template #footer>
+          <UButton :loading="isCreateProductLoading" @click="createProductHandler">
+            {{ t('forms.productForm.create') }}
+          </UButton>
+        </template>
+      </UCard>
     </template>
+    <template #delete>
+      <UCard>
+        <template #header>
+          <h3>{{ t('forms.productForm.deleteTitle') }}</h3>
+        </template>
 
-    <div class="space-y-4">
-      <UFormField
-        :label="t('forms.productForm.name')"
-        name="newProductName"
-      >
-        <UInput v-model="newProduct.name" :placeholder="t('forms.productForm.namePlaceholder')" />
-      </UFormField>
+        <UFormField
+          :label="t('forms.productForm.id')"
+          name="productToDeleteId"
+          class="mb-4"
+        >
+          <UInput v-model="productToDeleteId" :placeholder="t('forms.productForm.idPlaceholder')" />
+        </UFormField>
 
-      <UFormField
-        :label="t('forms.productForm.description')"
-        name="newProductDescription"
-      >
-        <UInput v-model="newProduct.description" :placeholder="t('forms.productForm.descriptionPlaceholder')" />
-      </UFormField>
-
-      <UFormField
-        :label="t('forms.productForm.price')"
-        name="newProductPrice"
-      >
-        <UInput
-          v-model="newProduct.price"
-          :placeholder="t('forms.productForm.pricePlaceholder')"
-          type="number"
-        />
-      </UFormField>
-
-      <UFormField
-        :label="t('forms.productForm.stock')"
-        name="newProductStock"
-      >
-        <UInput
-          v-model.number="newProduct.stock"
-          :placeholder="t('forms.productForm.stockPlaceholder')"
-          type="number"
-        />
-      </UFormField>
-    </div>
-
-    <template #footer>
-      <UButton :loading="isCreateProductLoading" @click="createProductHandler">
-        {{ t('forms.productForm.create') }}
-      </UButton>
+        <UButton
+          color="primary"
+          :loading="isDeleteProductLoading"
+          @click="deleteProductHandler"
+        >
+          {{ t('forms.productForm.delete') }}
+        </UButton>
+      </UCard>
     </template>
-  </UCard>
-
-  <UCard>
-    <template #header>
-      <h3>{{ t('forms.productForm.deleteTitle') }}</h3>
-    </template>
-
-    <UFormField
-      :label="t('forms.productForm.id')"
-      name="productToDeleteId"
-      class="mb-4"
-    >
-      <UInput v-model="productToDeleteId" :placeholder="t('forms.productForm.idPlaceholder')" />
-    </UFormField>
-
-    <UButton
-      color="primary"
-      :loading="isDeleteProductLoading"
-      @click="deleteProductHandler"
-    >
-      {{ t('forms.productForm.delete') }}
-    </UButton>
-  </UCard>
-
-  <div v-if="error" class="mt-4 text-red-500">
-    {{ error }}
-  </div>
+    <FormErrorAlert :error="error" />
+  </UTabs>
 </template>

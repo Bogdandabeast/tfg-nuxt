@@ -2,6 +2,9 @@
 import type { Customer } from "~~/lib/db/queries/customers";
 import type { Product } from "~~/lib/db/queries/products";
 import { storeToRefs } from "pinia";
+import { ENTITY_ICONS, FEATURE_ICONS } from "~/lib/icons";
+
+import FormErrorAlert from "./FormErrorAlert.vue";
 
 type SaleData = {
   id: number;
@@ -27,6 +30,19 @@ const { isCreateSaleLoading, createSale, isDeleteSaleLoading, deleteSale } = use
 
 const { customers } = storeToRefs(customersStore);
 const { products } = storeToRefs(productsStore);
+
+const items = [
+  {
+    label: "Create",
+    icon: ENTITY_ICONS.sale,
+    slot: "create",
+  },
+  {
+    label: "Delete",
+    icon: FEATURE_ICONS.password,
+    slot: "delete",
+  },
+];
 
 const newSale = reactive({
   customer_id: undefined as number | undefined,
@@ -104,69 +120,71 @@ async function deleteSaleHandler() {
 </script>
 
 <template>
-  <UCard class="mb-4">
-    <template #header>
-      <h3>{{ t('forms.saleForm.createTitle') }}</h3>
+  <UTabs :items="items">
+    <template #create>
+      <UCard class="mb-4">
+        <template #header>
+          <h3>{{ t('forms.saleForm.createTitle') }}</h3>
+        </template>
+
+        <div class="space-y-4">
+          <UFormField :label="t('forms.saleForm.customerLabel')" name="saleCustomer">
+            <USelect
+              v-model="newSale.customer_id"
+              :items="customerOptions"
+              option-attribute="value"
+              :placeholder="t('forms.selectCustomer')"
+            />
+          </UFormField>
+
+          <UFormField :label="t('forms.saleForm.productLabel')" name="saleProduct">
+            <USelect
+              v-model="newSale.product_id"
+              :items="productOptions"
+              option-attribute="value"
+              :placeholder="t('forms.saleForm.productPlaceholder')"
+            />
+          </UFormField>
+
+          <UFormField :label="t('forms.saleForm.quantity')" name="saleQuantity">
+            <UInput
+              v-model.number="newSale.quantity"
+              type="number"
+              :min="1"
+            />
+          </UFormField>
+        </div>
+
+        <template #footer>
+          <UButton :loading="isCreateSaleLoading" @click="createSaleHandler">
+            {{ t('forms.saleForm.createButton') }}
+          </UButton>
+        </template>
+      </UCard>
     </template>
+    <template #delete>
+      <UCard>
+        <template #header>
+          <h3>{{ t('forms.saleForm.deleteTitle') }}</h3>
+        </template>
 
-    <div class="space-y-4">
-      <UFormField :label="t('forms.saleForm.customerLabel')" name="saleCustomer">
-        <USelect
-          v-model="newSale.customer_id"
-          :items="customerOptions"
-          option-attribute="value"
-          :placeholder="t('forms.selectCustomer')"
-        />
-      </UFormField>
+        <UFormField
+          :label="t('forms.saleForm.idLabel')"
+          name="saleToDeleteId"
+          class="mb-4"
+        >
+          <UInput v-model="saleToDeleteId" :placeholder="t('forms.saleForm.idPlaceholder')" />
+        </UFormField>
 
-      <UFormField :label="t('forms.saleForm.productLabel')" name="saleProduct">
-        <USelect
-          v-model="newSale.product_id"
-          :items="productOptions"
-          option-attribute="value"
-          :placeholder="t('forms.saleForm.productPlaceholder')"
-        />
-      </UFormField>
-
-      <UFormField :label="t('forms.saleForm.quantity')" name="saleQuantity">
-        <UInput
-          v-model.number="newSale.quantity"
-          type="number"
-          :min="1"
-        />
-      </UFormField>
-    </div>
-
-    <template #footer>
-      <UButton :loading="isCreateSaleLoading" @click="createSaleHandler">
-        {{ t('forms.saleForm.createButton') }}
-      </UButton>
+        <UButton
+          color="error"
+          :loading="isDeleteSaleLoading"
+          @click="deleteSaleHandler"
+        >
+          {{ t('forms.saleForm.deleteButton') }}
+        </UButton>
+      </UCard>
     </template>
-  </UCard>
-
-  <UCard>
-    <template #header>
-      <h3>{{ t('forms.saleForm.deleteTitle') }}</h3>
-    </template>
-
-    <UFormField
-      :label="t('forms.saleForm.idLabel')"
-      name="saleToDeleteId"
-      class="mb-4"
-    >
-      <UInput v-model="saleToDeleteId" :placeholder="t('forms.saleForm.idPlaceholder')" />
-    </UFormField>
-
-    <UButton
-      color="secondary"
-      :loading="isDeleteSaleLoading"
-      @click="deleteSaleHandler"
-    >
-      {{ t('forms.saleForm.deleteButton') }}
-    </UButton>
-  </UCard>
-
-  <div v-if="error" class="mt-4 text-red-500">
-    {{ error }}
-  </div>
+    <FormErrorAlert :error="error" />
+  </UTabs>
 </template>

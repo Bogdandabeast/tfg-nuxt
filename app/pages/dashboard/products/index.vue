@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Product } from "~/lib/db/queries/products";
 import type { TableColumn } from "@nuxt/ui";
 import { storeToRefs } from "pinia";
 import { getProductPath } from "~/utils/routes";
@@ -21,12 +22,12 @@ const { products, pending: loadingProducts } = storeToRefs(productsStore);
 
 const isCreateModalOpen = ref(false);
 
-const columns: TableColumn[] = [
+const columns: TableColumn<Product>[] = [
   {
     accessorKey: "id",
     header: "ID",
-    cell: ({ row }: any) => {
-      const id = row.getValue("id");
+    cell: ({ row }) => {
+      const id = row.getValue("id") as number;
       return h(
         resolveComponent("UButton"),
         {
@@ -46,7 +47,7 @@ const columns: TableColumn[] = [
   {
     accessorKey: "price",
     header: t("tables.headers.price"),
-    cell: ({ row }: any) => `€${row.getValue("price")}`,
+    cell: ({ row }) => `€${row.getValue("price")}`,
   },
   {
     accessorKey: "stock",
@@ -58,8 +59,8 @@ const columns: TableColumn[] = [
 
 <template>
   <UDashboardPanel class="overflow-y-auto">
-    <div class="m-5">
-      <DashboardNavbar />
+    <div class="p-4">
+      <DashboardNavBar />
       <DashboardTableSkeleton
         :loading="loadingProducts"
         :columns="4"
@@ -80,11 +81,11 @@ const columns: TableColumn[] = [
       </DashboardTableSkeleton>
       <UModal
         v-model:open="isCreateModalOpen"
-        :title="t('products.create.title')"
-        :description="t('products.create.description')"
+        :title="t('dashboard.products.create.title')"
+        :description="t('dashboard.products.create.description')"
       >
         <UButton
-          :label="t('products.create.button')"
+          :label="t('dashboard.products.create.button')"
           icon="i-heroicons-plus-20-solid"
           color="primary"
         />

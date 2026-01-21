@@ -1,5 +1,3 @@
-type IconName = `lucide:${string}`;
-type IconConfig = Record<string, IconName>;
 
 export const NAVIGATION_ICONS = {
   home: "lucide:home",

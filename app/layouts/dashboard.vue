@@ -9,7 +9,6 @@ import { NAVIGATION_ICONS } from "~/lib/icons";
 const { t } = useI18n();
 const toast = useToast();
 const localePath = useLocalePath();
-const breadcrumps = useBreadcrumbs();
 
 const open = ref(false);
 
@@ -63,14 +62,6 @@ const links = [
   ],
 
 ] satisfies NavigationMenuItem[][];
-
-const groups = computed(() => [
-  {
-    id: "links",
-    label: t("navigation.goTo"),
-    items: links.flat(),
-  },
-]);
 
 onMounted(async () => {
   const cookie = useCookie("cookie-consent");

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UI_ICONS } from "~/lib/icons";
+import { UI_ICONS, FEATURE_ICONS } from "~/lib/icons";
 
 const { t } = useI18n();
 
@@ -21,7 +21,7 @@ const accordionItems = [{
   content: t("terms.accordion.service_usage.content"),
 }, {
   label: t("terms.accordion.privacy.label"),
-  icon: UI_ICONS.security,
+  icon: FEATURE_ICONS.security,
   content: t("terms.accordion.privacy.content"),
 }, {
   label: t("terms.accordion.limitations.label"),

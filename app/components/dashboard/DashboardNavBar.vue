@@ -6,6 +6,7 @@ const { breadcrumbItems } = useBreadcrumbs();
   <UDashboardNavbar>
     <template #leading>
       <UDashboardSidebarCollapse />
+      <UBreadcrumb :items="breadcrumbItems" class="px-4 py-2" />
     </template>
 
     <template #right>
@@ -15,6 +16,4 @@ const { breadcrumbItems } = useBreadcrumbs();
       </UTooltip>
     </template>
   </UDashboardNavbar>
-
-  <UBreadcrumb :items="breadcrumbItems" class="px-4 py-2 border-b border-gray-200 dark:border-gray-700" />
 </template>
