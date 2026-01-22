@@ -45,6 +45,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         name,
         email,
         password,
+        callbackURL: useLocalePath()(ROUTES.DASHBOARD),
         fetchOptions: {
           headers,
         },
@@ -63,8 +64,6 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         description: t("signup.toast.success.description"),
         color: "success",
       });
-
-      return navigateTo(useLocalePath()(ROUTES.DASHBOARD));
     }
     finally {
       isSigningUp.value = false;
@@ -83,6 +82,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         email,
         password,
         rememberMe,
+        callbackURL: useLocalePath()(ROUTES.DASHBOARD),
         fetchOptions: {
           headers,
         },
@@ -100,7 +100,6 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         description: t("login.toast.success.description"),
         color: "success",
       });
-      return navigateTo(useLocalePath()(ROUTES.DASHBOARD));
     }
     finally {
       isSigningIn.value = false;
