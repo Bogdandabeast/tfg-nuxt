@@ -1,4 +1,5 @@
 import { createCompany } from "~~/lib/db/queries/company";
+import { logError } from "~~/server/utils/background";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { handleError } from "~~/utils/error-handler";
 import { companyCreateSchema } from "~~/utils/schemas/companies";
@@ -24,6 +25,8 @@ export default defineAuthenticatedEventHandler(async (event) => {
     return newCompany;
   }
   catch (error) {
+    // Log error in background to prevent blocking response
+    event.waitUntil(logError(error, "companies.post"));
     throw handleError(error, { route: "companies.post", user: event.context.user?.id });
   }
 });

@@ -35,7 +35,7 @@ export function handleError(error: unknown, context?: Record<string, unknown>): 
 
   if (error !== null && typeof error === "object" && "name" in error && error.name === "ZodError" && "errors" in error) {
     const zodError = error as { errors: unknown };
-    console.warn("Validation error:", zodError.errors, context);
+    // Logging moved to background in routes
     throw createError({
       statusCode: 400,
       statusMessage: "Validation Error",
@@ -49,7 +49,7 @@ export function handleError(error: unknown, context?: Record<string, unknown>): 
 
   if (errorWithCode?.code) {
     if (errorWithCode.code === "23505") {
-      console.warn("Database unique violation:", errorWithCode.message, context);
+      // Logging moved to background in routes
       throw createError({
         statusCode: 409,
         statusMessage: "Conflict",
@@ -58,14 +58,14 @@ export function handleError(error: unknown, context?: Record<string, unknown>): 
     }
     if (errorWithCode.code === "23503") {
       if (typeof context?.route === "string" && context.route.includes(".delete")) {
-        console.warn("Cannot delete entity due to foreign key constraint:", errorWithCode.message, context);
+        // Logging moved to background in routes
         throw createError({
           statusCode: 409,
           statusMessage: "Conflict",
           data: "errors.cannotDeleteInUse",
         });
       }
-      console.warn("Database foreign key violation:", errorWithCode.message, context);
+      // Logging moved to background in routes
       throw createError({
         statusCode: 400,
         statusMessage: "Bad Request",
@@ -74,10 +74,7 @@ export function handleError(error: unknown, context?: Record<string, unknown>): 
     }
   }
 
-  const errorMessage = error instanceof Error ? error.message : String(error);
-  const errorStack = error instanceof Error ? error.stack : undefined;
-  console.error("Unhandled server error:", errorMessage, errorStack, context);
-
+  // Logging moved to background in routes
   throw createError({
     statusCode: 500,
     statusMessage: "Internal Server Error",
