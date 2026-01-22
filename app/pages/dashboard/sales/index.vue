@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Sale } from "~/lib/db/queries/sales";
-import type { TableColumn } from "@nuxt/ui";
 import { storeToRefs } from "pinia";
 
 definePageMeta({
@@ -37,12 +35,12 @@ const detailedSales = computed(() => {
   });
 });
 
-const columns: TableColumn<Sale>[] = [
+const columns = [
   {
     accessorKey: "id",
     header: "ID",
-    cell: ({ row }) => {
-      const id = row.getValue("id") as number;
+    cell: ({ row }: { row: unknown }) => {
+      const id = (row as any).getValue("id");
       return h(
         resolveComponent("UButton"),
         {
@@ -58,8 +56,8 @@ const columns: TableColumn<Sale>[] = [
   {
     accessorKey: "sale_date",
     header: t("tables.headers.date"),
-    cell: ({ row }) => {
-      return new Date(row.getValue("sale_date")).toLocaleString("en-US", {
+    cell: ({ row }: { row: unknown }) => {
+      return new Date((row as any).getValue("sale_date")).toLocaleString("en-US", {
         day: "numeric",
         month: "short",
         hour: "2-digit",
@@ -71,12 +69,12 @@ const columns: TableColumn<Sale>[] = [
   {
     accessorKey: "customerName",
     header: "Customer",
-    cell: ({ row }) => row.getValue("customerName"),
+    cell: ({ row }: { row: unknown }) => (row as any).getValue("customerName"),
   },
   {
     accessorKey: "productName",
     header: "Product",
-    cell: ({ row }) => row.getValue("productName"),
+    cell: ({ row }: { row: unknown }) => (row as any).getValue("productName"),
   },
   {
     accessorKey: "customerName",
@@ -93,8 +91,8 @@ const columns: TableColumn<Sale>[] = [
   {
     accessorKey: "amount",
     header: () => h("div", { class: "text-right" }, t("tables.headers.amount")),
-    cell: ({ row }) => {
-      const amount = Number.parseFloat(row.getValue("amount"));
+    cell: ({ row }: { row: unknown }) => {
+      const amount = Number.parseFloat((row as any).getValue("amount"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "EUR",

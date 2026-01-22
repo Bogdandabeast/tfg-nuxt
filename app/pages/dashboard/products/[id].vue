@@ -1,6 +1,4 @@
 <script setup lang="ts">
-
-
 definePageMeta({
   layout: "dashboard",
 });
@@ -14,8 +12,7 @@ const { t } = useI18n();
 
 const isDeleteModalOpen = ref(false);
 
-// eslint-disable-next-line unused-imports/no-unused-vars
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+/* eslint-disable unused-imports/no-unused-vars */
 const menuItems = computed(() => [
   {
     label: t("actions.edit.product"),
@@ -39,6 +36,7 @@ const menuItems = computed(() => [
     },
   },
 ]);
+/* eslint-enable unused-imports/no-unused-vars */
 
 const UBadge = resolveComponent("UBadge");
 
@@ -61,7 +59,7 @@ const tableColumns = [
         td: "w-1/3",
       },
     },
-    cell: ({ row }: { row: any }) => h("span", { class: "font-medium text-gray-700" }, row.getValue("label")),
+    cell: ({ row }: { row: unknown }) => h("span", { class: "font-medium text-gray-700" }, (row as any).getValue("label")),
   },
   {
     accessorKey: "value",
@@ -72,9 +70,9 @@ const tableColumns = [
         td: "w-2/3",
       },
     },
-    cell: ({ row }: { row: any }) => {
-      const label = row.original.label;
-      const value = row.getValue("value");
+    cell: ({ row }: { row: unknown }) => {
+      const label = (row as any).original.label;
+      const value = (row as any).getValue("value");
 
       if (value == null || value === "") {
         return "N/A";

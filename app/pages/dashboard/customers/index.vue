@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Customer } from "~/lib/db/queries/customers";
 import type { TableColumn } from "@nuxt/ui";
+import type { Customer } from "~~/lib/db/queries/customers";
 import { storeToRefs } from "pinia";
 import { getCustomerPath } from "~/utils/routes";
 

@@ -398,11 +398,6 @@
       "createdSuccess": "¡Venta creada exitosamente!",
       "idInvalid": "Por favor, ingresa un ID de Venta válido para eliminar.",
       "deletedSuccess": "¡Venta eliminada exitosamente!"
-    },
-    "create": {
-      "title": "Crear Venta",
-      "description": "Formulario para registrar una nueva venta",
-      "button": "Nueva Venta"
     }
   },
   "navigation": {

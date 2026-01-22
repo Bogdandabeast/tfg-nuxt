@@ -25,7 +25,7 @@ export default defineNuxtConfig({
   ],
   vite: {
 
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss()] as any,
   },
   css: ["~/assets/css/main.css"],
   eslint: {
@@ -49,18 +49,11 @@ export default defineNuxtConfig({
     "/api/**": {
       cors: true,
     },
-    "/**": {
-      headers: {
-        "X-Frame-Options": "DENY",
-        "X-Content-Type-Options": "nosniff",
-        "Referrer-Policy": "strict-origin-when-cross-origin",
-        "Permissions-Policy": "geolocation=(), microphone=(), camera=()",
-      },
-    },
   },
   i18n: {
     strategy: "prefix",
     defaultLocale: "es",
+    langDir: "locales",
     locales: [
       { code: "en", name: "English", file: "en.json" },
       { code: "es", name: "Español", file: "es.json" },

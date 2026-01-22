@@ -4,7 +4,7 @@
     "success": "Success"
   },
   "homepage": {
-    "title": "Welcome to EscorialCRM",
+    "title": "EscorialCRM",
     "description": "EscorialCRM is your simple yet powerful solution to manage companies, products, clients, and sales all in one place.",
     "get_started_button": "Get Started",
     "features": {
@@ -403,11 +403,6 @@
       "createdSuccess": "Sale created successfully!",
       "idInvalid": "Please enter a valid Sale ID to delete.",
       "deletedSuccess": "Sale deleted successfully!"
-    },
-    "create": {
-      "title": "Create Sale",
-      "description": "Form to register a new sale",
-      "button": "New Sale"
     }
   },
   "navigation": {

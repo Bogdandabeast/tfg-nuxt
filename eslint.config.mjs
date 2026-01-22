@@ -32,7 +32,6 @@ export default withNuxt(
         ],
         "ts/no-redeclare": "off",
         "ts/consistent-type-definitions": ["error", "type"],
-        "@typescript-eslint/no-explicit-any": "error",
         "no-console": ["warn"],
         "antfu/no-top-level-await": ["off"],
         "node/prefer-global/process": ["off"],

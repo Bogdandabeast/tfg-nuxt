@@ -1,4 +1,3 @@
-
 export const NAVIGATION_ICONS = {
   home: "lucide:home",
   dashboard: "lucide:layout-dashboard",

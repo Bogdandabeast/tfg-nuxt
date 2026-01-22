@@ -14,7 +14,7 @@ const { t } = useI18n();
 
 const isDeleteModalOpen = ref(false);
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+/* eslint-disable unused-imports/no-unused-vars */
 const menuItems = computed(() => [
   {
     label: t("actions.edit.customer"),
@@ -34,6 +34,7 @@ const menuItems = computed(() => [
     },
   },
 ]);
+/* eslint-enable unused-imports/no-unused-vars */
 
 const UBadge = resolveComponent("UBadge");
 
@@ -50,15 +51,15 @@ const tableColumns = [
   {
     accessorKey: "label",
     header: t("tables.headers.field"),
-    cell: ({ row }: { row: any }) =>
-      h("span", { class: "font-medium" }, row.getValue("label")),
+    cell: ({ row }: { row: unknown }) =>
+      h("span", { class: "font-medium" }, (row as any).getValue("label")),
   },
   {
     accessorKey: "value",
     header: t("tables.headers.value"),
-    cell: ({ row }: { row: any }) => {
-      const label = row.original.label;
-      const value = row.getValue("value");
+    cell: ({ row }: { row: unknown }) => {
+      const label = (row as any).original.label;
+      const value = (row as any).getValue("value");
 
       if (label === "ID") {
         return h(UBadge, { color: "primary", variant: "soft" }, () => String(value));

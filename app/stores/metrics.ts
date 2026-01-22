@@ -1,10 +1,11 @@
+import type { Product } from "~~/lib/db/queries/products";
 import { defineStore } from "pinia";
 
 type DashboardMetricsResponse = {
   revenue: { total: number; error?: string };
   customers: { total: number; new: number; error?: string };
-  sales: { averageTicket: number; byPeriod: any[]; totalCount: number; error?: string };
-  products: { topSelling: any[]; error?: string };
+  sales: { averageTicket: number; byPeriod: unknown[]; totalCount: number; error?: string };
+  products: { topSelling: Product[]; error?: string };
   meta?: {
     companyId: number;
     period: string;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UI_ICONS, FEATURE_ICONS } from "~/lib/icons";
+import { FEATURE_ICONS, UI_ICONS } from "~/lib/icons";
 
 const { t } = useI18n();
 

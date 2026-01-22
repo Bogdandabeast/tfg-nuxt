@@ -48,10 +48,11 @@ const tableData = computed(() => [
 ]);
 
 const tableColumns = [
-  { accessorKey: "label", header: t("tables.headers.field"), cell: ({ row }: { row: any }) => h("span", { class: "font-medium" }, row.getValue("label")) },
-  { accessorKey: "value", header: t("tables.headers.value"), cell: ({ row }: { row: any }) => {
-    const label = row.original.label;
-    const value = row.getValue("value");
+  { accessorKey: "label", header: t("tables.headers.field"), cell: ({ row }: { row: unknown }) => h("span", { class: "font-medium" }, (row as any).getValue("label")) },
+  { accessorKey: "value", header: t("tables.headers.value"), cell: ({ row }: { row: unknown }) => {
+    const label = (row as any).original.label;
+
+    const value = (row as any).getValue("value");
     if (label === "ID") {
       return h(UBadge, { color: "primary", variant: "soft" }, () => value);
     }

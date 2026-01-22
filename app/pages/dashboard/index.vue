@@ -106,6 +106,7 @@ watch(() => companiesStore.currentCompany?.id, async (newCompanyId, oldCompanyId
         });
       }
     }
+    // eslint-disable-next-line unused-imports/no-unused-vars
     catch (error) {
       toast.add({
         title: t("common.error"),

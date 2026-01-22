@@ -64,9 +64,15 @@ export async function getTopSellingProducts(userCompanyIds: number[], limit: num
 export async function getSalesByPeriod(userCompanyIds: number[], period: "daily" | "weekly" | "monthly") {
   let dateFormat: string;
   switch (period) {
-    case "daily": dateFormat = "DATE(sale_date)"; break;
-    case "weekly": dateFormat = "DATE_TRUNC('week', sale_date)"; break;
-    case "monthly": dateFormat = "DATE_TRUNC('month', sale_date)"; break;
+    case "daily":
+      dateFormat = "DATE(sale_date)";
+      break;
+    case "weekly":
+      dateFormat = "DATE_TRUNC('week', sale_date)";
+      break;
+    case "monthly":
+      dateFormat = "DATE_TRUNC('month', sale_date)";
+      break;
   }
 
   return await db

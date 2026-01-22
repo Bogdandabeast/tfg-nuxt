@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Product } from "~/lib/db/queries/products";
-import type { TableColumn } from "@nuxt/ui";
 import { storeToRefs } from "pinia";
 import { getProductPath } from "~/utils/routes";
 
@@ -22,12 +20,12 @@ const { products, pending: loadingProducts } = storeToRefs(productsStore);
 
 const isCreateModalOpen = ref(false);
 
-const columns: TableColumn<Product>[] = [
+const columns = [
   {
     accessorKey: "id",
     header: "ID",
-    cell: ({ row }) => {
-      const id = row.getValue("id") as number;
+    cell: ({ row }: { row: unknown }) => {
+      const id = (row as any).getValue("id");
       return h(
         resolveComponent("UButton"),
         {
@@ -47,7 +45,7 @@ const columns: TableColumn<Product>[] = [
   {
     accessorKey: "price",
     header: t("tables.headers.price"),
-    cell: ({ row }) => `€${row.getValue("price")}`,
+    cell: ({ row }: { row: unknown }) => `€${(row as any).getValue("price")}`,
   },
   {
     accessorKey: "stock",

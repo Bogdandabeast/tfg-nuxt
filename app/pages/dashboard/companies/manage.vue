@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import type { TableColumn } from "@nuxt/ui";
-import type { Company } from "~/lib/db/queries/companies";
+import type { Company } from "~~/lib/db/queries/companies";
+import { storeToRefs } from "pinia";
 import CompanyForm from "~~/app/components/Dashboard/forms/CompanyForm.vue";
 import { useCompaniesStore } from "~~/app/stores/companies";
 import { getCompanyPath } from "~/utils/routes";
@@ -93,8 +93,8 @@ const columns: TableColumn<Company>[] = [
   {
     accessorKey: "actions",
     header: t("tables.headers.actions"),
-    cell: ({ row }: any) => {
-      const companyId = row.getValue("id");
+    cell: ({ row }: { row: unknown }) => {
+      const companyId = (row as any).getValue("id");
       return h("div", { class: "flex gap-2" }, [
         h(
           resolveComponent("UButton"),

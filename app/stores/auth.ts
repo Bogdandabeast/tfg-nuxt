@@ -55,6 +55,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
           description: t("signup.toast.error.description"),
           color: "error",
         });
+
         return;
       }
       toast.add({
@@ -62,7 +63,8 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         description: t("signup.toast.success.description"),
         color: "success",
       });
-      navigateTo(useLocalePath()(ROUTES.DASHBOARD));
+
+      return navigateTo(useLocalePath()(ROUTES.DASHBOARD));
     }
     finally {
       isSigningUp.value = false;
@@ -98,7 +100,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         description: t("login.toast.success.description"),
         color: "success",
       });
-      navigateTo(useLocalePath()(ROUTES.DASHBOARD));
+      return navigateTo(useLocalePath()(ROUTES.DASHBOARD));
     }
     finally {
       isSigningIn.value = false;

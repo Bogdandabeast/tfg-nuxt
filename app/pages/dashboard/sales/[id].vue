@@ -1,6 +1,4 @@
 <script setup lang="ts">
-
-
 definePageMeta({
   layout: "dashboard",
 });
@@ -72,15 +70,15 @@ const tableColumns = [
   {
     accessorKey: "label",
     header: t("tables.headers.field"),
-    cell: ({ row }: { row: any }) =>
-      h("span", { class: "font-medium" }, row.getValue("label")),
+    cell: ({ row }: { row: unknown }) =>
+      h("span", { class: "font-medium" }, (row as any).getValue("label")),
   },
   {
     accessorKey: "value",
     header: t("tables.headers.value"),
-    cell: ({ row }: { row: any }) => {
-      const label = row.original.label;
-      const value = row.getValue("value");
+    cell: ({ row }: { row: unknown }) => {
+      const label = (row as any).original.label;
+      const value = (row as any).getValue("value");
 
       // Manejar valores vacíos
       if (value == null || value === "") {

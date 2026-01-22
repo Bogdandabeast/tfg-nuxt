@@ -398,11 +398,6 @@
       "createdSuccess": "Sale created successfully!",
       "idInvalid": "Please enter a valid Sale ID to delete.",
       "deletedSuccess": "Sale deleted successfully!"
-    },
-    "create": {
-      "title": "Create Sale",
-      "description": "Form to register a new sale",
-      "button": "New Sale"
     }
   },
   "navigation": {

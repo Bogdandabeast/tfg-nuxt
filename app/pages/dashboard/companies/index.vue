@@ -47,7 +47,7 @@ function selectCompany(company: any) {
         navigateTo(useLocalePath()(ROUTES.DASHBOARD));
       }
     }
-    catch (error) {
+    catch {
       // Manejar errores de decodeURIComponent
       console.warn("Invalid redirect URL, falling back to dashboard:", redirectTo);
       navigateTo(useLocalePath()(ROUTES.DASHBOARD));
