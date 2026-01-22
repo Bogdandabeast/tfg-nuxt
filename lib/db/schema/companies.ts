@@ -11,7 +11,9 @@ import { user } from "./auth";
 
 export const companiesTable = pgTable("companies", {
   id: serial("id").primaryKey(),
-  user_id: text("user_id").references(() => user.id),
+  user_id: text("user_id").references(() => user.id, {
+    onDelete: "cascade",
+  }),
   name: text("name").notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
   updated_at: timestamp("updated_at")
