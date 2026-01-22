@@ -7,7 +7,7 @@ type SendEmail = {
   html?: string;
 };
 
-export async function sendEmail(data: SendEmail) {
+export async function SendEmail(data: SendEmail) {
   const apiRoute = process.env.RESEND_API;
   const apiKey = process.env.RESEND_API_KEY;
 
