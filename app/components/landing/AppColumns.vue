@@ -1,15 +1,17 @@
 <script setup lang="ts">
-const testimonials = ref([
+const { t } = useI18n();
+
+const computedTestimonials = computed(() => [
   {
     user: {
-      name: "Laura Méndez",
-      description: "Head of Sales en FinanciaPro",
+      name: t("testimonial.laura.name"),
+      description: t("testimonial.laura.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/women/44.jpg",
-        alt: "Laura Méndez",
+        alt: t("testimonial.laura.alt"),
       },
     },
-    quote: "EscorialCRM nos permitió centralizar todo el ciclo comercial en una sola herramienta. El equipo vende más y con menos fricción.",
+    quote: t("testimonial.laura.quote"),
   },
   {
     user: {
@@ -138,8 +140,8 @@ const testimonials = ref([
 <template>
   <UPageColumns>
     <UPageCard
-      v-for="(testimonial, index) in testimonials"
-      :key="index"
+      v-for="testimonial in computedTestimonials"
+      :key="testimonial.user.name"
       variant="subtle"
       :description="testimonial.quote"
       :ui="{ description: 'before:content-[open-quote] after:content-[close-quote]' }"
@@ -150,3 +152,6 @@ const testimonials = ref([
     </UPageCard>
   </UPageColumns>
 </template>
+
+<style scoped>
+</style>

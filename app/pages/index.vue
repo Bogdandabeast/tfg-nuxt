@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import AppColumns from "~/components/landing/AppColumns.vue";
-import { UI_ICONS } from "~/lib/icons";
+import { FEATURE_ICONS, UI_ICONS } from "~/lib/icons";
+
+const LazyAppColumns = defineAsyncComponent(() => import("~/components/landing/AppColumns.vue"));
 
 const { t } = useI18n();
 const localePath = useLocalePath();
@@ -45,22 +46,22 @@ useSeoMeta({
         <UPageCard
           :title="t('homepage.features.two.title')"
           :description="t('homepage.features.two.description')"
-          :icon="(UI_ICONS as any).analytics"
+          :icon="FEATURE_ICONS.analytics"
           spotlight
         />
         <UPageCard
           :title="t('homepage.features.three.title')"
           :description="t('homepage.features.three.description')"
-          :icon="(UI_ICONS as any).settings"
+          :icon="UI_ICONS.settings"
           spotlight
         />
       </UPageGrid>
     </UPageSection>
     <UPageSection
-      title="Testimonios de nuestros clientes"
-      description="testimonios de EscorialCRM"
+      :title="t('homepage.testimonials.title')"
+      :description="t('homepage.testimonials.description')"
     >
-      <AppColumns />
+      <LazyAppColumns />
     </UPageSection>
 
     <USeparator />

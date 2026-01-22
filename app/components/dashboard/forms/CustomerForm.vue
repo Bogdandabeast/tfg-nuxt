@@ -9,18 +9,18 @@ const companiesStore = useCompaniesStore();
 const toast = useToast();
 const { isCreateCustomerLoading, createCustomer, isDeleteCustomerLoading, deleteCustomer } = useCustomersApi();
 
-const items = [
+const items = computed(() => [
   {
-    label: "Account",
+    label: t("account"),
     icon: ENTITY_ICONS.user,
     slot: "account",
   },
   {
-    label: "Password",
+    label: t("password"),
     icon: FEATURE_ICONS.password,
     slot: "password",
   },
-];
+]);
 
 const newCustomer = ref({
   name: "",
@@ -137,6 +137,6 @@ async function deleteCustomerHandler() {
         </UButton>
       </UCard>
     </template>
-    <FormErrorAlert :error="error" />
   </UTabs>
+  <FormErrorAlert :error="error" />
 </template>

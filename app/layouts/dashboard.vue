@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { useI18n } from "vue-i18n";
-import { ROUTES } from "~~/lib/constants";
-import CompaniesMenu from "~/components/Dashboard/CompaniesMenu.vue";
+import CompaniesMenu from "~~/app/components/dashboard/CompaniesMenu.vue";
+import { NAVIGATION_ICONS } from "~~/app/lib/icons";
 
-import { NAVIGATION_ICONS } from "~/lib/icons";
+import { ROUTES } from "~~/lib/constants";
 
 const { t } = useI18n();
 const toast = useToast();

@@ -1,5 +1,5 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import type { companiesTable, customersTable, productsTable, salesTables, user } from "~/lib/db/schema";
+import type { companiesTable, customersTable, productsTable, salesTables, user } from "~~/lib/db/schema";
 
 // Tipos para Companies
 export type Company = InferSelectModel<typeof companiesTable>;

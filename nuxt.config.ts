@@ -25,7 +25,7 @@ export default defineNuxtConfig({
   ],
   vite: {
 
-    plugins: [tailwindcss()] as any,
+    plugins: [tailwindcss()],
   },
   css: ["~/assets/css/main.css"],
   eslint: {
@@ -34,11 +34,12 @@ export default defineNuxtConfig({
     },
   },
   csurf: {
-    https: false,
-    cookieKey: "",
+    https: process.env.CSRF_HTTPS === "true",
+    cookieKey: process.env.CSRF_COOKIE_KEY || "__Host-csrf",
     cookie: {
       path: "/",
       httpOnly: true,
+      secure: process.env.CSRF_HTTPS === "true",
       sameSite: "strict",
     },
     methodsToProtect: ["POST", "PUT", "PATCH", "DELETE"],

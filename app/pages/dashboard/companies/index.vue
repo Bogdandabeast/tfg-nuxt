@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
-import CompanyForm from "~~/app/components/Dashboard/forms/CompanyForm.vue";
+
 import { useCompaniesStore } from "~~/app/stores/companies";
 import { ROUTES } from "~/utils/routes";
 

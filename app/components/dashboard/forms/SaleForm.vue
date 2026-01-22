@@ -31,18 +31,18 @@ const { isCreateSaleLoading, createSale, isDeleteSaleLoading, deleteSale } = use
 const { customers } = storeToRefs(customersStore);
 const { products } = storeToRefs(productsStore);
 
-const items = [
+const items = computed(() => [
   {
-    label: "Create",
+    label: t("sale.create"),
     icon: ENTITY_ICONS.sale,
     slot: "create",
   },
   {
-    label: "Delete",
+    label: t("sale.delete"),
     icon: FEATURE_ICONS.password,
     slot: "delete",
   },
-];
+]);
 
 const newSale = reactive({
   customer_id: undefined as number | undefined,
@@ -185,6 +185,6 @@ async function deleteSaleHandler() {
         </UButton>
       </UCard>
     </template>
-    <FormErrorAlert :error="error" />
   </UTabs>
+  <FormErrorAlert :error="error" />
 </template>

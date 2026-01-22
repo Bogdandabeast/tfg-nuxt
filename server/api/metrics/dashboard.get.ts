@@ -48,7 +48,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
       },
       customers: {
         total: customers.status === "fulfilled" ? customers.value : 0,
-        new: newCustomers.status === "fulfilled" ? (typeof newCustomers.value === "number" ? newCustomers.value : newCustomers.value.total) : 0,
+        new: newCustomers.status === "fulfilled" ? (typeof newCustomers.value === "number" ? newCustomers.value : (newCustomers.value?.total ?? 0)) : 0,
         error: customers.status === "rejected" ? (customers.reason?.message || String(customers.reason)) : null,
       },
       sales: {
