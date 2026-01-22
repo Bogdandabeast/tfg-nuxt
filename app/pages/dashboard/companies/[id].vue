@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ACTION_ICONS } from "~/lib/icons";
 import { ROUTES } from "~/utils/routes";
 
 definePageMeta({
@@ -21,18 +22,18 @@ const localePath = useLocalePath();
 const isDeleteModalOpen = ref(false);
 const isDeleting = ref(false);
 
-const menuItems = [
+const menuItems = computed(() => [
   {
     label: t("actions.edit.company"),
-    icon: "i-heroicons-pencil-square-20-solid",
+    icon: ACTION_ICONS.editCompany,
     click: () => navigateTo(`/dashboard/companies/${route.params.id}/edit`),
   },
   {
     label: t("actions.delete.company"),
-    icon: "i-heroicons-trash-20-solid",
+    icon: ACTION_ICONS.deleteCompany,
     click: () => isDeleteModalOpen.value = true,
   },
-];
+]);
 
 const UBadge = resolveComponent("UBadge");
 

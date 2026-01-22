@@ -14,28 +14,6 @@ const { t } = useI18n();
 
 const isDeleteModalOpen = ref(false);
 
-/* eslint-disable unused-imports/no-unused-vars */
-const menuItems = computed(() => [
-  {
-    label: t("actions.edit.customer"),
-    icon: ACTION_ICONS.editCustomer,
-    click: () => {
-    },
-  },
-  {
-    label: t("actions.sendEmail"),
-    icon: ACTION_ICONS.sendEmail,
-  },
-  {
-    label: t("actions.delete.customer"),
-    icon: ACTION_ICONS.deleteCustomer,
-    click: () => {
-      isDeleteModalOpen.value = true;
-    },
-  },
-]);
-/* eslint-enable unused-imports/no-unused-vars */
-
 const UBadge = resolveComponent("UBadge");
 
 const tableData = computed(() => [
@@ -69,6 +47,30 @@ const tableColumns = [
     },
   },
 ];
+
+const menuItems = computed(() => [
+  {
+    label: t("actions.edit.customer"),
+    icon: ACTION_ICONS.editCustomer,
+    click: () => {
+      // TODO: Implement edit customer functionality
+    },
+  },
+  {
+    label: t("actions.sendEmail"),
+    icon: ACTION_ICONS.sendEmail,
+    click: () => {
+      // TODO: Implement send email functionality
+    },
+  },
+  {
+    label: t("actions.delete.customer"),
+    icon: ACTION_ICONS.deleteCustomer,
+    click: () => {
+      isDeleteModalOpen.value = true;
+    },
+  },
+]);
 </script>
 
 <template>
@@ -80,7 +82,7 @@ const tableColumns = [
     >
       <template #actions>
         <UColorModeButton />
-        <UDropdownMenu mode="click">
+        <UDropdownMenu mode="click" :items="menuItems">
           <UButton
             color="neutral"
             variant="soft"
@@ -88,7 +90,6 @@ const tableColumns = [
             square
             :aria-label="$t('actions.more')"
           />
-          :items="menuItems"
         </UDropdownMenu>
       </template>
     </UPageHeader>

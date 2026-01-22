@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ACTION_ICONS } from "~/lib/icons";
+
 definePageMeta({
   layout: "dashboard",
 });
@@ -33,21 +35,14 @@ const isDeleteModalOpen = ref(false);
 const menuItems = computed(() => [
   {
     label: t("actions.edit.sale"),
-    icon: "i-heroicons-pencil-square-20-solid",
+    icon: ACTION_ICONS.editSale,
     click: () => {
       // TODO: Implement edit sale logic
     },
   },
   {
-    label: t("actions.processRefund"),
-    icon: "i-heroicons-receipt-refund-20-solid",
-    click: () => {
-      // TODO: Implement process refund logic
-    },
-  },
-  {
     label: t("actions.delete.sale"),
-    icon: "i-heroicons-trash-20-solid",
+    icon: ACTION_ICONS.deleteSale,
     click: () => {
       isDeleteModalOpen.value = true;
     },

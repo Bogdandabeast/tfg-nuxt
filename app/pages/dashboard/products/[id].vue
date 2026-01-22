@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ACTION_ICONS } from "~/lib/icons";
+
 definePageMeta({
   layout: "dashboard",
 });
@@ -12,31 +14,22 @@ const { t } = useI18n();
 
 const isDeleteModalOpen = ref(false);
 
-/* eslint-disable unused-imports/no-unused-vars */
 const menuItems = computed(() => [
   {
     label: t("actions.edit.product"),
-    icon: "i-heroicons-pencil-square-20-solid",
-    onSelect: () => {
+    icon: ACTION_ICONS.editProduct,
+    click: () => {
       // TODO: Implement edit functionality
     },
   },
   {
-    label: t("actions.updatePrice"),
-    icon: "i-heroicons-currency-dollar-20-solid",
-    onSelect: () => {
-      // TODO: Implement price update functionality
-    },
-  },
-  {
     label: t("actions.delete.product"),
-    icon: "i-heroicons-trash-20-solid",
-    onSelect: () => {
+    icon: ACTION_ICONS.deleteProduct,
+    click: () => {
       isDeleteModalOpen.value = true;
     },
   },
 ]);
-/* eslint-enable unused-imports/no-unused-vars */
 
 const UBadge = resolveComponent("UBadge");
 
@@ -99,7 +92,20 @@ const tableColumns = [
     <UPageHeader
       :title="$t('details.product.title')"
       :description="$t('details.product.description', { id: productId })"
-    />
+    >
+      <template #actions>
+        <UColorModeButton />
+        <UDropdownMenu :items="menuItems" mode="click">
+          <UButton
+            color="neutral"
+            variant="soft"
+            icon="i-heroicons-ellipsis-horizontal-20-solid"
+            square
+            :aria-label="$t('actions.more')"
+          />
+        </UDropdownMenu>
+      </template>
+    </UPageHeader>
 
     <div class="space-y-6 p-4">
       <UAlert
