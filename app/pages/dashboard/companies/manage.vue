@@ -2,7 +2,7 @@
 import type { TableColumn } from "@nuxt/ui";
 import type { Company } from "~~/lib/db/queries/companies";
 import { storeToRefs } from "pinia";
-import CompanyForm from "~~/app/components/Dashboard/forms/CompanyForm.vue";
+
 import { useCompaniesStore } from "~~/app/stores/companies";
 import { getCompanyPath } from "~/utils/routes";
 

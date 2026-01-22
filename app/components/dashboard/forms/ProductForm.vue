@@ -9,18 +9,18 @@ const companiesStore = useCompaniesStore();
 const toast = useToast();
 const { isCreateProductLoading, createProduct, isDeleteProductLoading, deleteProduct } = useProductsApi();
 
-const items = [
+const items = computed(() => [
   {
-    label: "Create",
+    label: t("product.create"),
     icon: ENTITY_ICONS.product,
     slot: "create",
   },
   {
-    label: "Delete",
+    label: t("product.delete"),
     icon: FEATURE_ICONS.password,
     slot: "delete",
   },
-];
+]);
 
 const newProduct = ref({
   name: "",
@@ -144,4 +144,5 @@ async function deleteProductHandler() {
     </template>
     <FormErrorAlert :error="error" />
   </UTabs>
+  <FormErrorAlert :error="error" />
 </template>

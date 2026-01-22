@@ -18,13 +18,19 @@ export const auth = betterAuth({
   ],
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
-      void SendEmail({
-        to: user.email,
-        from: "techlead@bogdanweb.dev",
-        replyTo: "techlead@bogdanweb.dev",
-        subject: "Verify your email address",
-        text: `Click the link to verify your email: ${url}`,
-      });
+      try {
+        await SendEmail({
+          to: user.email,
+          from: "techlead@bogdanweb.dev",
+          replyTo: "techlead@bogdanweb.dev",
+          subject: "Verify your email address",
+          text: `Click the link to verify your email: ${url}`,
+        });
+      }
+      catch (error) {
+        console.error("Failed to send verification email:", error);
+        throw error;
+      }
     },
     sendOnSignUp: true, // Enviar automáticamente al registrarse
     sendOnSignIn: true, // Enviar automáticamente al iniciar sesión si no está verificado
@@ -43,7 +49,7 @@ export const auth = betterAuth({
         },
       },
     },
-    disableCSRFCheck: true,
+    disableCSRFCheck: process.env.NODE_ENV === "development",
   },
   hooks: {
     after: createAuthMiddleware(async (ctx) => {

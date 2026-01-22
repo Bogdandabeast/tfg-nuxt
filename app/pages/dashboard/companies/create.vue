@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import CompanyForm from "~~/app/components/Dashboard/forms/CompanyForm.vue";
-
 definePageMeta({
   layout: "dashboard",
 });
