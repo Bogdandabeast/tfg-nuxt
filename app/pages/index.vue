@@ -14,6 +14,7 @@ useSeoMeta({
 
 <template>
   <div>
+    <LazyLandingStarsBg />
     <UPageHero
       :title="t('homepage.title')"
       :description="t('homepage.description')"
@@ -28,8 +29,6 @@ useSeoMeta({
       <template #top>
         <LandingHeroBackground />
       </template>
-
-      <LandingPromotionalVideo />
     </UPageHero>
 
     <UPageSection
@@ -57,25 +56,28 @@ useSeoMeta({
         />
       </UPageGrid>
     </UPageSection>
-
-    <USeparator />
-
-    <UPageCTA
-      :title="t('homepage.cta.title')"
-      :description="t('homepage.cta.description')"
-      align="center"
-      orientation="horizontal"
-      :links="[
-        {
-          label: t('homepage.cta.signup_button'),
-          to: localePath('/signup'),
-          color: 'primary',
-        },
-      ]"
-      variant="naked"
-      class="overflow-hidden"
+    <UPageSection
+      title="Nuestros testimonios"
+      description="enterate de lo que dicen nuestros clientes"
     >
-      <LazyLandingStarsBg />
-    </UPageCTA>
+      <LandingTestimonials />
+      <USeparator />
+
+      <UPageCTA
+        :title="t('homepage.cta.title')"
+        :description="t('homepage.cta.description')"
+        align="center"
+        orientation="horizontal"
+        :links="[
+          {
+            label: t('homepage.cta.signup_button'),
+            to: localePath('/signup'),
+            color: 'primary',
+          },
+        ]"
+        variant="naked"
+        class="overflow-hidden"
+      />
+    </upagesection>
   </div>
 </template>
