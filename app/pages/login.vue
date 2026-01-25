@@ -54,6 +54,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     payload.data.password,
     payload.data.remember || false,
   );
+  return navigateTo(useLocalePath()(ROUTES.COMPANIES_MANAGE));
 }
 </script>
 

@@ -54,35 +54,37 @@ const columns: TableColumn[] = [
 
 <template>
   <UDashboardPanel class="overflow-y-auto">
-    <DashboardNavBar />
-    <DashboardTableSkeleton
-      :loading="loadingCustomers"
-      :columns="4"
-      :rows="8"
-    >
-      <UTable
-        :data="customers"
-        :columns="columns"
-        class="shrink-0"
-        :ui="{
-          base: 'table-fixed border-separate border-spacing-0',
-          thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
-          tbody: '[&>tr]:last:[&>td]:border-b-0',
-          th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
-          td: 'border-b border-default',
-        }"
-      />
-    </DashboardTableSkeleton>
-    <UModal :description="t('dashboard.customers.modal.description')">
-      <UButton
-        label="Sales Actions"
-        color="neutral"
-        variant="subtle"
-      />
+    <div class="m-5">
+      <DashboardNavbar />
+      <DashboardTableSkeleton
+        :loading="loadingCustomers"
+        :columns="4"
+        :rows="8"
+      >
+        <UTable
+          :data="customers"
+          :columns="columns"
+          class="shrink-0 m-5"
+          :ui="{
+            base: 'table-fixed border-separate border-spacing-0',
+            thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+            tbody: '[&>tr]:last:[&>td]:border-b-0',
+            th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
+            td: 'border-b border-default',
+          }"
+        />
+      </DashboardTableSkeleton>
+      <UModal :description="t('dashboard.customers.modal.description')">
+        <UButton
+          label="Sales Actions"
+          color="neutral"
+          variant="subtle"
+        />
 
-      <template #content>
-        <DashboardFormsCustomerForm />
-      </template>
-    </UModal>
+        <template #content>
+          <DashboardFormsCustomerForm />
+        </template>
+      </UModal>
+    </div>
   </UDashboardPanel>
 </template>

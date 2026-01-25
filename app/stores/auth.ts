@@ -7,6 +7,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   const nuxtApp = useNuxtApp();
   const t = nuxtApp.$i18n.t;
   const toast = useToast();
+  const router = useRoute();
   const { csrf } = useCsrf();
   const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null);
   const isInitialized = ref(false);
@@ -47,10 +48,6 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         password,
         fetchOptions: {
           headers,
-          onSuccess: () => {
-            // Redirigir manualmente aquí
-            navigateTo(useLocalePath()(ROUTES.DASHBOARD));
-          },
         },
       });
       if (error) {
@@ -66,7 +63,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         description: t("signup.toast.success.description"),
         color: "success",
       });
-      navigateTo(useLocalePath()(ROUTES.DASHBOARD));
+      await authClient.fetchSession();
     }
     finally {
       isSigningUp.value = false;
@@ -87,10 +84,6 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         rememberMe,
         fetchOptions: {
           headers,
-          onSuccess: () => {
-            // Redirigir manualmente aquí
-            navigateTo(useLocalePath()(ROUTES.DASHBOARD));
-          },
         },
       });
       if (error) {
@@ -106,7 +99,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         description: t("login.toast.success.description"),
         color: "success",
       });
-      navigateTo(useLocalePath()(ROUTES.DASHBOARD));
+      await authClient.fetchSession();
     }
     finally {
       isSigningIn.value = false;

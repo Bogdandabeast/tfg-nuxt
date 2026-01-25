@@ -26,13 +26,13 @@ const items = computed<DropdownMenuItem[][]>(() => {
     label: t("companies.menu.create"),
     icon: NAVIGATION_ICONS.create,
     onSelect: () => {
-      router.push(localePath(ROUTES.COMPANIES_CREATE));
+      navigateTo(localePath(ROUTES.COMPANIES_CREATE));
     },
   }, {
     label: t("companies.menu.manage"),
     icon: NAVIGATION_ICONS.manage,
     onSelect: () => {
-      router.push(localePath(ROUTES.COMPANIES_MANAGE));
+      navigateTo(localePath(ROUTES.COMPANIES_MANAGE));
     },
   }]];
 });

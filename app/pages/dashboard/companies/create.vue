@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import CompanyForm from "~~/app/components/Dashboard/forms/CompanyForm.vue";
+import { ROUTES } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
 });
 
 const { t } = useI18n();
-const router = useRouter();
 const toast = useToast();
 const { isCreateCompanyLoading, createCompany } = useCompaniesApi();
 const { refreshCompanies } = useCompaniesStore();
@@ -15,7 +15,7 @@ async function handleCreateCompany(companyData: { name: string }) {
   const result = await createCompany(companyData);
   if (result) {
     refreshCompanies();
-    router.push("/dashboard");
+    navigateTo(ROUTES.DASHBOARD);
     toast.add({
       title: t("common.success"),
       description: t("forms.companyForm.createdSuccess"),

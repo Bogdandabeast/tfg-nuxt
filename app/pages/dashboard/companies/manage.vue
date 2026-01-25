@@ -155,7 +155,7 @@ onMounted(async () => {
       :data="companies || []"
       :columns="columns"
       :loading="isLoadingCompanies"
-      class="shrink-0"
+      class="shrink-0 m-5"
       :ui="{
         base: 'table-fixed border-separate border-spacing-0',
         thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',

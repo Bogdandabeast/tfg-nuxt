@@ -126,30 +126,32 @@ onMounted(() => {
 
 <template>
   <UDashboardPanel class="overflow-y-auto">
-    <DashboardNavBar />
-    <div v-if="allMetricsEmpty && !isLoading" class="text-center py-12">
-      <UIcon :name="UI_ICONS.analytics" class="h-16 w-16 text-gray-400 mx-auto mb-4" />
-      <h3 class="text-xl font-semibold text-gray-900 mb-2">
-        {{ t('dashboard.emptyMetrics.title') }}
-      </h3>
-      <p class="text-gray-600 mb-6">
-        {{ t('dashboard.emptyMetrics.description') }}
-      </p>
-      <UButton
-        to="/dashboard/customers"
-        color="primary"
-        size="lg"
-      >
-        {{ t('dashboard.emptyMetrics.cta') }}
-      </UButton>
-    </div>
+    <div class="m-5">
+      <DashboardNavbar />
+      <div v-if="allMetricsEmpty && !isLoading" class="text-center py-12">
+        <UIcon :name="UI_ICONS.analytics" class="h-16 w-16 text-gray-400 mx-auto mb-4" />
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">
+          {{ t('dashboard.emptyMetrics.title') }}
+        </h3>
+        <p class="text-gray-600 mb-6">
+          {{ t('dashboard.emptyMetrics.description') }}
+        </p>
+        <UButton
+          to="/dashboard/customers"
+          color="primary"
+          size="lg"
+        >
+          {{ t('dashboard.emptyMetrics.cta') }}
+        </UButton>
+      </div>
 
-    <DashboardMetricsInsights
-      v-else
-      :period="period"
-      :range="range"
-      :stats="statsData"
-      :loading="isLoading"
-    />
+      <DashboardMetricsInsights
+        v-else
+        :period="period"
+        :range="range"
+        :stats="statsData"
+        :loading="isLoading"
+      />
+    </div>
   </UDashboardPanel>
 </template>

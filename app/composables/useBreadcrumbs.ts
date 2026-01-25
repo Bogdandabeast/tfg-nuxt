@@ -12,7 +12,7 @@ export function useBreadcrumbs() {
       },
     ];
 
-    const sectionMap = {
+    const sectionMap: { [key: string]: { label: string; singular: string } } = {
       customers: { label: "breadcrumbs.customers", singular: "breadcrumbs.customer" },
       products: { label: "breadcrumbs.products", singular: "breadcrumbs.product" },
       sales: { label: "breadcrumbs.sales", singular: "breadcrumbs.sale" },

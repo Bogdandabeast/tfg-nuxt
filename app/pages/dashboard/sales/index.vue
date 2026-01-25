@@ -105,40 +105,42 @@ const columns = [
 </script>
 
 <template>
-  <UDashboardPanel class="overflow-y-auto py-12">
-    <DashboardNavBar />
-    <DashboardTableSkeleton
-      :loading="loadingSales"
-      :columns="6"
-      :rows="12"
-    >
-      <UTable
-        :data="detailedSales"
-        :columns="columns"
-        class="shrink-0"
-        :ui="{
-          base: 'table-fixed border-separate border-spacing-0',
-          thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
-          tbody: '[&>tr]:last:[&>td]:border-b-0',
-          th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
-          td: 'border-b border-default',
-        }"
-      />
-    </DashboardTableSkeleton>
-    <UModal
-      v-model:open="isCreateModalOpen"
-      :title="t('sales.create.title')"
-      :description="t('sales.create.description')"
-    >
-      <UButton
-        :label="t('sales.create.button')"
-        icon="i-heroicons-plus-20-solid"
-        color="primary"
-      />
+  <UDashboardPanel class="overflow-y-auto">
+    <div class="m-5">
+      <DashboardNavbar />
+      <DashboardTableSkeleton
+        :loading="loadingSales"
+        :columns="6"
+        :rows="12"
+      >
+        <UTable
+          :data="detailedSales"
+          :columns="columns"
+          class="shrink-0 m-5"
+          :ui="{
+            base: 'table-fixed border-separate border-spacing-0',
+            thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+            tbody: '[&>tr]:last:[&>td]:border-b-0',
+            th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
+            td: 'border-b border-default',
+          }"
+        />
+      </DashboardTableSkeleton>
+      <UModal
+        v-model:open="isCreateModalOpen"
+        :title="t('sales.create.title')"
+        :description="t('sales.create.description')"
+      >
+        <UButton
+          :label="t('sales.create.button')"
+          icon="i-heroicons-plus-20-solid"
+          color="primary"
+        />
 
-      <template #content>
-        <DashboardFormsSaleForm />
-      </template>
-    </UModal>
+        <template #content>
+          <DashboardFormsSaleForm />
+        </template>
+      </UModal>
+    </div>
   </UDashboardPanel>
 </template>

@@ -19,14 +19,8 @@ const { isCreateCompanyLoading, createCompany } = useCompaniesApi();
 
 // Fetch companies on mount to trigger the lazy fetch
 onMounted(async () => {
+  isLoading.value = true;
   await companiesStore.refreshCompanies();
-  await nextTick();
-  const route = useRoute();
-  const hasRedirect = route.query.redirect as string;
-  if (companiesStore.currentCompany && !hasRedirect) {
-    await navigateTo(useLocalePath()(ROUTES.DASHBOARD));
-    return;
-  }
   isLoading.value = false;
 });
 
