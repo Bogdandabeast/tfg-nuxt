@@ -13,6 +13,7 @@ const newProduct = ref({
 });
 const productToDeleteId = ref("");
 const error = ref("");
+const isCreateModalOpen = ref(false);
 
 async function createProductHandler() {
   if (!companiesStore.currentCompany?.id) {
@@ -38,6 +39,7 @@ async function createProductHandler() {
       color: "success",
     });
     error.value = "";
+    isCreateModalOpen.value = false;
   }
 }
 
@@ -50,79 +52,77 @@ async function deleteProductHandler() {
 </script>
 
 <template>
-  <UCard class="mb-4">
-    <template #header>
-      <h3>{{ t('forms.productForm.createTitle') }}</h3>
-    </template>
+  <UModal
+    v-model:open="isCreateModalOpen"
 
-    <div class="space-y-4">
-      <UFormField
-        :label="t('forms.productForm.name')"
-        name="newProductName"
-      >
-        <UInput v-model="newProduct.name" :placeholder="t('forms.productForm.namePlaceholder')" />
-      </UFormField>
-
-      <UFormField
-        :label="t('forms.productForm.description')"
-        name="newProductDescription"
-      >
-        <UInput v-model="newProduct.description" :placeholder="t('forms.productForm.descriptionPlaceholder')" />
-      </UFormField>
-
-      <UFormField
-        :label="t('forms.productForm.price')"
-        name="newProductPrice"
-      >
-        <UInput
-          v-model="newProduct.price"
-          :placeholder="t('forms.productForm.pricePlaceholder')"
-          type="number"
-        />
-      </UFormField>
-
-      <UFormField
-        :label="t('forms.productForm.stock')"
-        name="newProductStock"
-      >
-        <UInput
-          v-model.number="newProduct.stock"
-          :placeholder="t('forms.productForm.stockPlaceholder')"
-          type="number"
-        />
-      </UFormField>
-    </div>
-
-    <template #footer>
-      <UButton :loading="isCreateProductLoading" @click="createProductHandler">
-        {{ t('forms.productForm.create') }}
-      </UButton>
-    </template>
-  </UCard>
-
-  <UCard>
-    <template #header>
-      <h3>{{ t('forms.productForm.deleteTitle') }}</h3>
-    </template>
-
-    <UFormField
-      :label="t('forms.productForm.id')"
-      name="productToDeleteId"
-      class="mb-4"
-    >
-      <UInput v-model="productToDeleteId" :placeholder="t('forms.productForm.idPlaceholder')" />
-    </UFormField>
-
+    :title="t('products.create.title')"
+    :description="t('products.create.description')"
+  >
     <UButton
+      :label="t('dashboard.products.create.button')"
       color="primary"
-      :loading="isDeleteProductLoading"
-      @click="deleteProductHandler"
-    >
-      {{ t('forms.productForm.delete') }}
-    </UButton>
-  </UCard>
+      variant="subtle"
+      @click="isCreateModalOpen = true"
+    />
 
-  <div v-if="error" class="mt-4 text-red-500">
-    {{ error }}
-  </div>
+    <template #content>
+      <UCard class="mb-4">
+        <template #header>
+          <h3>{{ t('forms.productForm.createTitle') }}</h3>
+        </template>
+
+        <div class="space-y-4">
+          <UFormField
+            :label="t('forms.productForm.name')"
+            name="newProductName"
+          >
+            <UInput v-model="newProduct.name" :placeholder="t('forms.productForm.namePlaceholder')" />
+          </UFormField>
+
+          <UFormField
+            :label="t('forms.productForm.description')"
+            name="newProductDescription"
+          >
+            <UInput v-model="newProduct.description" :placeholder="t('forms.productForm.descriptionPlaceholder')" />
+          </UFormField>
+
+          <UFormField
+            :label="t('forms.productForm.price')"
+            name="newProductPrice"
+          >
+            <UInput
+              v-model="newProduct.price"
+              :placeholder="t('forms.productForm.pricePlaceholder')"
+              type="number"
+            />
+          </UFormField>
+
+          <UFormField
+            :label="t('forms.productForm.stock')"
+            name="newProductStock"
+          >
+            <UInput
+              v-model.number="newProduct.stock"
+              :placeholder="t('forms.productForm.stockPlaceholder')"
+              type="number"
+            />
+          </UFormField>
+        </div>
+
+        <template #footer>
+          <UButton
+            :label="t('forms.productForm.create.title')"
+            color="primary"
+            variant="subtle"
+            :loading="isCreateProductLoading"
+            @click="createProductHandler"
+          />
+        </template>
+      </UCard>
+
+      <div v-if="error" class="mt-4 text-red-500">
+        {{ error }}
+      </div>
+    </template>
+  </UModal>
 </template>

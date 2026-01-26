@@ -8,7 +8,6 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   const t = nuxtApp.$i18n.t;
   const toast = useToast();
   const { csrf } = useCsrf();
-  const config = useRuntimeConfig();
   const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null);
   const isInitialized = ref(false);
 
@@ -63,7 +62,8 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         description: t("signup.toast.success.description"),
         color: "success",
       });
-      navigateTo(useLocalePath()(ROUTES.DASHBOARD));
+    
+      return true;
     }
     finally {
       isSigningUp.value = false;
@@ -99,7 +99,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         description: t("login.toast.success.description"),
         color: "success",
       });
-      navigateTo(useLocalePath()(ROUTES.DASHBOARD));
+      return true;
     }
     finally {
       isSigningIn.value = false;

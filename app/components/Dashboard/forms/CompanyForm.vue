@@ -79,7 +79,12 @@ async function deleteCompanyHandler() {
     </div>
 
     <template #footer>
-      <UButton :loading="props.loading" @click="createCompanyHandler">
+      <UButton
+        :loading="props.loading"
+        color="primary"
+        variant="subtle"
+        @click="createCompanyHandler"
+      >
         {{ t('forms.companyForm.createButton') }}
       </UButton>
     </template>
@@ -101,8 +106,9 @@ async function deleteCompanyHandler() {
 
     <template #footer>
       <UButton
-        color="error"
         :loading="props.deleteLoading"
+        color="primary"
+        variant="subtle"
         @click="deleteCompanyHandler"
       >
         {{ t('forms.companyForm.deleteButton') }}

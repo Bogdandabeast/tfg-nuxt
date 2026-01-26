@@ -21,6 +21,30 @@ const items = ref([
     value: "1",
   },
 ]);
+
+const featuresFree = computed(() => [
+  t("pricing.plans.free.features.company_management"),
+  t("pricing.plans.free.features.customer_crud"),
+  t("pricing.plans.free.features.product_crud"),
+  t("pricing.plans.free.features.sales_crud"),
+  t("pricing.plans.free.features.crm_access"),
+  t("pricing.plans.free.features.basic_metrics"),
+]);
+
+const featuresPremium = computed(() => [
+  t("pricing.plans.premium.features.company_management"),
+  t("pricing.plans.premium.features.customer_crud"),
+  t("pricing.plans.premium.features.product_crud"),
+  t("pricing.plans.premium.features.sales_crud"),
+  t("pricing.plans.premium.features.crm_access"),
+  t("pricing.plans.premium.features.basic_metrics"),
+  t("pricing.plans.premium.features.image_upload"),
+  t("pricing.plans.premium.features.advanced_metrics"),
+  t("pricing.plans.premium.features.email_sending"),
+  t("pricing.plans.premium.features.employee_management"),
+  t("pricing.plans.premium.features.full_api_access"),
+  t("pricing.plans.premium.features.ai_features"),
+]);
 </script>
 
 <template>
@@ -48,90 +72,30 @@ const items = ref([
     <UContainer class="py-8 overflow-y-auto">
       <UPricingPlans scale>
         <UPricingPlan
-          :title="t('pricing.plans.basic.title')"
-          :description="t('pricing.plans.basic.description')"
+          :title="t('pricing.plans.free.title')"
+          :description="t('pricing.plans.free.description')"
           :icon="ENTITY_ICONS.user"
-          :price="`${isYearly === '1' ? 100 : 10}`"
+          price="0"
           :billing-cycle="isYearly === '1' ? t('pricing.plans.yearly_cycle') : t('pricing.plans.monthly_cycle')"
-          :features="[
-            t('pricing.plans.basic.features.projects'),
-            t('pricing.plans.basic.features.storage'),
-            t('pricing.plans.basic.features.support'),
-            t('pricing.plans.basic.features.custom_domain'),
-            t('pricing.plans.basic.features.ssl_certificate'),
-            t('pricing.plans.basic.features.email_notifications'),
-            t('pricing.plans.basic.features.analytics_dashboard'),
-            t('pricing.plans.basic.features.community_access'),
-            t('pricing.plans.basic.features.api_access'),
-            t('pricing.plans.basic.features.daily_backups'),
-            t('pricing.plans.basic.features.priority_queue'),
-            t('pricing.plans.basic.features.multi_device_sync'),
-            t('pricing.plans.basic.features.basic_integrations'),
-          ]"
-          :button-text="t('pricing.plans.basic.button')"
+          :features="featuresFree"
+          :button-text="t('pricing.plans.free.button')"
           button-color="primary"
           orientation="vertical"
         />
         <UPricingPlan
-          :title="t('pricing.plans.pro.title')"
-          :description="t('pricing.plans.pro.description')"
+          :title="t('pricing.plans.premium.title')"
+          :description="t('pricing.plans.premium.description')"
           :icon="ENTITY_ICONS.users"
-          :price="`${isYearly === '1' ? 200 : 20}`"
+          :price="isYearly === '1' ? '300' : '30'"
           :billing-cycle="isYearly === '1' ? t('pricing.plans.yearly_cycle') : t('pricing.plans.monthly_cycle')"
-          :features="[
-            t('pricing.plans.pro.features.projects'),
-            t('pricing.plans.pro.features.storage'),
-            t('pricing.plans.pro.features.support'),
-            t('pricing.plans.pro.features.dedicated_account_manager'),
-            t('pricing.plans.pro.features.custom_domain'),
-            t('pricing.plans.pro.features.ssl_certificates'),
-            t('pricing.plans.pro.features.analytics_reporting'),
-            t('pricing.plans.pro.features.team_collaboration_tools'),
-            t('pricing.plans.pro.features.role_based_access_control'),
-            t('pricing.plans.pro.features.sso'),
-            t('pricing.plans.pro.features.audit_logs'),
-            t('pricing.plans.pro.features.api_rate_limits'),
-            t('pricing.plans.pro.features.backups'),
-            t('pricing.plans.pro.features.deployment_queue'),
-            t('pricing.plans.pro.features.multi_device_sync_offline'),
-            t('pricing.plans.pro.features.advanced_integrations'),
-            t('pricing.plans.pro.features.ai_recommendations'),
-            t('pricing.plans.pro.features.custom_branding'),
-            t('pricing.plans.pro.features.beta_access'),
-            t('pricing.plans.pro.features.uptime_sla'),
-            t('pricing.plans.pro.features.geo_redundant_infrastructure'),
-            t('pricing.plans.pro.features.advanced_security'),
-            t('pricing.plans.pro.features.vip_community_access'),
-            t('pricing.plans.pro.features.strategy_review'),
-          ]"
-          :button-text="t('pricing.plans.pro.button')"
+          :features="featuresPremium"
+          :button-text="t('pricing.plans.premium.button')"
           button-color="accent"
           orientation="vertical"
           highlight
         />
       </UPricingPlans>
     </UContainer>
-
-    <UPageSection>
-      <UPageLogos>
-        <UIcon
-          name="i-simple-icons-nuxtdotjs"
-          class="w-12 h-12 flex-shrink-0 text-muted"
-        />
-        <UIcon
-          name="i-simple-icons-tailwindcss"
-          class="w-12 h-12 flex-shrink-0 text-muted"
-        />
-        <UIcon
-          name="i-simple-icons-vuedotjs"
-          class="w-12 h-12 flex-shrink-0 text-muted"
-        />
-        <UIcon
-          name="i-simple-icons-github"
-          class="w-12 h-12 flex-shrink-0 text-muted"
-        />
-      </UPageLogos>
-    </UPageSection>
 
     <UPageSection
       :title="t('pricing.faq.title')"

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
-import CompanyForm from "~~/app/components/Dashboard/forms/CompanyForm.vue";
 import { useCompaniesStore } from "~~/app/stores/companies";
 import { ROUTES } from "~/utils/routes";
 
@@ -16,18 +15,19 @@ const isLoading = ref(true);
 const toast = useToast();
 
 const { isCreateCompanyLoading, createCompany } = useCompaniesApi();
-
-// Fetch companies on mount to trigger the lazy fetch
 onMounted(async () => {
-  await companiesStore.refreshCompanies();
-  await nextTick();
-  const route = useRoute();
-  const hasRedirect = route.query.redirect as string;
-  if (companiesStore.currentCompany && !hasRedirect) {
-    await navigateTo(useLocalePath()(ROUTES.DASHBOARD));
-    return;
+  isLoading.value = true;
+  try {
+    await companiesStore.refreshCompanies();
+  } catch (error) {
+    toast.add({
+      title: t('companies.error.title'),
+      description: t('companies.error.description'),
+      color: "danger",
+    });
+  } finally {
+    isLoading.value = false;
   }
-  isLoading.value = false;
 });
 
 function selectCompany(company: any) {
@@ -38,17 +38,14 @@ function selectCompany(company: any) {
   if (redirectTo) {
     try {
       const decodedRedirect = decodeURIComponent(redirectTo);
-      // Validar que sea una ruta relativa segura (no URLs externas)
       if (decodedRedirect.startsWith("/") && !decodedRedirect.includes("://")) {
         navigateTo(decodedRedirect);
       }
       else {
-        // Fallback seguro si la URL no es válida
         navigateTo(useLocalePath()(ROUTES.DASHBOARD));
       }
     }
     catch (error) {
-      // Manejar errores de decodeURIComponent
       console.warn("Invalid redirect URL, falling back to dashboard:", redirectTo);
       navigateTo(useLocalePath()(ROUTES.DASHBOARD));
     }
@@ -63,7 +60,7 @@ async function handleCreateCompany(companyData: { name: string }) {
   if (result) {
     await companiesStore.refreshCompanies();
     await nextTick();
-    // After creating company, redirect to dashboard
+
     await navigateTo(useLocalePath()(ROUTES.DASHBOARD));
     toast.add({
       title: t("common.success"),
@@ -95,6 +92,8 @@ async function handleCreateCompany(companyData: { name: string }) {
             :key="company.id"
             block
             size="lg"
+            color="secondary"
+            variant="subtle"
             @click="selectCompany(company)"
           >
             {{ company.name }}
@@ -102,7 +101,7 @@ async function handleCreateCompany(companyData: { name: string }) {
         </div>
       </div>
       <div v-else>
-        <CompanyForm
+        <DashboardFormsCompanyForm
           :on-submit="handleCreateCompany"
           :loading="isCreateCompanyLoading"
         />

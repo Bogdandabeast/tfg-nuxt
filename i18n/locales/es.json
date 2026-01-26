@@ -27,7 +27,93 @@
       "title": "¿Listo para impulsar tu negocio?",
       "description": "Empieza hoy con EscorialCRM y lleva tu gestión empresarial al siguiente nivel.",
       "signup_button": "Crear Cuenta"
-    }
+    },
+    "testimonials": [
+      {
+        "user": {
+          "description": "Desarrollador Senior en Alebat"
+        },
+        "quote": "EscorialCRM nos permitió centralizar clientes, productos y ventas sin fricción. La velocidad de adopción en el equipo fue sorprendente."
+      },
+      {
+        "user": {
+          "description": "Jefe de Producto en NovaTech Global"
+        },
+        "quote": "La automatización de procesos en EscorialCRM redujo nuestro tiempo operativo en más de un 40%. Es una herramienta imprescindible."
+      },
+      {
+        "user": {
+          "description": "Director de Operaciones en Iberion Systems"
+        },
+        "quote": "La gestión de ventas nunca había sido tan clara. EscorialCRM nos dio visibilidad total del ciclo comercial."
+      },
+      {
+        "user": {
+          "description": "Director de Tecnología en BluePeak Solutions"
+        },
+        "quote": "Integrar EscorialCRM con nuestras herramientas internas fue sorprendentemente sencillo. La arquitectura es sólida y escalable."
+      },
+      {
+        "user": {
+          "description": "Gerente de Marketing en BrightWave Corp"
+        },
+        "quote": "El módulo de clientes es una maravilla. Podemos segmentar, analizar y actuar en minutos. EscorialCRM nos cambió el ritmo."
+      },
+      {
+        "user": {
+          "description": "Gerente de Desarrollo de Negocios en HorizonBridge"
+        },
+        "quote": "EscorialCRM nos permitió escalar sin perder control. La interfaz es intuitiva y el soporte, impecable."
+      },
+      {
+        "user": {
+          "description": "Director de Operaciones en QuantumLeap Industries"
+        },
+        "quote": "La trazabilidad de ventas y la gestión de equipos comerciales en EscorialCRM superó nuestras expectativas desde el primer mes."
+      },
+      {
+        "user": {
+          "description": "Jefa de Éxito del Cliente en Nexora Labs"
+        },
+        "quote": "El soporte al cliente es excepcional. EscorialCRM escucha, mejora y evoluciona constantemente."
+      },
+      {
+        "user": {
+          "description": "Arquitecto de Datos Senior en OrionEdge"
+        },
+        "quote": "La integración con nuestros sistemas de análisis fue fluida. EscorialCRM está claramente diseñado para empresas que crecen rápido."
+      },
+      {
+        "user": {
+          "description": "Vicepresidenta de Ventas en Altura Dynamics"
+        },
+        "quote": "El panel de ventas es simplemente perfecto. Mi equipo lo adoptó en días y ahora lo usan a diario."
+      },
+      {
+        "user": {
+          "description": "Director de Innovación en SkyForge Technologies"
+        },
+        "quote": "EscorialCRM nos permitió automatizar procesos que antes requerían horas de trabajo manual. Un salto enorme en eficiencia."
+      },
+      {
+        "user": {
+          "description": "Directora de Estrategia en Veridian Group"
+        },
+        "quote": "La visión global que ofrece EscorialCRM sobre clientes y ventas nos ayuda a tomar decisiones estratégicas con datos reales."
+      },
+      {
+        "user": {
+          "description": "Gerente de Soluciones Empresariales en Macrobyte"
+        },
+        "quote": "La flexibilidad del sistema es impresionante. Podemos adaptarlo a cada departamento sin complicaciones."
+      },
+      {
+        "user": {
+          "description": "Gerente de Operaciones Globales en HelixCore"
+        },
+        "quote": "EscorialCRM nos dio orden, velocidad y control. Es la herramienta que necesitábamos desde hace años."
+      }
+    ]
   },
   "header": {
     "crm": "CRM",
@@ -107,56 +193,37 @@
     "plans": {
       "monthly_cycle": "/mes",
       "yearly_cycle": "/año",
-      "basic": {
-        "title": "Básico",
-        "description": "Perfecto para usuarios individuales.",
+      "free": {
+        "title": "Plan Free",
+        "description": "",
         "features": {
-          "projects": "5 Proyectos",
-          "storage": "10 GB de Almacenamiento",
-          "support": "Soporte Básico",
-          "custom_domain": "Dominio Personalizado",
-          "ssl_certificate": "Certificado SSL",
-          "email_notifications": "Notificaciones por Correo",
-          "analytics_dashboard": "Panel de Analíticas",
-          "community_access": "Acceso a la Comunidad",
-          "api_access": "Acceso a la API",
-          "daily_backups": "Copias de Seguridad Diarias",
-          "priority_queue": "Cola de Prioridad",
-          "multi_device_sync": "Sincronización Multi-dispositivo",
-          "basic_integrations": "Integraciones Básicas"
+          "company_management": "Gestión de empresas",
+          "customer_crud": "Creación, edición y eliminación de clientes",
+          "product_crud": "Creación, edición y eliminación de productos",
+          "sales_crud": "Creación, edición y eliminación de ventas",
+          "crm_access": "Acceso al CRM desde cualquier lugar con rendimiento optimizado",
+          "basic_metrics": "Métricas básicas del negocio"
         },
-        "button": "Elegir Básico"
+        "button": "Elegir Gratuito"
       },
-      "pro": {
-        "title": "Pro",
-        "description": "Para equipos en crecimiento con más necesidades.",
+      "premium": {
+        "title": "Plan Premium – 30 €/mes (Próximamente)",
+        "description": "Incluye todo lo del Plan Free:",
         "features": {
-          "projects": "Proyectos Ilimitados",
-          "storage": "1 TB de Almacenamiento Seguro en la Nube",
-          "support": "Soporte Premium 24/7",
-          "dedicated_account_manager": "Gestor de Cuenta Dedicado",
-          "custom_domain": "Dominio Personalizado + DNS Avanzado",
-          "ssl_certificates": "Certificados SSL de Nivel Empresarial",
-          "analytics_reporting": "Análisis y Reportes Avanzados",
-          "team_collaboration_tools": "Herramientas de Colaboración en Equipo",
-          "role_based_access_control": "Control de Acceso Basado en Roles",
-          "sso": "Inicio de Sesión Único (SSO)",
-          "audit_logs": "Registros de Auditoría e Informes de Cumplimiento",
-          "api_rate_limits": "Límites de Tasa de API x10",
-          "backups": "Copias de Seguridad Diarias + Bajo Demanda",
-          "deployment_queue": "Cola de Implementación Prioritaria",
-          "multi_device_sync_offline": "Sincronización Multi-dispositivo y Modo Offline",
-          "advanced_integrations": "Integraciones Avanzadas (Slack, Jira, Zapier)",
-          "ai_recommendations": "Recomendaciones Impulsadas por IA",
-          "custom_branding": "Marca Personalizada y Etiqueta Blanca",
-          "beta_access": "Acceso Anticipado a Funciones Beta",
-          "uptime_sla": "SLA de Uptime del 99.99%",
-          "geo_redundant_infrastructure": "Infraestructura Geo-redundante",
-          "advanced_security": "Seguridad Avanzada (2FA, Cifrado en Reposo)",
-          "vip_community_access": "Acceso VIP a la Comunidad",
-          "strategy_review": "Revisión Estratégica Trimestral"
+          "company_management": "Gestión de empresas",
+          "customer_crud": "Creación, edición y eliminación de clientes",
+          "product_crud": "Creación, edición y eliminación de productos",
+          "sales_crud": "Creación, edición y eliminación de ventas",
+          "crm_access": "Acceso al CRM desde cualquier lugar con rendimiento optimizado",
+          "basic_metrics": "Métricas básicas del negocio",
+          "image_upload": "Carga de imágenes, notas y videos (coming soon)",
+          "advanced_metrics": "Métricas avanzadas y análisis detallado (coming soon)",
+          "email_sending": "Envío de correos desde el CRM (coming soon)",
+          "employee_management": "Gestión de empleados (coming soon)",
+          "full_api_access": "Acceso completo a la API (coming soon)",
+          "ai_features": "Funciones de IA con conocimiento contextual sobre tu negocio (coming soon)"
         },
-        "button": "Elegir Pro"
+        "button": "Elegir Premium"
       }
     },
     "faq": {
@@ -197,7 +264,8 @@
       "no_account": "¿No tienes una cuenta?",
       "signup_link": "Regístrate",
       "forgot_password": "¿Olvidaste tu contraseña?",
-      "agree_terms_part1": "Al iniciar sesión, aceptas nuestros",
+      "submit_button": "Iniciar Sesión",
+      "agree_terms_part1": "Al iniciar sesión, aceptamos nuestros",
       "terms_of_service_link": "Términos de Servicio"
     },
     "validation": {
@@ -277,6 +345,10 @@
       "modal": {
         "description": "Formulario para crear una nueva empresa en el sistema CRM."
       }
+    },
+    "error": {
+      "title": "Error al cargar empresas",
+      "description": "Ocurrió un error al cargar las empresas. Por favor, inténtalo de nuevo."
     }
   },
   "dashboard": {
@@ -294,13 +366,19 @@
       "existing": "Clientes Existentes",
       "loading": "Cargando clientes...",
       "modal": {
-        "description": "Formulario para gestionar información de clientes del sistema."
+        "description": "Formulario para gestionar información de clientes del sistema.",
+        "create_button_label": "Crear Cliente"
       }
     },
     "sales": {
       "title": "Gestión de Ventas",
       "existing": "Ventas Existentes",
-      "loading": "Cargando ventas..."
+      "loading": "Cargando ventas...",
+      "create": {
+        "title": "Crear Venta",
+        "description": "Formulario para registrar una nueva venta en el sistema CRM.",
+        "button": "Crear Venta"
+      }
     },
     "metrics": {
       "customers": "Clientes",
@@ -376,13 +454,14 @@
       "idPlaceholder": "Ingresa el ID del producto a eliminar",
       "noCompany": "No se ha seleccionado empresa.",
       "invalidData": "Por favor, completa todos los detalles del producto.",
-      "createdSuccess": "¡Producto creado exitosamente!"
+      "createdSuccess": "¡Producto creado exitosamente!",
+      "create": {
+        "title": "Crear Producto",
+        "description": "Formulario para agregar un nuevo producto al inventario",
+        "button": "Nuevo Producto"
+      }
     },
-    "create": {
-      "title": "Crear Producto",
-      "description": "Formulario para agregar un nuevo producto al inventario",
-      "button": "Nuevo Producto"
-    },
+
     "saleForm": {
       "customer": "Cliente",
       "product": "Producto",

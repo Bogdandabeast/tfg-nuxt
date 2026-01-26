@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import CompanyForm from "~~/app/components/Dashboard/forms/CompanyForm.vue";
 import { useCompaniesStore } from "~~/app/stores/companies";
 import { getCompanyPath } from "~/utils/routes";
 
@@ -133,36 +132,27 @@ onMounted(async () => {
 
 <template>
   <UDashboardPanel class="overflow-y-auto">
-    <DashboardNavBar />
-    <UPageHeader :title="$t('companies.manage.title')" :description="$t('companies.manage.description')">
-      <template #actions>
-        <UButton
-          :label="$t('companies.manage.create')"
-          icon="i-lucide-plus"
-          @click="isModalOpen = true"
-        />
-      </template>
-    </UPageHeader>
+    <div class="m-5">
+      <DashboardNavbar />
+      <UPageHeader :title="$t('companies.manage.title')" :description="$t('companies.manage.description')" />
 
-    <UModal v-model="isModalOpen" :description="t('dashboard.companies.manage.modal.description')">
-      <CompanyForm
+      <DashboardFormsCompanyForm
         :on-submit="handleCreateCompany"
         :loading="isCreateCompanyLoading"
       />
-    </UModal>
-
-    <UTable
-      :data="companies || []"
-      :columns="columns"
-      :loading="isLoadingCompanies"
-      class="shrink-0"
-      :ui="{
-        base: 'table-fixed border-separate border-spacing-0',
-        thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
-        tbody: '[&>tr]:last:[&>td]:border-b-0',
-        th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
-        td: 'border-b border-default',
-      }"
-    />
+      <UTable
+        :data="companies || []"
+        :columns="columns"
+        :loading="isLoadingCompanies"
+        class="shrink-0 m-5"
+        :ui="{
+          base: 'table-fixed border-separate border-spacing-0',
+          thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+          tbody: '[&>tr]:last:[&>td]:border-b-0',
+          th: 'first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
+          td: 'border-b border-default',
+        }"
+      />
+    </div>
   </UDashboardPanel>
 </template>

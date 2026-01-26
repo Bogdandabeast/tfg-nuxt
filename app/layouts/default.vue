@@ -5,7 +5,5 @@
     <UMain>
       <slot />
     </UMain>
-
-    <LandingAppFooter />
   </div>
 </template>

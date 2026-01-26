@@ -49,11 +49,14 @@ const schema = z.object({
 type Schema = z.output<typeof schema>;
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  await authStore.signIn(
+  const success = await authStore.signIn(
     payload.data.email,
     payload.data.password,
     payload.data.remember || false,
   );
+  if (success) {
+    window.location.reload()
+  }
 }
 </script>
 
