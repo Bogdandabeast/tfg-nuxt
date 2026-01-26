@@ -1,6 +1,6 @@
 import { and, eq } from "drizzle-orm";
 import { db } from "../index";
-import { productsTable } from "../schema/companies";
+import { productsTable } from "../schema/";
 
 export type Product = typeof productsTable.$inferInsert;
 

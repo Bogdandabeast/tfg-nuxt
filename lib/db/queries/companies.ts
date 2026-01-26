@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "../index";
-import { companiesTable } from "../schema/companies";
+import { companiesTable } from "../schema/";
 
 export type CompanyInsert = typeof companiesTable.$inferInsert;
 export type Company = typeof companiesTable.$inferSelect;

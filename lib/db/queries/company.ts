@@ -1,7 +1,7 @@
 import type { CompanyInsert } from "./companies";
 import { eq } from "drizzle-orm";
 import { db } from "../index";
-import { companiesTable } from "../schema/companies";
+import { companiesTable } from "../schema/";
 
 export async function createCompany(data: CompanyInsert) {
   return db.insert(companiesTable).values(data).returning();

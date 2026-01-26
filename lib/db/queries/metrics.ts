@@ -1,6 +1,6 @@
 import { and, desc, eq, gte, inArray, lte, sql } from "drizzle-orm";
 import { db } from "../index";
-import { customersTable, productsTable, salesTables } from "../schema/companies";
+import { customersTable, productsTable, salesTables } from "../schema/";
 
 export async function getTotalRevenue(userCompanyIds: number[]) {
   const result = await db

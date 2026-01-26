@@ -1,6 +1,6 @@
 import { and, eq } from "drizzle-orm";
 import { db } from "../index";
-import { salesTables } from "../schema/companies";
+import { salesTables } from "../schema/";
 
 export type SaleInsert = typeof salesTables.$inferInsert;
 export type Sale = typeof salesTables.$inferSelect;

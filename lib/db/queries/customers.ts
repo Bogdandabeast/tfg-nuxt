@@ -1,6 +1,6 @@
 import { and, eq, inArray } from "drizzle-orm";
 import { db } from "../index";
-import { customersTable } from "../schema/companies";
+import { customersTable } from "../schema/";
 import { getCompaniesByUserId } from "./company";
 
 export type CustomerInsert = typeof customersTable.$inferInsert;
