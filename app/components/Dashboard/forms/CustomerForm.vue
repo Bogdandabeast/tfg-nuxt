@@ -8,20 +8,7 @@ const customersStore = useCustomersStore();
 const companiesStore = useCompaniesStore();
 const toast = useToast();
 const { isCreateCustomerLoading, createCustomer, isDeleteCustomerLoading, deleteCustomer } = useCustomersApi();
-
-const items = [
-  {
-    label: "Account",
-    icon: ENTITY_ICONS.user,
-    slot: "account",
-  },
-  {
-    label: "Password",
-    icon: FEATURE_ICONS.password,
-    slot: "password",
-  },
-];
-
+const isCreateModalOpen = ref(false);
 const newCustomer = ref({
   name: "",
   email: "",
@@ -66,8 +53,19 @@ async function deleteCustomerHandler() {
 </script>
 
 <template>
-  <UTabs :items="items">
-    <template #account>
+  <UModal
+    v-model:open="isCreateModalOpen"
+    :title="t('dasdboard.customers.modal.title')"
+    :description="t('dashboard.customers.modal.description')"
+  >
+    <UButton
+      :label="t('dashboard.customers.modal.create_button_label')"
+      color="primary"
+      variant="subtle"
+      @click="isCreateModalOpen = true"
+    />
+
+    <template #content>
       <UCard class="mb-4">
         <template #header>
           <h3>{{ t('forms.customerForm.createTitle') }}</h3>
@@ -113,8 +111,7 @@ async function deleteCustomerHandler() {
           </UButton>
         </template>
       </UCard>
-    </template>
-    <template #password>
+
       <UCard>
         <template #header>
           <h3>{{ t('forms.customerForm.deleteTitle') }}</h3>
@@ -136,7 +133,8 @@ async function deleteCustomerHandler() {
           {{ t('forms.customerForm.deleteButton') }}
         </UButton>
       </UCard>
+
+      <FormErrorAlert :error="error" />
     </template>
-    <FormErrorAlert :error="error" />
-  </UTabs>
+  </UModal>
 </template>

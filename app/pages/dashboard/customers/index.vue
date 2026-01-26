@@ -11,7 +11,6 @@ const localePath = useLocalePath();
 const { t } = useI18n();
 const toast = useToast();
 
-const isCreateModalOpen = ref(false);
 const deletingCustomersId = ref<string | null>(null);
 
 const companiesStore = useCompaniesStore();
@@ -134,18 +133,7 @@ const columns: TableColumn[] = [
           }"
         />
       </DashboardTableSkeleton>
-      <UModal v-model:open="isCreateModalOpen" :description="t('dashboard.customers.modal.description')">
-        <UButton
-          :label="t('dashboard.customers.modal.create_button_label')"
-          color="neutral"
-          variant="subtle"
-          @click="isCreateModalOpen = true"
-        />
-
-        <template #content>
-          <DashboardFormsCustomerForm />
-        </template>
-      </UModal>
+      <DashboardFormsCustomerForm />
     </div>
   </UDashboardPanel>
 </template>

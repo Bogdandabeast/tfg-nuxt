@@ -19,8 +19,6 @@ const { sales, pending: loadingSales } = storeToRefs(salesStore);
 const { customers } = storeToRefs(customersStore);
 const { products } = storeToRefs(productsStore);
 
-const isCreateModalOpen = ref(false);
-
 const detailedSales = computed(() => {
   return sales.value?.map((sale) => {
     const customer = customers.value?.find(c => c.id === sale.customer_id);
@@ -126,21 +124,8 @@ const columns = [
           }"
         />
       </DashboardTableSkeleton>
-      <UModal
-        v-model:open="isCreateModalOpen"
-        :title="t('sales.create.title')"
-        :description="t('sales.create.description')"
-      >
-        <UButton
-          :label="t('sales.create.button')"
-          icon="i-heroicons-plus-20-solid"
-          color="primary"
-        />
 
-        <template #content>
-          <DashboardFormsSaleForm />
-        </template>
-      </UModal>
+      <DashboardFormsSaleForm />
     </div>
   </UDashboardPanel>
 </template>

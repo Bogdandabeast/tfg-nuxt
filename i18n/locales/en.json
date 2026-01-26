@@ -369,7 +369,13 @@
     "sales": {
       "title": "Sales Management",
       "existing": "Existing Sales",
-      "loading": "Loading sales..."
+      "loading": "Loading sales...",
+      "create": {
+        "title": "Create Sale",
+        "description": "Form to Sale a new product in the CRM system.",
+        "button": "Create Sale"
+      }
+
     },
     "metrics": {
       "customers": "Customers",

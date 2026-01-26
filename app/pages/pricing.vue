@@ -21,6 +21,30 @@ const items = ref([
     value: "1",
   },
 ]);
+
+const featuresFree = computed(() => [
+  t("pricing.plans.free.features.company_management"),
+  t("pricing.plans.free.features.customer_crud"),
+  t("pricing.plans.free.features.product_crud"),
+  t("pricing.plans.free.features.sales_crud"),
+  t("pricing.plans.free.features.crm_access"),
+  t("pricing.plans.free.features.basic_metrics"),
+]);
+
+const featuresPremium = computed(() => [
+  t("pricing.plans.premium.features.company_management"),
+  t("pricing.plans.premium.features.customer_crud"),
+  t("pricing.plans.premium.features.product_crud"),
+  t("pricing.plans.premium.features.sales_crud"),
+  t("pricing.plans.premium.features.crm_access"),
+  t("pricing.plans.premium.features.basic_metrics"),
+  t("pricing.plans.premium.features.image_upload"),
+  t("pricing.plans.premium.features.advanced_metrics"),
+  t("pricing.plans.premium.features.email_sending"),
+  t("pricing.plans.premium.features.employee_management"),
+  t("pricing.plans.premium.features.full_api_access"),
+  t("pricing.plans.premium.features.ai_features"),
+]);
 </script>
 
 <template>
@@ -53,14 +77,7 @@ const items = ref([
           :icon="ENTITY_ICONS.user"
           price="0"
           :billing-cycle="isYearly === '1' ? t('pricing.plans.yearly_cycle') : t('pricing.plans.monthly_cycle')"
-          :features="[
-            t('pricing.plans.free.features.company_management'),
-            t('pricing.plans.free.features.customer_crud'),
-            t('pricing.plans.free.features.product_crud'),
-            t('pricing.plans.free.features.sales_crud'),
-            t('pricing.plans.free.features.crm_access'),
-            t('pricing.plans.free.features.basic_metrics'),
-          ]"
+          :features="featuresFree"
           :button-text="t('pricing.plans.free.button')"
           button-color="primary"
           orientation="vertical"
@@ -71,20 +88,7 @@ const items = ref([
           :icon="ENTITY_ICONS.users"
           :price="isYearly === '1' ? '300' : '30'"
           :billing-cycle="isYearly === '1' ? t('pricing.plans.yearly_cycle') : t('pricing.plans.monthly_cycle')"
-          :features="[
-            t('pricing.plans.premium.features.company_management'),
-            t('pricing.plans.premium.features.customer_crud'),
-            t('pricing.plans.premium.features.product_crud'),
-            t('pricing.plans.premium.features.sales_crud'),
-            t('pricing.plans.premium.features.crm_access'),
-            t('pricing.plans.premium.features.basic_metrics'),
-            t('pricing.plans.premium.features.image_upload'),
-            t('pricing.plans.premium.features.advanced_metrics'),
-            t('pricing.plans.premium.features.email_sending'),
-            t('pricing.plans.premium.features.employee_management'),
-            t('pricing.plans.premium.features.full_api_access'),
-            t('pricing.plans.premium.features.ai_features'),
-          ]"
+          :features="featuresPremium"
           :button-text="t('pricing.plans.premium.button')"
           button-color="accent"
           orientation="vertical"

@@ -15,14 +15,8 @@ async function handleCreateCompany(companyData: { name: string }) {
   const result = await createCompany(companyData);
   if (result) {
     refreshCompanies();
-const localePath = useLocalePath();
+    navigateTo(useLocalePath()(ROUTES.DASHBOARD));
 
-async function handleCreateCompany(companyData: { name: string }) {
-  const result = await createCompany(companyData);
-  if (result) {
-    refreshCompanies();
-    navigateTo(localePath(ROUTES.DASHBOARD));
-    toast.add({
     toast.add({
       title: t("common.success"),
       description: t("forms.companyForm.createdSuccess"),

@@ -22,8 +22,6 @@ productsStore.refreshProducts();
 const { products, pending: loadingProducts } = storeToRefs(productsStore);
 const { isCreateProductLoading, createProduct, isDeleteProductLoading, deleteProduct } = useProductsApi();
 
-const isCreateModalOpen = ref(false);
-
 async function handleDeleteProducts(ProductsId: string) {
   deletingProductsId.value = ProductsId;
   try {
@@ -136,21 +134,8 @@ const columns: TableColumn[] = [
           }"
         />
       </DashboardTableSkeleton>
-      <UModal
-        v-model:open="isCreateModalOpen"
-        :title="t('products.create.title')"
-        :description="t('products.create.description')"
-      >
-        <UButton
-          :label="t('products.create.button')"
-          icon="i-heroicons-plus-20-solid"
-          color="primary"
-        />
 
-        <template #content>
-          <DashboardFormsProductForm />
-        </template>
-      </UModal>
+      <DashboardFormsProductForm />
     </div>
   </UDashboardPanel>
 </template>

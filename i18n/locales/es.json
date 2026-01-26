@@ -369,7 +369,12 @@
     "sales": {
       "title": "Gestión de Ventas",
       "existing": "Ventas Existentes",
-      "loading": "Cargando ventas..."
+      "loading": "Cargando ventas...",
+      "create": {
+        "title": "Crear Venta",
+        "description": "Formulario para registrar una nueva venta en el sistema CRM.",
+        "button": "Crear Venta"
+      }
     },
     "metrics": {
       "customers": "Clientes",
