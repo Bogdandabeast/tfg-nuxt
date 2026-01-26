@@ -16,17 +16,9 @@ export const auth = betterAuth({
     "https://bogdanweb.dev",
     "http://localhost:3000",
   ],
-<<<<<<< HEAD
-  cookies: {
-    sessionToken: {
-      secure: true,
-      sameSite: "none",
-      path: "/",
-      domain: "bogdanweb.dev",
-=======
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
-      void SendEmail({
+      await sendEmail({
         to: user.email,
         from: "techlead@bogdanweb.dev",
         replyTo: "techlead@bogdanweb.dev",
@@ -50,7 +42,6 @@ export const auth = betterAuth({
           domain: "bogdanweb.dev",
         },
       },
->>>>>>> 8a59b5d (feat: add email sender and verification)
     },
   },
   hooks: {
@@ -75,10 +66,6 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
-<<<<<<< HEAD
-
-=======
     requireEmailVerification: true, // Requiere verificación para login
->>>>>>> 8a59b5d (feat: add email sender and verification)
   },
 });
