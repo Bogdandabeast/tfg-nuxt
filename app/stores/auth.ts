@@ -45,7 +45,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         name,
         email,
         password,
-        callbackURL: "http://localhost:3000/es/dashboard",
+        callbackURL: useLocalePath()(ROUTES.DASHBOARD),
         fetchOptions: {
           headers,
         },
@@ -82,7 +82,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         email,
         password,
         rememberMe,
-        callbackURL: "http://localhost:3000/es/dashboard",
+        callbackURL: useLocalePath()(ROUTES.DASHBOARD),
         fetchOptions: {
           headers,
         },
