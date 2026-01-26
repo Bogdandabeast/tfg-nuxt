@@ -4,7 +4,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { createAuthMiddleware } from "better-auth/plugins";
 import { db } from "./db/index";
 import { user_schema } from "./db/schema/index";
-import { SendEmail } from "./emailsender";
+import { sendEmail } from "./emailsender";
 
 export type UserWithId = Omit<User, "id"> & {
   id: string;
