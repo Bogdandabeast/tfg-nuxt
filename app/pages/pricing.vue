@@ -97,27 +97,6 @@ const featuresPremium = computed(() => [
       </UPricingPlans>
     </UContainer>
 
-    <UPageSection>
-      <UPageLogos>
-        <UIcon
-          name="i-simple-icons-nuxtdotjs"
-          class="w-12 h-12 flex-shrink-0 text-muted"
-        />
-        <UIcon
-          name="i-simple-icons-tailwindcss"
-          class="w-12 h-12 flex-shrink-0 text-muted"
-        />
-        <UIcon
-          name="i-simple-icons-vuedotjs"
-          class="w-12 h-12 flex-shrink-0 text-muted"
-        />
-        <UIcon
-          name="i-simple-icons-github"
-          class="w-12 h-12 flex-shrink-0 text-muted"
-        />
-      </UPageLogos>
-    </UPageSection>
-
     <UPageSection
       :title="t('pricing.faq.title')"
       :description="t('pricing.faq.description')"
