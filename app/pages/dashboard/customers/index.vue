@@ -9,6 +9,10 @@ definePageMeta({
 
 const localePath = useLocalePath();
 const { t } = useI18n();
+const toast = useToast();
+
+const isCreateModalOpen = ref(false);
+const deletingCustomersId = ref<string | null>(null);
 
 const companiesStore = useCompaniesStore();
 const customersStore = useCustomersStore();
@@ -17,7 +21,33 @@ const customersStore = useCustomersStore();
 companiesStore.refreshCompanies();
 customersStore.refreshCustomers();
 
+const { isDeleteCustomerLoading, deleteCustomer } = useCustomersApi();
 const { customers, pending: loadingCustomers } = storeToRefs(customersStore);
+
+async function handleDeleteCustomers(CustomersId: string) {
+  deletingCustomersId.value = CustomersId;
+  try {
+    const success = await deleteCustomer(Number(CustomersId));
+    if (success === true) {
+      await customersStore.refreshCustomers();
+      toast.add({
+        title: t("common.success"),
+        description: t("forms.customerForm.deletedSuccess"),
+        color: "success",
+      });
+    }
+    else {
+      toast.add({
+        title: t("common.error"),
+        description: success as string,
+        color: "error",
+      });
+    }
+  }
+  finally {
+    deletingCustomersId.value = null;
+  }
+}
 
 const columns: TableColumn[] = [
   {
@@ -49,6 +79,36 @@ const columns: TableColumn[] = [
     accessorKey: "phone",
     header: t("tables.headers.phone"),
   },
+  {
+    accessorKey: "actions",
+    header: t("tables.headers.actions"),
+    cell: ({ row }: any) => {
+      const customersId = row.getValue("id");
+      return h("div", { class: "flex gap-2" }, [
+        h(
+          resolveComponent("UButton"),
+          {
+            to: localePath(getCustomerPath(customersId)),
+            variant: "ghost",
+            color: "primary",
+            size: "xs",
+            icon: "i-lucide-edit",
+          },
+        ),
+        h(
+          resolveComponent("UButton"),
+          {
+            variant: "ghost",
+            color: "red",
+            size: "xs",
+            icon: "i-lucide-trash",
+            loading: deletingCustomersId.value === customersId.toString(),
+            onClick: () => handleDeleteCustomers(customersId.toString()),
+          },
+        ),
+      ]);
+    },
+  },
 ];
 </script>
 
@@ -74,11 +134,12 @@ const columns: TableColumn[] = [
           }"
         />
       </DashboardTableSkeleton>
-      <UModal :description="t('dashboard.customers.modal.description')">
+      <UModal v-model:open="isCreateModalOpen" :description="t('dashboard.customers.modal.description')">
         <UButton
-          label="Sales Actions"
+          :label="t('dashboard.customers.modal.create_button_label')"
           color="neutral"
           variant="subtle"
+          @click="isCreateModalOpen = true"
         />
 
         <template #content>

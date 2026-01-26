@@ -7,7 +7,6 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   const nuxtApp = useNuxtApp();
   const t = nuxtApp.$i18n.t;
   const toast = useToast();
-  const router = useRoute();
   const { csrf } = useCsrf();
   const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null);
   const isInitialized = ref(false);

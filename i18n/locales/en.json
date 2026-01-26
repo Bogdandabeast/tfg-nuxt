@@ -27,7 +27,93 @@
       "title": "Ready to boost your business?",
       "description": "Start today with EscorialCRM and take your business management to the next level.",
       "signup_button": "Sign Up Now"
-    }
+    },
+    "testimonials": [
+      {
+        "user": {
+          "description": "Senior Developer at Alebat"
+        },
+        "quote": "EscorialCRM allowed us to centralize clients, products, and sales without friction. The team's adoption speed was surprising."
+      },
+      {
+        "user": {
+          "description": "Head of Product at NovaTech Global"
+        },
+        "quote": "Process automation in EscorialCRM reduced our operational time by more than 40%. It is an essential tool."
+      },
+      {
+        "user": {
+          "description": "Operations Director at Iberion Systems"
+        },
+        "quote": "Sales management has never been so clear. EscorialCRM gave us full visibility of the commercial cycle."
+      },
+      {
+        "user": {
+          "description": "Chief Technology Officer at BluePeak Solutions"
+        },
+        "quote": "Integrating EscorialCRM with our internal tools was surprisingly simple. The architecture is solid and scalable."
+      },
+      {
+        "user": {
+          "description": "Marketing Manager at BrightWave Corp"
+        },
+        "quote": "The customer module is wonderful. We can segment, analyze, and act in minutes. EscorialCRM changed our pace."
+      },
+      {
+        "user": {
+          "description": "Business Development Manager at HorizonBridge"
+        },
+        "quote": "EscorialCRM allowed us to scale without losing control. The interface is intuitive and the support, impeccable."
+      },
+      {
+        "user": {
+          "description": "Chief Operating Officer at QuantumLeap Industries"
+        },
+        "quote": "Sales traceability and sales team management in EscorialCRM exceeded our expectations from the first month."
+      },
+      {
+        "user": {
+          "description": "Head of Customer Success at Nexora Labs"
+        },
+        "quote": "Customer support is exceptional. EscorialCRM listens, improves, and constantly evolves."
+      },
+      {
+        "user": {
+          "description": "Senior Data Architect at OrionEdge"
+        },
+        "quote": "The integration with our analysis systems was fluid. EscorialCRM is clearly designed for fast-growing companies."
+      },
+      {
+        "user": {
+          "description": "VP of Sales at Altura Dynamics"
+        },
+        "quote": "The sales panel is simply perfect. My team adopted it in days and now they use it daily."
+      },
+      {
+        "user": {
+          "description": "Director of Innovation at SkyForge Technologies"
+        },
+        "quote": "EscorialCRM allowed us to automate processes that previously required hours of manual work. A huge leap in efficiency."
+      },
+      {
+        "user": {
+          "description": "Chief Strategy Officer at Veridian Group"
+        },
+        "quote": "The global vision that EscorialCRM offers on clients and sales helps us make strategic decisions with real data."
+      },
+      {
+        "user": {
+          "description": "Enterprise Solutions Manager at Macrobyte"
+        },
+        "quote": "The flexibility of the system is impressive. We can adapt it to each department without complications."
+      },
+      {
+        "user": {
+          "description": "Global Operations Manager at HelixCore"
+        },
+        "quote": "EscorialCRM gave us order, speed, and control. It is the tool we have needed for years."
+      }
+    ]
   },
   "header": {
     "crm": "CRM",
@@ -107,56 +193,37 @@
     "plans": {
       "monthly_cycle": "/month",
       "yearly_cycle": "/year",
-      "basic": {
-        "title": "Basic",
-        "description": "Perfect for individual users.",
+      "free": {
+        "title": "Free Plan",
+        "description": "",
         "features": {
-          "projects": "5 Projects",
-          "storage": "10 GB Storage",
-          "support": "Basic Support",
-          "custom_domain": "Custom Domain",
-          "ssl_certificate": "SSL Certificate",
-          "email_notifications": "Email Notifications",
-          "analytics_dashboard": "Analytics Dashboard",
-          "community_access": "Community Access",
-          "api_access": "API Access",
-          "daily_backups": "Daily Backups",
-          "priority_queue": "Priority Queue",
-          "multi_device_sync": "Multi-device Sync",
-          "basic_integrations": "Basic Integrations"
+          "company_management": "Company management",
+          "customer_crud": "Customer creation, editing, and deletion",
+          "product_crud": "Product creation, editing, and deletion",
+          "sales_crud": "Sales creation, editing, and deletion",
+          "crm_access": "CRM access from anywhere with optimized performance",
+          "basic_metrics": "Basic business metrics"
         },
-        "button": "Choose Basic"
+        "button": "Choose Free"
       },
-      "pro": {
-        "title": "Pro",
-        "description": "For growing teams with more needs.",
+      "premium": {
+        "title": "Premium Plan – €30/month (Coming Soon)",
+        "description": "Includes everything from the Free Plan:",
         "features": {
-          "projects": "Unlimited Projects",
-          "storage": "1 TB Secure Cloud Storage",
-          "support": "24/7 Premium Support",
-          "dedicated_account_manager": "Dedicated Account Manager",
-          "custom_domain": "Custom Domain + Advanced DNS",
-          "ssl_certificates": "Enterprise-grade SSL Certificates",
-          "analytics_reporting": "Advanced Analytics & Reporting",
-          "team_collaboration_tools": "Team Collaboration Tools",
-          "role_based_access_control": "Role-based Access Control",
-          "sso": "Single Sign-On (SSO)",
-          "audit_logs": "Audit Logs & Compliance Reports",
-          "api_rate_limits": "API Rate Limits x10",
-          "backups": "Daily + On-demand Backups",
-          "deployment_queue": "Priority Deployment Queue",
-          "multi_device_sync_offline": "Multi-device Sync & Offline Mode",
-          "advanced_integrations": "Advanced Integrations (Slack, Jira, Zapier)",
-          "ai_recommendations": "AI-powered Recommendations",
-          "custom_branding": "Custom Branding & White-label",
-          "beta_access": "Beta Features Early Access",
-          "uptime_sla": "99.99% Uptime SLA",
-          "geo_redundant_infrastructure": "Geo-redundant Infrastructure",
-          "advanced_security": "Advanced Security (2FA, Encryption at Rest)",
-          "vip_community_access": "VIP Community Access",
-          "strategy_review": "Quarterly Strategy Review"
+          "company_management": "Company management",
+          "customer_crud": "Customer creation, editing, and deletion",
+          "product_crud": "Product creation, editing, and deletion",
+          "sales_crud": "Sales creation, editing, and deletion",
+          "crm_access": "CRM access from anywhere with optimized performance",
+          "basic_metrics": "Basic business metrics",
+          "image_upload": "Upload images, notes, and videos (coming soon)",
+          "advanced_metrics": "Advanced metrics and detailed analysis (coming soon)",
+          "email_sending": "Email sending from the CRM (coming soon)",
+          "employee_management": "Employee management (coming soon)",
+          "full_api_access": "Full API access (coming soon)",
+          "ai_features": "AI functions with contextual knowledge about your business (coming soon)"
         },
-        "button": "Choose Pro"
+        "button": "Choose Premium"
       }
     },
     "faq": {
@@ -197,6 +264,7 @@
       "no_account": "Don't have an account?",
       "signup_link": "Sign up",
       "forgot_password": "Forgot password?",
+      "submit_button": "Sign In",
       "agree_terms_part1": "By signing in, you agree to our",
       "terms_of_service_link": "Terms of Service"
     },
@@ -294,7 +362,8 @@
       "existing": "Existing Customers",
       "loading": "Loading customers...",
       "modal": {
-        "description": "Form to manage customer information in the system."
+        "description": "Form to manage customer information in the system.",
+        "create_button_label": "Create Customer"
       }
     },
     "sales": {

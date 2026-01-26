@@ -34,14 +34,16 @@ async function handleCreateCompany(companyData: { name: string }) {
 
 <template>
   <UDashboardPanel class="overflow-y-auto">
-    <DashboardNavBar />
-    <UPageHeader :title="$t('forms.companyForm.createTitle')" />
+    <div class="m-5">
+      <DashboardNavbar />
+      <UPageHeader :title="$t('forms.companyForm.createTitle')" class="ml-5" />
 
-    <UCard>
-      <CompanyForm
-        :on-submit="handleCreateCompany"
-        :loading="isCreateCompanyLoading"
-      />
-    </UCard>
+      <UCard>
+        <CompanyForm
+          :on-submit="handleCreateCompany"
+          :loading="isCreateCompanyLoading"
+        />
+      </UCard>
+    </div>
   </UDashboardPanel>
 </template>

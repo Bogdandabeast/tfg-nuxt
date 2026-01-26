@@ -10,7 +10,6 @@ defineProps<{
 
 const companiesStore = useCompaniesStore();
 const { companies, currentCompany } = storeToRefs(companiesStore);
-const router = useRouter();
 const localePath = useLocalePath();
 const { t } = useI18n();
 

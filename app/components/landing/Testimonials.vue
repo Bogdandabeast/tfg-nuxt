@@ -1,160 +1,162 @@
 <script setup lang="ts">
+const { t } = useI18n();
+
 const testimonials = ref([
   {
     user: {
       name: "Ronald Magaldi",
-      description: "Senior Developer at Alebat",
+      description: t("homepage.testimonials[0].user.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/men/32.jpg",
         alt: "Ronald Magaldi",
       },
     },
-    quote: "EscorialCRM nos permitió centralizar clientes, productos y ventas sin fricción. La velocidad de adopción en el equipo fue sorprendente.",
+    quote: t("homepage.testimonials[0].quote"),
   },
   {
     user: {
       name: "Pavel Kit",
-      description: "Head of Product at NovaTech Global",
+      description: t("homepage.testimonials[1].user.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/men/45.jpg",
         alt: "Pavel Kit",
       },
     },
-    quote: "La automatización de procesos en EscorialCRM redujo nuestro tiempo operativo en más de un 40%. Es una herramienta imprescindible.",
+    quote: t("homepage.testimonials[1].quote"),
   },
   {
     user: {
       name: "Arya Mongolonov",
-      description: "Operations Director at Iberion Systems",
+      description: t("homepage.testimonials[2].user.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/men/76.jpg",
         alt: "Arya Mongolonov",
       },
     },
-    quote: "La gestión de ventas nunca había sido tan clara. EscorialCRM nos dio visibilidad total del ciclo comercial.",
+    quote: t("homepage.testimonials[2].quote"),
   },
   {
     user: {
       name: "David",
-      description: "Chief Technology Officer at BluePeak Solutions",
+      description: t("homepage.testimonials[3].user.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/men/12.jpg",
         alt: "David",
       },
     },
-    quote: "Integrar EscorialCRM con nuestras herramientas internas fue sorprendentemente sencillo. La arquitectura es sólida y escalable.",
+    quote: t("homepage.testimonials[3].quote"),
   },
   {
     user: {
       name: "Lucía",
-      description: "Marketing Manager at BrightWave Corp",
+      description: t("homepage.testimonials[4].user.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/women/22.jpg",
         alt: "Lucía",
       },
     },
-    quote: "El módulo de clientes es una maravilla. Podemos segmentar, analizar y actuar en minutos. EscorialCRM nos cambió el ritmo.",
+    quote: t("homepage.testimonials[4].quote"),
   },
   {
     user: {
       name: "Laura",
-      description: "Business Development Manager at HorizonBridge",
+      description: t("homepage.testimonials[5].user.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/women/65.jpg",
         alt: "Laura",
       },
     },
-    quote: "EscorialCRM nos permitió escalar sin perder control. La interfaz es intuitiva y el soporte, impecable.",
+    quote: t("homepage.testimonials[5].quote"),
   },
 
   // Nuevos testimonios añadidos
   {
     user: {
       name: "Sergio Valverde",
-      description: "Chief Operating Officer at QuantumLeap Industries",
+      description: t("homepage.testimonials[6].user.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/men/18.jpg",
         alt: "Sergio Valverde",
       },
     },
-    quote: "La trazabilidad de ventas y la gestión de equipos comerciales en EscorialCRM superó nuestras expectativas desde el primer mes.",
+    quote: t("homepage.testimonials[6].quote"),
   },
   {
     user: {
       name: "Marina Torres",
-      description: "Head of Customer Success at Nexora Labs",
+      description: t("homepage.testimonials[7].user.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/women/44.jpg",
         alt: "Marina Torres",
       },
     },
-    quote: "El soporte al cliente es excepcional. EscorialCRM escucha, mejora y evoluciona constantemente.",
+    quote: t("homepage.testimonials[7].quote"),
   },
   {
     user: {
       name: "Héctor Salvat",
-      description: "Senior Data Architect at OrionEdge",
+      description: t("homepage.testimonials[8].user.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/men/67.jpg",
         alt: "Héctor Salvat",
       },
     },
-    quote: "La integración con nuestros sistemas de análisis fue fluida. EscorialCRM está claramente diseñado para empresas que crecen rápido.",
+    quote: t("homepage.testimonials[8].quote"),
   },
   {
     user: {
       name: "Elena Rivas",
-      description: "VP of Sales at Altura Dynamics",
+      description: t("homepage.testimonials[9].user.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/women/12.jpg",
         alt: "Elena Rivas",
       },
     },
-    quote: "El panel de ventas es simplemente perfecto. Mi equipo lo adoptó en días y ahora lo usan a diario.",
+    quote: t("homepage.testimonials[9].quote"),
   },
   {
     user: {
       name: "Tomás Aguilar",
-      description: "Director of Innovation at SkyForge Technologies",
+      description: t("homepage.testimonials[10].user.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/men/91.jpg",
         alt: "Tomás Aguilar",
       },
     },
-    quote: "EscorialCRM nos permitió automatizar procesos que antes requerían horas de trabajo manual. Un salto enorme en eficiencia.",
+    quote: t("homepage.testimonials[10].quote"),
   },
   {
     user: {
       name: "Natalia Campos",
-      description: "Chief Strategy Officer at Veridian Group",
+      description: t("homepage.testimonials[11].user.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/women/81.jpg",
         alt: "Natalia Campos",
       },
     },
-    quote: "La visión global que ofrece EscorialCRM sobre clientes y ventas nos ayuda a tomar decisiones estratégicas con datos reales.",
+    quote: t("homepage.testimonials[11].quote"),
   },
   {
     user: {
       name: "Julián Herrera",
-      description: "Enterprise Solutions Manager at Macrobyte",
+      description: t("homepage.testimonials[12].user.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/men/33.jpg",
         alt: "Julián Herrera",
       },
     },
-    quote: "La flexibilidad del sistema es impresionante. Podemos adaptarlo a cada departamento sin complicaciones.",
+    quote: t("homepage.testimonials[12].quote"),
   },
   {
     user: {
       name: "Claudia Méndez",
-      description: "Global Operations Manager at HelixCore",
+      description: t("homepage.testimonials[13].user.description"),
       avatar: {
         src: "https://randomuser.me/api/portraits/women/39.jpg",
         alt: "Claudia Méndez",
       },
     },
-    quote: "EscorialCRM nos dio orden, velocidad y control. Es la herramienta que necesitábamos desde hace años.",
+    quote: t("homepage.testimonials[13].quote"),
   },
 ]);
 </script>
