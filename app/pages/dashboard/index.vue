@@ -71,14 +71,10 @@ const statsData = computed<Stat[]>(() => [
   },
 ]);
 
-// Detectar si todas las métricas están vacías
 const allMetricsEmpty = computed(() => {
-  // Si no hay empresa seleccionada, mostrar mensaje vacío
   if (!companiesStore.currentCompany?.id) {
     return true;
   }
-
-  // Si la empresa existe pero no tiene actividad comercial (todos valores 0)
   return (
     totalRevenue.value === 0
     && totalCustomers.value === 0
@@ -115,8 +111,6 @@ watch(() => companiesStore.currentCompany?.id, async (newCompanyId, oldCompanyId
     }
   }
 }, { immediate: false });
-
-// Inicializar con empresa actual si existe
 onMounted(() => {
   if (companiesStore.currentCompany?.id) {
     metricsStore.loadAllMetrics();

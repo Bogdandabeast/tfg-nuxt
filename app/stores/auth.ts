@@ -100,6 +100,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         color: "success",
       });
       await authClient.fetchSession();
+      return true;
     }
     finally {
       isSigningIn.value = false;
