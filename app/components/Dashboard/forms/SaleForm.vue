@@ -131,32 +131,15 @@ async function deleteSaleHandler() {
         </div>
 
         <template #footer>
-          <UButton :loading="isCreateSaleLoading" @click="createSaleHandler">
+          <UButton
+            :loading="isCreateSaleLoading"
+            color="primary"
+            variant="subtle"
+            @click="createSaleHandler"
+          >
             {{ t('forms.saleForm.createButton') }}
           </UButton>
         </template>
-      </UCard>
-
-      <UCard>
-        <template #header>
-          <h3>{{ t('forms.saleForm.deleteTitle') }}</h3>
-        </template>
-
-        <UFormField
-          :label="t('forms.saleForm.idLabel')"
-          name="saleToDeleteId"
-          class="mb-4"
-        >
-          <UInput v-model="saleToDeleteId" :placeholder="t('forms.saleForm.idPlaceholder')" />
-        </UFormField>
-
-        <UButton
-          color="secondary"
-          :loading="isDeleteSaleLoading"
-          @click="deleteSaleHandler"
-        >
-          {{ t('forms.saleForm.deleteButton') }}
-        </UButton>
       </UCard>
 
       <div v-if="error" class="mt-4 text-red-500">

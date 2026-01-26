@@ -108,32 +108,14 @@ async function deleteProductHandler() {
         </div>
 
         <template #footer>
-          <UButton :loading="isCreateProductLoading" @click="createProductHandler">
-            {{ t('forms.productForm.create') }}
-          </UButton>
+          <UButton
+            :label="t('forms.productForm.create.title')"
+            color="primary"
+            variant="subtle"
+            :loading="isCreateProductLoading"
+            @click="createProductHandler"
+          />
         </template>
-      </UCard>
-
-      <UCard>
-        <template #header>
-          <h3>{{ t('forms.productForm.deleteTitle') }}</h3>
-        </template>
-
-        <UFormField
-          :label="t('forms.productForm.id')"
-          name="productToDeleteId"
-          class="mb-4"
-        >
-          <UInput v-model="productToDeleteId" :placeholder="t('forms.productForm.idPlaceholder')" />
-        </UFormField>
-
-        <UButton
-          color="primary"
-          :loading="isDeleteProductLoading"
-          @click="deleteProductHandler"
-        >
-          {{ t('forms.productForm.delete') }}
-        </UButton>
       </UCard>
 
       <div v-if="error" class="mt-4 text-red-500">

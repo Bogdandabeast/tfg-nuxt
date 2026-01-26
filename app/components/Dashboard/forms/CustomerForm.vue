@@ -106,32 +106,15 @@ async function deleteCustomerHandler() {
         </div>
 
         <template #footer>
-          <UButton :loading="isCreateCustomerLoading" @click="createCustomerHandler">
+          <UButton
+            :loading="isCreateCustomerLoading"
+            color="primary"
+            variant="subtle"
+            @click="createCustomerHandler"
+          >
             {{ t('forms.customerForm.createButton') }}
           </UButton>
         </template>
-      </UCard>
-
-      <UCard>
-        <template #header>
-          <h3>{{ t('forms.customerForm.deleteTitle') }}</h3>
-        </template>
-
-        <UFormField
-          :label="t('forms.customerForm.idLabel')"
-          name="customerToDeleteId"
-          class="mb-4"
-        >
-          <UInput v-model="customerToDeleteId" :placeholder="t('forms.customerForm.idPlaceholder')" />
-        </UFormField>
-
-        <UButton
-          color="primary"
-          :loading="isDeleteCustomerLoading"
-          @click="deleteCustomerHandler"
-        >
-          {{ t('forms.customerForm.deleteButton') }}
-        </UButton>
       </UCard>
 
       <FormErrorAlert :error="error" />

@@ -451,13 +451,14 @@
       "idPlaceholder": "Enter product ID to delete",
       "noCompany": "No company selected.",
       "invalidData": "Please fill in all product details.",
-      "createdSuccess": "Product created successfully!"
+      "createdSuccess": "Product created successfully!",
+      "create": {
+        "title": "Create Product",
+        "description": "Form to add a new product to inventory",
+        "button": "New Product"
+      }
     },
-    "create": {
-      "title": "Create Product",
-      "description": "Form to add a new product to inventory",
-      "button": "New Product"
-    },
+
     "saleForm": {
       "customer": "Customer",
       "product": "Product",

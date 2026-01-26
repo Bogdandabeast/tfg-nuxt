@@ -450,13 +450,14 @@
       "idPlaceholder": "Ingresa el ID del producto a eliminar",
       "noCompany": "No se ha seleccionado empresa.",
       "invalidData": "Por favor, completa todos los detalles del producto.",
-      "createdSuccess": "¡Producto creado exitosamente!"
+      "createdSuccess": "¡Producto creado exitosamente!",
+      "create": {
+        "title": "Crear Producto",
+        "description": "Formulario para agregar un nuevo producto al inventario",
+        "button": "Nuevo Producto"
+      }
     },
-    "create": {
-      "title": "Crear Producto",
-      "description": "Formulario para agregar un nuevo producto al inventario",
-      "button": "Nuevo Producto"
-    },
+
     "saleForm": {
       "customer": "Cliente",
       "product": "Producto",

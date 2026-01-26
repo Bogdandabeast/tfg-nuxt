@@ -48,8 +48,8 @@ const items = computed<DropdownMenuItem[][]>(() => {
         label: collapsed ? undefined : currentCompany?.name || t('companies.select'),
         trailingIcon: collapsed ? undefined : NAVIGATION_ICONS.select,
       }"
-      color="neutral"
-      variant="ghost"
+      color="secondary"
+      variant="subtle"
       block
       :square="collapsed"
       class="data-[state=open]:bg-elevated"
