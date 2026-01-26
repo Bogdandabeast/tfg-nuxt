@@ -31,19 +31,6 @@ export const auth = betterAuth({
     autoSignInAfterVerification: true, // Auto login después de verificar
     expiresIn: 3600, // Token expira en 1 hora
   },
-  advanced: {
-    cookies: {
-      session_token: {
-        name: "session_token",
-        attributes: {
-          secure: true,
-          sameSite: "none",
-          path: "/",
-          domain: "bogdanweb.dev",
-        },
-      },
-    },
-  },
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
       if (ctx.path === "/get-session") {
