@@ -45,6 +45,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         name,
         email,
         password,
+        callbackURL: useLocalePath()(ROUTES.DASHBOARD),
         fetchOptions: {
           headers,
         },
@@ -62,7 +63,6 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         description: t("signup.toast.success.description"),
         color: "success",
       });
-    
       return true;
     }
     finally {
@@ -82,6 +82,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         email,
         password,
         rememberMe,
+        callbackURL: useLocalePath()(ROUTES.DASHBOARD),
         fetchOptions: {
           headers,
         },
