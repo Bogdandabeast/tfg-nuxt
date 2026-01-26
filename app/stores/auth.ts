@@ -62,7 +62,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         description: t("signup.toast.success.description"),
         color: "success",
       });
-      await authClient.fetchSession();
+    
       return true;
     }
     finally {
@@ -99,7 +99,6 @@ export const useAuthStore = defineStore("useAuthStore", () => {
         description: t("login.toast.success.description"),
         color: "success",
       });
-      await authClient.fetchSession();
       return true;
     }
     finally {

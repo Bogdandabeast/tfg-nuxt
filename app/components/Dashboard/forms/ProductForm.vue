@@ -39,6 +39,7 @@ async function createProductHandler() {
       color: "success",
     });
     error.value = "";
+    isCreateModalOpen.value = false;
   }
 }
 
@@ -61,6 +62,7 @@ async function deleteProductHandler() {
       :label="t('dashboard.products.create.button')"
       color="primary"
       variant="subtle"
+      @click="isCreateModalOpen = true"
     />
 
     <template #content>

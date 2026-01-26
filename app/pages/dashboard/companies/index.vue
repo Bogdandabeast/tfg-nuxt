@@ -17,8 +17,17 @@ const toast = useToast();
 const { isCreateCompanyLoading, createCompany } = useCompaniesApi();
 onMounted(async () => {
   isLoading.value = true;
-  await companiesStore.refreshCompanies();
-  isLoading.value = false;
+  try {
+    await companiesStore.refreshCompanies();
+  } catch (error) {
+    toast.add({
+      title: t('companies.error.title'),
+      description: t('companies.error.description'),
+      color: "danger",
+    });
+  } finally {
+    isLoading.value = false;
+  }
 });
 
 function selectCompany(company: any) {

@@ -45,7 +45,7 @@ type Schema = z.output<typeof schema>;
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
   const success = await authStore.signUp(payload.data.name, payload.data.email, payload.data.password);
   if (success) {
-    return navigateTo(useLocalePath()(ROUTES.DASHBOARD));
+    window.location.reload()
   }
 }
 </script>

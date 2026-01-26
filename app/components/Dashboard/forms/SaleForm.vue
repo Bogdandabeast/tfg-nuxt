@@ -60,7 +60,7 @@ async function createSaleHandler() {
       color: "success",
     });
     error.value = "";
-    emit("close");
+    isCreateModalOpen.value = false;
   }
 }
 

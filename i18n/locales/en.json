@@ -345,6 +345,10 @@
       "modal": {
         "description": "Form to create a new company in the CRM system."
       }
+    },
+    "error": {
+      "title": "Error loading companies",
+      "description": "An error occurred while loading companies. Please try again."
     }
   },
   "dashboard": {

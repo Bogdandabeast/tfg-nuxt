@@ -55,7 +55,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     payload.data.remember || false,
   );
   if (success) {
-    return navigateTo(useLocalePath()(ROUTES.COMPANIES_MANAGE));
+    window.location.reload()
   }
 }
 </script>

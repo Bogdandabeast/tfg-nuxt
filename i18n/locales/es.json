@@ -345,6 +345,10 @@
       "modal": {
         "description": "Formulario para crear una nueva empresa en el sistema CRM."
       }
+    },
+    "error": {
+      "title": "Error al cargar empresas",
+      "description": "Ocurrió un error al cargar las empresas. Por favor, inténtalo de nuevo."
     }
   },
   "dashboard": {
