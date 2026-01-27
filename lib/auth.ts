@@ -1,10 +1,16 @@
 import type { User } from "better-auth";
+import { stripe } from "@better-auth/stripe";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { createAuthMiddleware } from "better-auth/plugins";
+import Stripe from "stripe";
 import { db } from "./db/index";
 import { user_schema } from "./db/schema/index";
 import { sendEmail } from "./emailsender";
+
+const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2025-11-17.clover", // Latest API version as of Stripe SDK v20.0.0
+});
 
 export type UserWithId = Omit<User, "id"> & {
   id: string;
@@ -55,4 +61,23 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: true, // Requiere verificación para login
   },
+  plugins: [
+    stripe({
+      stripeClient,
+      stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
+      createCustomerOnSignUp: true,
+      subscription: {
+        requireEmailVerification: true,
+        enabled: true,
+        plans: [
+          {
+            name: "pro",
+            // TODO: Replace with your Stripe price IDs
+            priceId: "price_monthly", // FILL IN
+            annualDiscountPriceId: "price_yearly", // FILL IN
+          },
+        ],
+      },
+    }),
+  ],
 });

@@ -1,8 +1,12 @@
+import { stripeClient } from "@better-auth/stripe/client";
 import { createAuthClient } from "better-auth/vue";
 import { ROUTES } from "~/utils/routes";
 
-const authClient = createAuthClient();
-
+const authClient = createAuthClient({ plugins: [
+  stripeClient({
+    subscription: true, // if you want to enable subscription management
+  }),
+] });
 export const useAuthStore = defineStore("useAuthStore", () => {
   const nuxtApp = useNuxtApp();
   const t = nuxtApp.$i18n.t;
@@ -10,12 +14,21 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   const { csrf } = useCsrf();
   const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null);
   const isInitialized = ref(false);
+  const hasProPlan = ref(false);
 
   const user = computed(() => session.value?.data?.user);
   const loading = computed(() => session.value?.isPending);
 
   const isSigningUp = ref(false);
   const isSigningIn = ref(false);
+
+  async function checkProPlan() {
+    const { data, error } = await authClient.subscription.list();
+    if (error)
+      return;
+    if (data?.length)
+      hasProPlan.value = true;
+  }
 
   async function init() {
     if (isInitialized.value) {
@@ -26,6 +39,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
       const data = await authClient.useSession(useFetch);
       session.value = data;
       isInitialized.value = true;
+      await checkProPlan();
     }
     catch (error) {
       isInitialized.value = true;
@@ -119,6 +133,15 @@ export const useAuthStore = defineStore("useAuthStore", () => {
     navigateTo(useLocalePath()(ROUTES.HOME));
   }
 
+  async function upgradeToPro(isYearly: boolean) {
+    await authClient.subscription.upgrade({
+      plan: "pro",
+      annual: isYearly,
+      successUrl: useLocalePath()(ROUTES.DASHBOARD),
+      cancelUrl: useLocalePath()(ROUTES.PRICING),
+    });
+  }
+
   return {
     init,
     loading,
@@ -128,5 +151,8 @@ export const useAuthStore = defineStore("useAuthStore", () => {
     user,
     isSigningUp,
     isSigningIn,
+    upgradeToPro,
+    hasProPlan,
+    checkProPlan,
   };
 });
