@@ -9,6 +9,7 @@ definePageMeta({
 });
 
 const { t } = useI18n();
+const success = ref(false);
 
 useSeoMeta({
   title: t("signup.seo.title"),
@@ -43,41 +44,60 @@ const schema = z.object({
 type Schema = z.output<typeof schema>;
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  /* const success =  */await authStore.signUp(payload.data.name, payload.data.email, payload.data.password);
-  /* if (success) {
-    window.location.reload()
-  } */
+  success.value = await authStore.signUp(payload.data.name, payload.data.email, payload.data.password);
 }
 </script>
 
 <template>
-  <UAuthForm
-    :fields="fields"
-    :schema="schema"
-    :title="t('signup.form.title')"
-    :submit="{
-      label: t('signup.form.submit_button'),
-      loading: authStore.isSigningUp,
-    }"
-    :disabled="authStore.isSigningUp"
-    @submit="onSubmit"
-  >
-    <template #description>
-      {{ t("signup.form.has_account") }}       <ULink
-        :to="useLocalePath()(ROUTES.LOGIN)"
-        class="text-primary font-medium"
-      >
-        {{ t("signup.form.login_link") }}
-      </ULink>.
-    </template>
+  <div>
+    <UAuthForm
+      v-if="!success"
+      :fields="fields"
+      :schema="schema"
+      :title="t('signup.form.title')"
+      :submit="{
+        label: t('signup.form.submit_button'),
+        loading: authStore.isSigningUp,
+      }"
+      :disabled="authStore.isSigningUp"
+      @submit="onSubmit"
+    >
+      <template #description>
+        {{ t("signup.form.has_account") }}       <ULink
+          :to="useLocalePath()(ROUTES.LOGIN)"
+          class="text-primary font-medium"
+        >
+          {{ t("signup.form.login_link") }}
+        </ULink>
+      </template>
 
-    <template #footer>
-      {{ t("signup.form.agree_terms_part1") }}       <ULink
-        :to="useLocalePath()(ROUTES.TERMS)"
-        class="text-primary font-medium"
-      >
-        {{ t("signup.form.terms_of_service_link") }}
-      </ULink>.
-    </template>
-  </UAuthForm>
+      <template #footer>
+        {{ t("signup.form.agree_terms_part1") }}       <ULink
+          :to="useLocalePath()(ROUTES.TERMS)"
+          class="text-primary font-medium"
+        >
+          {{ t("signup.form.terms_of_service_link") }}
+        </ULink>.
+      </template>
+    </UAuthForm>
+    <UCard v-else variant="subtle">
+      <template #header>
+        <h1 class="text-center">
+          {{ t("signup.card.verify_email.title") }}
+        </h1>
+      </template>
+      {{ t("signup.card.verify_email.description") }}
+      <template #footer>
+        <div class="flex flex-col items-center gap-4">
+          <UButton
+            class="flex-1"
+            :label="t('signup.card.verify_email.resend_button')"
+            color="secondary"
+            variant="subtle"
+          />
+          <DashboardSignOut />
+        </div>
+      </template>
+    </UCard>
+  </div>
 </template>

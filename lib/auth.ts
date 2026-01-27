@@ -9,7 +9,7 @@ import { user_schema } from "./db/schema/index";
 import { sendEmail } from "./emailsender";
 
 const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-11-17.clover", // Latest API version as of Stripe SDK v20.0.0
+  apiVersion: "2025-12-15.clover", // Latest API version as of Stripe SDK v20.0.0
 });
 
 export type UserWithId = Omit<User, "id"> & {
@@ -71,10 +71,24 @@ export const auth = betterAuth({
         enabled: true,
         plans: [
           {
+            name: "free", // the name of the plan, it'll be automatically lower cased when stored in the database
+            priceId: "price_1Su9ZUJvHaRtfVRdqMqA0EqR", // the price ID from stripe
+            limits: {
+              companies: 2,
+              customers: 20,
+              products: 10,
+              sales: 100,
+            },
+          },
+          {
             name: "pro",
-            // TODO: Replace with your Stripe price IDs
-            priceId: "price_monthly", // FILL IN
-            annualDiscountPriceId: "price_yearly", // FILL IN
+            priceId: "price_1Su9YVJvHaRtfVRdtoW56s31",
+            limits: {
+              companies: 4,
+              customers: 40,
+              products: 20,
+              sales: 200,
+            },
           },
         ],
       },

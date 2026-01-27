@@ -2,20 +2,20 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { useI18n } from "vue-i18n";
 import { ROUTES } from "~~/lib/constants";
-import CompaniesMenu from "~/components/Dashboard/CompaniesMenu.vue";
 
 import { NAVIGATION_ICONS } from "~/lib/icons";
 
 const { t } = useI18n();
 const toast = useToast();
 const localePath = useLocalePath();
-const breadcrumps = useBreadcrumbs();
 
 const open = ref(false);
 
 // Auth initialization for layout components
 const authStore = useAuthStore();
 await authStore.init();
+
+const user = computed(() => authStore.user);
 
 const links = [
   [
@@ -112,7 +112,12 @@ onMounted(async () => {
       :ui="{ footer: 'lg:border-t lg:border-default' }"
     >
       <template #default>
-        <CompaniesMenu />
+        <UUser
+          :name="user.name"
+          description="plan del usuario"
+          class="m-5"
+        />
+        <DashboardCompaniesMenu />
 
         <UNavigationMenu
           :items="links[0]"
@@ -121,6 +126,11 @@ onMounted(async () => {
           popover
         />
         <DashboardSignOut />
+        <UButton
+          label="upgrade to pro"
+          color="secondary"
+          @click="authStore.upgradeToPro(false)"
+        />
       </template>
     </UDashboardSidebar>
 

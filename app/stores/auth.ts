@@ -22,12 +22,11 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   const isSigningUp = ref(false);
   const isSigningIn = ref(false);
 
-  async function checkProPlan() {
-    const { data, error } = await authClient.subscription.list();
+  async function checkPlan() {
+    const { data: subscription, error } = await authClient.subscription.getSubscription();
     if (error)
       return;
-    if (data?.length)
-      hasProPlan.value = true;
+    return subscription;
   }
 
   async function init() {
@@ -39,7 +38,6 @@ export const useAuthStore = defineStore("useAuthStore", () => {
       const data = await authClient.useSession(useFetch);
       session.value = data;
       isInitialized.value = true;
-      await checkProPlan();
     }
     catch (error) {
       isInitialized.value = true;
@@ -70,7 +68,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
           description: t("signup.toast.error.description"),
           color: "error",
         });
-        return;
+        return false;
       }
       toast.add({
         title: t("signup.toast.success.title"),
@@ -134,12 +132,29 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   }
 
   async function upgradeToPro(isYearly: boolean) {
-    await authClient.subscription.upgrade({
+    const { csrf } = useCsrf();
+    const headers = new Headers();
+    headers.append("csrf-token", csrf);
+    const { data, error } = await authClient.subscription.upgrade({
       plan: "pro",
       annual: isYearly,
       successUrl: useLocalePath()(ROUTES.DASHBOARD),
       cancelUrl: useLocalePath()(ROUTES.PRICING),
+      locale: useNuxtApp().$i18n.locale.value,
+      disableRedirect: false, // Asegúrate de que esté en false
+      fetchOptions: {
+        headers,
+      },
     });
+
+    if (error) {
+      alert(error.message);
+    }
+    else if (data?.url) {
+      window.location.href = data.url;
+      console.log("Redirecting to:", data.url);
+    }
+    console.log("Upgrade response:", data, error);
   }
 
   return {
@@ -153,6 +168,6 @@ export const useAuthStore = defineStore("useAuthStore", () => {
     isSigningIn,
     upgradeToPro,
     hasProPlan,
-    checkProPlan,
+    checkPlan,
   };
 });

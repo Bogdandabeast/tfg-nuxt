@@ -4,6 +4,10 @@ if (!process.env.RESEND_API_KEY) {
   throw new Error("Missing RESEND_API_KEY environment variable");
 }
 
+if (!process.env.RESEND_API) {
+  throw new Error("Missing RESEND_API environment variable");
+}
+
 const sendEmailSchema = z.object({
   from: z.string().email(),
   to: z.string().email(),
