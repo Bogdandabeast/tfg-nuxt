@@ -4,6 +4,10 @@ if (!process.env.RESEND_API_KEY) {
   throw new Error("Missing RESEND_API_KEY environment variable");
 }
 
+if (!process.env.RESEND_API) {
+  throw new Error("Missing RESEND_API environment variable");
+}
+
 const sendEmailSchema = z.object({
   from: z.string().email(),
   to: z.string().email(),
@@ -17,7 +21,7 @@ type sendEmail = z.infer<typeof sendEmailSchema>;
 export async function sendEmail(data: sendEmail) {
   try {
     const validatedData = sendEmailSchema.parse(data);
-    const result = await $fetch("https://api.resend.com/emails", {
+    const result = await $fetch(process.env.RESEND_API, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
@@ -28,7 +32,6 @@ export async function sendEmail(data: sendEmail) {
     return result;
   }
   catch (error) {
-    // eslint-disable-next-line no-console
     console.error("Error sending email:", error);
     throw error;
   }

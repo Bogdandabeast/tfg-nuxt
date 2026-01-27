@@ -316,11 +316,18 @@
     "toast": {
       "success": {
         "title": "Success",
-        "description": "Account created successfully"
+        "description": "We have sent a confirmation email to your inbox."
       },
       "error": {
         "title": "Error",
         "description": "Could not create account"
+      }
+    },
+    "card": {
+      "verify_email": {
+        "title": "Verify your inbox",
+        "description": "Please click on the link we have sent to your email to complete the registration.",
+        "resend_button": "Resend verification email"
       }
     }
   },

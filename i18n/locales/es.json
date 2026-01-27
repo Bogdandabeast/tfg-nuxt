@@ -316,11 +316,18 @@
     "toast": {
       "success": {
         "title": "Éxito",
-        "description": "Cuenta creada correctamente"
+        "description": "Hemos enviado un correo de confirmación a tu bandeja de entrada."
       },
       "error": {
         "title": "Error",
         "description": "No se pudo crear la cuenta"
+      }
+    },
+    "card": {
+      "verify_email": {
+        "title": "Verifica su bandeja de correo",
+        "description": "Por favor pulse en el enlace que le hemos enviado a su correo electrónico para completar el registro.",
+        "resend_button": "Reenviar correo de verificación"
       }
     }
   },

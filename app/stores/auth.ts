@@ -1,8 +1,12 @@
+import { stripeClient } from "@better-auth/stripe/client";
 import { createAuthClient } from "better-auth/vue";
 import { ROUTES } from "~/utils/routes";
 
-const authClient = createAuthClient();
-
+const authClient = createAuthClient({ plugins: [
+  stripeClient({
+    subscription: true, // if you want to enable subscription management
+  }),
+] });
 export const useAuthStore = defineStore("useAuthStore", () => {
   const nuxtApp = useNuxtApp();
   const t = nuxtApp.$i18n.t;
@@ -10,12 +14,20 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   const { csrf } = useCsrf();
   const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null);
   const isInitialized = ref(false);
+  const hasProPlan = ref(false);
 
   const user = computed(() => session.value?.data?.user);
   const loading = computed(() => session.value?.isPending);
 
   const isSigningUp = ref(false);
   const isSigningIn = ref(false);
+
+  async function checkPlan() {
+    const { data: subscription, error } = await authClient.subscription.getSubscription();
+    if (error)
+      return;
+    return subscription;
+  }
 
   async function init() {
     if (isInitialized.value) {
@@ -56,7 +68,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
           description: t("signup.toast.error.description"),
           color: "error",
         });
-        return;
+        return false;
       }
       toast.add({
         title: t("signup.toast.success.title"),
@@ -119,6 +131,32 @@ export const useAuthStore = defineStore("useAuthStore", () => {
     navigateTo(useLocalePath()(ROUTES.HOME));
   }
 
+  async function upgradeToPro(isYearly: boolean) {
+    const { csrf } = useCsrf();
+    const headers = new Headers();
+    headers.append("csrf-token", csrf);
+    const { data, error } = await authClient.subscription.upgrade({
+      plan: "pro",
+      annual: isYearly,
+      successUrl: useLocalePath()(ROUTES.DASHBOARD),
+      cancelUrl: useLocalePath()(ROUTES.PRICING),
+      locale: useNuxtApp().$i18n.locale.value,
+      disableRedirect: false, // Asegúrate de que esté en false
+      fetchOptions: {
+        headers,
+      },
+    });
+
+    if (error) {
+      alert(error.message);
+    }
+    else if (data?.url) {
+      window.location.href = data.url;
+      console.log("Redirecting to:", data.url);
+    }
+    console.log("Upgrade response:", data, error);
+  }
+
   return {
     init,
     loading,
@@ -128,5 +166,8 @@ export const useAuthStore = defineStore("useAuthStore", () => {
     user,
     isSigningUp,
     isSigningIn,
+    upgradeToPro,
+    hasProPlan,
+    checkPlan,
   };
 });
