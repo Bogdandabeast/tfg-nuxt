@@ -7,8 +7,7 @@ const testimonials = ref([
       name: "Ronald Magaldi",
       description: t("homepage.testimonials[0].user.description"),
       avatar: {
-        src: "https://randomuser.me/api/portraits/men/32.jpg",
-        alt: "Ronald Magaldi",
+        src: "https:        alt: "Ronald Magaldi",
       },
     },
     quote: t("homepage.testimonials[0].quote"),
@@ -18,8 +17,7 @@ const testimonials = ref([
       name: "Pavel Kit",
       description: t("homepage.testimonials[1].user.description"),
       avatar: {
-        src: "https://randomuser.me/api/portraits/men/45.jpg",
-        alt: "Pavel Kit",
+        src: "https:        alt: "Pavel Kit",
       },
     },
     quote: t("homepage.testimonials[1].quote"),
@@ -29,8 +27,7 @@ const testimonials = ref([
       name: "Arya Mongolonov",
       description: t("homepage.testimonials[2].user.description"),
       avatar: {
-        src: "https://randomuser.me/api/portraits/men/76.jpg",
-        alt: "Arya Mongolonov",
+        src: "https:        alt: "Arya Mongolonov",
       },
     },
     quote: t("homepage.testimonials[2].quote"),
@@ -40,8 +37,7 @@ const testimonials = ref([
       name: "David",
       description: t("homepage.testimonials[3].user.description"),
       avatar: {
-        src: "https://randomuser.me/api/portraits/men/12.jpg",
-        alt: "David",
+        src: "https:        alt: "David",
       },
     },
     quote: t("homepage.testimonials[3].quote"),
@@ -51,8 +47,7 @@ const testimonials = ref([
       name: "Lucía",
       description: t("homepage.testimonials[4].user.description"),
       avatar: {
-        src: "https://randomuser.me/api/portraits/women/22.jpg",
-        alt: "Lucía",
+        src: "https:        alt: "Lucía",
       },
     },
     quote: t("homepage.testimonials[4].quote"),
@@ -62,21 +57,18 @@ const testimonials = ref([
       name: "Laura",
       description: t("homepage.testimonials[5].user.description"),
       avatar: {
-        src: "https://randomuser.me/api/portraits/women/65.jpg",
-        alt: "Laura",
+        src: "https:        alt: "Laura",
       },
     },
     quote: t("homepage.testimonials[5].quote"),
   },
 
-  // Nuevos testimonios añadidos
-  {
+    {
     user: {
       name: "Sergio Valverde",
       description: t("homepage.testimonials[6].user.description"),
       avatar: {
-        src: "https://randomuser.me/api/portraits/men/18.jpg",
-        alt: "Sergio Valverde",
+        src: "https:        alt: "Sergio Valverde",
       },
     },
     quote: t("homepage.testimonials[6].quote"),
@@ -86,8 +78,7 @@ const testimonials = ref([
       name: "Marina Torres",
       description: t("homepage.testimonials[7].user.description"),
       avatar: {
-        src: "https://randomuser.me/api/portraits/women/44.jpg",
-        alt: "Marina Torres",
+        src: "https:        alt: "Marina Torres",
       },
     },
     quote: t("homepage.testimonials[7].quote"),
@@ -97,8 +88,7 @@ const testimonials = ref([
       name: "Héctor Salvat",
       description: t("homepage.testimonials[8].user.description"),
       avatar: {
-        src: "https://randomuser.me/api/portraits/men/67.jpg",
-        alt: "Héctor Salvat",
+        src: "https:        alt: "Héctor Salvat",
       },
     },
     quote: t("homepage.testimonials[8].quote"),
@@ -108,8 +98,7 @@ const testimonials = ref([
       name: "Elena Rivas",
       description: t("homepage.testimonials[9].user.description"),
       avatar: {
-        src: "https://randomuser.me/api/portraits/women/12.jpg",
-        alt: "Elena Rivas",
+        src: "https:        alt: "Elena Rivas",
       },
     },
     quote: t("homepage.testimonials[9].quote"),
@@ -119,8 +108,7 @@ const testimonials = ref([
       name: "Tomás Aguilar",
       description: t("homepage.testimonials[10].user.description"),
       avatar: {
-        src: "https://randomuser.me/api/portraits/men/91.jpg",
-        alt: "Tomás Aguilar",
+        src: "https:        alt: "Tomás Aguilar",
       },
     },
     quote: t("homepage.testimonials[10].quote"),
@@ -130,8 +118,7 @@ const testimonials = ref([
       name: "Natalia Campos",
       description: t("homepage.testimonials[11].user.description"),
       avatar: {
-        src: "https://randomuser.me/api/portraits/women/81.jpg",
-        alt: "Natalia Campos",
+        src: "https:        alt: "Natalia Campos",
       },
     },
     quote: t("homepage.testimonials[11].quote"),
@@ -141,8 +128,7 @@ const testimonials = ref([
       name: "Julián Herrera",
       description: t("homepage.testimonials[12].user.description"),
       avatar: {
-        src: "https://randomuser.me/api/portraits/men/33.jpg",
-        alt: "Julián Herrera",
+        src: "https:        alt: "Julián Herrera",
       },
     },
     quote: t("homepage.testimonials[12].quote"),
@@ -152,8 +138,7 @@ const testimonials = ref([
       name: "Claudia Méndez",
       description: t("homepage.testimonials[13].user.description"),
       avatar: {
-        src: "https://randomuser.me/api/portraits/women/39.jpg",
-        alt: "Claudia Méndez",
+        src: "https:        alt: "Claudia Méndez",
       },
     },
     quote: t("homepage.testimonials[13].quote"),

@@ -8,20 +8,23 @@
         class="rounded-xl"
         data-v-baf90ddd=""
         preload="none"
-        poster="https://res.cloudinary.com/nuxt/video/upload/so_3.3/v1708511800/ui-pro/video-nuxt-ui-pro_kwfbdh.jpg"
-        :controls="true"
+        poster="https:        :controls="
+        true"
       ><source
         data-v-baf90ddd=""
-        src="https://res.cloudinary.com/nuxt/video/upload/v1708511800/ui-pro/video-nuxt-ui-pro_kwfbdh.webm"
-        type="video/webm"
+        src="https:        type="
+        video
+        webm"
       ><source
         data-v-baf90ddd=""
-        src="https://res.cloudinary.com/nuxt/video/upload/v1708511800/ui-pro/video-nuxt-ui-pro_kwfbdh.mp4"
-        type="video/mp4"
+        src="https:        type="
+        video
+        mp4"
       ><source
         data-v-baf90ddd=""
-        src="https://res.cloudinary.com/nuxt/video/upload/v1708511800/ui-pro/video-nuxt-ui-pro_kwfbdh.ogg"
-        type="video/ogg"
+        src="https:        type="
+        video
+        ogg"
       >
       </video>
     </UPageCard>

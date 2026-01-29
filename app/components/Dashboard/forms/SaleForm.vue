@@ -21,7 +21,7 @@ const newSale = reactive({
   customer_id: undefined as string | undefined,
   product_id: undefined as string | undefined,
   quantity: 1,
-  sale_date: new Date().toISOString().split("T")[0], // Default to current date in 'YYYY-MM-DD' format
+  sale_date: new Date().toISOString().split("T")[0],
   tax_rate: 0,
   discount: 0,
 });
@@ -53,13 +53,11 @@ async function createSaleHandler() {
     return;
   }
 
-  // Derive product and customer details
   const product = selectedProduct.value;
   const customer = selectedCustomer.value;
 
   if (!product || !customer || !newSale.sale_date) {
-    error.value = t("forms.saleForm.missingDetails"); // New translation key needed
-    return;
+    error.value = t("forms.saleForm.missingDetails"); return;
   }
 
   const saleData = {
@@ -68,7 +66,7 @@ async function createSaleHandler() {
     quantity: newSale.quantity,
     sale_date: newSale.sale_date,
     product_name: product.name,
-    unit_price: parseFloat(product.price), // Convert numeric string to number
+    unit_price: Number.parseFloat(product.price),
     customer_name: customer.name,
     tax_rate: newSale.tax_rate,
     discount: newSale.discount,
@@ -81,10 +79,7 @@ async function createSaleHandler() {
     newSale.customer_id = undefined;
     newSale.product_id = undefined;
     newSale.quantity = 1;
-    newSale.sale_date = new Date().toISOString().split("T")[0]; // Reset sale date
-    newSale.tax_rate = 0; // Reset to default
-    newSale.discount = 0; // Reset to default
-    toast.add({
+    newSale.sale_date = new Date().toISOString().split("T")[0]; newSale.tax_rate = 0; newSale.discount = 0; toast.add({
       title: t("common.success"),
       description: t("forms.saleForm.createdSuccess"),
       color: "success",

@@ -17,7 +17,6 @@ type TableRow = {
   value: string | number | null | undefined;
 };
 
-// Make customer data reactive - only fetch when saleData is available
 const customerData = computed(() => {
   if (!saleData.value?.customer_id)
     return null;
@@ -25,7 +24,6 @@ const customerData = computed(() => {
   return data.value;
 });
 
-// Make product data reactive - only fetch when saleData is available
 const productData = computed(() => {
   if (!saleData.value?.product_id)
     return null;
@@ -40,14 +38,12 @@ const menuItems = computed(() => [
     label: t("actions.edit.sale"),
     icon: "i-heroicons-pencil-square-20-solid",
     click: () => {
-      // TODO: Implement edit sale logic
     },
   },
   {
     label: t("actions.processRefund"),
     icon: "i-heroicons-receipt-refund-20-solid",
     click: () => {
-      // TODO: Implement process refund logic
     },
   },
   {
@@ -85,12 +81,10 @@ const tableColumns = [
       const label = row.original.label;
       const value = row.getValue("value");
 
-      // Manejar valores vacíos
       if (value == null || value === "") {
         return h("span", { class: "text-gray-400 italic" }, t("common.na"));
       }
 
-      // Use badges for ID and quantity fields
       if (label === t("tables.headers.id") || label === t("tables.headers.quantity")) {
         return h(resolveComponent("UBadge"), { color: "secondary", variant: "soft" }, () => String(value));
       }

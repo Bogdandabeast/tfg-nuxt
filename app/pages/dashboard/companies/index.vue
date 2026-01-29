@@ -38,8 +38,7 @@ function selectCompany(company: any) {
   if (redirectTo) {
     try {
       const decodedRedirect = decodeURIComponent(redirectTo);
-      if (decodedRedirect.startsWith("/") && !decodedRedirect.includes("://")) {
-        navigateTo(decodedRedirect);
+      if (decodedRedirect.startsWith("/") && !decodedRedirect.includes(":        navigateTo(decodedRedirect);
       }
       else {
         navigateTo(useLocalePath()(ROUTES.DASHBOARD));

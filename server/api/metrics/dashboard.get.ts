@@ -19,14 +19,12 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const userId = event.context.user.id;
     const userCompanies = await getCompaniesByUserId(userId);
 
-    // Validar que la empresa pertenece al usuario
     if (!userCompanies.find(c => c.id === companyId)) {
       throw createError({ statusCode: 403, statusMessage: "Invalid company access" });
     }
 
     const targetCompanyIds = [companyId];
 
-    // Ejecutar todas las métricas en paralelo con manejo de errores
     const results = await Promise.allSettled([
       getTotalRevenue(targetCompanyIds),
       getTotalCustomers(targetCompanyIds),
@@ -38,7 +36,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
       getSalesByPeriod(targetCompanyIds, period),
     ]);
 
-    // Procesar resultados
     const [revenue, customers, newCustomers, avgTicket, topProducts, salesPeriod] = results;
 
     const response = {

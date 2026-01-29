@@ -5,7 +5,6 @@ import { handleError } from "~~/utils/error-handler";
 import { productCreateSchema } from "~~/utils/schemas/products";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  // Validate CSRF token
   const csrfToken = getHeader(event, "csrf-token");
   if (!csrfToken) {
     throw createError({ statusCode: 403, statusMessage: "Missing CSRF token" });
@@ -16,7 +15,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const parsedData = productCreateSchema.parse(body);
     const data = { ...parsedData };
 
-    // Check if user has access to the provided company_id
     const userCompanies = await getCompaniesByUserId(event.context.user.id);
     const hasAccess = userCompanies.some(company => company.id === parsedData.company_id);
     if (!hasAccess) {

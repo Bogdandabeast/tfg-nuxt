@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
 
-// Assuming a type for Product
 type Product = {
   id: number;
   name: string;
@@ -28,14 +27,11 @@ export const useProductsStore = defineStore("products", () => {
   } = useFetch<Product[]>(() => apiUrl.value ?? "", {
     lazy: true,
     default: () => [],
-    // Watch the computed URL to refetch when it changes
     watch: [apiUrl],
   });
 
-  // Reactive variable for specific product ID
   const currentProductId = ref<number | null>(null);
 
-  // useFetch for specific product
   const {
     data: currentProductResponse,
     pending: currentProductPending,
@@ -44,7 +40,6 @@ export const useProductsStore = defineStore("products", () => {
     lazy: true,
   });
 
-  // Method to fetch a specific product by ID
   const getProductById = (productId: number) => {
     currentProductId.value = productId;
     return {

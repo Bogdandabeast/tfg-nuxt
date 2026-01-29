@@ -5,7 +5,6 @@ import { handleError } from "~~/utils/error-handler";
 import { productIdParamSchema, productUpdateSchema } from "~~/utils/schemas/products";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  // Validate CSRF token
   const csrfToken = getHeader(event, "csrf-token");
   if (!csrfToken) {
     throw createError({ statusCode: 403, statusMessage: "Missing CSRF token" });

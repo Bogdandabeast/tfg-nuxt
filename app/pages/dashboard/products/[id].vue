@@ -24,7 +24,6 @@ const menuItems = computed(() => [
     label: t("actions.edit.product"),
     icon: "i-heroicons-pencil-square-20-solid",
     onSelect: () => {
-      // TODO: Implement edit functionality
       console.log("Edit product");
     },
   },
@@ -32,7 +31,6 @@ const menuItems = computed(() => [
     label: t("actions.updatePrice"),
     icon: "i-heroicons-currency-dollar-20-solid",
     onSelect: () => {
-      // TODO: Implement price update functionality
       console.log("Update price");
     },
   },

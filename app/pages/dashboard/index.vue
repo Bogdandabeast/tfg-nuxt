@@ -25,7 +25,7 @@ const {
 
 const period = ref<Period>("monthly");
 const range = ref<Range>({
-  start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 days ago
+  start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
   end: new Date(),
 });
 
@@ -88,7 +88,6 @@ const allMetricsEmpty = computed(() => {
 
 const isLoading = computed(() => loadingMetrics.value);
 
-// Watcher para refrescar métricas cuando cambia la empresa
 watch(() => companiesStore.currentCompany?.id, async (newCompanyId, oldCompanyId) => {
   if (newCompanyId && newCompanyId !== oldCompanyId) {
     try {

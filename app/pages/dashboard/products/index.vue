@@ -15,7 +15,6 @@ const companiesStore = useCompaniesStore();
 const productsStore = useProductsStore();
 const deletingProductsId = ref<string | null>(null);
 
-// Refresh data asynchronously for lazy loading
 companiesStore.refreshCompanies();
 productsStore.refreshProducts();
 

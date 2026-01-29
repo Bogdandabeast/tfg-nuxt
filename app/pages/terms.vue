@@ -8,10 +8,10 @@ const breadcrumbItems = [{
   to: "/",
 }, {
   label: t("legal.title"),
-  to: "/legal", // Assuming a legal page exists
+  to: "/legal",
 }, {
   label: t("legal.terms_and_conditions"),
-  to: "/terms", // Corrected path
+  to: "/terms",
 }];
 
 const accordionItems = [{

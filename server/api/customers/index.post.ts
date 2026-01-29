@@ -4,7 +4,6 @@ import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event
 import { customerCreateSchema } from "~~/utils/schemas/customers";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  // Validate CSRF token
   const csrfToken = getHeader(event, "csrf-token");
   if (!csrfToken) {
     throw createError({ statusCode: 403, statusMessage: "Missing CSRF token" });
@@ -13,7 +12,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
   const body = await readBody(event);
   const data = customerCreateSchema.parse(body);
 
-  // Check if user has access to this company
   await assertUserHasCompanyAccess(event.context.user.id, data.company_id);
 
   const newCustomer = await createCustomer(data);

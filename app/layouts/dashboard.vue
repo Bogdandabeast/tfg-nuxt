@@ -13,7 +13,6 @@ const breadcrumps = useBreadcrumbs();
 
 const open = ref(false);
 
-// Auth initialization for layout components
 const authStore = useAuthStore();
 await authStore.init();
 

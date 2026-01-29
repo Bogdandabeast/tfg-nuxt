@@ -12,7 +12,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const { company_id } = querySchema.parse(getQuery(event));
 
-    // Check if user has access to this company
     const userId = event.context.user.id;
     const userCompanies = await getCompaniesByUserId(userId);
     const userCompanyIds = userCompanies.map(c => c.id);

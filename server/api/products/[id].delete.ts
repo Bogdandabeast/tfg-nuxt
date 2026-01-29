@@ -5,7 +5,6 @@ import { handleError } from "~~/utils/error-handler";
 import { productIdParamSchema } from "~~/utils/schemas/products";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  // Validate CSRF token
   const csrfToken = getHeader(event, "csrf-token");
   if (!csrfToken) {
     throw createError({ statusCode: 403, statusMessage: "Missing CSRF token" });
@@ -45,7 +44,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
     return { success: true, id: productId };
   }
   catch (error) {
-    // Handle foreign key constraint violation
     if (error && typeof error === "object" && "code" in error && error.code === "23503") {
       throw createError({
         statusCode: 409,

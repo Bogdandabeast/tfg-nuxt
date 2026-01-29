@@ -22,7 +22,6 @@ export const useCompaniesStore = defineStore("companies", () => {
     setSelectedCompanyId(company ? String(company.id) : null);
   }
 
-  // Watch for companies to load saved company
   watch(companies, (newCompanies) => {
     if (newCompanies && newCompanies.length > 0 && !currentCompany.value) {
       const savedId = selectedCompanyId.value;
@@ -32,17 +31,14 @@ export const useCompaniesStore = defineStore("companies", () => {
           currentCompany.value = company;
         }
         else {
-          // Company no longer exists, clear selection
           setSelectedCompanyId(null);
         }
       }
     }
   });
 
-  // Reactive variable for specific company ID
   const currentCompanyId = ref<number | null>(null);
 
-  // useFetch for specific company
   const {
     data: currentCompanyResponse,
     pending: currentCompanyPending,
@@ -51,7 +47,6 @@ export const useCompaniesStore = defineStore("companies", () => {
     lazy: true,
   });
 
-  // Method to fetch a specific company by ID
   const getCompanyById = (companyId: number) => {
     currentCompanyId.value = companyId;
     return {

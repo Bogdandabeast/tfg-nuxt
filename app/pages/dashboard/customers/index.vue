@@ -16,7 +16,6 @@ const deletingCustomersId = ref<string | null>(null);
 const companiesStore = useCompaniesStore();
 const customersStore = useCustomersStore();
 
-// Refresh data asynchronously for lazy loading
 companiesStore.refreshCompanies();
 customersStore.refreshCustomers();
 

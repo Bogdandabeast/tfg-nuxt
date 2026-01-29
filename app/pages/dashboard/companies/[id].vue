@@ -30,8 +30,7 @@ type _RowData = {
 
 async function handleDelete() {
   if (isDeleting.value)
-    return; // Prevent multiple delete requests
-
+    return;
   isDeleting.value = true;
   try {
     const result = await deleteCompany(companyId);

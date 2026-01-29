@@ -20,7 +20,6 @@ export const useMetricsStore = defineStore("metrics", () => {
   const companiesStore = useCompaniesStore();
   const toast = useToast();
 
-  // URL dinámica con company_id siempre requerido
   const dashboardUrl = computed(() => {
     const companyId = companiesStore.currentCompany?.id;
     if (!companyId) {
@@ -29,7 +28,6 @@ export const useMetricsStore = defineStore("metrics", () => {
     return `/api/metrics/dashboard?company_id=${companyId}`;
   });
 
-  // Una sola petición para todas las métricas
   const {
     data: dashboardMetricsResponse,
     pending: loadingMetrics,

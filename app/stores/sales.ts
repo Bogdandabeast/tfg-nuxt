@@ -31,10 +31,8 @@ export const useSalesStore = defineStore("sales", () => {
 
   const sales = computed(() => salesResponse.value?.sales || []);
 
-  // Reactive variable for specific sale ID
   const currentSaleId = ref<string | null>(null);
 
-  // useFetch for specific sale
   const {
     data: currentSaleResponse,
     pending: currentSalePending,
@@ -43,7 +41,6 @@ export const useSalesStore = defineStore("sales", () => {
     lazy: true,
   });
 
-  // Method to fetch a specific sale by ID
   const getSaleById = (saleId: string) => {
     currentSaleId.value = saleId;
     return {

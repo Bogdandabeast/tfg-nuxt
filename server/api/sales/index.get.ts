@@ -11,7 +11,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const userId = event.context.user.id;
     const userCompanies = await getCompaniesByUserId(userId);
     const userCompanyIds = userCompanies.map(c => c.id);
-    // Search by customer_id
+
     if (query.customer_id && query.company_id) {
       const { customer_id, company_id } = await customerIdParamSchema.parseAsync(query);
       if (!userCompanyIds.includes(company_id)) {
@@ -21,7 +21,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
       return { sales };
     }
 
-    // Search by product_id
     if (query.product_id && query.company_id) {
       const { product_id, company_id } = await productIdParamSchema.parseAsync(query);
       if (!userCompanyIds.includes(company_id)) {
@@ -31,7 +30,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
       return { sales };
     }
 
-    // Default: get all sales for the company
     if (query.company_id) {
       const { company_id } = await companyIdParamSchema.parseAsync(query);
       if (!userCompanyIds.includes(company_id)) {
@@ -41,7 +39,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
       return { sales };
     }
     else {
-      // If no company_id, return for all user's companies
       const salesPromises = userCompanyIds.map(companyId => getSalesByCompanyId(companyId));
       const salesArrays = await Promise.all(salesPromises);
       const allSales = salesArrays.flat();

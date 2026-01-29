@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ENTITY_ICONS, FEATURE_ICONS } from "~/lib/icons";
-
 import FormErrorAlert from "./FormErrorAlert.vue";
 
 const { t } = useI18n();

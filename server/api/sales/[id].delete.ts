@@ -5,7 +5,6 @@ import { handleError } from "~~/utils/error-handler";
 import { saleIdParamSchema } from "~~/utils/schemas/sales";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  // Validate CSRF token
   const csrfToken = getHeader(event, "csrf-token");
   if (!csrfToken) {
     throw createError({ statusCode: 403, statusMessage: "Missing CSRF token" });
@@ -14,13 +13,11 @@ export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const { id } = saleIdParamSchema.parse(event.context.params);
 
-    // Get the sale to check ownership
     const saleData = await getSaleByIdOnly(id);
     if (!saleData || !saleData.company_id) {
       throw createError({ statusCode: 404, statusMessage: "Not Found" });
     }
 
-    // Check if user has access to the sale's company
     const userId = event.context.user.id;
     const userCompanies = await getCompaniesByUserId(userId);
     const userCompanyIds = userCompanies.map(c => c.id);

@@ -35,7 +35,6 @@ const menuItems = computed(() => [
 ]);
 
 async function handleDelete() {
-  // Implement delete logic
   isDeleteModalOpen.value = false;
 }
 
