@@ -25,7 +25,7 @@ const { customers, pending: loadingCustomers } = storeToRefs(customersStore);
 async function handleDeleteCustomers(CustomersId: string) {
   deletingCustomersId.value = CustomersId;
   try {
-    const success = await deleteCustomer(Number(CustomersId));
+    const success = await deleteCustomer(CustomersId);
     if (success === true) {
       await customersStore.refreshCustomers();
       toast.add({
@@ -37,7 +37,7 @@ async function handleDeleteCustomers(CustomersId: string) {
     else {
       toast.add({
         title: t("common.error"),
-        description: success as string,
+        description: t("forms.customerForm.deletedError"),
         color: "error",
       });
     }

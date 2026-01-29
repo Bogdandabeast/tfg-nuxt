@@ -26,9 +26,7 @@ useSeoMeta({
         },
       ]"
     >
-      <template #top>
-        <LandingHeroBackground />
-      </template>
+      <template #top />
     </UPageHero>
 
     <UPageSection

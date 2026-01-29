@@ -6,7 +6,7 @@ type DashboardMetricsResponse = {
   sales: { averageTicket: number; byPeriod: any[]; totalCount: number; error?: string };
   products: { topSelling: any[]; error?: string };
   meta?: {
-    companyId: number;
+    companyId: string;
     period: string;
     topLimit: number;
     dateRange?: { start: string; end: string };

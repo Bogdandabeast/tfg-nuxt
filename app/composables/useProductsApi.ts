@@ -25,7 +25,7 @@ export function useProductsApi() {
     }
   }
 
-  async function updateProduct(id: number, productData: Partial<NewProduct>) {
+  async function updateProduct(id: string, productData: Partial<NewProduct>) {
     isUpdateProductLoading.value = true;
     try {
       const response = await $csrfFetch<Product>(`/api/products/${id}`, {
@@ -44,20 +44,10 @@ export function useProductsApi() {
   }
 
   async function deleteProduct(id: string) {
-    const parsedId = Number(id);
-    if (!id || Number.isNaN(parsedId)) {
-      const toast = useToast();
-      toast.add({
-        title: "Error",
-        description: "Please enter a valid Product ID to delete.",
-        color: "error",
-      });
-      return false;
-    }
     isDeleteProductLoading.value = true;
     try {
       const companiesStore = useCompaniesStore();
-      await $csrfFetch(`/api/products/${parsedId}`, {
+      await $csrfFetch(`/api/products/${id}`, {
         method: "DELETE",
         body: { company_id: companiesStore.currentCompany!.id },
       });

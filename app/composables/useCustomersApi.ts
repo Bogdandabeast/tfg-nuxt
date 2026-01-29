@@ -32,7 +32,7 @@ export function useCustomersApi() {
     }
   }
 
-  async function updateCustomer(id: number, customerData: Partial<NewCustomer>) {
+  async function updateCustomer(id: string, customerData: Partial<NewCustomer>) {
     isUpdateCustomerLoading.value = true;
     try {
       const response = await $csrfFetch<Customer>(`/api/customers/${id}`, {

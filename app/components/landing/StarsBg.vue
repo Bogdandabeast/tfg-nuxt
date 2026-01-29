@@ -57,10 +57,9 @@ const starLayers = computed(() => [
       class="absolute inset-0 pointer-events-none"
       viewBox="0 0 1017 181"
       fill="none"
-      xmlns="http:    >
-      <g opacity="
-      0.5"
+      xmlns="http://www.w3.org/2000/svg"
     >
+      <g opacity="0.5">
       <mask
         id="path-1-inside-1_846_160841"
         fill="white"

@@ -40,7 +40,7 @@ export function useCompaniesApi() {
     }
   }
 
-  async function deleteCompany(id: number) {
+  async function deleteCompany(id: string) {
     isDeleteCompanyLoading.value = true;
     try {
       await $csrfFetch(`/api/companies/${id}`, {

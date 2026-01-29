@@ -2,12 +2,12 @@ import { defineStore } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
 
 type Product = {
-  id: number;
+  id: string;
   name: string;
   description: string;
   price: string;
   stock: number;
-  company_id?: number | null;
+  company_id?: string | null;
 };
 
 export const useProductsStore = defineStore("products", () => {
@@ -30,7 +30,7 @@ export const useProductsStore = defineStore("products", () => {
     watch: [apiUrl],
   });
 
-  const currentProductId = ref<number | null>(null);
+  const currentProductId = ref<string | null>(null);
 
   const {
     data: currentProductResponse,
@@ -40,7 +40,7 @@ export const useProductsStore = defineStore("products", () => {
     lazy: true,
   });
 
-  const getProductById = (productId: number) => {
+  const getProductById = (productId: string) => {
     currentProductId.value = productId;
     return {
       data: computed(() => currentProductResponse.value?.product || null),

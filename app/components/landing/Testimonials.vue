@@ -7,7 +7,8 @@ const testimonials = ref([
       name: "Ronald Magaldi",
       description: t("homepage.testimonials[0].user.description"),
       avatar: {
-        src: "https:        alt: "Ronald Magaldi",
+        src: "https://ui-avatars.com/api/?name=Ronald+Magaldi",
+        alt: "Ronald Magaldi",
       },
     },
     quote: t("homepage.testimonials[0].quote"),
@@ -17,7 +18,8 @@ const testimonials = ref([
       name: "Pavel Kit",
       description: t("homepage.testimonials[1].user.description"),
       avatar: {
-        src: "https:        alt: "Pavel Kit",
+        src: "https://ui-avatars.com/api/?name=Pavel+Kit",
+        alt: "Pavel Kit",
       },
     },
     quote: t("homepage.testimonials[1].quote"),
@@ -27,7 +29,8 @@ const testimonials = ref([
       name: "Arya Mongolonov",
       description: t("homepage.testimonials[2].user.description"),
       avatar: {
-        src: "https:        alt: "Arya Mongolonov",
+        src: "https://ui-avatars.com/api/?name=Arya+Mongolonov",
+        alt: "Arya Mongolonov",
       },
     },
     quote: t("homepage.testimonials[2].quote"),
@@ -37,7 +40,8 @@ const testimonials = ref([
       name: "David",
       description: t("homepage.testimonials[3].user.description"),
       avatar: {
-        src: "https:        alt: "David",
+        src: "https://ui-avatars.com/api/?name=David",
+        alt: "David",
       },
     },
     quote: t("homepage.testimonials[3].quote"),
@@ -47,7 +51,8 @@ const testimonials = ref([
       name: "Lucía",
       description: t("homepage.testimonials[4].user.description"),
       avatar: {
-        src: "https:        alt: "Lucía",
+        src: "https://ui-avatars.com/api/?name=Lucia",
+        alt: "Lucía",
       },
     },
     quote: t("homepage.testimonials[4].quote"),
@@ -57,18 +62,19 @@ const testimonials = ref([
       name: "Laura",
       description: t("homepage.testimonials[5].user.description"),
       avatar: {
-        src: "https:        alt: "Laura",
+        src: "https://ui-avatars.com/api/?name=Laura",
+        alt: "Laura",
       },
     },
     quote: t("homepage.testimonials[5].quote"),
   },
-
-    {
+  {
     user: {
       name: "Sergio Valverde",
       description: t("homepage.testimonials[6].user.description"),
       avatar: {
-        src: "https:        alt: "Sergio Valverde",
+        src: "https://ui-avatars.com/api/?name=Sergio+Valverde",
+        alt: "Sergio Valverde",
       },
     },
     quote: t("homepage.testimonials[6].quote"),
@@ -78,7 +84,8 @@ const testimonials = ref([
       name: "Marina Torres",
       description: t("homepage.testimonials[7].user.description"),
       avatar: {
-        src: "https:        alt: "Marina Torres",
+        src: "https://ui-avatars.com/api/?name=Marina+Torres",
+        alt: "Marina Torres",
       },
     },
     quote: t("homepage.testimonials[7].quote"),
@@ -88,7 +95,8 @@ const testimonials = ref([
       name: "Héctor Salvat",
       description: t("homepage.testimonials[8].user.description"),
       avatar: {
-        src: "https:        alt: "Héctor Salvat",
+        src: "https://ui-avatars.com/api/?name=Hector+Salvat",
+        alt: "Héctor Salvat",
       },
     },
     quote: t("homepage.testimonials[8].quote"),
@@ -98,7 +106,8 @@ const testimonials = ref([
       name: "Elena Rivas",
       description: t("homepage.testimonials[9].user.description"),
       avatar: {
-        src: "https:        alt: "Elena Rivas",
+        src: "https://ui-avatars.com/api/?name=Elena+Rivas",
+        alt: "Elena Rivas",
       },
     },
     quote: t("homepage.testimonials[9].quote"),
@@ -108,7 +117,8 @@ const testimonials = ref([
       name: "Tomás Aguilar",
       description: t("homepage.testimonials[10].user.description"),
       avatar: {
-        src: "https:        alt: "Tomás Aguilar",
+        src: "https://ui-avatars.com/api/?name=Tomas+Aguilar",
+        alt: "Tomás Aguilar",
       },
     },
     quote: t("homepage.testimonials[10].quote"),
@@ -118,7 +128,8 @@ const testimonials = ref([
       name: "Natalia Campos",
       description: t("homepage.testimonials[11].user.description"),
       avatar: {
-        src: "https:        alt: "Natalia Campos",
+        src: "https://ui-avatars.com/api/?name=Natalia+Campos",
+        alt: "Natalia Campos",
       },
     },
     quote: t("homepage.testimonials[11].quote"),
@@ -128,7 +139,8 @@ const testimonials = ref([
       name: "Julián Herrera",
       description: t("homepage.testimonials[12].user.description"),
       avatar: {
-        src: "https:        alt: "Julián Herrera",
+        src: "https://ui-avatars.com/api/?name=Julian+Herrera",
+        alt: "Julián Herrera",
       },
     },
     quote: t("homepage.testimonials[12].quote"),
@@ -138,7 +150,8 @@ const testimonials = ref([
       name: "Claudia Méndez",
       description: t("homepage.testimonials[13].user.description"),
       avatar: {
-        src: "https:        alt: "Claudia Méndez",
+        src: "https://ui-avatars.com/api/?name=Claudia+Mendez",
+        alt: "Claudia Méndez",
       },
     },
     quote: t("homepage.testimonials[13].quote"),

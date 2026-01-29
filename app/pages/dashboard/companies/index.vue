@@ -19,13 +19,15 @@ onMounted(async () => {
   isLoading.value = true;
   try {
     await companiesStore.refreshCompanies();
-  } catch (error) {
+  }
+  catch (error) {
     toast.add({
-      title: t('companies.error.title'),
-      description: t('companies.error.description'),
-      color: "danger",
+      title: t("companies.error.title"),
+      description: t("companies.error.description"),
+      color: "error",
     });
-  } finally {
+  }
+  finally {
     isLoading.value = false;
   }
 });
@@ -38,14 +40,15 @@ function selectCompany(company: any) {
   if (redirectTo) {
     try {
       const decodedRedirect = decodeURIComponent(redirectTo);
-      if (decodedRedirect.startsWith("/") && !decodedRedirect.includes(":        navigateTo(decodedRedirect);
+
+      if (decodedRedirect.startsWith("/") && !decodedRedirect.includes(":")) {
+        navigateTo(decodedRedirect);
       }
       else {
         navigateTo(useLocalePath()(ROUTES.DASHBOARD));
       }
     }
     catch (error) {
-      console.warn("Invalid redirect URL, falling back to dashboard:", redirectTo);
       navigateTo(useLocalePath()(ROUTES.DASHBOARD));
     }
   }

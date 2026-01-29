@@ -94,8 +94,8 @@ export const salesTable = pgTable("sales", {
   product_description: text(),
   unit_price: numeric().notNull(),
   customer_name: text().notNull(),
-  discount: numeric().default("0"),
-  tax_rate: numeric().default("0"),
+  discount: numeric().notNull().default("0"),
+  tax_rate: numeric().notNull().default("0"),
   currency: text().default("EUR"),
   total: numeric().generatedAlwaysAs(
     () =>

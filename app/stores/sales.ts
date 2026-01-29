@@ -2,12 +2,12 @@ import { defineStore } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
 
 type Sale = {
-  id: number;
-  customer_id: number;
-  product_id: number;
+  id: string;
+  customer_id: string;
+  product_id: string;
   quantity: number;
   sale_date: string;
-  company_id: number;
+  company_id: string;
 };
 
 export const useSalesStore = defineStore("sales", () => {

@@ -22,7 +22,7 @@ export const useCustomersStore = defineStore("customers", () => {
     watch: [apiUrl],
   });
 
-  const currentCustomerId = ref<number | null>(null);
+  const currentCustomerId = ref<string | null>(null);
 
   const {
     data: currentCustomerResponse,
@@ -32,7 +32,7 @@ export const useCustomersStore = defineStore("customers", () => {
     lazy: true,
   });
 
-  const getCustomerById = (customerId: number) => {
+  const getCustomerById = (customerId: string) => {
     currentCustomerId.value = customerId;
     return {
       data: computed(() => currentCustomerResponse.value?.customer || null),
