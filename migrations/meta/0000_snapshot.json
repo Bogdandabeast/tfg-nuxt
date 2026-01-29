@@ -1,5 +1,5 @@
 {
-  "id": "a4bb734e-58f2-4229-9a35-6e097ad17607",
+  "id": "49f80504-f067-4d48-ac04-82caa4c0fd3d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -365,12 +365,19 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "user_id": {
           "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -396,7 +403,23 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "companies_id_index": {
+          "name": "companies_id_index",
+          "columns": [
+            {
+              "expression": "id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "companies_user_id_user_id_fk": {
           "name": "companies_user_id_user_id_fk",
@@ -409,7 +432,7 @@
             "id"
           ],
           "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -424,9 +447,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "name": {
           "name": "name",
@@ -444,7 +468,7 @@
           "name": "phone",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "address": {
           "name": "address",
@@ -452,9 +476,15 @@
           "primaryKey": false,
           "notNull": false
         },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "company_id": {
           "name": "company_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
@@ -473,7 +503,23 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "customers_id_index": {
+          "name": "customers_id_index",
+          "columns": [
+            {
+              "expression": "id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "customers_company_id_companies_id_fk": {
           "name": "customers_company_id_companies_id_fk",
@@ -486,15 +532,16 @@
             "id"
           ],
           "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "customers_email_unique": {
-          "name": "customers_email_unique",
+        "customers_company_id_email_unique": {
+          "name": "customers_company_id_email_unique",
           "nullsNotDistinct": false,
           "columns": [
+            "company_id",
             "email"
           ]
         }
@@ -509,9 +556,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "name": {
           "name": "name",
@@ -539,7 +587,7 @@
         },
         "company_id": {
           "name": "company_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
@@ -558,7 +606,23 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "products_id_index": {
+          "name": "products_id_index",
+          "columns": [
+            {
+              "expression": "id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "products_company_id_companies_id_fk": {
           "name": "products_company_id_companies_id_fk",
@@ -571,13 +635,31 @@
             "id"
           ],
           "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "cascade"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "products_company_id_name_unique": {
+          "name": "products_company_id_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "company_id",
+            "name"
+          ]
+        }
+      },
       "policies": {},
-      "checkConstraints": {},
+      "checkConstraints": {
+        "pricecheck": {
+          "name": "pricecheck",
+          "value": "\"products\".\"price\" >= 0"
+        },
+        "stockcheck": {
+          "name": "stockcheck",
+          "value": "\"products\".\"stock\" >= 0"
+        }
+      },
       "isRLSEnabled": false
     },
     "public.sales": {
@@ -586,19 +668,32 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "customer_id": {
           "name": "customer_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
         "product_id": {
           "name": "product_id",
-          "type": "integer",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "company_id": {
+          "name": "company_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -615,14 +710,79 @@
           "notNull": true,
           "default": "now()"
         },
-        "company_id": {
-          "name": "company_id",
-          "type": "integer",
+        "product_name": {
+          "name": "product_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "product_description": {
+          "name": "product_description",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "unit_price": {
+          "name": "unit_price",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "customer_name": {
+          "name": "customer_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "discount": {
+          "name": "discount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'0'"
+        },
+        "tax_rate": {
+          "name": "tax_rate",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'0'"
+        },
+        "currency": {
+          "name": "currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'EUR'"
+        },
+        "total": {
+          "name": "total",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "generated": {
+            "as": "(((\"sales\".\"unit_price\" - \"sales\".\"discount\") * \"sales\".\"quantity\") * (1 + \"sales\".\"tax_rate\"))",
+            "type": "stored"
+          }
         }
       },
-      "indexes": {},
+      "indexes": {
+        "sales_id_index": {
+          "name": "sales_id_index",
+          "columns": [
+            {
+              "expression": "id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "sales_customer_id_customers_id_fk": {
           "name": "sales_customer_id_customers_id_fk",
@@ -634,8 +794,8 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onDelete": "set null",
+          "onUpdate": "cascade"
         },
         "sales_product_id_products_id_fk": {
           "name": "sales_product_id_products_id_fk",
@@ -647,8 +807,8 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onDelete": "set null",
+          "onUpdate": "cascade"
         },
         "sales_company_id_companies_id_fk": {
           "name": "sales_company_id_companies_id_fk",
@@ -661,13 +821,18 @@
             "id"
           ],
           "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
-      "checkConstraints": {},
+      "checkConstraints": {
+        "quantitycheck": {
+          "name": "quantitycheck",
+          "value": "\"sales\".\"quantity\" > 0"
+        }
+      },
       "isRLSEnabled": false
     }
   },

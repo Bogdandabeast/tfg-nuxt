@@ -49,23 +49,7 @@ async function handleDeleteCustomers(CustomersId: string) {
 }
 
 const columns: TableColumn[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-    cell: ({ row }: any) => {
-      const id = row.getValue("id");
-      return h(
-        resolveComponent("UButton"),
-        {
-          to: localePath(getCustomerPath(id)),
-          variant: "link",
-          color: "primary",
-          padded: false,
-        },
-        () => `#${id}`,
-      );
-    },
-  },
+
   {
     accessorKey: "name",
     header: t("tables.headers.name"),
@@ -82,7 +66,7 @@ const columns: TableColumn[] = [
     accessorKey: "actions",
     header: t("tables.headers.actions"),
     cell: ({ row }: any) => {
-      const customersId = row.getValue("id");
+      const customersId = customers.value[row.index].id;
       return h("div", { class: "flex gap-2" }, [
         h(
           resolveComponent("UButton"),

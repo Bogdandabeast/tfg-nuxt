@@ -1,70 +1,107 @@
+import { sql } from "drizzle-orm";
+
 import {
+  check,
+  index,
   integer,
   numeric,
   pgTable,
-  serial,
   text,
   timestamp,
+  unique,
+  uuid,
 } from "drizzle-orm/pg-core";
 
 import { user } from "./auth";
 
 export const companiesTable = pgTable("companies", {
-  id: serial("id").primaryKey(),
-  user_id: text("user_id").references(() => user.id, {
+  id: uuid().defaultRandom().primaryKey(),
+  user_id: text().references(() => user.id, {
     onDelete: "cascade",
+    onUpdate: "cascade",
   }),
-  name: text("name").notNull(),
-  created_at: timestamp("created_at").defaultNow().notNull(),
-  updated_at: timestamp("updated_at")
+  description: text(),
+  name: text().notNull(),
+  created_at: timestamp().defaultNow().notNull(),
+  updated_at: timestamp()
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
-});
+}, table => [
+  index().on(table.id),
+]);
 
 export const productsTable = pgTable("products", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  description: text("description").notNull(),
-  price: numeric("price").notNull(),
-  stock: integer("stock").notNull(),
-  company_id: integer("company_id").references(() => companiesTable.id, {
+  id: uuid().defaultRandom().primaryKey(),
+  name: text().notNull(),
+  description: text().notNull(),
+  price: numeric().notNull(),
+  stock: integer().notNull(),
+  company_id: uuid().references(() => companiesTable.id, {
     onDelete: "cascade",
+    onUpdate: "cascade",
   }),
-  created_at: timestamp("created_at").defaultNow().notNull(),
-  updated_at: timestamp("updated_at")
+  created_at: timestamp().defaultNow().notNull(),
+  updated_at: timestamp()
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
-});
-
+}, table => [
+  index().on(table.id),
+  unique().on(table.company_id, table.name),
+  check("pricecheck", sql`${table.price} >= 0`),
+  check("stockcheck", sql`${table.stock} >= 0`),
+]);
 export const customersTable = pgTable("customers", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  email: text("email").notNull().unique(),
-  phone: text("phone"),
-  address: text("address"),
-  company_id: integer("company_id").references(() => companiesTable.id, {
+  id: uuid().defaultRandom().primaryKey(),
+  name: text().notNull(),
+  email: text().notNull(),
+  phone: text().notNull(),
+  address: text(),
+  description: text(),
+  company_id: uuid().references(() => companiesTable.id, {
     onDelete: "cascade",
+    onUpdate: "cascade",
   }),
-  created_at: timestamp("created_at").defaultNow().notNull(),
-  updated_at: timestamp("updated_at")
+  created_at: timestamp().defaultNow().notNull(),
+  updated_at: timestamp()
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
-});
+}, table => [
+  index().on(table.id),
+  unique().on(table.company_id, table.email),
+]);
 
-export const salesTables = pgTable("sales", {
-  id: serial("id").primaryKey(),
-  customer_id: integer("customer_id").references(() => customersTable.id, {
-    onDelete: "cascade",
+export const salesTable = pgTable("sales", {
+  id: uuid().defaultRandom().primaryKey(),
+  customer_id: uuid().references(() => customersTable.id, {
+    onDelete: "set null",
+    onUpdate: "cascade",
   }),
-  product_id: integer("product_id").references(() => productsTable.id, {
-    onDelete: "cascade",
+  product_id: uuid().references(() => productsTable.id, {
+    onDelete: "set null",
+    onUpdate: "cascade",
   }),
-  quantity: integer("quantity").notNull(),
-  sale_date: timestamp("sale_date").defaultNow().notNull(),
-  company_id: integer("company_id").references(() => companiesTable.id, {
+  company_id: uuid().references(() => companiesTable.id, {
     onDelete: "cascade",
+    onUpdate: "cascade",
   }),
-});
+  description: text(),
+  quantity: integer().notNull(),
+  sale_date: timestamp().defaultNow().notNull(),
+  product_name: text().notNull(),
+  product_description: text(),
+  unit_price: numeric().notNull(),
+  customer_name: text().notNull(),
+  discount: numeric().default("0"),
+  tax_rate: numeric().default("0"),
+  currency: text().default("EUR"),
+  total: numeric().generatedAlwaysAs(
+    () =>
+      sql`(((${salesTable.unit_price} - ${salesTable.discount}) * ${salesTable.quantity}) * (1 + ${salesTable.tax_rate}))`,
+  ),
+}, table => [
+  index().on(table.id),
+  check("quantitycheck", sql`${table.quantity} > 0`),
+]);

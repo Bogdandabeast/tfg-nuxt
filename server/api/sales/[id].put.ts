@@ -33,7 +33,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
 
     const updatedSale = await updateSale(id, saleData.company_id, validatedData);
 
-    if (!updatedSale) {
+    if (!updatedSale || updatedSale.length === 0) {
       throw createError({
         statusCode: 404,
         statusMessage: "Sale not found or not authorized to update",

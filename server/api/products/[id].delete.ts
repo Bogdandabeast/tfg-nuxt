@@ -2,6 +2,7 @@ import { getCompaniesByUserId } from "~~/lib/db/queries/company";
 import { deleteProduct, getProductById } from "~~/lib/db/queries/products";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { handleError } from "~~/utils/error-handler";
+import { productIdParamSchema } from "~~/utils/schemas/products";
 
 export default defineAuthenticatedEventHandler(async (event) => {
   // Validate CSRF token
@@ -11,13 +12,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
   }
 
   try {
-    const productId = Number(event.context.params?.id);
-    if (!productId || Number.isNaN(productId)) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: "Invalid product ID",
-      });
-    }
+    const { id: productId } = productIdParamSchema.parse(event.context.params);
 
     const product = await getProductById(productId);
 
@@ -50,7 +45,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
     return { success: true, id: productId };
   }
   catch (error) {
-    console.error("Error in delete product:", error);
     // Handle foreign key constraint violation
     if (error && typeof error === "object" && "code" in error && error.code === "23503") {
       throw createError({

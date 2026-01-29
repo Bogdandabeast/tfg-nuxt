@@ -9,5 +9,5 @@ export const companyUpdateSchema = z.object({
 });
 
 export const companyIdParamSchema = z.object({
-  id: z.preprocess(val => Number(val), z.number().int().positive()),
+  id: z.string().uuid(),
 });

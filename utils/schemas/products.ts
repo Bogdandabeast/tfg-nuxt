@@ -5,7 +5,7 @@ export const productCreateSchema = z.object({
   description: z.string().min(1, "Description is required"),
   price: z.coerce.number().positive("Price must be positive"),
   stock: z.coerce.number().int().min(0, "Stock cannot be negative"),
-  company_id: z.number().int(),
+  company_id: z.string().uuid(),
 });
 
 export const productUpdateSchema = z.object({
@@ -16,5 +16,5 @@ export const productUpdateSchema = z.object({
 });
 
 export const productIdParamSchema = z.object({
-  id: z.preprocess(val => Number(val), z.number().int().positive()),
+  id: z.string().uuid(),
 });

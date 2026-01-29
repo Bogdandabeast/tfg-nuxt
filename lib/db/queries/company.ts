@@ -11,10 +11,10 @@ export async function getCompaniesByUserId(userId: string) {
   return db.select().from(companiesTable).where(eq(companiesTable.user_id, userId));
 }
 
-export async function updateCompany(id: number, data: Partial<CompanyInsert>) {
+export async function updateCompany(id: string, data: Partial<CompanyInsert>) {
   return db.update(companiesTable).set(data).where(eq(companiesTable.id, id)).returning();
 }
 
-export async function deleteCompany(id: number) {
+export async function deleteCompany(id: string) {
   return db.delete(companiesTable).where(eq(companiesTable.id, id)).returning();
 }

@@ -5,7 +5,7 @@ export const customerCreateSchema = z.object({
   email: z.string().email("validation.invalidEmail"),
   phone: z.string().optional(),
   address: z.string().optional(),
-  company_id: z.number().int(),
+  company_id: z.string().uuid(),
 });
 
 export const customerUpdateSchema = z.object({
@@ -16,5 +16,5 @@ export const customerUpdateSchema = z.object({
 });
 
 export const customerIdParamSchema = z.object({
-  id: z.preprocess(val => Number(val), z.number().int().positive()),
+  id: z.string().uuid(),
 });

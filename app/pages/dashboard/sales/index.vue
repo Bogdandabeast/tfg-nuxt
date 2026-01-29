@@ -7,27 +7,16 @@ definePageMeta({
 const localePath = useLocalePath();
 const { t } = useI18n();
 const salesStore = useSalesStore();
-const customersStore = useCustomersStore();
-const productsStore = useProductsStore();
 
-// Refresh data on page load asynchronously for lazy loading
 salesStore.refreshSales();
-customersStore.refreshCustomers();
-productsStore.refreshProducts();
 
 const { sales, pending: loadingSales } = storeToRefs(salesStore);
-const { customers } = storeToRefs(customersStore);
-const { products } = storeToRefs(productsStore);
 
 const detailedSales = computed(() => {
   return sales.value?.map((sale) => {
-    const customer = customers.value?.find(c => c.id === sale.customer_id);
-    const product = products.value?.find(p => p.id === sale.product_id);
-    const amount = product ? Number(product.price) * sale.quantity : 0;
+    const amount = Number(sale.unit_price) * sale.quantity;
     return {
       ...sale,
-      customerName: customer ? customer.name : t("tables.data.unknown"),
-      productName: product ? product.name : t("tables.data.unknown"),
       amount,
     };
   });
@@ -35,29 +24,13 @@ const detailedSales = computed(() => {
 
 const columns = [
   {
-    accessorKey: "id",
-    header: "ID",
-    cell: ({ row }: any) => {
-      const id = row.getValue("id");
-      return h(
-        resolveComponent("UButton"),
-        {
-          to: localePath(getSalePath(id)),
-          variant: "link",
-          color: "primary",
-          padded: false,
-        },
-        () => `#${id}`,
-      );
-    },
-  },
-  {
     accessorKey: "sale_date",
     header: t("tables.headers.date"),
     cell: ({ row }: any) => {
       return new Date(row.getValue("sale_date")).toLocaleString("en-US", {
         day: "numeric",
         month: "short",
+        year: "numeric",
         hour: "2-digit",
         minute: "2-digit",
         hour12: false,
@@ -65,21 +38,11 @@ const columns = [
     },
   },
   {
-    accessorKey: "customerName",
-    header: "Customer",
-    cell: ({ row }: any) => row.getValue("customerName"),
-  },
-  {
-    accessorKey: "productName",
-    header: "Product",
-    cell: ({ row }: any) => row.getValue("productName"),
-  },
-  {
-    accessorKey: "customerName",
+    accessorKey: "customer_name",
     header: t("tables.headers.customer"),
   },
   {
-    accessorKey: "productName",
+    accessorKey: "product_name",
     header: t("tables.headers.product"),
   },
   {
@@ -87,18 +50,55 @@ const columns = [
     header: t("tables.headers.quantity"),
   },
   {
-    accessorKey: "amount",
-    header: () => h("div", { class: "text-right" }, t("tables.headers.amount")),
+    accessorKey: "unit_price",
+    header: t("tables.headers.unitPrice"),
     cell: ({ row }: any) => {
-      const amount = Number.parseFloat(row.getValue("amount"));
+      const unitPrice = Number.parseFloat(row.getValue("unit_price"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "EUR",
-      }).format(amount);
+      }).format(unitPrice);
       return h("div", { class: "text-right font-medium" }, formatted);
     },
   },
-
+  {
+    accessorKey: "discount",
+    header: t("tables.headers.discount"),
+    cell: ({ row }: any) => {
+      const discount = Number.parseFloat(row.getValue("discount"));
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "percent",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      }).format(discount);
+      return h("div", { class: "text-right font-medium" }, formatted);
+    },
+  },
+  {
+    accessorKey: "tax_rate",
+    header: t("tables.headers.taxRate"),
+    cell: ({ row }: any) => {
+      const taxRate = Number.parseFloat(row.getValue("tax_rate"));
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "percent",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      }).format(taxRate);
+      return h("div", { class: "text-right font-medium" }, formatted);
+    },
+  },
+  {
+    accessorKey: "total",
+    header: () => h("div", { class: "text-right" }, t("tables.headers.total")),
+    cell: ({ row }: any) => {
+      const total = Number.parseFloat(row.getValue("total"));
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "EUR",
+      }).format(total);
+      return h("div", { class: "text-right font-medium" }, formatted);
+    },
+  },
 ];
 </script>
 

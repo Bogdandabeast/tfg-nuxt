@@ -30,7 +30,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
 
     const deletedSale = await deleteSale(id, saleData.company_id);
 
-    if (!deletedSale) {
+    if (!deletedSale || deletedSale.length === 0) {
       throw createError({
         statusCode: 404,
         statusMessage: "Sale not found or not authorized to delete",

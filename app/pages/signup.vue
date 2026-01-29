@@ -45,14 +45,13 @@ const schema = z.object({
 type Schema = z.output<typeof schema>;
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  const success.value = await authStore.signUp(payload.data.name, payload.data.email, payload.data.password);
-
+  success.value = await authStore.signUp(payload.data.name, payload.data.email, payload.data.password);
 }
 </script>
 
 <template>
   <UAuthForm
-    v-if="success"
+    v-if="!success"
     :fields="fields"
     :schema="schema"
     :title="t('signup.form.title')"

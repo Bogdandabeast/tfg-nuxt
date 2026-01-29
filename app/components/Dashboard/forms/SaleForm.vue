@@ -12,19 +12,29 @@ const productsStore = useProductsStore();
 const companiesStore = useCompaniesStore();
 const toast = useToast();
 const isCreateModalOpen = ref(false);
-const { isCreateSaleLoading, createSale, isDeleteSaleLoading, deleteSale } = useSalesApi();
+const { isCreateSaleLoading, createSale } = useSalesApi();
 
 const { customers } = storeToRefs(customersStore);
 const { products } = storeToRefs(productsStore);
 
 const newSale = reactive({
-  customer_id: undefined as number | undefined,
-  product_id: undefined as number | undefined,
+  customer_id: undefined as string | undefined,
+  product_id: undefined as string | undefined,
   quantity: 1,
+  sale_date: new Date().toISOString().split("T")[0], // Default to current date in 'YYYY-MM-DD' format
+  tax_rate: 0,
+  discount: 0,
 });
 
-const saleToDeleteId = ref("");
 const error = ref("");
+
+const selectedProduct = computed(() =>
+  products.value?.find((p: Product) => p.id === newSale.product_id),
+);
+
+const selectedCustomer = computed(() =>
+  customers.value?.find((c: Customer) => c.id === newSale.customer_id),
+);
 
 const customerOptions = computed(() =>
   customers.value?.map((c: Customer) => ({ label: c.name, value: c.id })) || [],
@@ -42,18 +52,38 @@ async function createSaleHandler() {
     error.value = t("forms.saleForm.invalidData");
     return;
   }
+
+  // Derive product and customer details
+  const product = selectedProduct.value;
+  const customer = selectedCustomer.value;
+
+  if (!product || !customer || !newSale.sale_date) {
+    error.value = t("forms.saleForm.missingDetails"); // New translation key needed
+    return;
+  }
+
   const saleData = {
-    customer_id: Number(newSale.customer_id),
-    product_id: Number(newSale.product_id),
+    customer_id: newSale.customer_id,
+    product_id: newSale.product_id,
     quantity: newSale.quantity,
+    sale_date: newSale.sale_date,
+    product_name: product.name,
+    unit_price: parseFloat(product.price), // Convert numeric string to number
+    customer_name: customer.name,
+    tax_rate: newSale.tax_rate,
+    discount: newSale.discount,
     company_id: companiesStore.currentCompany.id,
   };
+
   const result = await createSale(saleData);
   if (result) {
     salesStore.refreshSales();
     newSale.customer_id = undefined;
     newSale.product_id = undefined;
     newSale.quantity = 1;
+    newSale.sale_date = new Date().toISOString().split("T")[0]; // Reset sale date
+    newSale.tax_rate = 0; // Reset to default
+    newSale.discount = 0; // Reset to default
     toast.add({
       title: t("common.success"),
       description: t("forms.saleForm.createdSuccess"),
@@ -61,25 +91,6 @@ async function createSaleHandler() {
     });
     error.value = "";
     isCreateModalOpen.value = false;
-  }
-}
-
-async function deleteSaleHandler() {
-  const id = Number(saleToDeleteId.value);
-  if (!saleToDeleteId.value || Number.isNaN(id)) {
-    error.value = t("forms.saleForm.idInvalid");
-    return;
-  }
-  const success = await deleteSale(id, companiesStore.currentCompany!.id);
-  if (success) {
-    salesStore.refreshSales();
-    saleToDeleteId.value = "";
-    toast.add({
-      title: t("common.success"),
-      description: t("forms.saleForm.deletedSuccess"),
-      color: "success",
-    });
-    error.value = "";
   }
 }
 </script>
@@ -126,6 +137,31 @@ async function deleteSaleHandler() {
               v-model.number="newSale.quantity"
               type="number"
               :min="1"
+            />
+          </UFormField>
+
+          <UFormField :label="t('forms.saleForm.saleDateLabel')" name="saleDate">
+            <UInput
+              v-model="newSale.sale_date"
+              type="date"
+            />
+          </UFormField>
+
+          <UFormField :label="t('forms.saleForm.taxRateLabel')" name="saleTaxRate">
+            <UInput
+              v-model.number="newSale.tax_rate"
+              type="number"
+              :min="0"
+              step="0.01"
+            />
+          </UFormField>
+
+          <UFormField :label="t('forms.saleForm.discountLabel')" name="saleDiscount">
+            <UInput
+              v-model.number="newSale.discount"
+              type="number"
+              :min="0"
+              step="0.01"
             />
           </UFormField>
         </div>

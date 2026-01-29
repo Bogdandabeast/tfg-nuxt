@@ -1,6 +1,7 @@
 import { deleteCompany, getCompaniesByUserId } from "~~/lib/db/queries/company";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { handleError } from "~~/utils/error-handler";
+import { companyIdParamSchema } from "~~/utils/schemas/companies";
 
 export default defineAuthenticatedEventHandler(async (event) => {
   // Validate CSRF token
@@ -10,16 +11,16 @@ export default defineAuthenticatedEventHandler(async (event) => {
   }
 
   try {
-    const { id } = event.context.params as { id: string };
+    const { id } = companyIdParamSchema.parse(event.context.params);
 
     const companies = await getCompaniesByUserId(event.context.user.id);
-    const company = companies.find(c => c.id === Number(id));
+    const company = companies.find(c => c.id === id);
 
     if (!company) {
       throw createError({ statusCode: 404, statusMessage: "Company not found" });
     }
 
-    await deleteCompany(Number(id));
+    await deleteCompany(id);
     return { success: true };
   }
   catch (error) {

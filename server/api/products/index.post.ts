@@ -14,7 +14,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const body = await readBody(event);
     const parsedData = productCreateSchema.parse(body);
-    const data = { ...parsedData, price: parsedData.price.toString() };
+    const data = { ...parsedData };
 
     // Check if user has access to the provided company_id
     const userCompanies = await getCompaniesByUserId(event.context.user.id);

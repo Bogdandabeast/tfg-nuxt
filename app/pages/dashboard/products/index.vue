@@ -48,23 +48,7 @@ async function handleDeleteProducts(ProductsId: string) {
 }
 
 const columns: TableColumn[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-    cell: ({ row }: any) => {
-      const id = row.getValue("id");
-      return h(
-        resolveComponent("UButton"),
-        {
-          to: localePath(getProductPath(id)),
-          variant: "link",
-          color: "primary",
-          padded: false,
-        },
-        () => `#${id}`,
-      );
-    },
-  },
+
   {
     accessorKey: "name",
     header: t("tables.headers.name"),
@@ -82,7 +66,7 @@ const columns: TableColumn[] = [
     accessorKey: "actions",
     header: t("tables.headers.actions"),
     cell: ({ row }: any) => {
-      const ProductsId = row.getValue("id");
+      const ProductsId = products.value[row.index].id;
       return h("div", { class: "flex gap-2" }, [
         h(
           resolveComponent("UButton"),

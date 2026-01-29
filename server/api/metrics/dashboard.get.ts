@@ -8,7 +8,7 @@ import { dateRangeSchema, limitSchema, periodSchema } from "~~/utils/schemas/met
 export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const query = getQuery(event);
-    const companyIdSchema = z.string().regex(/^\d+$/).transform(s => Number(s));
+    const companyIdSchema = z.string().uuid();
     const companyId = companyIdSchema.parse(query.company_id);
     const period = periodSchema.parse(query.period || "monthly");
     const topLimit = limitSchema.parse(query.limit || 5);
