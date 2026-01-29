@@ -1,14 +1,6 @@
+import type { Sale } from "~/types/api";
 import { defineStore } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
-
-type Sale = {
-  id: string;
-  customer_id: string;
-  product_id: string;
-  quantity: number;
-  sale_date: string;
-  company_id: string;
-};
 
 export const useSalesStore = defineStore("sales", () => {
   const companiesStore = useCompaniesStore();

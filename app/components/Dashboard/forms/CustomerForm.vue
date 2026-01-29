@@ -5,7 +5,7 @@ const { t } = useI18n();
 const customersStore = useCustomersStore();
 const companiesStore = useCompaniesStore();
 const toast = useToast();
-const { isCreateCustomerLoading, createCustomer, isDeleteCustomerLoading, deleteCustomer } = useCustomersApi();
+const { isCreateCustomerLoading, createCustomer } = useCustomersApi();
 const isCreateModalOpen = ref(false);
 const newCustomer = ref({
   name: "",
@@ -13,7 +13,6 @@ const newCustomer = ref({
   phone: "",
   address: "",
 });
-const customerToDeleteId = ref("");
 const error = ref("");
 
 async function createCustomerHandler() {
@@ -39,13 +38,6 @@ async function createCustomerHandler() {
       color: "success",
     });
     error.value = "";
-  }
-}
-
-async function deleteCustomerHandler() {
-  const success = await deleteCustomer(customerToDeleteId.value);
-  if (success) {
-    customerToDeleteId.value = "";
   }
 }
 </script>

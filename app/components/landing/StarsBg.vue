@@ -60,17 +60,17 @@ const starLayers = computed(() => [
       xmlns="http://www.w3.org/2000/svg"
     >
       <g opacity="0.5">
-      <mask
-        id="path-1-inside-1_846_160841"
-        fill="white"
-      >
-        <path d="M0 0H1017V181H0V0Z" />
-      </mask>
-      <path
-        d="M0 0H1017V181H0V0Z"
-        fill="url(#paint0_radial_846_160841)"
-        fill-opacity="0.22"
-      />
+        <mask
+          id="path-1-inside-1_846_160841"
+          fill="white"
+        >
+          <path d="M0 0H1017V181H0V0Z" />
+        </mask>
+        <path
+          d="M0 0H1017V181H0V0Z"
+          fill="url(#paint0_radial_846_160841)"
+          fill-opacity="0.22"
+        />
       </g>
       <defs>
         <radialGradient

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
+import type { Customer, TableCellContext } from "~/types/api";
 import { storeToRefs } from "pinia";
 import { getCustomerPath } from "~/utils/routes";
 
@@ -19,7 +20,7 @@ const customersStore = useCustomersStore();
 companiesStore.refreshCompanies();
 customersStore.refreshCustomers();
 
-const { isDeleteCustomerLoading, deleteCustomer } = useCustomersApi();
+const { deleteCustomer } = useCustomersApi();
 const { customers, pending: loadingCustomers } = storeToRefs(customersStore);
 
 async function handleDeleteCustomers(CustomersId: string) {
@@ -64,7 +65,7 @@ const columns: TableColumn[] = [
   {
     accessorKey: "actions",
     header: t("tables.headers.actions"),
-    cell: ({ row }: any) => {
+    cell: ({ row }: TableCellContext<Customer>) => {
       const customersId = customers.value[row.index].id;
       return h("div", { class: "flex gap-2" }, [
         h(

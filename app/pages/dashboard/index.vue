@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Period, Range, Stat } from "~/types";
+import type { Period, Range, Stat } from "~/types/api";
 import { storeToRefs } from "pinia";
 
 import { METRIC_ICONS, UI_ICONS } from "~/lib/icons";
@@ -101,7 +101,7 @@ watch(() => companiesStore.currentCompany?.id, async (newCompanyId, oldCompanyId
         });
       }
     }
-    catch (error) {
+    catch {
       toast.add({
         title: t("common.error"),
         description: t("errors.metrics.refresh.description"),

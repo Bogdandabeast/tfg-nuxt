@@ -1,3 +1,4 @@
+import type { SendEmailData } from "~/types/api";
 import { z } from "zod";
 
 if (!process.env.RESEND_API_KEY) {
@@ -13,9 +14,7 @@ const sendEmailSchema = z.object({
   html: z.string().optional(),
 });
 
-type sendEmail = z.infer<typeof sendEmailSchema>;
-
-export async function sendEmail(data: sendEmail) {
+export async function sendEmail(data: SendEmailData) {
   try {
     const validatedData = sendEmailSchema.parse(data);
     const result = await $fetch(process.env.RESEND_API, {

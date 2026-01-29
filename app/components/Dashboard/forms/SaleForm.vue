@@ -3,8 +3,6 @@ import type { Customer } from "~~/lib/db/queries/customers";
 import type { Product } from "~~/lib/db/queries/products";
 import { storeToRefs } from "pinia";
 
-const emit = defineEmits(["close"]);
-
 const { t } = useI18n();
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
@@ -57,7 +55,8 @@ async function createSaleHandler() {
   const customer = selectedCustomer.value;
 
   if (!product || !customer || !newSale.sale_date) {
-    error.value = t("forms.saleForm.missingDetails"); return;
+    error.value = t("forms.saleForm.missingDetails");
+    return;
   }
 
   const saleData = {
@@ -79,7 +78,10 @@ async function createSaleHandler() {
     newSale.customer_id = undefined;
     newSale.product_id = undefined;
     newSale.quantity = 1;
-    newSale.sale_date = new Date().toISOString().split("T")[0]; newSale.tax_rate = 0; newSale.discount = 0; toast.add({
+    newSale.sale_date = new Date().toISOString().split("T")[0];
+    newSale.tax_rate = 0;
+    newSale.discount = 0;
+    toast.add({
       title: t("common.success"),
       description: t("forms.saleForm.createdSuccess"),
       color: "success",

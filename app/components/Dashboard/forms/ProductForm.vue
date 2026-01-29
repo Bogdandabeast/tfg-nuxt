@@ -3,7 +3,7 @@ const { t } = useI18n();
 const productsStore = useProductsStore();
 const companiesStore = useCompaniesStore();
 const toast = useToast();
-const { isCreateProductLoading, createProduct, isDeleteProductLoading, deleteProduct } = useProductsApi();
+const { isCreateProductLoading, createProduct } = useProductsApi();
 
 const newProduct = ref({
   name: "",
@@ -11,7 +11,6 @@ const newProduct = ref({
   price: "",
   stock: 0,
 });
-const productToDeleteId = ref("");
 const error = ref("");
 const isCreateModalOpen = ref(false);
 
@@ -40,13 +39,6 @@ async function createProductHandler() {
     });
     error.value = "";
     isCreateModalOpen.value = false;
-  }
-}
-
-async function deleteProductHandler() {
-  const success = await deleteProduct(productToDeleteId.value);
-  if (success) {
-    productToDeleteId.value = "";
   }
 }
 </script>

@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { useI18n } from "vue-i18n";
-import { ROUTES } from "~/utils/routes";
 import CompaniesMenu from "~/components/Dashboard/CompaniesMenu.vue";
-
 import { NAVIGATION_ICONS } from "~/lib/icons";
+
+import { ROUTES } from "~/utils/routes";
 
 const { t } = useI18n();
 const toast = useToast();
 const localePath = useLocalePath();
-const breadcrumps = useBreadcrumbs();
 
 const open = ref(false);
 
@@ -62,14 +61,6 @@ const links = [
   ],
 
 ] satisfies NavigationMenuItem[][];
-
-const groups = computed(() => [
-  {
-    id: "links",
-    label: t("navigation.goTo"),
-    items: links.flat(),
-  },
-]);
 
 onMounted(async () => {
   const cookie = useCookie("cookie-consent");

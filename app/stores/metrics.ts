@@ -1,22 +1,7 @@
+import type { DashboardMetricsResponse } from "~/types/api";
 import { defineStore } from "pinia";
 import { z } from "zod";
-import { SalesByPeriodSchema, TopSellingProductSchema, type SalesByPeriod, type TopSellingProduct } from "~~/utils/schemas/metrics";
-
-type DashboardMetricsResponse = {
-  revenue: { total: number; error?: string };
-  customers: { total: number; new: number; error?: string };
-  sales: { averageTicket: number; byPeriod: SalesByPeriod[]; totalCount: number; error?: string };
-  products: { topSelling: TopSellingProduct[]; error?: string };
-  meta?: {
-    companyId: string;
-    period: string;
-    topLimit: number;
-    dateRange?: { start: string; end: string };
-    timestamp: string;
-    hasErrors: boolean;
-    errorCount: number;
-  };
-};
+import { SalesByPeriodSchema, TopSellingProductSchema } from "~~/utils/schemas/metrics";
 
 export const useMetricsStore = defineStore("metrics", () => {
   const companiesStore = useCompaniesStore();

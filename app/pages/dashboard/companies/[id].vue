@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { TableCellContext, TableRowData } from "~/types/api";
 import { ROUTES } from "~/utils/routes";
 
 definePageMeta({
@@ -17,11 +18,6 @@ const localePath = useLocalePath();
 
 const isDeleteModalOpen = ref(false);
 const isDeleting = ref(false);
-
-type _RowData = {
-  label: string;
-  value: string | number | undefined;
-};
 
 async function handleDelete() {
   if (isDeleting.value)
@@ -46,15 +42,15 @@ async function handleDelete() {
 
 const UBadge = resolveComponent("UBadge");
 
-const tableData = computed(() => [
+const tableData = computed<TableRowData[]>(() => [
   { label: t("tables.headers.id"), value: data.value?.id },
   { label: t("tables.headers.name"), value: data.value?.name },
   { label: t("tables.headers.userId"), value: data.value?.user_id },
 ]);
 
 const tableColumns = [
-  { accessorKey: "label", header: t("tables.headers.field"), cell: ({ row }: { row: Record<string, any> }) => h("span", { class: "font-medium" }, row.getValue("label")) },
-  { accessorKey: "value", header: t("tables.headers.value"), cell: ({ row }: { row: Record<string, any> }) => {
+  { accessorKey: "label", header: t("tables.headers.field"), cell: ({ row }: TableCellContext<TableRowData>) => h("span", { class: "font-medium" }, row.getValue("label")) },
+  { accessorKey: "value", header: t("tables.headers.value"), cell: ({ row }: TableCellContext<TableRowData>) => {
     const label = row.original.label;
     const value = row.getValue("value");
     if (label === "ID") {

@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import type { Sale, TableCellContext } from "~/types/api";
 import { storeToRefs } from "pinia";
 
 definePageMeta({
   layout: "dashboard",
 });
-const localePath = useLocalePath();
 const { t } = useI18n();
 const salesStore = useSalesStore();
 
@@ -26,7 +26,7 @@ const columns = [
   {
     accessorKey: "sale_date",
     header: t("tables.headers.date"),
-    cell: ({ row }: any) => {
+    cell: ({ row }: TableCellContext<Sale>) => {
       return new Date(row.getValue("sale_date")).toLocaleString("en-US", {
         day: "numeric",
         month: "short",
@@ -52,8 +52,8 @@ const columns = [
   {
     accessorKey: "unit_price",
     header: t("tables.headers.unitPrice"),
-    cell: ({ row }: any) => {
-      const unitPrice = Number.parseFloat(row.getValue("unit_price"));
+    cell: ({ row }: TableCellContext<Sale>) => {
+      const unitPrice = Number.parseFloat(row.getValue("unit_price") as string);
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "EUR",
@@ -64,8 +64,8 @@ const columns = [
   {
     accessorKey: "discount",
     header: t("tables.headers.discount"),
-    cell: ({ row }: any) => {
-      const discount = Number.parseFloat(row.getValue("discount"));
+    cell: ({ row }: TableCellContext<Sale>) => {
+      const discount = Number.parseFloat(row.getValue("discount") as string);
       const formatted = new Intl.NumberFormat("en-US", {
         style: "percent",
         minimumFractionDigits: 0,
@@ -77,8 +77,8 @@ const columns = [
   {
     accessorKey: "tax_rate",
     header: t("tables.headers.taxRate"),
-    cell: ({ row }: any) => {
-      const taxRate = Number.parseFloat(row.getValue("tax_rate"));
+    cell: ({ row }: TableCellContext<Sale>) => {
+      const taxRate = Number.parseFloat(row.getValue("tax_rate") as string);
       const formatted = new Intl.NumberFormat("en-US", {
         style: "percent",
         minimumFractionDigits: 0,
@@ -90,8 +90,8 @@ const columns = [
   {
     accessorKey: "total",
     header: () => h("div", { class: "text-right" }, t("tables.headers.total")),
-    cell: ({ row }: any) => {
-      const total = Number.parseFloat(row.getValue("total"));
+    cell: ({ row }: TableCellContext<Sale>) => {
+      const total = Number.parseFloat(row.getValue("total") as string);
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "EUR",

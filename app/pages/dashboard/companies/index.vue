@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Company } from "~/types/api";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { useCompaniesStore } from "~~/app/stores/companies";
@@ -20,7 +21,7 @@ onMounted(async () => {
   try {
     await companiesStore.refreshCompanies();
   }
-  catch (error) {
+  catch {
     toast.add({
       title: t("companies.error.title"),
       description: t("companies.error.description"),
@@ -32,7 +33,7 @@ onMounted(async () => {
   }
 });
 
-function selectCompany(company: any) {
+function selectCompany(company: Company) {
   companiesStore.setCurrentCompany(company);
   const route = useRoute();
   const redirectTo = route.query.redirect as string;
@@ -48,7 +49,7 @@ function selectCompany(company: any) {
         navigateTo(useLocalePath()(ROUTES.DASHBOARD));
       }
     }
-    catch (error) {
+    catch {
       navigateTo(useLocalePath()(ROUTES.DASHBOARD));
     }
   }

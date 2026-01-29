@@ -1,11 +1,9 @@
+import type { NewSale, Sale } from "~/types/api";
 import { and, eq } from "drizzle-orm";
 import { db } from "../index";
 import { salesTable } from "../schema/companies";
 
-export type SaleInsert = typeof salesTable.$inferInsert;
-export type Sale = typeof salesTable.$inferSelect;
-
-export async function createSale(data: SaleInsert) {
+export async function createSale(data: NewSale) {
   return db.insert(salesTable).values(data).returning();
 }
 
@@ -30,7 +28,7 @@ export async function getSalesByProductId(product_id: string, company_id: string
   return db.select().from(salesTable).where(and(eq(salesTable.product_id, product_id), eq(salesTable.company_id, company_id)));
 }
 
-export async function updateSale(id: string, company_id: string, data: Partial<SaleInsert>) {
+export async function updateSale(id: string, company_id: string, data: Partial<NewSale>) {
   return db.update(salesTable).set(data).where(and(eq(salesTable.id, id), eq(salesTable.company_id, company_id))).returning();
 }
 

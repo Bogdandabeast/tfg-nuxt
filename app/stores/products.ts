@@ -1,14 +1,6 @@
+import type { Product } from "~/types/api";
 import { defineStore } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
-
-type Product = {
-  id: string;
-  name: string;
-  description: string;
-  price: string;
-  stock: number;
-  company_id?: string | null;
-};
 
 export const useProductsStore = defineStore("products", () => {
   const companiesStore = useCompaniesStore();

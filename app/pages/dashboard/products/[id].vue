@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
-
-import { ROUTES } from "~/utils/routes";
+import type { TableCellContext, TableRowData } from "~/types/api";
 
 definePageMeta({
   layout: "dashboard",
@@ -13,9 +12,6 @@ const productsStore = useProductsStore();
 const { data, pending, error } = productsStore.getProductById(productId);
 
 const { t } = useI18n();
-const { deleteProduct } = useProductsApi();
-const toast = useToast();
-const localePath = useLocalePath();
 
 const isDeleteModalOpen = ref(false);
 
@@ -24,14 +20,12 @@ const menuItems = computed(() => [
     label: t("actions.edit.product"),
     icon: "i-heroicons-pencil-square-20-solid",
     onSelect: () => {
-      console.log("Edit product");
     },
   },
   {
     label: t("actions.updatePrice"),
     icon: "i-heroicons-currency-dollar-20-solid",
     onSelect: () => {
-      console.log("Update price");
     },
   },
   {
@@ -43,22 +37,9 @@ const menuItems = computed(() => [
   },
 ]);
 
-async function handleDelete() {
-  const result = await deleteProduct(productId);
-  if (result) {
-    toast.add({
-      title: t("common.success"),
-      description: t("forms.productForm.deletedSuccess"),
-      color: "success",
-    });
-    navigateTo(localePath(ROUTES.PRODUCTS));
-  }
-  isDeleteModalOpen.value = false;
-}
-
 const UBadge = resolveComponent("UBadge");
 
-const tableData = computed(() => [
+const tableData = computed<TableRowData[]>(() => [
   { label: t("tables.headers.id"), value: data.value?.id },
   { label: t("tables.headers.name"), value: data.value?.name },
   { label: t("tables.headers.description"), value: data.value?.description },
@@ -77,7 +58,7 @@ const tableColumns: TableColumn[] = [
         td: "w-1/3",
       },
     },
-    cell: ({ row }) => h("span", { class: "font-medium text-gray-700" }, row.getValue("label")),
+    cell: ({ row }: TableCellContext<TableRowData>) => h("span", { class: "font-medium text-gray-700" }, String(row.getValue("label"))),
   },
   {
     accessorKey: "value",
@@ -88,7 +69,7 @@ const tableColumns: TableColumn[] = [
         td: "w-2/3",
       },
     },
-    cell: ({ row }) => {
+    cell: ({ row }: TableCellContext<TableRowData>) => {
       const label = row.original.label;
       const value = row.getValue("value");
 

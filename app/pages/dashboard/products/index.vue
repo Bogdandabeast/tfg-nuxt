@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
+import type { Product, TableCellContext } from "~/types/api";
 import { storeToRefs } from "pinia";
 import { getProductPath } from "~/utils/routes";
 
@@ -19,7 +20,7 @@ companiesStore.refreshCompanies();
 productsStore.refreshProducts();
 
 const { products, pending: loadingProducts } = storeToRefs(productsStore);
-const { isCreateProductLoading, createProduct, isDeleteProductLoading, deleteProduct } = useProductsApi();
+const { deleteProduct } = useProductsApi();
 
 async function handleDeleteProducts(ProductsId: string) {
   deletingProductsId.value = ProductsId;
@@ -55,7 +56,7 @@ const columns: TableColumn[] = [
   {
     accessorKey: "price",
     header: t("tables.headers.price"),
-    cell: ({ row }: any) => `€${row.getValue("price")}`,
+    cell: ({ row }: TableCellContext<Product>) => `€${row.getValue("price")}`,
   },
   {
     accessorKey: "stock",
@@ -64,7 +65,7 @@ const columns: TableColumn[] = [
   {
     accessorKey: "actions",
     header: t("tables.headers.actions"),
-    cell: ({ row }: any) => {
+    cell: ({ row }: TableCellContext<Product>) => {
       const ProductsId = products.value[row.index].id;
       return h("div", { class: "flex gap-2" }, [
         h(

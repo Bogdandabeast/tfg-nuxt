@@ -1,9 +1,9 @@
-import type { CompanyInsert } from "./companies";
+import type { NewCompany } from "~/types/api";
 import { eq } from "drizzle-orm";
 import { db } from "../index";
 import { companiesTable } from "../schema/companies";
 
-export async function createCompany(data: CompanyInsert) {
+export async function createCompany(data: NewCompany) {
   return db.insert(companiesTable).values(data).returning();
 }
 
@@ -11,7 +11,7 @@ export async function getCompaniesByUserId(userId: string) {
   return db.select().from(companiesTable).where(eq(companiesTable.user_id, userId));
 }
 
-export async function updateCompany(id: string, data: Partial<CompanyInsert>) {
+export async function updateCompany(id: string, data: Partial<NewCompany>) {
   return db.update(companiesTable).set(data).where(eq(companiesTable.id, id)).returning();
 }
 

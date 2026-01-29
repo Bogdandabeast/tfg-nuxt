@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Company, TableCellContext } from "~/types/api";
 import { storeToRefs } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
 import { getCompanyPath } from "~/utils/routes";
@@ -16,7 +17,7 @@ const isModalOpen = ref(false);
 const isLoadingCompanies = ref(false);
 const deletingCompanyId = ref<string | null>(null);
 
-const { isCreateCompanyLoading, createCompany, isDeleteCompanyLoading, deleteCompany } = useCompaniesApi();
+const { isCreateCompanyLoading, createCompany, deleteCompany } = useCompaniesApi();
 
 async function handleCreateCompany(companyData: { name: string }) {
   const result = await createCompany(companyData);
@@ -69,7 +70,7 @@ const columns = [
   {
     accessorKey: "id",
     header: t("tables.headers.id"),
-    cell: ({ row }: any) => {
+    cell: ({ row }: TableCellContext<Company>) => {
       const id = row.getValue("id");
       return h(
         resolveComponent("UButton"),
@@ -90,7 +91,7 @@ const columns = [
   {
     accessorKey: "actions",
     header: t("tables.headers.actions"),
-    cell: ({ row }: any) => {
+    cell: ({ row }: TableCellContext<Company>) => {
       const companyId = row.getValue("id");
       return h("div", { class: "flex gap-2" }, [
         h(

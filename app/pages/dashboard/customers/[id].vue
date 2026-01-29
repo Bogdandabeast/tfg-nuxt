@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { TableCellContext, TableRowData } from "~/types/api";
 import { ACTION_ICONS } from "~/lib/icons";
 
 definePageMeta({
@@ -34,13 +35,9 @@ const menuItems = computed(() => [
   },
 ]);
 
-async function handleDelete() {
-  isDeleteModalOpen.value = false;
-}
-
 const UBadge = resolveComponent("UBadge");
 
-const tableData = computed(() => [
+const tableData = computed<TableRowData[]>(() => [
   { label: t("tables.headers.id"), value: data.value?.id },
   { label: t("tables.headers.name"), value: data.value?.name },
   { label: t("tables.headers.email"), value: data.value?.email },
@@ -53,13 +50,13 @@ const tableColumns = [
   {
     accessorKey: "label",
     header: t("tables.headers.field"),
-    cell: ({ row }: { row: Record<string, any> }) =>
+    cell: ({ row }: TableCellContext<TableRowData>) =>
       h("span", { class: "font-medium" }, row.getValue("label")),
   },
   {
     accessorKey: "value",
     header: t("tables.headers.value"),
-    cell: ({ row }: { row: Record<string, any> }) => {
+    cell: ({ row }: TableCellContext<TableRowData>) => {
       const label = row.original.label;
       const value = row.getValue("value");
 
@@ -82,7 +79,7 @@ const tableColumns = [
     >
       <template #actions>
         <UColorModeButton />
-        <UDropdownMenu mode="click">
+        <UDropdownMenu :items="menuItems" mode="click">
           <UButton
             color="neutral"
             variant="soft"
@@ -90,7 +87,6 @@ const tableColumns = [
             square
             :aria-label="$t('actions.more')"
           />
-          :items="menuItems"
         </UDropdownMenu>
       </template>
     </UPageHeader>
