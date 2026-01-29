@@ -10,14 +10,10 @@ export type UserWithId = Omit<User, "id"> & {
   id: string;
 };
 
-if (!process.env.BETTER_AUTH_URL) {
-  throw new Error("Missing BETTER_AUTH_URL environment variable");
-}
-
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
   trustedOrigins: [
-    process.env.BETTER_AUTH_URL,
+    process.env.BETTER_AUTH_URL!,
     "http://localhost:3000",
   ],
   emailVerification: {

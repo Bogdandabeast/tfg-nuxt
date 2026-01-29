@@ -1,7 +1,7 @@
 import type { Company } from "~~/lib/db/queries/companies";
 import { defineStore } from "pinia";
 import { watch } from "vue";
-import { useCompanySelection } from "~~/composables/useCompanySelection";
+import { useCompanySelection } from "~~/app/composables/useCompanySelection";
 
 export const useCompaniesStore = defineStore("companies", () => {
   const {

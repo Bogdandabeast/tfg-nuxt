@@ -37,14 +37,32 @@ export const useMetricsStore = defineStore("metrics", () => {
   } = useFetch<DashboardMetricsResponse>(() => dashboardUrl.value || "", {
     lazy: true,
     watch: [() => companiesStore.currentCompany?.id],
-    transform: (data: any) => {
-      if (data.sales?.byPeriod) {
-        data.sales.byPeriod = z.array(SalesByPeriodSchema).parse(data.sales.byPeriod);
+    transform: (data: unknown) => {
+      const typedData = data as DashboardMetricsResponse;
+
+      if (typedData.sales?.byPeriod) {
+        const result = z.array(SalesByPeriodSchema).safeParse(typedData.sales.byPeriod);
+        if (result.success) {
+          typedData.sales.byPeriod = result.data;
+        }
+        else {
+          console.error("Failed to parse sales by period:", result.error);
+          typedData.sales.byPeriod = [];
+        }
       }
-      if (data.products?.topSelling) {
-        data.products.topSelling = z.array(TopSellingProductSchema).parse(data.products.topSelling);
+
+      if (typedData.products?.topSelling) {
+        const result = z.array(TopSellingProductSchema).safeParse(typedData.products.topSelling);
+        if (result.success) {
+          typedData.products.topSelling = result.data;
+        }
+        else {
+          console.error("Failed to parse top selling products:", result.error);
+          typedData.products.topSelling = [];
+        }
       }
-      return data as DashboardMetricsResponse;
+
+      return typedData;
     },
   });
 
