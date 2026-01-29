@@ -84,8 +84,8 @@ const columns: TableColumn[] = [
             color: "red",
             size: "xs",
             icon: "i-lucide-trash",
-            loading: deletingCustomersId.value === customersId.toString(),
-            onClick: () => handleDeleteCustomers(customersId.toString()),
+            loading: deletingCustomersId.value === customersId,
+            onClick: () => handleDeleteCustomers(customersId),
           },
         ),
       ]);

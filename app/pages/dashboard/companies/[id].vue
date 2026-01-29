@@ -5,12 +5,7 @@ definePageMeta({
   layout: "dashboard",
 });
 const route = useRoute();
-const companyIdStr = route.params.id as string;
-const companyId = Number(companyIdStr);
-
-if (Number.isNaN(companyId)) {
-  throw createError({ statusCode: 404, statusMessage: "Invalid company ID" });
-}
+const companyId = route.params.id as string;
 
 const companiesStore = useCompaniesStore();
 const { data, pending, error } = companiesStore.getCompanyById(companyId);

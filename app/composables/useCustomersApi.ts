@@ -56,8 +56,7 @@ export function useCustomersApi() {
   }
 
   async function deleteCustomer(id: string) {
-    const parsedId = Number(id);
-    if (!id || Number.isNaN(parsedId)) {
+    if (!id) {
       toast.add({
         title: t("error.title") || "Error",
         description: t("customers.invalidId") || "Please enter a valid Customer ID to delete.",
@@ -68,7 +67,7 @@ export function useCustomersApi() {
     isDeleteCustomerLoading.value = true;
     try {
       const companiesStore = useCompaniesStore();
-      await $csrfFetch(`/api/customers/${parsedId}`, {
+      await $csrfFetch(`/api/customers/${id}`, {
         method: "DELETE",
         body: { company_id: companiesStore.currentCompany!.id },
       });

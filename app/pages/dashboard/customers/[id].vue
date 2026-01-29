@@ -5,7 +5,7 @@ definePageMeta({
   layout: "dashboard",
 });
 const route = useRoute();
-const customerId = Number(route.params.id);
+const customerId = route.params.id as string;
 
 const customersStore = useCustomersStore();
 const { data, pending, error } = customersStore.getCustomerById(customerId);

@@ -43,7 +43,7 @@ async function handleDeleteCompany(companyId: string) {
 
   deletingCompanyId.value = companyId;
   try {
-    const success = await deleteCompany(Number(companyId));
+    const success = await deleteCompany(companyId);
     if (success === true) {
       await companiesStore.refreshCompanies();
       toast.add({
@@ -110,8 +110,8 @@ const columns = [
             color: "red",
             size: "xs",
             icon: "i-lucide-trash",
-            loading: deletingCompanyId.value === companyId.toString(),
-            onClick: () => handleDeleteCompany(companyId.toString()),
+            loading: deletingCompanyId.value === companyId,
+            onClick: () => handleDeleteCompany(companyId),
           },
         ),
       ]);

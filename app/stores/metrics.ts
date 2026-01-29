@@ -1,10 +1,12 @@
 import { defineStore } from "pinia";
+import { z } from "zod";
+import { SalesByPeriodSchema, TopSellingProductSchema, type SalesByPeriod, type TopSellingProduct } from "~~/utils/schemas/metrics";
 
 type DashboardMetricsResponse = {
   revenue: { total: number; error?: string };
   customers: { total: number; new: number; error?: string };
-  sales: { averageTicket: number; byPeriod: any[]; totalCount: number; error?: string };
-  products: { topSelling: any[]; error?: string };
+  sales: { averageTicket: number; byPeriod: SalesByPeriod[]; totalCount: number; error?: string };
+  products: { topSelling: TopSellingProduct[]; error?: string };
   meta?: {
     companyId: string;
     period: string;
@@ -35,6 +37,15 @@ export const useMetricsStore = defineStore("metrics", () => {
   } = useFetch<DashboardMetricsResponse>(() => dashboardUrl.value || "", {
     lazy: true,
     watch: [() => companiesStore.currentCompany?.id],
+    transform: (data: any) => {
+      if (data.sales?.byPeriod) {
+        data.sales.byPeriod = z.array(SalesByPeriodSchema).parse(data.sales.byPeriod);
+      }
+      if (data.products?.topSelling) {
+        data.products.topSelling = z.array(TopSellingProductSchema).parse(data.products.topSelling);
+      }
+      return data as DashboardMetricsResponse;
+    },
   });
 
   const totalRevenue = computed(() => dashboardMetricsResponse.value?.revenue.total ?? null);

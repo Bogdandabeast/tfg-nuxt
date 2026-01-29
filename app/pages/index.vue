@@ -25,9 +25,7 @@ useSeoMeta({
           icon: UI_ICONS.success,
         },
       ]"
-    >
-      <template #top />
-    </UPageHero>
+    />
 
     <UPageSection
       :title="t('homepage.features.title')"

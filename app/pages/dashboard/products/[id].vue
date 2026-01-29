@@ -7,7 +7,7 @@ definePageMeta({
   layout: "dashboard",
 });
 const route = useRoute();
-const productId = Number(route.params.id);
+const productId = route.params.id as string;
 
 const productsStore = useProductsStore();
 const { data, pending, error } = productsStore.getProductById(productId);

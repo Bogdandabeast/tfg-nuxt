@@ -24,7 +24,7 @@ const { isCreateProductLoading, createProduct, isDeleteProductLoading, deletePro
 async function handleDeleteProducts(ProductsId: string) {
   deletingProductsId.value = ProductsId;
   try {
-    const success = await deleteProduct(Number(ProductsId));
+    const success = await deleteProduct(ProductsId);
     if (success === true) {
       await productsStore.refreshProducts();
       toast.add({
@@ -84,8 +84,8 @@ const columns: TableColumn[] = [
             color: "red",
             size: "xs",
             icon: "i-lucide-trash",
-            loading: deletingProductsId.value === ProductsId.toString(),
-            onClick: () => handleDeleteProducts(ProductsId.toString()),
+            loading: deletingProductsId.value === ProductsId,
+            onClick: () => handleDeleteProducts(ProductsId),
           },
         ),
       ]);
