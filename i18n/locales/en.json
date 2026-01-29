@@ -322,6 +322,13 @@
         "title": "Error",
         "description": "Could not create account"
       }
+    },
+    "card": {
+      "verify_email": {
+        "title": "Verify your email",
+        "description": "We have sent an email to your address with a verification link. Please check your inbox and click the link to activate your account.",
+        "resend_button": "Resend verification email"
+      }
     }
   },
   "companies": {
@@ -367,7 +374,8 @@
       "loading": "Loading customers...",
       "modal": {
         "description": "Form to manage customer information in the system.",
-        "create_button_label": "Create Customer"
+        "create_button_label": "Create Customer",
+        "title": "Manage Customer"
       }
     },
     "sales": {
@@ -437,7 +445,8 @@
       "deleteButton": "Delete Customer",
       "noCompany": "No company selected.",
       "invalidData": "Please fill in at least name and email.",
-      "createdSuccess": "Customer created successfully!"
+      "createdSuccess": "Customer created successfully!",
+      "deletedSuccess": "Customer deleted successfully!"
     },
     "productForm": {
       "name": "Name",

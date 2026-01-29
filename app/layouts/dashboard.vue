@@ -119,8 +119,11 @@ onMounted(async () => {
           orientation="vertical"
           tooltip
           popover
-        />
-        <DashboardSignOut />
+        >
+          <template #more>
+            <DashboardSignOut />
+          </template>
+        </UNavigationMenu>
       </template>
     </UDashboardSidebar>
 

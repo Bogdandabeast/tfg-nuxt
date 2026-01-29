@@ -322,6 +322,13 @@
         "title": "Error",
         "description": "No se pudo crear la cuenta"
       }
+    },
+    "card": {
+      "verify_email": {
+        "title": "Verifica tu correo electrónico",
+        "description": "Hemos enviado un correo electrónico a tu dirección con un enlace de verificación. Por favor, revisa tu bandeja de entrada y haz clic en el enlace para activar tu cuenta.",
+        "resend_button": "Reenviar correo de verificación"
+      }
     }
   },
   "companies": {
@@ -367,7 +374,8 @@
       "loading": "Cargando clientes...",
       "modal": {
         "description": "Formulario para gestionar información de clientes del sistema.",
-        "create_button_label": "Crear Cliente"
+        "create_button_label": "Crear Cliente",
+        "title": "Gestionar Cliente"
       }
     },
     "sales": {
@@ -436,7 +444,8 @@
       "deleteButton": "Eliminar Cliente",
       "noCompany": "No se ha seleccionado empresa.",
       "invalidData": "Por favor, completa al menos nombre y correo electrónico.",
-      "createdSuccess": "¡Cliente creado exitosamente!"
+      "createdSuccess": "¡Cliente creado exitosamente!",
+      "deletedSuccess": "¡Cliente eliminado exitosamente!"
     },
     "productForm": {
       "name": "Nombre",
