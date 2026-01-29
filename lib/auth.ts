@@ -23,7 +23,7 @@ export const auth = betterAuth({
         from: "techlead@bogdanweb.dev",
         replyTo: "techlead@bogdanweb.dev",
         subject: "Verify your email address",
-        text: `Click the link to verify your email: ${url}`,
+        text: `Hello, ${user.name}. Thank you for signing up for EscorialCRM. Click the link to verify your email: ${url}`,
       });
     },
     sendOnSignUp: true, // Enviar automáticamente al registrarse

@@ -10,6 +10,8 @@ definePageMeta({
 
 const { t } = useI18n();
 
+const success = ref(false);
+
 useSeoMeta({
   title: t("signup.seo.title"),
   description: t("signup.seo.description"),
@@ -43,15 +45,14 @@ const schema = z.object({
 type Schema = z.output<typeof schema>;
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  /* const success =  */await authStore.signUp(payload.data.name, payload.data.email, payload.data.password);
-  /* if (success) {
-    window.location.reload()
-  } */
+  const success.value = await authStore.signUp(payload.data.name, payload.data.email, payload.data.password);
+
 }
 </script>
 
 <template>
   <UAuthForm
+    v-if="success"
     :fields="fields"
     :schema="schema"
     :title="t('signup.form.title')"
@@ -80,4 +81,23 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
       </ULink>.
     </template>
   </UAuthForm>
+  <UCard v-else variant="subtle">
+    <template #header>
+      <h1 class="text-center">
+        {{ t("signup.card.verify_email.title") }}
+      </h1>
+    </template>
+    {{ t("signup.card.verify_email.description") }}
+    <template #footer>
+      <div class="flex flex-col items-center gap-4">
+        <UButton
+          class="flex-1"
+          :label="t('signup.card.verify_email.resend_button')"
+          color="secondary"
+          variant="subtle"
+        />
+        <DashboardSignOut />
+      </div>
+    </template>
+  </UCard>
 </template>

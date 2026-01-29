@@ -9,7 +9,8 @@ const sendEmailSchema = z.object({
   to: z.string().email(),
   replyTo: z.string().email(),
   subject: z.string().min(1),
-  text: z.string().min(1),
+  text: z.string().optional(),
+  html: z.string().optional(),
 });
 
 type sendEmail = z.infer<typeof sendEmailSchema>;
