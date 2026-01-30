@@ -1,9 +1,9 @@
-import type { NewSale, Sale } from "~/types/api";
+import type { NewSale, Sale } from "~~/types/api";
 import { and, eq } from "drizzle-orm";
 import { db } from "../index";
 import { salesTable } from "../schema/companies";
 
-export async function createSale(data: NewSale) {
+export async function createSale(data: typeof salesTable.$inferInsert) {
   return db.insert(salesTable).values(data).returning();
 }
 

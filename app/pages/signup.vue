@@ -41,7 +41,7 @@ const schema = getSignupSchema(t);
 type Schema = typeof schema._output;
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  success.value = await authStore.signUp(payload.data.name, payload.data.email, payload.data.password);
+  success.value = !!(await authStore.signUp(payload.data.name, payload.data.email, payload.data.password));
 }
 </script>
 

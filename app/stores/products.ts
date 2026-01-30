@@ -1,4 +1,4 @@
-import type { Product } from "~/types/api";
+import type { Product } from "~~/types/api";
 import { defineStore } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
 

@@ -1,10 +1,12 @@
-import type { Customer, NewCustomer } from "~/types/api";
+import type { Customer, NewCustomer } from "~~/types/api";
 import { and, eq, inArray } from "drizzle-orm";
 import { db } from "../index";
 import { customersTable } from "../schema/companies";
 import { getCompaniesByUserId } from "./company";
 
-export async function createCustomer(data: NewCustomer) {
+export type { Customer, NewCustomer };
+
+export async function createCustomer(data: typeof customersTable.$inferInsert) {
   return db.insert(customersTable).values(data).returning();
 }
 

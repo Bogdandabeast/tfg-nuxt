@@ -1,4 +1,4 @@
-import type { Company } from "~/types/api";
+import type { Company } from "~~/types/api";
 import { eq } from "drizzle-orm";
 import { db } from "../index";
 import { companiesTable } from "../schema/companies";

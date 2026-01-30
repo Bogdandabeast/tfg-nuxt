@@ -12,46 +12,30 @@ export function useBreadcrumbs() {
       },
     ];
 
-    const sectionMap: { [key: string]: { label: string; singular: string } } = {
-      customers: { label: "breadcrumbs.customers", singular: "breadcrumbs.customer" },
-      products: { label: "breadcrumbs.products", singular: "breadcrumbs.product" },
-      sales: { label: "breadcrumbs.sales", singular: "breadcrumbs.sale" },
-      companies: { label: "breadcrumbs.companies", singular: "breadcrumbs.company" },
-    };
+    const sectionMap = {
+      customers: { label: "breadcrumbs.customers", singular: "breadcrumbs.customer", to: "/dashboard/customers" },
+      products: { label: "breadcrumbs.products", singular: "breadcrumbs.product", to: "/dashboard/products" },
+      sales: { label: "breadcrumbs.sales", singular: "breadcrumbs.sale", to: "/dashboard/sales" },
+      companies: { label: "breadcrumbs.companies", singular: "breadcrumbs.company", to: "/dashboard/companies" },
+    } as const;
 
     const pathSegments = route.path.split("/").filter(Boolean);
 
-    if (pathSegments.includes("customers")) {
-      items.push({
-        label: t(sectionMap.customers.label),
-        to: localePath("/dashboard/customers"),
-      });
-    }
-    else if (pathSegments.includes("products")) {
-      items.push({
-        label: t(sectionMap.products.label),
-        to: localePath("/dashboard/products"),
-      });
-    }
-    else if (pathSegments.includes("sales")) {
-      items.push({
-        label: t(sectionMap.sales.label),
-        to: localePath("/dashboard/sales"),
-      });
-    }
-    else if (pathSegments.includes("companies")) {
-      items.push({
-        label: t(sectionMap.companies.label),
-        to: localePath("/dashboard/companies"),
-      });
-    }
-
-    if (route.params.id) {
-      const currentSection = pathSegments[1];
-      if (currentSection && sectionMap[currentSection]) {
+    // Only add section breadcrumb if we are in a subpath of dashboard
+    if (pathSegments[0] === "dashboard" && pathSegments[1]) {
+      const sectionKey = pathSegments[1] as keyof typeof sectionMap;
+      if (sectionMap[sectionKey]) {
+        const section = sectionMap[sectionKey];
         items.push({
-          label: t(sectionMap[currentSection].singular, { id: route.params.id }),
+          label: t(section.label),
+          to: localePath(section.to),
         });
+
+        if (route.params.id) {
+          items.push({
+            label: t(section.singular, { id: route.params.id }),
+          });
+        }
       }
     }
 

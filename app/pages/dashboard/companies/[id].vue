@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TableCellContext, TableRowData } from "~/types/api";
+import type { TableCellContext, TableRowData } from "~~/types/api";
 import { ACTION_ICONS } from "~/lib/icons";
 import { ROUTES } from "~/utils/routes";
 
@@ -44,7 +44,7 @@ async function handleDelete() {
         description: t("forms.companyForm.deletedSuccess"),
         color: "success",
       });
-      navigateTo(localePath(ROUTES.DASHBOARD.COMPANIES));
+      navigateTo(localePath(ROUTES.COMPANIES));
     }
   }
   finally {
@@ -84,7 +84,7 @@ const tableColumns = [
     accessorKey: "label",
     header: t("tables.headers.field"),
     cell: ({ row }: TableCellContext<TableRowData>) =>
-      h("span", { class: "font-medium" }, row.getValue("label")),
+      h("span", { class: "font-medium" }, String(row.getValue("label"))),
   },
   {
     accessorKey: "value",
@@ -168,10 +168,10 @@ const tableColumns = [
           <template #header>
             <div class="flex items-center gap-3">
               <UAvatar
-                :src="null"
+                :src="undefined"
                 :alt="data.name"
                 size="2xl"
-                :initials="data.name.split(' ').map(n => n[0]).join('').toUpperCase()"
+                :initials="data.name.split(' ').map((n: string) => n[0]).join('').toUpperCase()"
               />
               <div>
                 <h3 class="text-lg font-semibold">

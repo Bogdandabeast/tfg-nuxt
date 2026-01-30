@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Company, TableCellContext } from "~/types/api";
+import type { Company, TableCellContext } from "~~/types/api";
 import { storeToRefs } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
 import { getCompanyPath } from "~/utils/routes";
@@ -71,7 +71,7 @@ const columns = [
     accessorKey: "id",
     header: t("tables.headers.id"),
     cell: ({ row }: TableCellContext<Company>) => {
-      const id = row.getValue("id");
+      const id = String(row.getValue("id"));
       return h(
         resolveComponent("UButton"),
         {
@@ -92,7 +92,7 @@ const columns = [
     accessorKey: "actions",
     header: t("tables.headers.actions"),
     cell: ({ row }: TableCellContext<Company>) => {
-      const companyId = row.getValue("id");
+      const companyId = String(row.getValue("id"));
       return h("div", { class: "flex gap-2" }, [
         h(
           resolveComponent("UButton"),

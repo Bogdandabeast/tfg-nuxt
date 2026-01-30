@@ -14,7 +14,10 @@ export default defineAuthenticatedEventHandler(async (event) => {
 
   await assertUserHasCompanyAccess(event.context.user.id, data.company_id);
 
-  const newCustomer = await createCustomer(data);
+  const newCustomer = await createCustomer({
+    ...data,
+    phone: data.phone || "",
+  });
 
   return newCustomer;
 });

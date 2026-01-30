@@ -9,6 +9,8 @@ export const createSaleSchema = z.object({
   unit_price: z.number().positive(),
   customer_name: z.string().min(1),
   company_id: z.string().uuid(),
+  discount: z.number().nonnegative().optional(),
+  tax_rate: z.number().nonnegative().optional(),
 });
 
 export const updateSaleSchema = z.object({

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TableCellContext, TableRowData } from "~/types/api";
+import type { TableCellContext, TableRowData } from "~~/types/api";
 import { ACTION_ICONS } from "~/lib/icons";
 import { ROUTES } from "~/utils/routes";
 
@@ -24,89 +24,142 @@ const isEditModalOpen = ref(false);
 const isDeleting = ref(false);
 
 async function handleDelete() {
-  if (isDeleting.value)
+  if (isDeleting.value || !saleData.value?.company_id)
     return;
+
   isDeleting.value = true;
+
   try {
-    const success = await deleteSale(saleId);
+    const success = await deleteSale(saleId, saleData.value.company_id);
+
     if (success === true) {
       toast.add({
+
         title: t("common.success"),
+
         description: t("forms.saleForm.deletedSuccess"),
+
         color: "success",
+
       });
+
       navigateTo(localePath(ROUTES.SALES));
     }
   }
   finally {
     isDeleting.value = false;
+
     isDeleteModalOpen.value = false;
   }
 }
 
 const customerData = computed(() => {
   if (!saleData.value?.customer_id)
+
     return null;
+
   const { data } = customersStore.getCustomerById(saleData.value.customer_id);
+
   return data.value;
 });
 
 const productData = computed(() => {
   if (!saleData.value?.product_id)
+
     return null;
+
   const { data } = productsStore.getProductById(saleData.value.product_id);
+
   return data.value;
 });
 
 const menuItems = computed(() => [
+
   {
+
     label: t("actions.edit.sale"),
+
     icon: ACTION_ICONS.editSale,
+
     click: () => {
       isEditModalOpen.value = true;
     },
+
   },
+
   {
+
     label: t("actions.processRefund"),
+
     icon: ACTION_ICONS.processRefund,
+
     click: () => {
+
     },
+
   },
+
   {
+
     label: t("actions.delete.sale"),
+
     icon: ACTION_ICONS.deleteSale,
+
     click: () => {
       isDeleteModalOpen.value = true;
     },
+
   },
+
 ]);
 
 const UBadge = resolveComponent("UBadge");
 
 const tableData = computed<TableRowData[]>(() => [
+
   { label: t("tables.headers.id"), value: saleData.value?.id },
+
   { label: t("tables.headers.customer"), value: customerData.value?.name || t("tables.data.loading") },
+
   { label: t("tables.headers.email"), value: customerData.value?.email || t("tables.data.loading") },
+
   { label: t("tables.headers.product"), value: productData.value?.name || t("tables.data.unknown") },
-  { label: t("tables.headers.price"), value: productData.value?.price != null ? `$${productData.value.price}` : t("tables.data.loading") },
+
+  { label: t("tables.headers.price"), value: productData.value?.price != null ? `${productData.value.price}` : t("tables.data.loading") },
+
   { label: t("tables.headers.stock"), value: productData.value?.stock ?? t("tables.data.loading") },
+
   { label: t("tables.headers.quantity"), value: saleData.value?.quantity },
+
   { label: t("tables.headers.date"), value: saleData.value?.sale_date ? new Date(saleData.value.sale_date).toLocaleString(locale.value) : t("tables.data.na") },
+
   { label: t("tables.headers.companyId"), value: saleData.value?.company_id },
+
 ]);
 
 const tableColumns = [
+
   {
+
     accessorKey: "label",
+
     header: t("tables.headers.field"),
+
     cell: ({ row }: TableCellContext<TableRowData>) =>
-      h("span", { class: "font-medium" }, row.getValue("label")),
+
+      h("span", { class: "font-medium" }, String(row.getValue("label"))),
+
   },
+
   {
+
     accessorKey: "value",
+
     header: t("tables.headers.value"),
+
     cell: ({ row }: TableCellContext<TableRowData>) => {
       const label = row.original.label;
+
       const value = row.getValue("value");
 
       if (value == null || value === "") {
@@ -119,7 +172,9 @@ const tableColumns = [
 
       return h("span", {}, String(value));
     },
+
   },
+
 ];
 </script>
 
@@ -127,18 +182,27 @@ const tableColumns = [
   <UDashboardPanel class="overflow-y-auto">
     <div class="m-5">
       <DashboardNavbar />
+
       <UPageHeader
+
         :title="t('details.sale.title')"
+
         :description="t('details.sale.description', { id: saleId })"
       >
         <template #actions>
           <UColorModeButton />
+
           <UDropdownMenu :items="menuItems" mode="click">
             <UButton
+
               color="neutral"
+
               variant="soft"
+
               icon="i-heroicons-ellipsis-horizontal-20-solid"
+
               square
+
               :aria-label="t('actions.more')"
             />
           </UDropdownMenu>
@@ -147,34 +211,49 @@ const tableColumns = [
 
       <div class="space-y-6">
         <UAlert
+
           v-if="error"
+
           color="error"
+
           variant="subtle"
+
           icon="i-heroicons-exclamation-triangle-20-solid"
+
           :title="t('details.sale.error.title')"
+
           :description="error?.message || t('details.sale.error.description')"
         />
 
         <DashboardTableSkeleton
+
           v-else-if="pending"
+
           :columns="2"
+
           :rows="8"
+
           :show-header="false"
         >
           <UCard>
             <template #header>
               <div class="flex items-center gap-3">
                 <UAvatar size="2xl" />
+
                 <div class="space-y-2">
                   <USkeleton class="h-6 w-32" />
+
                   <USkeleton class="h-4 w-24" />
                 </div>
               </div>
             </template>
 
             <UTable
+
               :data="tableData"
+
               :columns="tableColumns"
+
               class="w-full"
             />
           </UCard>
@@ -184,10 +263,14 @@ const tableColumns = [
           <template #header>
             <div class="flex items-center gap-3">
               <UAvatar
-                :src="null"
+
+                :src="undefined"
+
                 :alt="productData?.name || 'Sale'"
+
                 size="2xl"
-                :initials="(productData?.name || 'Sale').split(' ').map(n => n[0]).join('').toUpperCase()"
+
+                :initials="(productData?.name || 'Sale').split(' ').map((n: string) => n[0]).join('').toUpperCase()"
               />
               <div>
                 <h3 class="text-lg font-semibold">

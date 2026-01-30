@@ -1,4 +1,4 @@
-import type { Company } from "~~/lib/db/queries/companies";
+import type { Company } from "~~/types/api";
 import { defineStore } from "pinia";
 import { watch } from "vue";
 import { useCompanySelection } from "~~/app/composables/useCompanySelection";

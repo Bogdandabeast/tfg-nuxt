@@ -1,9 +1,9 @@
-import type { NewCompany } from "~/types/api";
+import type { NewCompany } from "~~/types/api";
 import { eq } from "drizzle-orm";
 import { db } from "../index";
 import { companiesTable } from "../schema/companies";
 
-export async function createCompany(data: NewCompany) {
+export async function createCompany(data: typeof companiesTable.$inferInsert) {
   return db.insert(companiesTable).values(data).returning();
 }
 

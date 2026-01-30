@@ -1,4 +1,4 @@
-import type { Customer } from "~~/lib/db/queries/customers";
+import type { Customer } from "~~/types/api";
 import { defineStore } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
 

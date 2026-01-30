@@ -1,14 +1,17 @@
-import type { NewProduct } from "~/types/api";
+import type { NewProduct, Product } from "~~/types/api";
 import { and, eq } from "drizzle-orm";
 import { db } from "../index";
 import { productsTable } from "../schema/companies";
 
-export async function createProduct(data: NewProduct) {
+export type { NewProduct, Product };
+
+export async function createProduct(data: typeof productsTable.$inferInsert) {
   return db.insert(productsTable).values(data).returning();
 }
 
-export async function getProductById(id: string) {
-  return db.select().from(productsTable).where(eq(productsTable.id, id));
+export async function getProductById(id: string): Promise<Product | null> {
+  const result = await db.select().from(productsTable).where(eq(productsTable.id, id)).limit(1);
+  return result[0] || null;
 }
 
 export async function getProductsByCompanyId(companyId: string) {

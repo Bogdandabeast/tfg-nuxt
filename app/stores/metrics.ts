@@ -1,4 +1,4 @@
-import type { DashboardMetricsResponse } from "~/types/api";
+import type { DashboardMetricsResponse } from "~~/types/api";
 import { defineStore } from "pinia";
 import { SalesByPeriodArraySchema, TopSellingProductArraySchema } from "~~/utils/schemas/metrics";
 
@@ -58,7 +58,7 @@ export const useMetricsStore = defineStore("metrics", () => {
   const salesByPeriod = computed(() => dashboardMetricsResponse.value?.sales.byPeriod ?? []);
   const totalSalesCount = computed(() => dashboardMetricsResponse.value?.sales.totalCount ?? 0);
 
-  const loadAllMetrics = async () => {
+  const loadAllMetrics = async (): Promise<{ success: boolean; error?: string }> => {
     try {
       await refreshMetrics();
 
@@ -96,6 +96,8 @@ export const useMetricsStore = defineStore("metrics", () => {
     }
     catch (error) {
       console.warn(error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      return { success: false, error: errorMessage };
     }
   };
 

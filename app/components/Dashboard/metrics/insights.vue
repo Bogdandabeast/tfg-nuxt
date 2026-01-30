@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Period, Range, Stat } from "~/types/api";
+import type { Period, Range, Stat } from "~~/types/api";
 
 const props = defineProps<{
   period: Period;

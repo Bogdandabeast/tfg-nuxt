@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Company } from "~/types/api";
+import type { Company } from "~~/types/api";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { useCompaniesStore } from "~~/app/stores/companies";

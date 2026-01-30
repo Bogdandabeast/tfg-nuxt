@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
-import type { Product, TableCellContext } from "~/types/api";
+import type { Product, TableCellContext } from "~~/types/api";
 import { storeToRefs } from "pinia";
 import { getProductPath } from "~/utils/routes";
 
@@ -37,7 +37,7 @@ async function handleDeleteProducts(ProductsId: string) {
     else {
       toast.add({
         title: t("common.error"),
-        description: success as string,
+        description: String(success),
         color: "error",
       });
     }
@@ -47,7 +47,7 @@ async function handleDeleteProducts(ProductsId: string) {
   }
 }
 
-const columns: TableColumn[] = [
+const columns: TableColumn<Product>[] = [
 
   {
     accessorKey: "name",
@@ -66,7 +66,9 @@ const columns: TableColumn[] = [
     accessorKey: "actions",
     header: t("tables.headers.actions"),
     cell: ({ row }: TableCellContext<Product>) => {
-      const ProductsId = products.value[row.index].id;
+      const ProductsId = products.value?.[row.index]?.id;
+      if (!ProductsId)
+        return null;
       return h("div", { class: "flex gap-2" }, [
         h(
           resolveComponent("UButton"),

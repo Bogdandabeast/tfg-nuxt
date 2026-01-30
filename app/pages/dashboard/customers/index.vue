@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
-import type { Customer, TableCellContext } from "~/types/api";
+import type { Customer, TableCellContext } from "~~/types/api";
 import { storeToRefs } from "pinia";
 import { getCustomerPath } from "~/utils/routes";
 
@@ -48,7 +48,7 @@ async function handleDeleteCustomers(CustomersId: string) {
   }
 }
 
-const columns: TableColumn[] = [
+const columns: TableColumn<Customer>[] = [
 
   {
     accessorKey: "name",
@@ -66,7 +66,9 @@ const columns: TableColumn[] = [
     accessorKey: "actions",
     header: t("tables.headers.actions"),
     cell: ({ row }: TableCellContext<Customer>) => {
-      const customersId = customers.value[row.index].id;
+      const customersId = customers.value?.[row.index]?.id;
+      if (!customersId)
+        return null;
       return h("div", { class: "flex gap-2" }, [
         h(
           resolveComponent("UButton"),

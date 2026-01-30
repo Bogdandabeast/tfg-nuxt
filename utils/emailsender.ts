@@ -17,7 +17,7 @@ const sendEmailSchema = z.object({
 export async function sendEmail(data: SendEmailData) {
   try {
     const validatedData = sendEmailSchema.parse(data);
-    const result = await $fetch(process.env.RESEND_API, {
+    const result = await $fetch(String(process.env.RESEND_API), {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,

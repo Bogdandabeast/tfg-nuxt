@@ -16,12 +16,11 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const body = await readBody(event);
     const parsedData = productUpdateSchema.parse(body);
 
-    const product = await getProductById(id);
-    if (!product) {
+    const productData = await getProductById(id);
+    if (!productData) {
       throw createError({ statusCode: 404, statusMessage: "Product not found" });
     }
 
-    const productData = product;
     if (!productData.company_id) {
       throw createError({ statusCode: 404, statusMessage: "Product not found" });
     }

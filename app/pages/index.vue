@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UI_ICONS } from "~/lib/icons";
+import { FEATURE_ICONS, SOCIAL_ICONS, UI_ICONS } from "~/lib/icons";
 
 const { t } = useI18n();
 const localePath = useLocalePath();
@@ -35,13 +35,13 @@ useSeoMeta({
         <UPageCard
           :title="t('homepage.features.one.title')"
           :description="t('homepage.features.one.description')"
-          :icon="UI_ICONS.globe"
+          :icon="SOCIAL_ICONS.website"
           spotlight
         />
         <UPageCard
           :title="t('homepage.features.two.title')"
           :description="t('homepage.features.two.description')"
-          :icon="UI_ICONS.analytics"
+          :icon="FEATURE_ICONS.analytics"
           spotlight
         />
         <UPageCard

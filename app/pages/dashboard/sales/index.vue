@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Sale, TableCellContext } from "~/types/api";
+import type { Sale, TableCellContext } from "~~/types/api";
 import { storeToRefs } from "pinia";
 import { getSalePath } from "~/utils/routes";
 
@@ -30,7 +30,7 @@ const columns = [
     accessorKey: "sale_date",
     header: t("tables.headers.date"),
     cell: ({ row }: TableCellContext<Sale>) => {
-      return new Date(row.getValue("sale_date")).toLocaleString("en-US", {
+      return new Date(String(row.getValue("sale_date"))).toLocaleString("en-US", {
         day: "numeric",
         month: "short",
         year: "numeric",

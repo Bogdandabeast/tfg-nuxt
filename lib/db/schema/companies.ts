@@ -99,7 +99,7 @@ export const salesTable = pgTable("sales", {
   currency: text().default("EUR"),
   total: numeric().generatedAlwaysAs(
     () =>
-      sql`(((${salesTable.unit_price} - ${salesTable.discount}) * ${salesTable.quantity}) * (1 + ${salesTable.tax_rate}))`,
+      sql`((("unit_price" - "discount") * "quantity") * (1 + "tax_rate"))`,
   ),
 }, table => [
   index().on(table.id),

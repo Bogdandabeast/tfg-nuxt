@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { Customer } from "~~/lib/db/queries/customers";
-import type { Product } from "~~/lib/db/queries/products";
+import type { Customer, Product } from "~~/types/api";
 import { storeToRefs } from "pinia";
 
 const { t } = useI18n();
