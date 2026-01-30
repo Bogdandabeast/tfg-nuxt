@@ -19,5 +19,8 @@ export const TopSellingProductSchema = z.object({
   totalSold: z.number(),
 });
 
+export const SalesByPeriodArraySchema = z.array(SalesByPeriodSchema);
+export const TopSellingProductArraySchema = z.array(TopSellingProductSchema);
+
 export type SalesByPeriod = z.infer<typeof SalesByPeriodSchema>;
 export type TopSellingProduct = z.infer<typeof TopSellingProductSchema>;

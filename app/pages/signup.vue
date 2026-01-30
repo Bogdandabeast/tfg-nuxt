@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from "@nuxt/ui";
-import * as z from "zod";
 import { useAuthStore } from "~~/app/stores/auth";
 import { ROUTES } from "~/utils/routes";
+import { getSignupSchema } from "~~/utils/schemas/auth";
 
 definePageMeta({
   layout: "auth",
@@ -36,13 +36,9 @@ const fields = [{
   placeholder: t("signup.form.password.placeholder"),
 }];
 
-const schema = z.object({
-  name: z.string().min(1, t("signup.validation.name_required")),
-  email: z.string().email(t("signup.validation.invalid_email")),
-  password: z.string().min(8, t("signup.validation.password_min")),
-});
+const schema = getSignupSchema(t);
 
-type Schema = z.output<typeof schema>;
+type Schema = typeof schema._output;
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
   success.value = await authStore.signUp(payload.data.name, payload.data.email, payload.data.password);

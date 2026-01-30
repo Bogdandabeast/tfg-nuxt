@@ -1,7 +1,6 @@
 import type { DashboardMetricsResponse } from "~/types/api";
 import { defineStore } from "pinia";
-import { z } from "zod";
-import { SalesByPeriodSchema, TopSellingProductSchema } from "~~/utils/schemas/metrics";
+import { SalesByPeriodArraySchema, TopSellingProductArraySchema } from "~~/utils/schemas/metrics";
 
 export const useMetricsStore = defineStore("metrics", () => {
   const companiesStore = useCompaniesStore();
@@ -26,7 +25,7 @@ export const useMetricsStore = defineStore("metrics", () => {
       const typedData = data as DashboardMetricsResponse;
 
       if (typedData.sales?.byPeriod) {
-        const result = z.array(SalesByPeriodSchema).safeParse(typedData.sales.byPeriod);
+        const result = SalesByPeriodArraySchema.safeParse(typedData.sales.byPeriod);
         if (result.success) {
           typedData.sales.byPeriod = result.data;
         }
@@ -37,7 +36,7 @@ export const useMetricsStore = defineStore("metrics", () => {
       }
 
       if (typedData.products?.topSelling) {
-        const result = z.array(TopSellingProductSchema).safeParse(typedData.products.topSelling);
+        const result = TopSellingProductArraySchema.safeParse(typedData.products.topSelling);
         if (result.success) {
           typedData.products.topSelling = result.data;
         }

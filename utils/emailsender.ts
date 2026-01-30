@@ -1,4 +1,4 @@
-import type { SendEmailData } from "~/types/api";
+import type { SendEmailData } from "~~/types/api";
 import { z } from "zod";
 
 if (!process.env.RESEND_API_KEY) {
