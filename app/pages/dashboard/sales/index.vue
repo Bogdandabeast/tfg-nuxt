@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import type { Sale, TableCellContext } from "~/types/api";
 import { storeToRefs } from "pinia";
+import { getSalePath } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
 });
+
+const localePath = useLocalePath();
 const { t } = useI18n();
 const salesStore = useSalesStore();
 
@@ -62,32 +65,6 @@ const columns = [
     },
   },
   {
-    accessorKey: "discount",
-    header: t("tables.headers.discount"),
-    cell: ({ row }: TableCellContext<Sale>) => {
-      const discount = Number.parseFloat(row.getValue("discount") as string);
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "percent",
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2,
-      }).format(discount);
-      return h("div", { class: "text-right font-medium" }, formatted);
-    },
-  },
-  {
-    accessorKey: "tax_rate",
-    header: t("tables.headers.taxRate"),
-    cell: ({ row }: TableCellContext<Sale>) => {
-      const taxRate = Number.parseFloat(row.getValue("tax_rate") as string);
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "percent",
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2,
-      }).format(taxRate);
-      return h("div", { class: "text-right font-medium" }, formatted);
-    },
-  },
-  {
     accessorKey: "total",
     header: () => h("div", { class: "text-right" }, t("tables.headers.total")),
     cell: ({ row }: TableCellContext<Sale>) => {
@@ -97,6 +74,25 @@ const columns = [
         currency: "EUR",
       }).format(total);
       return h("div", { class: "text-right font-medium" }, formatted);
+    },
+  },
+  {
+    accessorKey: "actions",
+    header: t("tables.headers.actions"),
+    cell: ({ row }: TableCellContext<Sale>) => {
+      const saleId = row.original.id;
+      return h("div", { class: "flex gap-2" }, [
+        h(
+          resolveComponent("UButton"),
+          {
+            to: localePath(getSalePath(saleId)),
+            variant: "ghost",
+            color: "primary",
+            size: "xs",
+            icon: "i-lucide-edit",
+          },
+        ),
+      ]);
     },
   },
 ];

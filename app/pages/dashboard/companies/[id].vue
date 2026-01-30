@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TableCellContext, TableRowData } from "~/types/api";
+import { ACTION_ICONS } from "~/lib/icons";
 import { ROUTES } from "~/utils/routes";
 
 definePageMeta({
@@ -17,11 +18,23 @@ const toast = useToast();
 const localePath = useLocalePath();
 
 const isDeleteModalOpen = ref(false);
+const isEditModalOpen = ref(false);
 const isDeleting = ref(false);
 
 async function handleDelete() {
   if (isDeleting.value)
     return;
+
+  if (companiesStore.currentCompany?.id === companyId) {
+    toast.add({
+      title: t("common.error"),
+      description: t("companies.manage.deleteCurrentCompanyError"),
+      color: "error",
+    });
+    isDeleteModalOpen.value = false;
+    return;
+  }
+
   isDeleting.value = true;
   try {
     const result = await deleteCompany(companyId);
@@ -40,6 +53,24 @@ async function handleDelete() {
   }
 }
 
+const menuItems = computed(() => [
+  {
+    label: t("actions.edit.company"),
+    icon: ACTION_ICONS.editCompany,
+    click: () => {
+      isEditModalOpen.value = true;
+    },
+  },
+  {
+    label: t("actions.delete.company"),
+    icon: ACTION_ICONS.deleteCompany,
+    disabled: companiesStore.currentCompany?.id === companyId,
+    click: () => {
+      isDeleteModalOpen.value = true;
+    },
+  },
+]);
+
 const UBadge = resolveComponent("UBadge");
 
 const tableData = computed<TableRowData[]>(() => [
@@ -49,157 +80,130 @@ const tableData = computed<TableRowData[]>(() => [
 ]);
 
 const tableColumns = [
-  { accessorKey: "label", header: t("tables.headers.field"), cell: ({ row }: TableCellContext<TableRowData>) => h("span", { class: "font-medium" }, row.getValue("label")) },
-  { accessorKey: "value", header: t("tables.headers.value"), cell: ({ row }: TableCellContext<TableRowData>) => {
-    const label = row.original.label;
-    const value = row.getValue("value");
-    if (label === "ID") {
-      return h(UBadge, { color: "primary", variant: "soft" }, () => value);
-    }
-    return h("span", {}, () => value);
-  } },
+  {
+    accessorKey: "label",
+    header: t("tables.headers.field"),
+    cell: ({ row }: TableCellContext<TableRowData>) =>
+      h("span", { class: "font-medium" }, row.getValue("label")),
+  },
+  {
+    accessorKey: "value",
+    header: t("tables.headers.value"),
+    cell: ({ row }: TableCellContext<TableRowData>) => {
+      const label = row.original.label;
+      const value = row.getValue("value");
+
+      if (value == null || value === "") {
+        return h("span", { class: "text-gray-400 italic" }, t("common.na"));
+      }
+
+      if (label === t("tables.headers.id")) {
+        return h(UBadge, { color: "primary", variant: "soft" }, () => String(value));
+      }
+
+      return h("span", {}, String(value));
+    },
+  },
 ];
 </script>
 
 <template>
   <UDashboardPanel class="overflow-y-auto">
-    <DashboardNavBar />
-    <UPageHeader
-      :title="$t('details.company.title')"
-      :description="$t('details.company.description', { id: companyId })"
-    >
-      <template #actions>
-        <UColorModeButton />
-        <UDropdownMenu mode="click">
-          <UButton
-            color="neutral"
-            variant="soft"
-            icon="i-heroicons-ellipsis-horizontal-20-solid"
-            square
-            :aria-label="$t('actions.more')"
-          />
-          <template #items>
-            <UDropdownMenuItem
-              icon="i-heroicons-pencil-square-20-solid"
-              :label="$t('actions.edit.company')"
+    <div class="m-5">
+      <DashboardNavbar />
+      <UPageHeader
+        :title="t('details.company.title')"
+        :description="t('details.company.description', { id: companyId })"
+      >
+        <template #actions>
+          <UColorModeButton />
+          <UDropdownMenu :items="menuItems" mode="click">
+            <UButton
+              color="neutral"
+              variant="soft"
+              icon="i-heroicons-ellipsis-horizontal-20-solid"
+              square
+              :aria-label="t('actions.more')"
             />
-            <UDropdownMenuItem
-              icon="i-heroicons-trash-20-solid"
-              :label="$t('actions.delete.company')"
-              @click="isDeleteModalOpen = true"
-            />
-          </template>
-        </UDropdownMenu>
-      </template>
-    </UPageHeader>
-
-    <div class="space-y-6">
-      <UAlert
-        v-if="error"
-        color="error"
-        variant="subtle"
-        icon="i-heroicons-exclamation-triangle-20-solid"
-        :title="$t('details.company.error.title')"
-        :description="error?.message || $t('details.company.error.description')"
-      />
-
-      <UCard v-else-if="pending">
-        <template #header>
-          <USkeleton class="h-6 w-32" />
+          </UDropdownMenu>
         </template>
-        <div class="space-y-4">
-          <USkeleton class="h-4 w-full" />
-          <USkeleton class="h-4 w-3/4" />
-          <USkeleton class="h-4 w-1/2" />
-        </div>
-      </UCard>
+      </UPageHeader>
 
-      <UCard v-else-if="data">
-        <template #header>
-          <div class="flex items-center gap-3">
-            <UIcon name="i-heroicons-building-office-20-solid" class="h-8 w-8 text-primary" />
-            <div>
-              <h3 class="text-lg font-semibold">
-                {{ data.name }}
-              </h3>
-              <p class="text-sm text-gray-500">
-                Company ID: {{ data.id }}
-              </p>
-            </div>
-            <UBadge color="green" variant="subtle">
-              {{ t('status.active') }}
-            </UBadge>
-          </div>
-        </template>
-
-        <UTable
-          :data="tableData"
-          :columns="tableColumns"
-          class="w-full"
+      <div class="space-y-6">
+        <UAlert
+          v-if="error"
+          color="error"
+          variant="subtle"
+          icon="i-heroicons-exclamation-triangle-20-solid"
+          :title="t('details.company.error.title')"
+          :description="error?.message || t('details.company.error.description')"
         />
 
-        <USeparator />
-
-        <div class="space-y-4">
-          <UButton
-            icon="i-heroicons-pencil-square-20-solid"
-            size="lg"
-            block
-          >
-            {{ t('company.edit') }}
-          </UButton>
-          <UButton
-            icon="i-heroicons-eye-20-solid"
-            variant="outline"
-            size="lg"
-            block
-            :to="localePath(ROUTES.DASHBOARD.COMPANIES)"
-          >
-            {{ t('company.viewAll') }}
-          </UButton>
-        </div>
-
-        <template #footer>
-          <div class="flex justify-between">
-            <UButton
-              icon="i-heroicons-arrow-left-20-solid"
-              variant="ghost"
-              :to="localePath(ROUTES.DASHBOARD.COMPANIES)"
-            >
-              {{ t('company.backToList') }}
-            </UButton>
-            <div class="flex gap-2">
-              <UButton
-                icon="i-heroicons-share-20-solid"
-                variant="ghost"
-                size="sm"
-              >
-                {{ t('actions.share') }}
-              </UButton>
-              <UButton
-                icon="i-heroicons-bookmark-20-solid"
-                variant="ghost"
-                size="sm"
-              >
-                {{ t('actions.bookmark') }}
-              </UButton>
-            </div>
-          </div>
-        </template>
-      </UCard>
-
-      <UCard v-else>
-        <UEmpty
-          icon="i-heroicons-building-office-20-solid"
-          :title="$t('details.company.notFound.title')"
-          :description="$t('details.company.notFound.description')"
+        <DashboardTableSkeleton
+          v-else-if="pending"
+          :columns="2"
+          :rows="3"
+          :show-header="false"
         >
-          <UButton :to="localePath(ROUTES.DASHBOARD.COMPANIES)">
-            {{ t('company.backToList') }}
-          </UButton>
-        </UEmpty>
-      </UCard>
+          <UCard>
+            <template #header>
+              <div class="flex items-center gap-3">
+                <UAvatar size="2xl" />
+                <div class="space-y-2">
+                  <USkeleton class="h-6 w-32" />
+                  <USkeleton class="h-4 w-24" />
+                </div>
+              </div>
+            </template>
+
+            <UTable
+              :data="tableData"
+              :columns="tableColumns"
+              class="w-full"
+            />
+          </UCard>
+        </DashboardTableSkeleton>
+
+        <UCard v-else-if="data">
+          <template #header>
+            <div class="flex items-center gap-3">
+              <UAvatar
+                :src="null"
+                :alt="data.name"
+                size="2xl"
+                :initials="data.name.split(' ').map(n => n[0]).join('').toUpperCase()"
+              />
+              <div>
+                <h3 class="text-lg font-semibold">
+                  {{ data.name }}
+                </h3>
+                <p class="text-sm text-gray-500">
+                  Company ID: {{ data.id }}
+                </p>
+              </div>
+              <UBadge color="green" variant="subtle">
+                {{ t('status.active') }}
+              </UBadge>
+            </div>
+          </template>
+
+          <UTable
+            :data="tableData"
+            :columns="tableColumns"
+            class="w-full"
+          />
+        </UCard>
+      </div>
     </div>
+
+    <!-- Modals -->
+    <UModal v-model:open="isEditModalOpen" :title="t('actions.edit.company')">
+      <template #content>
+        <div class="p-4">
+          <DashboardFormsCompanyForm :initial-data="data" @success="isEditModalOpen = false" />
+        </div>
+      </template>
+    </UModal>
 
     <UModal v-model="isDeleteModalOpen" :description="t('company.delete.description')">
       <UCard>

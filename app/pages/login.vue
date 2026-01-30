@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from "@nuxt/ui";
 import { useAuthStore } from "~~/app/stores/auth";
-import { FEATURE_ICONS } from "~/lib/icons";
-
-import { ROUTES } from "~/utils/routes";
 import { getLoginSchema } from "~~/utils/schemas/auth";
+
+import { FEATURE_ICONS } from "~/lib/icons";
+import { ROUTES } from "~/utils/routes";
 
 definePageMeta({
   layout: "auth",

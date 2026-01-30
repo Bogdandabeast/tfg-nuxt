@@ -135,7 +135,7 @@ onMounted(async () => {
   <UDashboardPanel class="overflow-y-auto">
     <div class="m-5">
       <DashboardNavbar />
-      <UPageHeader :title="$t('companies.manage.title')" :description="$t('companies.manage.description')" />
+      <UPageHeader :title="t('companies.manage.title')" :description="t('companies.manage.description')" />
 
       <DashboardFormsCompanyForm
         :on-submit="handleCreateCompany"

@@ -30,7 +30,7 @@ async function handleCreateCompany(companyData: { name: string }) {
   <UDashboardPanel class="overflow-y-auto">
     <div class="m-5">
       <DashboardNavbar />
-      <UPageHeader :title="$t('forms.companyForm.createTitle')" class="ml-5" />
+      <UPageHeader :title="t('forms.companyForm.createTitle')" class="ml-5" />
 
       <UCard>
         <CompanyForm
