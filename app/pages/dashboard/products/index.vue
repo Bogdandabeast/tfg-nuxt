@@ -43,7 +43,11 @@ const columns: TableColumn<Product>[] = [
   {
     accessorKey: "price",
     header: t("tables.headers.price"),
-    cell: ({ row }: TableCellContext<Product>) => `€${row.getValue("price")}`,
+    cell: ({ row }: TableCellContext<Product>) => {
+      const { locale } = useI18n();
+      const price = Number(row.getValue("price"));
+      return Intl.NumberFormat(locale.value, { style: "currency", currency: "EUR" }).format(price);
+    },
   },
   {
     accessorKey: "stock",

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TableCellContext, TableRowData } from "~~/types/api";
+import { h, resolveComponent } from "vue";
 import { ACTION_ICONS } from "~/lib/icons";
 import { ROUTES } from "~/utils/routes";
 

@@ -110,8 +110,6 @@ onMounted(async () => {
           tooltip
           popover
         />
-
-        <DashboardSignOut class="mt-auto" />
       </template>
     </UDashboardSidebar>
 

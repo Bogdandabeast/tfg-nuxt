@@ -28,11 +28,6 @@ async function handleDelete() {
   try {
     const success = await deleteProduct(productId);
     if (success === true) {
-      toast.add({
-        title: t("common.success"),
-        description: t("forms.productForm.deletedSuccess"),
-        color: "success",
-      });
       navigateTo(localePath(ROUTES.PRODUCTS));
     }
   }
@@ -109,7 +104,8 @@ const tableColumns = [
 
       if (label === t("tables.headers.stock")) {
         const stockValue = Number(value);
-        return h("span", {}, stockValue > 0 ? t("product.inStock") : t("product.outOfStock"));
+        const status = stockValue > 0 ? t("product.inStock") : t("product.outOfStock");
+        return h("span", {}, `${stockValue} (${status})`);
       }
 
       return h("span", {}, String(value));

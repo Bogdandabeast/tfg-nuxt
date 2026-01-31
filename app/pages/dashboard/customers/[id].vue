@@ -14,7 +14,6 @@ const { data, pending, error } = customersStore.getCustomerById(customerId);
 
 const { t } = useI18n();
 const { deleteCustomer } = useCustomersApi();
-const toast = useToast();
 const localePath = useLocalePath();
 
 const isDeleteModalOpen = ref(false);
@@ -28,11 +27,6 @@ async function handleDelete() {
   try {
     const success = await deleteCustomer(customerId);
     if (success === true) {
-      toast.add({
-        title: t("common.success"),
-        description: t("forms.customerForm.deletedSuccess"),
-        color: "success",
-      });
       navigateTo(localePath(ROUTES.CUSTOMERS));
     }
   }
@@ -169,7 +163,7 @@ const tableColumns = [
                   {{ data.name }}
                 </h3>
                 <p class="text-sm text-gray-500">
-                  Customer ID: {{ data.id }}
+                  {{ t('customers.customerId', { id: data.id }) }}
                 </p>
               </div>
               <UBadge color="blue" variant="subtle">

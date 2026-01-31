@@ -362,6 +362,7 @@
     }
   },
   "customers": {
+    "customerId": "ID del Cliente: {id}",
     "invalidId": "Por favor, ingresa un ID de Cliente válido para eliminar."
   },
   "dashboard": {

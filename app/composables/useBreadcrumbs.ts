@@ -34,9 +34,12 @@ export function useBreadcrumbs() {
         });
 
         if (route.params.id) {
-          items.push({
-            label: t(section.singular, { id: route.params.id }),
-          });
+          const id = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
+          if (id) {
+            items.push({
+              label: t(section.singular, { id }),
+            });
+          }
         }
       }
     }

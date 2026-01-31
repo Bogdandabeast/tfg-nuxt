@@ -362,6 +362,7 @@
     }
   },
   "customers": {
+    "customerId": "Customer ID: {id}",
     "invalidId": "Please enter a valid Customer ID to delete."
   },
   "dashboard": {
