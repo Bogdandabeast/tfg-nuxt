@@ -50,8 +50,6 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     payload.data.password,
     payload.data.remember || false,
   );
-
-  
 }
 </script>
 

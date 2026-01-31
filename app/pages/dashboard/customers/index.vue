@@ -10,7 +10,6 @@ definePageMeta({
 
 const localePath = useLocalePath();
 const { t } = useI18n();
-const toast = useToast();
 
 const deletingCustomersId = ref<string | null>(null);
 

@@ -24,7 +24,6 @@ export function useBreadcrumbs() {
       ? pathSegments.slice(1)
       : pathSegments;
 
-    
     if (normalizedSegments[0] === "dashboard" && normalizedSegments[1]) {
       const sectionKey = normalizedSegments[1] as keyof typeof SECTION_MAP;
       if (SECTION_MAP[sectionKey]) {

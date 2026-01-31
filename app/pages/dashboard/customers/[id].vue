@@ -187,7 +187,6 @@ const tableColumns = [
       </div>
     </div>
 
-    
     <UModal v-model:open="isEditModalOpen" :title="t('actions.edit.customer')">
       <template #content>
         <div class="p-4">

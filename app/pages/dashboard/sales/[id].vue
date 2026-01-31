@@ -49,7 +49,7 @@ async function handleDelete() {
       });
     }
   }
-  catch (err) {
+  catch {
     toast.add({
       title: t("common.error"),
       description: t("forms.saleForm.deletedError"),
@@ -265,53 +265,41 @@ const tableColumns = [
           </UCard>
         </DashboardTableSkeleton>
 
-                <UCard v-else-if="saleData">
+        <UCard v-else-if="saleData">
+          <template #header>
+            <div class="flex items-center gap-3">
+              <UAvatar
 
-                  <template #header>
+                :src="undefined"
 
-                    <div class="flex items-center gap-3">
+                :alt="productData?.name || t('sale.defaultLabel')"
 
-                      <UAvatar
+                size="2xl"
 
-                        :src="undefined"
+                :initials="(() => {
 
-                        :alt="productData?.name || t('sale.defaultLabel')"
+                  const name = productData?.name || t('sale.defaultLabel');
 
-                        size="2xl"
+                  const tokens = name.trim().split(/\s+/).filter(Boolean);
 
-                        :initials="(() => {
+                  if (tokens.length === 0) return t('sale.defaultLabel').charAt(0).toUpperCase();
 
-                          const name = productData?.name || t('sale.defaultLabel');
+                  return tokens.map((n: string) => n[0]).join('').toUpperCase();
 
-                          const tokens = name.trim().split(/\s+/).filter(Boolean);
+                })()"
+              />
 
-                          if (tokens.length === 0) return t('sale.defaultLabel').charAt(0).toUpperCase();
+              <div>
+                <h3 class="text-lg font-semibold">
+                  {{ t('sale.idLabel', { id: saleData.id }) }}
+                </h3>
 
-                          return tokens.map((n: string) => n[0]).join('').toUpperCase();
+                <p class="text-sm text-gray-500">
+                  {{ t('sale.dateLabel') }}: {{ new Date(saleData.sale_date).toLocaleString(locale.value) }}
+                </p>
+              </div>
 
-                        })()"
-
-                      />
-
-                      <div>
-
-                        <h3 class="text-lg font-semibold">
-
-                          {{ t('sale.idLabel', { id: saleData.id }) }}
-
-                        </h3>
-
-                        <p class="text-sm text-gray-500">
-
-                          {{ t('sale.dateLabel') }}: {{ new Date(saleData.sale_date).toLocaleString(locale.value) }}
-
-                        </p>
-
-                      </div>
-
-                      <UBadge color="green" variant="subtle">
-
-        
+              <UBadge color="green" variant="subtle">
                 {{ t('tables.data.active') }}
               </UBadge>
             </div>
@@ -326,7 +314,6 @@ const tableColumns = [
       </div>
     </div>
 
-    
     <UModal v-model:open="isEditModalOpen" :title="t('actions.edit.sale')">
       <template #content>
         <div class="p-4">

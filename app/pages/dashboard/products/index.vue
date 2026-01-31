@@ -10,7 +10,6 @@ definePageMeta({
 
 const localePath = useLocalePath();
 const { t } = useI18n();
-const toast = useToast();
 
 const companiesStore = useCompaniesStore();
 const productsStore = useProductsStore();
@@ -28,9 +27,6 @@ async function handleDeleteProducts(ProductsId: string) {
     const success = await deleteProduct(ProductsId);
     if (success === true) {
       await productsStore.refreshProducts();
-    }
-    else {
-      
     }
   }
   finally {
