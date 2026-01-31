@@ -32,7 +32,7 @@ async function createProductHandler() {
   const result = formSchema.safeParse(newProduct.value);
 
   if (!result.success) {
-    const errorMessage = t(result.error.errors[0].message);
+    const errorMessage = t(result.error.issues[0]?.message || "common.error");
     error.value = errorMessage;
     toast.add({
       title: t("common.error"),

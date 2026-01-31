@@ -10,7 +10,7 @@ export async function getCompaniesByUserId(userId: string) {
   return db.select().from(companiesTable).where(eq(companiesTable.user_id, userId));
 }
 
-export async function updateCompany(id: string, data: typeof companiesTable.$inferUpdate) {
+export async function updateCompany(id: string, data: Partial<typeof companiesTable.$inferInsert>) {
   return db.update(companiesTable).set(data).where(eq(companiesTable.id, id)).returning();
 }
 

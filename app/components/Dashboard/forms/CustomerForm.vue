@@ -30,9 +30,8 @@ async function createCustomerHandler() {
 
   const formSchema = customerCreateSchema.omit({ company_id: true });
   const result = formSchema.safeParse(newCustomer.value);
-
   if (!result.success) {
-    const errorMessage = t(result.error.errors[0].message);
+    const errorMessage = t(result.error.issues[0]?.message || "common.error");
     error.value = errorMessage;
     toast.add({
       title: t("common.error"),

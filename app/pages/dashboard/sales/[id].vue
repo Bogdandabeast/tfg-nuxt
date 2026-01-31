@@ -296,7 +296,7 @@ const tableColumns = [
                 </h3>
 
                 <p class="text-sm text-gray-500">
-                  {{ t('sale.dateLabel') }}: {{ new Date(saleData.sale_date).toLocaleString(locale.value) }}
+                  {{ t('sale.dateLabel') }}: {{ new Date(saleData.sale_date).toLocaleString(locale) }}
                 </p>
               </div>
 
