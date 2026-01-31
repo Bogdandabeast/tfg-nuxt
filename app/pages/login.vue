@@ -45,15 +45,13 @@ const schema = getLoginSchema(t);
 type Schema = typeof schema._output;
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  /* const success =  */await authStore.signIn(
+  await authStore.signIn(
     payload.data.email,
     payload.data.password,
     payload.data.remember || false,
   );
 
-  /* if (success) {
-    window.location.reload()
-  } */
+  
 }
 </script>
 

@@ -34,6 +34,7 @@ export const productWithCompanyIdParamSchema = z.object({
   company_id: z.string().uuid(),
 });
 
+
 export const companyIdParamSchema = z.object({
   company_id: z.string().uuid(),
 });

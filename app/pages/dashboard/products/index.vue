@@ -30,7 +30,7 @@ async function handleDeleteProducts(ProductsId: string) {
       await productsStore.refreshProducts();
     }
     else {
-      // Error toast is already handled by useProductsApi
+      
     }
   }
   finally {

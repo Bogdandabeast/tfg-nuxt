@@ -43,7 +43,7 @@ export function handleError(error: unknown, context?: Record<string, unknown>): 
     });
   }
 
-  // Handle database errors
+  
   const hasCode = error !== null && typeof error === "object" && "code" in error;
   const errorWithCode = hasCode ? (error as { code: string; message?: string }) : null;
 

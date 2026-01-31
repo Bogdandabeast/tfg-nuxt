@@ -1,5 +1,6 @@
 import type { NewProduct, Product } from "~~/types/api";
 import { getFetchErrorMessage } from "~~/utils/error-handler";
+import { productIdParamSchema } from "~~/utils/schemas/products";
 
 export function useProductsApi() {
   const { $csrfFetch } = useNuxtApp();
@@ -56,7 +57,8 @@ export function useProductsApi() {
   }
 
   async function deleteProduct(id: string) {
-    if (!id || typeof id !== "string" || id.trim() === "") {
+    const validation = productIdParamSchema.safeParse({ id });
+    if (!validation.success) {
       toast.add({
         title: t("common.error") || "Error",
         description: t("products.invalidId") || "Please enter a valid Product ID to delete.",

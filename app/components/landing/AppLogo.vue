@@ -6,11 +6,14 @@
     variant="ghost"
   >
     <template #leading>
-      <img
+      <NuxtImg
         src="/favicon.ico"
         alt=""
+        width="16"
+        height="16"
         class="size-4"
-      >
+        aria-hidden="true"
+      />
     </template>
     EscorialCRM
   </UButton>

@@ -91,7 +91,7 @@ async function createSaleHandler() {
 
   const saleData = {
     ...result.data,
-    sale_date: result.data.sale_date.toISOString().split("T")[0],
+    sale_date: result.data.sale_date.toLocaleDateString("en-CA"),
     product_name: product.name,
     unit_price: Number.parseFloat(product.price),
     customer_name: customer.name,

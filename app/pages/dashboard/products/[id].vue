@@ -36,10 +36,11 @@ async function handleDelete() {
       navigateTo(localePath(ROUTES.PRODUCTS));
     }
   }
-  catch (err: any) {
+  catch (err: unknown) {
+    const message = err instanceof Error ? err.message : t("forms.productForm.deletedError");
     toast.add({
       title: t("common.error"),
-      description: err.message || t("forms.productForm.deletedError"),
+      description: message,
       color: "error",
     });
   }
@@ -206,7 +207,7 @@ const tableColumns = [
       </div>
     </div>
 
-    <!-- Modals -->
+    
     <UModal v-model:open="isEditModalOpen" :title="t('actions.edit.product')">
       <template #content>
         <div class="p-4">

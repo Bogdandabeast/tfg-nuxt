@@ -17,15 +17,15 @@ export async function getSaleByIdOnly(id: string): Promise<Sale | null> {
   return rows[0] ?? null;
 }
 
-export async function getSalesByCompanyId(company_id: string) {
+export async function getSalesByCompanyId(company_id: string): Promise<Sale[]> {
   return db.select().from(salesTable).where(eq(salesTable.company_id, company_id));
 }
 
-export async function getSalesByCustomerId(customer_id: string, company_id: string) {
+export async function getSalesByCustomerId(customer_id: string, company_id: string): Promise<Sale[]> {
   return db.select().from(salesTable).where(and(eq(salesTable.customer_id, customer_id), eq(salesTable.company_id, company_id)));
 }
 
-export async function getSalesByProductId(product_id: string, company_id: string) {
+export async function getSalesByProductId(product_id: string, company_id: string): Promise<Sale[]> {
   return db.select().from(salesTable).where(and(eq(salesTable.product_id, product_id), eq(salesTable.company_id, company_id)));
 }
 
