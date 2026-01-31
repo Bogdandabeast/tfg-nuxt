@@ -9,14 +9,14 @@ export const limitSchema = z.coerce.number().min(1).max(100).default(10);
 
 export const SalesByPeriodSchema = z.object({
   period: z.string(),
-  totalSales: z.number(),
-  totalRevenue: z.number(),
+  totalSales: z.coerce.number(),
+  totalRevenue: z.coerce.number(),
 });
 
 export const TopSellingProductSchema = z.object({
   id: z.string(),
   name: z.string(),
-  totalSold: z.number(),
+  totalSold: z.coerce.number(),
 });
 
 export const SalesByPeriodArraySchema = z.array(SalesByPeriodSchema);

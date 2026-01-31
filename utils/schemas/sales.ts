@@ -1,16 +1,16 @@
 import { z } from "zod";
 
 export const createSaleSchema = z.object({
-  customer_id: z.string().uuid(),
-  product_id: z.string().uuid(),
-  quantity: z.number().int().positive(),
-  sale_date: z.string().date().transform(val => new Date(val)),
-  product_name: z.string().min(1),
+  customer_id: z.string().trim().uuid("validation.invalidCustomer"),
+  product_id: z.string().trim().uuid("validation.invalidProduct"),
+  quantity: z.number().int().positive("validation.quantityPositive"),
+  sale_date: z.string().trim().date("validation.invalidDate").transform(val => new Date(val)),
+  product_name: z.string().trim().min(1),
   unit_price: z.number().positive(),
-  customer_name: z.string().min(1),
+  customer_name: z.string().trim().min(1),
   company_id: z.string().uuid(),
-  discount: z.number().nonnegative().optional(),
-  tax_rate: z.number().nonnegative().max(1).optional(),
+  discount: z.number().nonnegative("validation.discountNonNegative").optional(),
+  tax_rate: z.number().nonnegative("validation.taxRateNonNegative").max(1, "validation.taxRateMax1").optional(),
 });
 
 export const updateSaleSchema = z.object({

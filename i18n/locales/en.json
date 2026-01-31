@@ -28,6 +28,8 @@
       "description": "Start today with EscorialCRM and take your business management to the next level.",
       "signup_button": "Sign Up Now"
     },
+    "testimonials_title": "Our Testimonials",
+    "testimonials_description": "See what our customers are saying",
     "testimonials": [
       {
         "user": {
@@ -420,7 +422,9 @@
       "nameRequired": "Company name is required",
       "createdSuccess": "Company created successfully!",
       "idInvalid": "Please enter a valid Company ID to delete.",
-      "deletedSuccess": "Company deleted successfully!"
+      "deletedSuccess": "Company deleted successfully!",
+      "submitFailed": "Failed to create company.",
+      "deleteFailed": "Failed to delete company."
     },
     "customerForm": {
       "name": "Name",
@@ -491,7 +495,11 @@
       "invalidData": "Please select a customer, a product, and enter a valid quantity.",
       "createdSuccess": "Sale created successfully!",
       "idInvalid": "Please enter a valid Sale ID to delete.",
-      "deletedSuccess": "Sale deleted successfully!"
+      "deletedSuccess": "Sale deleted successfully!",
+      "missingDetails": "Please fill in all sale details.",
+      "saleDateLabel": "Sale Date",
+      "taxRateLabel": "Tax Rate",
+      "discountLabel": "Discount"
     },
     "create": {
       "title": "Create Sale",
@@ -599,6 +607,8 @@
       "product": "Product",
       "quantity": "Quantity",
       "amount": "Amount",
+      "unitPrice": "Unit Price",
+      "total": "Total",
       "actions": "Actions"
     },
     "data": {
@@ -640,5 +650,17 @@
     "sale": "Sale {id}",
     "companies": "Companies",
     "company": "Company {id}"
+  },
+  "products": {
+    "create": {
+      "title": "Create Product",
+      "description": "Form to create a new product in the CRM system."
+    }
+  },
+  "sales": {
+    "create": {
+      "title": "Create Sale",
+      "description": "Form to register a new sale in the CRM system."
+    }
   }
 }

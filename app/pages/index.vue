@@ -53,8 +53,8 @@ useSeoMeta({
       </UPageGrid>
     </UPageSection>
     <UPageSection
-      title="Nuestros testimonios"
-      description="enterate de lo que dicen nuestros clientes"
+      :title="t('homepage.testimonials_title')"
+      :description="t('homepage.testimonials_description')"
     >
       <LandingTestimonials />
       <USeparator />

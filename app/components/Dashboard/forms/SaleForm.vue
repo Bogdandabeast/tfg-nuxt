@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Customer, Product } from "~~/types/api";
 import { storeToRefs } from "pinia";
+import { createSaleSchema } from "~~/utils/schemas/sales";
 
 const { t } = useI18n();
 const salesStore = useSalesStore();
@@ -42,37 +43,63 @@ const productOptions = computed(() =>
 
 async function createSaleHandler() {
   if (!companiesStore.currentCompany?.id) {
-    error.value = t("forms.saleForm.noCompany");
+    const errorMessage = t("forms.saleForm.noCompany");
+    error.value = errorMessage;
+    toast.add({
+      title: t("common.error"),
+      description: errorMessage,
+      color: "error",
+    });
     return;
   }
-  if (!newSale.customer_id || !newSale.product_id || newSale.quantity <= 0) {
-    error.value = t("forms.saleForm.invalidData");
+
+  const formSchema = createSaleSchema.pick({
+    customer_id: true,
+    product_id: true,
+    quantity: true,
+    sale_date: true,
+    tax_rate: true,
+    discount: true,
+  });
+
+  const result = formSchema.safeParse(newSale);
+
+  if (!result.success) {
+    const errorMessage = t(result.error.errors[0].message);
+    error.value = errorMessage;
+    toast.add({
+      title: t("common.error"),
+      description: errorMessage,
+      color: "error",
+    });
     return;
   }
 
   const product = selectedProduct.value;
   const customer = selectedCustomer.value;
 
-  if (!product || !customer || !newSale.sale_date) {
-    error.value = t("forms.saleForm.missingDetails");
+  if (!product || !customer) {
+    const errorMessage = t("forms.saleForm.missingDetails");
+    error.value = errorMessage;
+    toast.add({
+      title: t("common.error"),
+      description: errorMessage,
+      color: "error",
+    });
     return;
   }
 
   const saleData = {
-    customer_id: newSale.customer_id,
-    product_id: newSale.product_id,
-    quantity: newSale.quantity,
-    sale_date: newSale.sale_date,
+    ...result.data,
+    sale_date: result.data.sale_date.toISOString().split("T")[0],
     product_name: product.name,
     unit_price: Number.parseFloat(product.price),
     customer_name: customer.name,
-    tax_rate: newSale.tax_rate,
-    discount: newSale.discount,
     company_id: companiesStore.currentCompany.id,
   };
 
-  const result = await createSale(saleData);
-  if (result) {
+  const resultApi = await createSale(saleData);
+  if (resultApi) {
     salesStore.refreshSales();
     newSale.customer_id = undefined;
     newSale.product_id = undefined;
