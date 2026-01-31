@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { ENTITY_ICONS, FEATURE_ICONS } from "~/lib/icons";
-
+import { customerCreateSchema } from "~~/utils/schemas/customers";
 import FormErrorAlert from "./FormErrorAlert.vue";
 
 const { t } = useI18n();
 const customersStore = useCustomersStore();
 const companiesStore = useCompaniesStore();
 const toast = useToast();
-const { isCreateCustomerLoading, createCustomer, isDeleteCustomerLoading, deleteCustomer } = useCustomersApi();
+const { isCreateCustomerLoading, createCustomer } = useCustomersApi();
 const isCreateModalOpen = ref(false);
 const newCustomer = ref({
   name: "",
@@ -15,24 +14,39 @@ const newCustomer = ref({
   phone: "",
   address: "",
 });
-const customerToDeleteId = ref("");
 const error = ref("");
 
 async function createCustomerHandler() {
   if (!companiesStore.currentCompany?.id) {
-    error.value = t("forms.customerForm.noCompany");
+    const errorMessage = t("forms.customerForm.noCompany");
+    error.value = errorMessage;
+    toast.add({
+      title: t("common.error"),
+      description: errorMessage,
+      color: "error",
+    });
     return;
   }
-  if (!newCustomer.value.name || !newCustomer.value.email) {
-    error.value = t("forms.customerForm.invalidData");
+
+  const formSchema = customerCreateSchema.omit({ company_id: true });
+  const result = formSchema.safeParse(newCustomer.value);
+  if (!result.success) {
+    const errorMessage = t(result.error.issues[0]?.message || "common.error");
+    error.value = errorMessage;
+    toast.add({
+      title: t("common.error"),
+      description: errorMessage,
+      color: "error",
+    });
     return;
   }
+
   const customerData = {
-    ...newCustomer.value,
+    ...result.data,
     company_id: companiesStore.currentCompany.id,
   };
-  const result = await createCustomer(customerData);
-  if (result) {
+  const resultApi = await createCustomer(customerData);
+  if (resultApi) {
     await customersStore.refreshCustomers();
     newCustomer.value = { name: "", email: "", phone: "", address: "" };
     toast.add({
@@ -43,19 +57,12 @@ async function createCustomerHandler() {
     error.value = "";
   }
 }
-
-async function deleteCustomerHandler() {
-  const success = await deleteCustomer(customerToDeleteId.value);
-  if (success) {
-    customerToDeleteId.value = "";
-  }
-}
 </script>
 
 <template>
   <UModal
     v-model:open="isCreateModalOpen"
-    :title="t('dasdboard.customers.modal.title')"
+    :title="t('dashboard.customers.modal.title')"
     :description="t('dashboard.customers.modal.description')"
   >
     <UButton

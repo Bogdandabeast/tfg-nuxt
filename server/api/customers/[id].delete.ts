@@ -1,6 +1,7 @@
 import { deleteCustomer, findCustomerInUserCompanies } from "~~/lib/db/queries/customers";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { handleError } from "~~/utils/error-handler";
+import { customerIdParamSchema } from "~~/utils/schemas/customers";
 
 export default defineAuthenticatedEventHandler(async (event) => {
   const csrfToken = getHeader(event, "csrf-token");
@@ -9,13 +10,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
   }
 
   try {
-    const customerId = Number(event.context.params?.id);
-    if (!customerId || Number.isNaN(customerId)) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: "Invalid customer ID",
-      });
-    }
+    const { id: customerId } = customerIdParamSchema.parse(event.context.params);
 
     const userId = event.context.user.id;
     const customerData = await findCustomerInUserCompanies(customerId, userId);

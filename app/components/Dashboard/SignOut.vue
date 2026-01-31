@@ -9,7 +9,7 @@ const localePath = useLocalePath();
     :to="localePath(ROUTES.SIGNOUT)"
     icon="lucide:arrow-big-down-dash"
     size="md"
-    color="primary"
+    color="error"
     variant="subtle"
   >
     Sign Out

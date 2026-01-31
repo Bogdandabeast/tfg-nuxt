@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
+import type { Customer, TableCellContext } from "~~/types/api";
 import { storeToRefs } from "pinia";
 import { getCustomerPath } from "~/utils/routes";
 
@@ -9,38 +10,24 @@ definePageMeta({
 
 const localePath = useLocalePath();
 const { t } = useI18n();
-const toast = useToast();
 
 const deletingCustomersId = ref<string | null>(null);
 
 const companiesStore = useCompaniesStore();
 const customersStore = useCustomersStore();
 
-// Refresh data asynchronously for lazy loading
 companiesStore.refreshCompanies();
 customersStore.refreshCustomers();
 
-const { isDeleteCustomerLoading, deleteCustomer } = useCustomersApi();
+const { deleteCustomer } = useCustomersApi();
 const { customers, pending: loadingCustomers } = storeToRefs(customersStore);
 
 async function handleDeleteCustomers(CustomersId: string) {
   deletingCustomersId.value = CustomersId;
   try {
-    const success = await deleteCustomer(Number(CustomersId));
+    const success = await deleteCustomer(CustomersId);
     if (success === true) {
       await customersStore.refreshCustomers();
-      toast.add({
-        title: t("common.success"),
-        description: t("forms.customerForm.deletedSuccess"),
-        color: "success",
-      });
-    }
-    else {
-      toast.add({
-        title: t("common.error"),
-        description: success as string,
-        color: "error",
-      });
     }
   }
   finally {
@@ -48,24 +35,8 @@ async function handleDeleteCustomers(CustomersId: string) {
   }
 }
 
-const columns: TableColumn[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-    cell: ({ row }: any) => {
-      const id = row.getValue("id");
-      return h(
-        resolveComponent("UButton"),
-        {
-          to: localePath(getCustomerPath(id)),
-          variant: "link",
-          color: "primary",
-          padded: false,
-        },
-        () => `#${id}`,
-      );
-    },
-  },
+const columns: TableColumn<Customer>[] = [
+
   {
     accessorKey: "name",
     header: t("tables.headers.name"),
@@ -81,8 +52,10 @@ const columns: TableColumn[] = [
   {
     accessorKey: "actions",
     header: t("tables.headers.actions"),
-    cell: ({ row }: any) => {
-      const customersId = row.getValue("id");
+    cell: ({ row }: TableCellContext<Customer>) => {
+      const customersId = row.original.id;
+      if (!customersId)
+        return null;
       return h("div", { class: "flex gap-2" }, [
         h(
           resolveComponent("UButton"),
@@ -101,8 +74,8 @@ const columns: TableColumn[] = [
             color: "red",
             size: "xs",
             icon: "i-lucide-trash",
-            loading: deletingCustomersId.value === customersId.toString(),
-            onClick: () => handleDeleteCustomers(customersId.toString()),
+            loading: deletingCustomersId.value === customersId,
+            onClick: () => handleDeleteCustomers(customersId),
           },
         ),
       ]);

@@ -28,6 +28,8 @@
       "description": "Start today with EscorialCRM and take your business management to the next level.",
       "signup_button": "Sign Up Now"
     },
+    "testimonials_title": "Our Testimonials",
+    "testimonials_description": "See what our customers are saying",
     "testimonials": [
       {
         "user": {
@@ -322,9 +324,17 @@
         "title": "Error",
         "description": "Could not create account"
       }
+    },
+    "card": {
+      "verify_email": {
+        "title": "Verify your email",
+        "description": "We have sent an email to your address with a verification link. Please check your inbox and click the link to activate your account.",
+        "resend_button": "Resend verification email"
+      }
     }
   },
   "companies": {
+    "companyId": "Company ID: {id}",
     "title": "Select Company",
     "loading": "Loading companies...",
     "choose": "Choose the company you want to work with:",
@@ -351,6 +361,10 @@
       "description": "An error occurred while loading companies. Please try again."
     }
   },
+  "customers": {
+    "customerId": "Customer ID: {id}",
+    "invalidId": "Please enter a valid Customer ID to delete."
+  },
   "dashboard": {
     "products": {
       "title": "Products Management",
@@ -367,7 +381,8 @@
       "loading": "Loading customers...",
       "modal": {
         "description": "Form to manage customer information in the system.",
-        "create_button_label": "Create Customer"
+        "create_button_label": "Create Customer",
+        "title": "Manage Customer"
       }
     },
     "sales": {
@@ -412,7 +427,9 @@
       "nameRequired": "Company name is required",
       "createdSuccess": "Company created successfully!",
       "idInvalid": "Please enter a valid Company ID to delete.",
-      "deletedSuccess": "Company deleted successfully!"
+      "deletedSuccess": "Company deleted successfully!",
+      "submitFailed": "Failed to create company.",
+      "deleteFailed": "Failed to delete company."
     },
     "customerForm": {
       "name": "Name",
@@ -437,7 +454,8 @@
       "deleteButton": "Delete Customer",
       "noCompany": "No company selected.",
       "invalidData": "Please fill in at least name and email.",
-      "createdSuccess": "Customer created successfully!"
+      "createdSuccess": "Customer created successfully!",
+      "deletedSuccess": "Customer deleted successfully!"
     },
     "productForm": {
       "name": "Name",
@@ -482,7 +500,11 @@
       "invalidData": "Please select a customer, a product, and enter a valid quantity.",
       "createdSuccess": "Sale created successfully!",
       "idInvalid": "Please enter a valid Sale ID to delete.",
-      "deletedSuccess": "Sale deleted successfully!"
+      "deletedSuccess": "Sale deleted successfully!",
+      "missingDetails": "Please fill in all sale details.",
+      "saleDateLabel": "Sale Date",
+      "taxRateLabel": "Tax Rate",
+      "discountLabel": "Discount"
     },
     "create": {
       "title": "Create Sale",
@@ -590,6 +612,8 @@
       "product": "Product",
       "quantity": "Quantity",
       "amount": "Amount",
+      "unitPrice": "Unit Price",
+      "total": "Total",
       "actions": "Actions"
     },
     "data": {
@@ -631,5 +655,19 @@
     "sale": "Sale {id}",
     "companies": "Companies",
     "company": "Company {id}"
+  },
+  "products": {
+    "invalidId": "Please enter a valid Product ID to delete.",
+    "id": "Product ID",
+    "create": {
+      "title": "Create Product",
+      "description": "Form to create a new product in the CRM system."
+    }
+  },
+  "sales": {
+    "create": {
+      "title": "Create Sale",
+      "description": "Form to register a new sale in the CRM system."
+    }
   }
 }

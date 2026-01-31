@@ -2,30 +2,23 @@ import { getCompaniesByUserId } from "~~/lib/db/queries/company";
 import { deleteProduct, getProductById } from "~~/lib/db/queries/products";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { handleError } from "~~/utils/error-handler";
+import { productIdParamSchema } from "~~/utils/schemas/products";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  // Validate CSRF token
   const csrfToken = getHeader(event, "csrf-token");
   if (!csrfToken) {
     throw createError({ statusCode: 403, statusMessage: "Missing CSRF token" });
   }
 
   try {
-    const productId = Number(event.context.params?.id);
-    if (!productId || Number.isNaN(productId)) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: "Invalid product ID",
-      });
-    }
+    const { id: productId } = productIdParamSchema.parse(event.context.params);
 
-    const product = await getProductById(productId);
+    const productData = await getProductById(productId);
 
-    if (!product || !product.length) {
+    if (!productData) {
       throw createError({ statusCode: 404, statusMessage: "Product not found" });
     }
 
-    const productData = product[0]!;
     if (!productData.company_id) {
       throw createError({ statusCode: 404, statusMessage: "Product not found" });
     }
@@ -50,8 +43,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
     return { success: true, id: productId };
   }
   catch (error) {
-    console.error("Error in delete product:", error);
-    // Handle foreign key constraint violation
     if (error && typeof error === "object" && "code" in error && error.code === "23503") {
       throw createError({
         statusCode: 409,

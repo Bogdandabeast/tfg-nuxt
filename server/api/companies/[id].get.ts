@@ -12,7 +12,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
       throw createError({ statusCode: 404, statusMessage: "Not Found" });
     }
 
-    // Check if user owns the company
     const userId = event.context.user.id;
     if (company.user_id !== userId) {
       throw createError({ statusCode: 404, statusMessage: "Not Found" });

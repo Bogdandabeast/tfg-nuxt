@@ -1,19 +1,17 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { useI18n } from "vue-i18n";
-import { ROUTES } from "~~/lib/constants";
 import CompaniesMenu from "~/components/Dashboard/CompaniesMenu.vue";
-
 import { NAVIGATION_ICONS } from "~/lib/icons";
+
+import { ROUTES } from "~/utils/routes";
 
 const { t } = useI18n();
 const toast = useToast();
 const localePath = useLocalePath();
-const breadcrumps = useBreadcrumbs();
 
 const open = ref(false);
 
-// Auth initialization for layout components
 const authStore = useAuthStore();
 await authStore.init();
 
@@ -22,7 +20,7 @@ const links = [
     {
       label: t("navigation.home"),
       icon: NAVIGATION_ICONS.home,
-      to: localePath(ROUTES.home),
+      to: localePath(ROUTES.HOME),
       onSelect: () => {
         open.value = false;
       },
@@ -30,7 +28,7 @@ const links = [
     {
       label: t("navigation.metrics"),
       icon: NAVIGATION_ICONS.dashboard,
-      to: localePath(ROUTES.dashboard),
+      to: localePath(ROUTES.DASHBOARD),
       onSelect: () => {
         open.value = false;
       },
@@ -38,7 +36,7 @@ const links = [
     {
       label: t("navigation.customers"),
       icon: NAVIGATION_ICONS.customers,
-      to: localePath(ROUTES.dashboardCustomers),
+      to: localePath(ROUTES.CUSTOMERS),
       onSelect: () => {
         open.value = false;
       },
@@ -46,7 +44,7 @@ const links = [
     {
       label: t("navigation.products"),
       icon: NAVIGATION_ICONS.products,
-      to: localePath(ROUTES.dashboardProducts),
+      to: localePath(ROUTES.PRODUCTS),
       onSelect: () => {
         open.value = false;
       },
@@ -54,7 +52,7 @@ const links = [
     {
       label: t("navigation.sales"),
       icon: NAVIGATION_ICONS.sales,
-      to: localePath(ROUTES.dashboardSales),
+      to: localePath(ROUTES.SALES),
       onSelect: () => {
         open.value = false;
       },
@@ -63,14 +61,6 @@ const links = [
   ],
 
 ] satisfies NavigationMenuItem[][];
-
-const groups = computed(() => [
-  {
-    id: "links",
-    label: t("navigation.goTo"),
-    items: links.flat(),
-  },
-]);
 
 onMounted(async () => {
   const cookie = useCookie("cookie-consent");
@@ -120,7 +110,6 @@ onMounted(async () => {
           tooltip
           popover
         />
-        <DashboardSignOut />
       </template>
     </UDashboardSidebar>
 

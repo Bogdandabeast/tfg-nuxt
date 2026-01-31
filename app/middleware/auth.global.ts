@@ -7,7 +7,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   try {
     await authStore.init();
   }
-  catch (error) {
+  catch {
     if (to.path.includes(ROUTES.DASHBOARD)) {
       return navigateTo(localePath(ROUTES.LOGIN));
     }

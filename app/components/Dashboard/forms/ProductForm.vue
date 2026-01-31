@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { productCreateSchema } from "~~/utils/schemas/products";
+
 const { t } = useI18n();
 const productsStore = useProductsStore();
 const companiesStore = useCompaniesStore();
 const toast = useToast();
-const { isCreateProductLoading, createProduct, isDeleteProductLoading, deleteProduct } = useProductsApi();
+const { isCreateProductLoading, createProduct } = useProductsApi();
 
 const newProduct = ref({
   name: "",
@@ -11,26 +13,42 @@ const newProduct = ref({
   price: "",
   stock: 0,
 });
-const productToDeleteId = ref("");
 const error = ref("");
 const isCreateModalOpen = ref(false);
 
 async function createProductHandler() {
   if (!companiesStore.currentCompany?.id) {
-    error.value = t("forms.productForm.noCompany");
+    const errorMessage = t("forms.productForm.noCompany");
+    error.value = errorMessage;
+    toast.add({
+      title: t("common.error"),
+      description: errorMessage,
+      color: "error",
+    });
     return;
   }
-  if (!newProduct.value.name || !newProduct.value.description || !newProduct.value.price) {
-    error.value = t("forms.productForm.invalidData");
+
+  const formSchema = productCreateSchema.omit({ company_id: true });
+  const result = formSchema.safeParse(newProduct.value);
+
+  if (!result.success) {
+    const errorMessage = t(result.error.issues[0]?.message || "common.error");
+    error.value = errorMessage;
+    toast.add({
+      title: t("common.error"),
+      description: errorMessage,
+      color: "error",
+    });
     return;
   }
+
   const productData = {
-    ...newProduct.value,
-    price: newProduct.value.price.toString(),
+    ...result.data,
+    price: result.data.price.toString(),
     company_id: companiesStore.currentCompany.id,
   };
-  const result = await createProduct(productData);
-  if (result) {
+  const resultApi = await createProduct(productData);
+  if (resultApi) {
     await productsStore.refreshProducts();
     newProduct.value = { name: "", description: "", price: "", stock: 0 };
     toast.add({
@@ -40,13 +58,6 @@ async function createProductHandler() {
     });
     error.value = "";
     isCreateModalOpen.value = false;
-  }
-}
-
-async function deleteProductHandler() {
-  const success = await deleteProduct(productToDeleteId.value);
-  if (success) {
-    productToDeleteId.value = "";
   }
 }
 </script>

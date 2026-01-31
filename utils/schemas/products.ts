@@ -1,20 +1,20 @@
 import { z } from "zod";
 
 export const productCreateSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  description: z.string().min(1, "Description is required"),
-  price: z.coerce.number().positive("Price must be positive"),
-  stock: z.coerce.number().int().min(0, "Stock cannot be negative"),
-  company_id: z.number().int(),
+  name: z.string().trim().min(1, "validation.nameRequired"),
+  description: z.string().trim().min(1, "validation.descriptionRequired"),
+  price: z.coerce.number().positive("validation.pricePositive"),
+  stock: z.coerce.number().int().min(0, "validation.stockNonNegative"),
+  company_id: z.string().uuid(),
 });
 
 export const productUpdateSchema = z.object({
-  name: z.string().min(1, "Name is required").optional(),
-  description: z.string().min(1, "Description is required").optional(),
-  price: z.coerce.number().positive("Price must be positive").optional(),
-  stock: z.coerce.number().int().min(0, "Stock cannot be negative").optional(),
+  name: z.string().trim().min(1, "validation.nameRequired").optional(),
+  description: z.string().trim().min(1, "validation.descriptionRequired").optional(),
+  price: z.coerce.number().positive("validation.pricePositive").optional(),
+  stock: z.coerce.number().int().min(0, "validation.stockNonNegative").optional(),
 });
 
 export const productIdParamSchema = z.object({
-  id: z.preprocess(val => Number(val), z.number().int().positive()),
+  id: z.string().uuid(),
 });

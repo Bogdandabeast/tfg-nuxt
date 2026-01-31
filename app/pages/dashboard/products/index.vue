@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
+import type { Product, TableCellContext } from "~~/types/api";
 import { storeToRefs } from "pinia";
 import { getProductPath } from "~/utils/routes";
 
@@ -9,37 +10,23 @@ definePageMeta({
 
 const localePath = useLocalePath();
 const { t } = useI18n();
-const toast = useToast();
 
 const companiesStore = useCompaniesStore();
 const productsStore = useProductsStore();
 const deletingProductsId = ref<string | null>(null);
 
-// Refresh data asynchronously for lazy loading
 companiesStore.refreshCompanies();
 productsStore.refreshProducts();
 
 const { products, pending: loadingProducts } = storeToRefs(productsStore);
-const { isCreateProductLoading, createProduct, isDeleteProductLoading, deleteProduct } = useProductsApi();
+const { deleteProduct } = useProductsApi();
 
 async function handleDeleteProducts(ProductsId: string) {
   deletingProductsId.value = ProductsId;
   try {
-    const success = await deleteProduct(Number(ProductsId));
+    const success = await deleteProduct(ProductsId);
     if (success === true) {
       await productsStore.refreshProducts();
-      toast.add({
-        title: t("common.success"),
-        description: t("forms.productForm.deletedSuccess"),
-        color: "success",
-      });
-    }
-    else {
-      toast.add({
-        title: t("common.error"),
-        description: success as string,
-        color: "error",
-      });
     }
   }
   finally {
@@ -47,24 +34,8 @@ async function handleDeleteProducts(ProductsId: string) {
   }
 }
 
-const columns: TableColumn[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-    cell: ({ row }: any) => {
-      const id = row.getValue("id");
-      return h(
-        resolveComponent("UButton"),
-        {
-          to: localePath(getProductPath(id)),
-          variant: "link",
-          color: "primary",
-          padded: false,
-        },
-        () => `#${id}`,
-      );
-    },
-  },
+const columns: TableColumn<Product>[] = [
+
   {
     accessorKey: "name",
     header: t("tables.headers.name"),
@@ -72,7 +43,11 @@ const columns: TableColumn[] = [
   {
     accessorKey: "price",
     header: t("tables.headers.price"),
-    cell: ({ row }: any) => `€${row.getValue("price")}`,
+    cell: ({ row }: TableCellContext<Product>) => {
+      const { locale } = useI18n();
+      const price = Number(row.getValue("price"));
+      return Intl.NumberFormat(locale.value, { style: "currency", currency: "EUR" }).format(price);
+    },
   },
   {
     accessorKey: "stock",
@@ -81,8 +56,10 @@ const columns: TableColumn[] = [
   {
     accessorKey: "actions",
     header: t("tables.headers.actions"),
-    cell: ({ row }: any) => {
-      const ProductsId = row.getValue("id");
+    cell: ({ row }: TableCellContext<Product>) => {
+      const ProductsId = row.original.id;
+      if (!ProductsId)
+        return null;
       return h("div", { class: "flex gap-2" }, [
         h(
           resolveComponent("UButton"),
@@ -101,8 +78,8 @@ const columns: TableColumn[] = [
             color: "red",
             size: "xs",
             icon: "i-lucide-trash",
-            loading: deletingProductsId.value === ProductsId.toString(),
-            onClick: () => handleDeleteProducts(ProductsId.toString()),
+            loading: deletingProductsId.value === ProductsId,
+            onClick: () => handleDeleteProducts(ProductsId),
           },
         ),
       ]);

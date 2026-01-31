@@ -3,13 +3,13 @@ language: es-ES
 tone_instructions: "Be supportive and focus on best practices for Vue 3, TypeScript, and Nuxt. Explain why changes improve maintainability or performance."
 
 reviews:
-  profile: assertive # Relaxed feedback; switch to "assertive" for more details
+  profile: assertive
   high_level_summary: true
-  high_level_summary_in_walkthrough: false # Place summary in PR description
+  high_level_summary_in_walkthrough: false
   collapse_walkthrough: true
   auto_apply_labels: true
   auto_assign_reviewers: false
-  poem: false # Disable fun elements for professional tone
+  poem: false
   review_status: true
 
   path_filters:
@@ -51,7 +51,7 @@ reviews:
     description:
       mode: warning
     docstrings:
-      mode: off # Not typical for frontend/TypeScript
+      mode: off
     custom_checks:
       - name: Vue Component Structure
         mode: warning
@@ -62,27 +62,26 @@ reviews:
 
   finishing_touches:
     docstrings:
-      enabled: false # Disable for TypeScript
+      enabled: false
     unit_tests:
-      enabled: true # Generate Vitest tests
+      enabled: true
 
   tools:
     eslint:
-      enabled: true # Nuxt uses ESLint
+      enabled: true
     biome:
-      enabled: true # Modern linter/formatter
+      enabled: true
     markdownlint:
       enabled: true
     github-checks:
       enabled: true
-      timeout_ms: 90000 # Wait up to 90s for CI checks
-    # Disable irrelevant tools
+      timeout_ms: 90000
     gitleaks:
       enabled: false
     semgrep:
       enabled: false
     yamllint:
-      enabled: false # Unless YAML configs are heavy
+      enabled: false
 
 chat:
-  art: false # Keep responses clean
+  art: false

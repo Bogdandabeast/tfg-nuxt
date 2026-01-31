@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Company, TableCellContext } from "~~/types/api";
 import { storeToRefs } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
 import { getCompanyPath } from "~/utils/routes";
@@ -16,7 +17,7 @@ const isModalOpen = ref(false);
 const isLoadingCompanies = ref(false);
 const deletingCompanyId = ref<string | null>(null);
 
-const { isCreateCompanyLoading, createCompany, isDeleteCompanyLoading, deleteCompany } = useCompaniesApi();
+const { isCreateCompanyLoading, createCompany, deleteCompany } = useCompaniesApi();
 
 async function handleCreateCompany(companyData: { name: string }) {
   const result = await createCompany(companyData);
@@ -43,7 +44,7 @@ async function handleDeleteCompany(companyId: string) {
 
   deletingCompanyId.value = companyId;
   try {
-    const success = await deleteCompany(Number(companyId));
+    const success = await deleteCompany(companyId);
     if (success === true) {
       await companiesStore.refreshCompanies();
       toast.add({
@@ -69,8 +70,8 @@ const columns = [
   {
     accessorKey: "id",
     header: t("tables.headers.id"),
-    cell: ({ row }: any) => {
-      const id = row.getValue("id");
+    cell: ({ row }: TableCellContext<Company>) => {
+      const id = String(row.getValue("id"));
       return h(
         resolveComponent("UButton"),
         {
@@ -90,8 +91,8 @@ const columns = [
   {
     accessorKey: "actions",
     header: t("tables.headers.actions"),
-    cell: ({ row }: any) => {
-      const companyId = row.getValue("id");
+    cell: ({ row }: TableCellContext<Company>) => {
+      const companyId = String(row.getValue("id"));
       return h("div", { class: "flex gap-2" }, [
         h(
           resolveComponent("UButton"),
@@ -110,8 +111,8 @@ const columns = [
             color: "red",
             size: "xs",
             icon: "i-lucide-trash",
-            loading: deletingCompanyId.value === companyId.toString(),
-            onClick: () => handleDeleteCompany(companyId.toString()),
+            loading: deletingCompanyId.value === companyId,
+            onClick: () => handleDeleteCompany(companyId),
           },
         ),
       ]);
@@ -134,7 +135,7 @@ onMounted(async () => {
   <UDashboardPanel class="overflow-y-auto">
     <div class="m-5">
       <DashboardNavbar />
-      <UPageHeader :title="$t('companies.manage.title')" :description="$t('companies.manage.description')" />
+      <UPageHeader :title="t('companies.manage.title')" :description="t('companies.manage.description')" />
 
       <DashboardFormsCompanyForm
         :on-submit="handleCreateCompany"

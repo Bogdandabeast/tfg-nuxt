@@ -25,7 +25,7 @@ export function useSalesApi() {
     }
   }
 
-  async function deleteSale(id: number, companyId: number) {
+  async function deleteSale(id: string, companyId: string) {
     isDeleteSaleLoading.value = true;
     try {
       await $csrfFetch(`/api/sales/${id}`, {

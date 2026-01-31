@@ -7,7 +7,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const { id } = customerIdParamSchema.parse(event.context.params);
 
-    // Check if user has access to the customer's company
     const userId = event.context.user.id;
     const customer = await findCustomerInUserCompanies(id, userId);
     if (!customer) {

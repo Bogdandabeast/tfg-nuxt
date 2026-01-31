@@ -4,18 +4,14 @@ import { getProductsByCompanyId } from "~~/lib/db/queries/products";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { handleError } from "~~/utils/error-handler";
 
-// const querySchema = z.object({
-//   company_id: z.coerce.number().int().positive("Company ID must be a positive integer"),
-// });
+const querySchema = z.object({
+  company_id: z.string().uuid(),
+});
 
 export default defineAuthenticatedEventHandler(async (event) => {
   try {
-    const querySchema = z.object({
-      company_id: z.coerce.number().int().positive("Company ID must be a positive integer"),
-    });
     const { company_id } = querySchema.parse(getQuery(event));
 
-    // Check if user has access to this company
     const userId = event.context.user.id;
     const userCompanies = await getCompaniesByUserId(userId);
     const userCompanyIds = userCompanies.map(c => c.id);

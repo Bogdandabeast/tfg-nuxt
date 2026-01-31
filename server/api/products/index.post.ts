@@ -5,7 +5,6 @@ import { handleError } from "~~/utils/error-handler";
 import { productCreateSchema } from "~~/utils/schemas/products";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  // Validate CSRF token
   const csrfToken = getHeader(event, "csrf-token");
   if (!csrfToken) {
     throw createError({ statusCode: 403, statusMessage: "Missing CSRF token" });
@@ -14,14 +13,22 @@ export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const body = await readBody(event);
     const parsedData = productCreateSchema.parse(body);
-    const data = { ...parsedData, price: parsedData.price.toString() };
 
-    // Check if user has access to the provided company_id
-    const userCompanies = await getCompaniesByUserId(event.context.user.id);
-    const hasAccess = userCompanies.some(company => company.id === parsedData.company_id);
-    if (!hasAccess) {
-      throw createError({ statusCode: 404, statusMessage: "Not Found" });
+    const companies = await getCompaniesByUserId(event.context.user.id);
+    const userCompanyIds = companies.map(c => c.id);
+
+    if (!parsedData.company_id || !userCompanyIds.includes(parsedData.company_id)) {
+      throw createError({
+        statusCode: 403,
+        statusMessage: "You do not have permission to create products for this company",
+      });
     }
+
+    const data = {
+      ...parsedData,
+      price: String(parsedData.price),
+      company_id: parsedData.company_id,
+    };
 
     const [product] = await createProduct(data);
 

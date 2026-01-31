@@ -1,3 +1,10 @@
+const SECTION_MAP = {
+  customers: { label: "breadcrumbs.customers", singular: "breadcrumbs.customer", to: "/dashboard/customers" },
+  products: { label: "breadcrumbs.products", singular: "breadcrumbs.product", to: "/dashboard/products" },
+  sales: { label: "breadcrumbs.sales", singular: "breadcrumbs.sale", to: "/dashboard/sales" },
+  companies: { label: "breadcrumbs.companies", singular: "breadcrumbs.company", to: "/dashboard/companies" },
+} as const;
+
 export function useBreadcrumbs() {
   const { t } = useI18n();
   const localePath = useLocalePath();
@@ -12,46 +19,28 @@ export function useBreadcrumbs() {
       },
     ];
 
-    const sectionMap: { [key: string]: { label: string; singular: string } } = {
-      customers: { label: "breadcrumbs.customers", singular: "breadcrumbs.customer" },
-      products: { label: "breadcrumbs.products", singular: "breadcrumbs.product" },
-      sales: { label: "breadcrumbs.sales", singular: "breadcrumbs.sale" },
-      companies: { label: "breadcrumbs.companies", singular: "breadcrumbs.company" },
-    };
-
     const pathSegments = route.path.split("/").filter(Boolean);
+    const normalizedSegments = (pathSegments[0] === "es" || pathSegments[0] === "en")
+      ? pathSegments.slice(1)
+      : pathSegments;
 
-    if (pathSegments.includes("customers")) {
-      items.push({
-        label: t(sectionMap.customers.label),
-        to: localePath("/dashboard/customers"),
-      });
-    }
-    else if (pathSegments.includes("products")) {
-      items.push({
-        label: t(sectionMap.products.label),
-        to: localePath("/dashboard/products"),
-      });
-    }
-    else if (pathSegments.includes("sales")) {
-      items.push({
-        label: t(sectionMap.sales.label),
-        to: localePath("/dashboard/sales"),
-      });
-    }
-    else if (pathSegments.includes("companies")) {
-      items.push({
-        label: t(sectionMap.companies.label),
-        to: localePath("/dashboard/companies"),
-      });
-    }
-
-    if (route.params.id) {
-      const currentSection = pathSegments[1];
-      if (currentSection && sectionMap[currentSection]) {
+    if (normalizedSegments[0] === "dashboard" && normalizedSegments[1]) {
+      const sectionKey = normalizedSegments[1] as keyof typeof SECTION_MAP;
+      if (SECTION_MAP[sectionKey]) {
+        const section = SECTION_MAP[sectionKey];
         items.push({
-          label: t(sectionMap[currentSection].singular, { id: route.params.id }),
+          label: t(section.label),
+          to: localePath(section.to),
         });
+
+        if (route.params.id) {
+          const id = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
+          if (id) {
+            items.push({
+              label: t(section.singular, { id }),
+            });
+          }
+        }
       }
     }
 

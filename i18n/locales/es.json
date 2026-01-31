@@ -28,6 +28,8 @@
       "description": "Empieza hoy con EscorialCRM y lleva tu gestión empresarial al siguiente nivel.",
       "signup_button": "Crear Cuenta"
     },
+    "testimonials_title": "Nuestros testimonios",
+    "testimonials_description": "Entérate de lo que dicen nuestros clientes",
     "testimonials": [
       {
         "user": {
@@ -322,9 +324,17 @@
         "title": "Error",
         "description": "No se pudo crear la cuenta"
       }
+    },
+    "card": {
+      "verify_email": {
+        "title": "Verifica tu correo electrónico",
+        "description": "Hemos enviado un correo electrónico a tu dirección con un enlace de verificación. Por favor, revisa tu bandeja de entrada y haz clic en el enlace para activar tu cuenta.",
+        "resend_button": "Reenviar correo de verificación"
+      }
     }
   },
   "companies": {
+    "companyId": "ID de la Empresa: {id}",
     "title": "Seleccionar Empresa",
     "loading": "Cargando empresas...",
     "choose": "Elige la empresa con la que deseas trabajar:",
@@ -351,6 +361,10 @@
       "description": "Ocurrió un error al cargar las empresas. Por favor, inténtalo de nuevo."
     }
   },
+  "customers": {
+    "customerId": "ID del Cliente: {id}",
+    "invalidId": "Por favor, ingresa un ID de Cliente válido para eliminar."
+  },
   "dashboard": {
     "products": {
       "title": "Gestión de Productos",
@@ -367,7 +381,8 @@
       "loading": "Cargando clientes...",
       "modal": {
         "description": "Formulario para gestionar información de clientes del sistema.",
-        "create_button_label": "Crear Cliente"
+        "create_button_label": "Crear Cliente",
+        "title": "Gestionar Cliente"
       }
     },
     "sales": {
@@ -411,7 +426,9 @@
       "nameRequired": "El nombre de la empresa es requerido",
       "createdSuccess": "¡Empresa creada exitosamente!",
       "idInvalid": "Por favor, ingresa un ID de Empresa válido para eliminar.",
-      "deletedSuccess": "¡Empresa eliminada exitosamente!"
+      "deletedSuccess": "¡Empresa eliminada exitosamente!",
+      "submitFailed": "Error al crear la empresa.",
+      "deleteFailed": "Error al eliminar la empresa."
     },
     "customerForm": {
       "name": "Nombre",
@@ -436,7 +453,8 @@
       "deleteButton": "Eliminar Cliente",
       "noCompany": "No se ha seleccionado empresa.",
       "invalidData": "Por favor, completa al menos nombre y correo electrónico.",
-      "createdSuccess": "¡Cliente creado exitosamente!"
+      "createdSuccess": "¡Cliente creado exitosamente!",
+      "deletedSuccess": "¡Cliente eliminado exitosamente!"
     },
     "productForm": {
       "name": "Nombre",
@@ -481,7 +499,11 @@
       "invalidData": "Por favor, selecciona un cliente, un producto e ingresa una cantidad válida.",
       "createdSuccess": "¡Venta creada exitosamente!",
       "idInvalid": "Por favor, ingresa un ID de Venta válido para eliminar.",
-      "deletedSuccess": "¡Venta eliminada exitosamente!"
+      "deletedSuccess": "¡Venta eliminada exitosamente!",
+      "missingDetails": "Por favor, completa todos los detalles de la venta.",
+      "saleDateLabel": "Fecha de Venta",
+      "taxRateLabel": "Tasa de Impuestos",
+      "discountLabel": "Descuento"
     },
     "create": {
       "title": "Crear Venta",
@@ -589,6 +611,8 @@
       "product": "Producto",
       "quantity": "Cantidad",
       "amount": "Monto",
+      "unitPrice": "Precio Unitario",
+      "total": "Total",
       "actions": "Acciones"
     },
     "data": {
@@ -618,7 +642,17 @@
   "validation": {
     "invalidEmail": "Correo electrónico inválido",
     "tooShort": "Demasiado corto",
-    "nameRequired": "El nombre es requerido"
+    "nameRequired": "El nombre es requerido",
+    "descriptionRequired": "La descripción es requerida",
+    "pricePositive": "El precio debe ser positivo",
+    "stockNonNegative": "El stock no puede ser negativo",
+    "invalidCustomer": "Cliente inválido",
+    "invalidProduct": "Producto inválido",
+    "quantityPositive": "La cantidad debe ser positiva",
+    "invalidDate": "Fecha inválida",
+    "discountNonNegative": "El descuento no puede ser negativo",
+    "taxRateNonNegative": "La tasa de impuestos no puede ser negativa",
+    "taxRateMax1": "La tasa de impuestos no puede ser mayor a 1"
   },
   "breadcrumbs": {
     "dashboard": "Panel de Control",
@@ -630,5 +664,19 @@
     "sale": "Venta {id}",
     "companies": "Empresas",
     "company": "Empresa {id}"
+  },
+  "products": {
+    "invalidId": "Por favor, ingresa un ID de Producto válido para eliminar.",
+    "id": "ID del Producto",
+    "create": {
+      "title": "Crear Producto",
+      "description": "Formulario para crear un nuevo producto en el sistema CRM."
+    }
+  },
+  "sales": {
+    "create": {
+      "title": "Crear Venta",
+      "description": "Formulario para registrar una nueva venta en el sistema CRM."
+    }
   }
 }

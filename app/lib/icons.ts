@@ -1,6 +1,3 @@
-type IconName = `lucide:${string}`;
-type IconConfig = Record<string, IconName>;
-
 export const NAVIGATION_ICONS = {
   home: "lucide:home",
   dashboard: "lucide:layout-dashboard",
@@ -191,15 +188,3 @@ export const ICONS = {
   social: SOCIAL_ICONS,
   tech: TECH_ICONS,
 } as const;
-
-export type NavigationIcon = keyof typeof NAVIGATION_ICONS;
-export type ActionIcon = keyof typeof ACTION_ICONS;
-export type EntityIcon = keyof typeof ENTITY_ICONS;
-export type MetricIcon = keyof typeof METRIC_ICONS;
-export type UIIcon = keyof typeof UI_ICONS;
-export type FeatureIcon = keyof typeof FEATURE_ICONS;
-export type SocialIcon = keyof typeof SOCIAL_ICONS;
-export type TechIcon = keyof typeof TECH_ICONS;
-
-export type IconCategory = keyof typeof ICONS;
-export type AllIconKeys = NavigationIcon | ActionIcon | EntityIcon | MetricIcon | UIIcon | FeatureIcon | SocialIcon | TechIcon;

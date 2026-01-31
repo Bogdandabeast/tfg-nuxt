@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UI_ICONS } from "~/lib/icons";
+import { FEATURE_ICONS, UI_ICONS } from "~/lib/icons";
 
 const { t } = useI18n();
 
@@ -8,10 +8,10 @@ const breadcrumbItems = [{
   to: "/",
 }, {
   label: t("legal.title"),
-  to: "/legal", // Assuming a legal page exists
+  to: "/legal",
 }, {
   label: t("legal.terms_and_conditions"),
-  to: "/terms", // Corrected path
+  to: "/terms",
 }];
 
 const accordionItems = [{
@@ -21,7 +21,7 @@ const accordionItems = [{
   content: t("terms.accordion.service_usage.content"),
 }, {
   label: t("terms.accordion.privacy.label"),
-  icon: UI_ICONS.security,
+  icon: FEATURE_ICONS.security,
   content: t("terms.accordion.privacy.content"),
 }, {
   label: t("terms.accordion.limitations.label"),

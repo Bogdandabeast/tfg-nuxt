@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { companyCreateSchema, companyIdParamSchema } from "~~/utils/schemas/companies";
 import FormErrorAlert from "./FormErrorAlert.vue";
 
 type Props = {
@@ -16,6 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const { t } = useI18n();
+const toast = useToast();
 
 const newCompany = reactive({
   name: "",
@@ -26,38 +28,61 @@ const companyToDelete = reactive({
 const error = ref("");
 
 async function createCompanyHandler() {
-  if (!newCompany.name.trim()) {
-    error.value = t("forms.companyForm.nameRequired");
+  const result = companyCreateSchema.safeParse(newCompany);
+  if (!result.success) {
+    const errorMessage = t(result.error.issues[0]?.message || "common.error");
+    error.value = errorMessage;
+    toast.add({
+      title: t("common.error"),
+      description: errorMessage,
+      color: "error",
+    });
     return;
   }
 
   if (props.onSubmit) {
     error.value = "";
     try {
-      await props.onSubmit({ name: newCompany.name.trim() });
+      await props.onSubmit({ name: result.data.name });
       newCompany.name = "";
     }
     catch {
       error.value = t("forms.companyForm.submitFailed");
+      toast.add({
+        title: t("common.error"),
+        description: t("forms.companyForm.submitFailed"),
+        color: "error",
+      });
     }
   }
 }
 
 async function deleteCompanyHandler() {
-  const id = companyToDelete.id.trim();
-  if (!id) {
-    error.value = t("forms.companyForm.idInvalid");
+  const result = companyIdParamSchema.safeParse(companyToDelete);
+  if (!result.success) {
+    const errorMessage = t("forms.companyForm.idInvalid");
+    error.value = errorMessage;
+    toast.add({
+      title: t("common.error"),
+      description: errorMessage,
+      color: "error",
+    });
     return;
   }
 
   if (props.onDelete) {
     error.value = "";
     try {
-      await props.onDelete(id);
+      await props.onDelete(result.data.id);
       companyToDelete.id = "";
     }
     catch {
       error.value = t("forms.companyForm.deleteFailed");
+      toast.add({
+        title: t("common.error"),
+        description: t("forms.companyForm.deleteFailed"),
+        color: "error",
+      });
     }
   }
 }

@@ -1,48 +1,37 @@
-import type { User } from "better-auth";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { createAuthMiddleware } from "better-auth/plugins";
+import { sendEmail } from "../utils/emailsender";
 import { db } from "./db/index";
 import { user_schema } from "./db/schema/index";
-import { sendEmail } from "./emailsender";
 
-export type UserWithId = Omit<User, "id"> & {
-  id: string;
-};
+const baseURL = process.env.BETTER_AUTH_URL || "http://localhost:3000";
 
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  baseURL,
   trustedOrigins: [
-    "https://bogdanweb.dev",
+    baseURL,
     "http://localhost:3000",
   ],
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
-      await sendEmail({
-        to: user.email,
-        from: "techlead@bogdanweb.dev",
-        replyTo: "techlead@bogdanweb.dev",
-        subject: "Verify your email address",
-        text: `Click the link to verify your email: ${url}`,
-      });
+      try {
+        await sendEmail({
+          to: user.email,
+          from: "techlead@bogdanweb.dev",
+          replyTo: "techlead@bogdanweb.dev",
+          subject: "Verify your email address",
+          text: `Hello, ${user.name}. Thank you for signing up for EscorialCRM. Click the link to verify your email: ${url}`,
+        });
+      }
+      catch (error) {
+        console.error("Failed to send verification email:", error);
+      }
     },
-    sendOnSignUp: true, // Enviar automáticamente al registrarse
-    sendOnSignIn: true, // Enviar automáticamente al iniciar sesión si no está verificado
-    autoSignInAfterVerification: true, // Auto login después de verificar
-    expiresIn: 3600, // Token expira en 1 hora
-  },
-  advanced: {
-    cookies: {
-      session_token: {
-        name: "session_token",
-        attributes: {
-          secure: true,
-          sameSite: "none",
-          path: "/",
-          domain: "bogdanweb.dev",
-        },
-      },
-    },
+    sendOnSignUp: true,
+    sendOnSignIn: true,
+    autoSignInAfterVerification: true,
+    expiresIn: 3600,
   },
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
@@ -66,6 +55,6 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: true, // Requiere verificación para login
+    requireEmailVerification: true,
   },
 });

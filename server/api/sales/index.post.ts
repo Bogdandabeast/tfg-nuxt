@@ -5,7 +5,6 @@ import { handleError } from "~~/utils/error-handler";
 import { createSaleSchema } from "~~/utils/schemas/sales";
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  // Validate CSRF token
   const csrfToken = getHeader(event, "csrf-token");
   if (!csrfToken) {
     throw createError({ statusCode: 403, statusMessage: "Missing CSRF token" });
@@ -23,7 +22,12 @@ export default defineAuthenticatedEventHandler(async (event) => {
       throw createError({ statusCode: 404, statusMessage: "Not Found" });
     }
 
-    const newSale = await createSale(validatedData);
+    const newSale = await createSale({
+      ...validatedData,
+      unit_price: String(validatedData.unit_price),
+      discount: String(validatedData.discount || 0),
+      tax_rate: String(validatedData.tax_rate || 0),
+    });
     return { sale: newSale };
   }
   catch (error) {

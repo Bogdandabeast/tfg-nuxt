@@ -8,7 +8,7 @@ import { dateRangeSchema, limitSchema, periodSchema } from "~~/utils/schemas/met
 export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const query = getQuery(event);
-    const companyIdSchema = z.string().regex(/^\d+$/).transform(s => Number(s));
+    const companyIdSchema = z.string().uuid();
     const companyId = companyIdSchema.parse(query.company_id);
     const period = periodSchema.parse(query.period || "monthly");
     const topLimit = limitSchema.parse(query.limit || 5);
@@ -19,14 +19,12 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const userId = event.context.user.id;
     const userCompanies = await getCompaniesByUserId(userId);
 
-    // Validar que la empresa pertenece al usuario
     if (!userCompanies.find(c => c.id === companyId)) {
       throw createError({ statusCode: 403, statusMessage: "Invalid company access" });
     }
 
     const targetCompanyIds = [companyId];
 
-    // Ejecutar todas las métricas en paralelo con manejo de errores
     const results = await Promise.allSettled([
       getTotalRevenue(targetCompanyIds),
       getTotalCustomers(targetCompanyIds),
@@ -38,7 +36,6 @@ export default defineAuthenticatedEventHandler(async (event) => {
       getSalesByPeriod(targetCompanyIds, period),
     ]);
 
-    // Procesar resultados
     const [revenue, customers, newCustomers, avgTicket, topProducts, salesPeriod] = results;
 
     const response = {
@@ -48,7 +45,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
       },
       customers: {
         total: customers.status === "fulfilled" ? customers.value : 0,
-        new: newCustomers.status === "fulfilled" ? newCustomers.value.total : 0,
+        new: newCustomers.status === "fulfilled" ? (typeof newCustomers.value === "number" ? newCustomers.value : newCustomers.value.total) : 0,
         error: customers.status === "rejected" ? (customers.reason?.message || String(customers.reason)) : null,
       },
       sales: {

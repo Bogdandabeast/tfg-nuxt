@@ -1,3 +1,4 @@
+import type { SendEmailData } from "~~/types/api";
 import { z } from "zod";
 
 if (!process.env.RESEND_API_KEY) {
@@ -9,15 +10,14 @@ const sendEmailSchema = z.object({
   to: z.string().email(),
   replyTo: z.string().email(),
   subject: z.string().min(1),
-  text: z.string().min(1),
+  text: z.string().optional(),
+  html: z.string().optional(),
 });
 
-type sendEmail = z.infer<typeof sendEmailSchema>;
-
-export async function sendEmail(data: sendEmail) {
+export async function sendEmail(data: SendEmailData) {
   try {
     const validatedData = sendEmailSchema.parse(data);
-    const result = await $fetch("https://api.resend.com/emails", {
+    const result = await $fetch(String(process.env.RESEND_API), {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
@@ -28,7 +28,6 @@ export async function sendEmail(data: sendEmail) {
     return result;
   }
   catch (error) {
-    // eslint-disable-next-line no-console
     console.error("Error sending email:", error);
     throw error;
   }

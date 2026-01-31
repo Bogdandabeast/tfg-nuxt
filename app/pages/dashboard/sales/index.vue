@@ -1,63 +1,39 @@
 <script setup lang="ts">
+import type { Sale, TableCellContext } from "~~/types/api";
 import { storeToRefs } from "pinia";
+import { getSalePath } from "~/utils/routes";
 
 definePageMeta({
   layout: "dashboard",
 });
+
 const localePath = useLocalePath();
 const { t } = useI18n();
 const salesStore = useSalesStore();
-const customersStore = useCustomersStore();
-const productsStore = useProductsStore();
 
-// Refresh data on page load asynchronously for lazy loading
 salesStore.refreshSales();
-customersStore.refreshCustomers();
-productsStore.refreshProducts();
 
 const { sales, pending: loadingSales } = storeToRefs(salesStore);
-const { customers } = storeToRefs(customersStore);
-const { products } = storeToRefs(productsStore);
 
 const detailedSales = computed(() => {
   return sales.value?.map((sale) => {
-    const customer = customers.value?.find(c => c.id === sale.customer_id);
-    const product = products.value?.find(p => p.id === sale.product_id);
-    const amount = product ? Number(product.price) * sale.quantity : 0;
+    const total = Number(sale.unit_price) * sale.quantity;
     return {
       ...sale,
-      customerName: customer ? customer.name : t("tables.data.unknown"),
-      productName: product ? product.name : t("tables.data.unknown"),
-      amount,
+      total,
     };
   });
 });
 
 const columns = [
   {
-    accessorKey: "id",
-    header: "ID",
-    cell: ({ row }: any) => {
-      const id = row.getValue("id");
-      return h(
-        resolveComponent("UButton"),
-        {
-          to: localePath(getSalePath(id)),
-          variant: "link",
-          color: "primary",
-          padded: false,
-        },
-        () => `#${id}`,
-      );
-    },
-  },
-  {
     accessorKey: "sale_date",
     header: t("tables.headers.date"),
-    cell: ({ row }: any) => {
-      return new Date(row.getValue("sale_date")).toLocaleString("en-US", {
+    cell: ({ row }: TableCellContext<Sale>) => {
+      return new Date(String(row.getValue("sale_date"))).toLocaleString("en-US", {
         day: "numeric",
         month: "short",
+        year: "numeric",
         hour: "2-digit",
         minute: "2-digit",
         hour12: false,
@@ -65,21 +41,11 @@ const columns = [
     },
   },
   {
-    accessorKey: "customerName",
-    header: "Customer",
-    cell: ({ row }: any) => row.getValue("customerName"),
-  },
-  {
-    accessorKey: "productName",
-    header: "Product",
-    cell: ({ row }: any) => row.getValue("productName"),
-  },
-  {
-    accessorKey: "customerName",
+    accessorKey: "customer_name",
     header: t("tables.headers.customer"),
   },
   {
-    accessorKey: "productName",
+    accessorKey: "product_name",
     header: t("tables.headers.product"),
   },
   {
@@ -87,18 +53,48 @@ const columns = [
     header: t("tables.headers.quantity"),
   },
   {
-    accessorKey: "amount",
-    header: () => h("div", { class: "text-right" }, t("tables.headers.amount")),
-    cell: ({ row }: any) => {
-      const amount = Number.parseFloat(row.getValue("amount"));
+    accessorKey: "unit_price",
+    header: t("tables.headers.unitPrice"),
+    cell: ({ row }: TableCellContext<Sale>) => {
+      const unitPrice = Number.parseFloat(row.getValue("unit_price") as string);
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "EUR",
-      }).format(amount);
+      }).format(unitPrice);
       return h("div", { class: "text-right font-medium" }, formatted);
     },
   },
-
+  {
+    accessorKey: "total",
+    header: () => h("div", { class: "text-right" }, t("tables.headers.total")),
+    cell: ({ row }: TableCellContext<Sale>) => {
+      const total = Number.parseFloat(row.getValue("total") as string);
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "EUR",
+      }).format(total);
+      return h("div", { class: "text-right font-medium" }, formatted);
+    },
+  },
+  {
+    accessorKey: "actions",
+    header: t("tables.headers.actions"),
+    cell: ({ row }: TableCellContext<Sale>) => {
+      const saleId = row.original.id;
+      return h("div", { class: "flex gap-2" }, [
+        h(
+          resolveComponent("UButton"),
+          {
+            to: localePath(getSalePath(saleId)),
+            variant: "ghost",
+            color: "primary",
+            size: "xs",
+            icon: "i-lucide-edit",
+          },
+        ),
+      ]);
+    },
+  },
 ];
 </script>
 

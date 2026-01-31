@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Period, Range, Stat } from "~/types";
+import type { Period, Range, Stat } from "~~/types/api";
 import { storeToRefs } from "pinia";
 
-import { METRIC_ICONS, UI_ICONS } from "~/lib/icons";
+import { FEATURE_ICONS, METRIC_ICONS } from "~/lib/icons";
 import { useCompaniesStore } from "~/stores/companies";
 import { useMetricsStore } from "~/stores/metrics";
 
@@ -25,7 +25,7 @@ const {
 
 const period = ref<Period>("monthly");
 const range = ref<Range>({
-  start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 days ago
+  start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
   end: new Date(),
 });
 
@@ -88,21 +88,20 @@ const allMetricsEmpty = computed(() => {
 
 const isLoading = computed(() => loadingMetrics.value);
 
-// Watcher para refrescar métricas cuando cambia la empresa
 watch(() => companiesStore.currentCompany?.id, async (newCompanyId, oldCompanyId) => {
   if (newCompanyId && newCompanyId !== oldCompanyId) {
     try {
       const result = await metricsStore.loadAllMetrics();
 
-      if (!result.success) {
+      if (result && !result.success) {
         toast.add({
           title: t("common.error"),
-          description: typeof result.error === "string" ? result.error : t("errors.metrics.load.description"),
+          description: result.error || t("errors.metrics.load.description"),
           color: "error",
         });
       }
     }
-    catch (error) {
+    catch {
       toast.add({
         title: t("common.error"),
         description: t("errors.metrics.refresh.description"),
@@ -123,7 +122,7 @@ onMounted(() => {
     <div class="m-5">
       <DashboardNavbar />
       <div v-if="allMetricsEmpty && !isLoading" class="text-center py-12">
-        <UIcon :name="UI_ICONS.analytics" class="h-16 w-16 text-gray-400 mx-auto mb-4" />
+        <UIcon :name="FEATURE_ICONS.analytics" class="h-16 w-16 text-gray-400 mx-auto mb-4" />
         <h3 class="text-xl font-semibold text-gray-900 mb-2">
           {{ t('dashboard.emptyMetrics.title') }}
         </h3>

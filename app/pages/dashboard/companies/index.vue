@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Company } from "~~/types/api";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { useCompaniesStore } from "~~/app/stores/companies";
@@ -19,18 +20,20 @@ onMounted(async () => {
   isLoading.value = true;
   try {
     await companiesStore.refreshCompanies();
-  } catch (error) {
+  }
+  catch {
     toast.add({
-      title: t('companies.error.title'),
-      description: t('companies.error.description'),
-      color: "danger",
+      title: t("companies.error.title"),
+      description: t("companies.error.description"),
+      color: "error",
     });
-  } finally {
+  }
+  finally {
     isLoading.value = false;
   }
 });
 
-function selectCompany(company: any) {
+function selectCompany(company: Company) {
   companiesStore.setCurrentCompany(company);
   const route = useRoute();
   const redirectTo = route.query.redirect as string;
@@ -38,15 +41,15 @@ function selectCompany(company: any) {
   if (redirectTo) {
     try {
       const decodedRedirect = decodeURIComponent(redirectTo);
-      if (decodedRedirect.startsWith("/") && !decodedRedirect.includes("://")) {
+
+      if (decodedRedirect.startsWith("/") && !decodedRedirect.includes(":")) {
         navigateTo(decodedRedirect);
       }
       else {
         navigateTo(useLocalePath()(ROUTES.DASHBOARD));
       }
     }
-    catch (error) {
-      console.warn("Invalid redirect URL, falling back to dashboard:", redirectTo);
+    catch {
       navigateTo(useLocalePath()(ROUTES.DASHBOARD));
     }
   }

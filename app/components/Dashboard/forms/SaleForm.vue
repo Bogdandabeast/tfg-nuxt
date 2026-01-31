@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import type { Customer } from "~~/lib/db/queries/customers";
-import type { Product } from "~~/lib/db/queries/products";
+import type { Customer, Product } from "~~/types/api";
 import { storeToRefs } from "pinia";
-
-const emit = defineEmits(["close"]);
+import { createSaleSchema } from "~~/utils/schemas/sales";
 
 const { t } = useI18n();
 const salesStore = useSalesStore();
@@ -12,19 +10,29 @@ const productsStore = useProductsStore();
 const companiesStore = useCompaniesStore();
 const toast = useToast();
 const isCreateModalOpen = ref(false);
-const { isCreateSaleLoading, createSale, isDeleteSaleLoading, deleteSale } = useSalesApi();
+const { isCreateSaleLoading, createSale } = useSalesApi();
 
 const { customers } = storeToRefs(customersStore);
 const { products } = storeToRefs(productsStore);
 
 const newSale = reactive({
-  customer_id: undefined as number | undefined,
-  product_id: undefined as number | undefined,
+  customer_id: undefined as string | undefined,
+  product_id: undefined as string | undefined,
   quantity: 1,
+  sale_date: new Date().toISOString().split("T")[0],
+  tax_rate: 0,
+  discount: 0,
 });
 
-const saleToDeleteId = ref("");
 const error = ref("");
+
+const selectedProduct = computed(() =>
+  products.value?.find((p: Product) => p.id === newSale.product_id),
+);
+
+const selectedCustomer = computed(() =>
+  customers.value?.find((c: Customer) => c.id === newSale.customer_id),
+);
 
 const customerOptions = computed(() =>
   customers.value?.map((c: Customer) => ({ label: c.name, value: c.id })) || [],
@@ -35,25 +43,70 @@ const productOptions = computed(() =>
 
 async function createSaleHandler() {
   if (!companiesStore.currentCompany?.id) {
-    error.value = t("forms.saleForm.noCompany");
+    const errorMessage = t("forms.saleForm.noCompany");
+    error.value = errorMessage;
+    toast.add({
+      title: t("common.error"),
+      description: errorMessage,
+      color: "error",
+    });
     return;
   }
-  if (!newSale.customer_id || !newSale.product_id || newSale.quantity <= 0) {
-    error.value = t("forms.saleForm.invalidData");
+
+  const formSchema = createSaleSchema.pick({
+    customer_id: true,
+    product_id: true,
+    quantity: true,
+    sale_date: true,
+    tax_rate: true,
+    discount: true,
+  });
+
+  const result = formSchema.safeParse(newSale);
+
+  if (!result.success) {
+    const errorMessage = t(result.error.issues[0]?.message || "common.error");
+    error.value = errorMessage;
+    toast.add({
+      title: t("common.error"),
+      description: errorMessage,
+      color: "error",
+    });
     return;
   }
+
+  const product = selectedProduct.value;
+  const customer = selectedCustomer.value;
+
+  if (!product || !customer) {
+    const errorMessage = t("forms.saleForm.missingDetails");
+    error.value = errorMessage;
+    toast.add({
+      title: t("common.error"),
+      description: errorMessage,
+      color: "error",
+    });
+    return;
+  }
+
   const saleData = {
-    customer_id: Number(newSale.customer_id),
-    product_id: Number(newSale.product_id),
-    quantity: newSale.quantity,
+    ...result.data,
+    sale_date: result.data.sale_date.toLocaleDateString("en-CA"),
+    product_name: product.name,
+    unit_price: Number.parseFloat(product.price),
+    customer_name: customer.name,
     company_id: companiesStore.currentCompany.id,
   };
-  const result = await createSale(saleData);
-  if (result) {
+
+  const resultApi = await createSale(saleData);
+  if (resultApi) {
     salesStore.refreshSales();
     newSale.customer_id = undefined;
     newSale.product_id = undefined;
     newSale.quantity = 1;
+    newSale.sale_date = new Date().toISOString().split("T")[0];
+    newSale.tax_rate = 0;
+    newSale.discount = 0;
     toast.add({
       title: t("common.success"),
       description: t("forms.saleForm.createdSuccess"),
@@ -61,25 +114,6 @@ async function createSaleHandler() {
     });
     error.value = "";
     isCreateModalOpen.value = false;
-  }
-}
-
-async function deleteSaleHandler() {
-  const id = Number(saleToDeleteId.value);
-  if (!saleToDeleteId.value || Number.isNaN(id)) {
-    error.value = t("forms.saleForm.idInvalid");
-    return;
-  }
-  const success = await deleteSale(id, companiesStore.currentCompany!.id);
-  if (success) {
-    salesStore.refreshSales();
-    saleToDeleteId.value = "";
-    toast.add({
-      title: t("common.success"),
-      description: t("forms.saleForm.deletedSuccess"),
-      color: "success",
-    });
-    error.value = "";
   }
 }
 </script>
@@ -126,6 +160,31 @@ async function deleteSaleHandler() {
               v-model.number="newSale.quantity"
               type="number"
               :min="1"
+            />
+          </UFormField>
+
+          <UFormField :label="t('forms.saleForm.saleDateLabel')" name="saleDate">
+            <UInput
+              v-model="newSale.sale_date"
+              type="date"
+            />
+          </UFormField>
+
+          <UFormField :label="t('forms.saleForm.taxRateLabel')" name="saleTaxRate">
+            <UInput
+              v-model.number="newSale.tax_rate"
+              type="number"
+              :min="0"
+              step="0.01"
+            />
+          </UFormField>
+
+          <UFormField :label="t('forms.saleForm.discountLabel')" name="saleDiscount">
+            <UInput
+              v-model.number="newSale.discount"
+              type="number"
+              :min="0"
+              step="0.01"
             />
           </UFormField>
         </div>

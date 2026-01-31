@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from "@nuxt/ui";
+import type { Company } from "~~/types/api";
 import { storeToRefs } from "pinia";
 import { NAVIGATION_ICONS } from "~/lib/icons";
 import { ROUTES } from "~/utils/routes";
@@ -14,7 +15,7 @@ const localePath = useLocalePath();
 const { t } = useI18n();
 
 const items = computed<DropdownMenuItem[][]>(() => {
-  return [companies.value.map(company => ({
+  return [companies.value.map((company: Company) => ({
     label: company.name,
     id: company.id,
     icon: (company.id === currentCompany.value?.id) ? NAVIGATION_ICONS.companies : NAVIGATION_ICONS.companies,

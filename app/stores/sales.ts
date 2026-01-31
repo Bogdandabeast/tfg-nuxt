@@ -1,14 +1,6 @@
+import type { Sale } from "~~/types/api";
 import { defineStore } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
-
-type Sale = {
-  id: number;
-  customer_id: number;
-  product_id: number;
-  quantity: number;
-  sale_date: string;
-  company_id: number;
-};
 
 export const useSalesStore = defineStore("sales", () => {
   const companiesStore = useCompaniesStore();
@@ -31,10 +23,8 @@ export const useSalesStore = defineStore("sales", () => {
 
   const sales = computed(() => salesResponse.value?.sales || []);
 
-  // Reactive variable for specific sale ID
   const currentSaleId = ref<string | null>(null);
 
-  // useFetch for specific sale
   const {
     data: currentSaleResponse,
     pending: currentSalePending,
@@ -43,7 +33,6 @@ export const useSalesStore = defineStore("sales", () => {
     lazy: true,
   });
 
-  // Method to fetch a specific sale by ID
   const getSaleById = (saleId: string) => {
     currentSaleId.value = saleId;
     return {

@@ -32,7 +32,7 @@ export function useCustomersApi() {
     }
   }
 
-  async function updateCustomer(id: number, customerData: Partial<NewCustomer>) {
+  async function updateCustomer(id: string, customerData: Partial<NewCustomer>) {
     isUpdateCustomerLoading.value = true;
     try {
       const response = await $csrfFetch<Customer>(`/api/customers/${id}`, {
@@ -56,8 +56,7 @@ export function useCustomersApi() {
   }
 
   async function deleteCustomer(id: string) {
-    const parsedId = Number(id);
-    if (!id || Number.isNaN(parsedId)) {
+    if (!id || typeof id !== "string" || id.trim() === "") {
       toast.add({
         title: t("error.title") || "Error",
         description: t("customers.invalidId") || "Please enter a valid Customer ID to delete.",
@@ -68,23 +67,24 @@ export function useCustomersApi() {
     isDeleteCustomerLoading.value = true;
     try {
       const companiesStore = useCompaniesStore();
-      await $csrfFetch(`/api/customers/${parsedId}`, {
+      await $csrfFetch(`/api/customers/${id}`, {
         method: "DELETE",
         body: { company_id: companiesStore.currentCompany!.id },
       });
       const customersStore = useCustomersStore();
       customersStore.refreshCustomers();
       toast.add({
-        title: "Success",
-        description: "Customer deleted successfully!",
+        title: t("common.success") || "Success",
+        description: t("forms.customerForm.deletedSuccess") || "Customer deleted successfully!",
+        color: "success",
       });
       return true;
     }
     catch (error) {
       const message = getFetchErrorMessage(error);
       toast.add({
-        title: t("error.title") || "Error",
-        description: t("error.generic") || message,
+        title: t("common.error") || "Error",
+        description: message,
         color: "error",
       });
       return false;

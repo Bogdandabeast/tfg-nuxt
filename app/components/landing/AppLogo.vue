@@ -1,10 +1,20 @@
 <template>
   <UButton
-    icon="lucide:badge-dollar-sign"
+
     size="xl"
     color="primary"
     variant="ghost"
   >
+    <template #leading>
+      <img
+        src="/favicon.ico"
+        alt=""
+        width="16"
+        height="16"
+        class="size-4"
+        aria-hidden="true"
+      >
+    </template>
     EscorialCRM
   </UButton>
 </template>

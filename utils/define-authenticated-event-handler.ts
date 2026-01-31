@@ -1,5 +1,4 @@
 import type { H3Event, H3EventContext } from "h3";
-import type { UserWithId } from "~~/lib/auth";
 import { z } from "zod";
 import { auth } from "~~/lib/auth";
 
@@ -12,6 +11,8 @@ const userWithIdSchema = z.object({
   createdAt: z.coerce.date().nullish(),
   updatedAt: z.coerce.date().nullish(),
 });
+
+type UserWithId = z.infer<typeof userWithIdSchema>;
 
 type AuthenticatedEvent = H3Event & {
   context: H3EventContext & {

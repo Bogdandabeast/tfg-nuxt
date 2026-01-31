@@ -1,4 +1,4 @@
-import type { Customer } from "~~/lib/db/queries/customers";
+import type { Customer } from "~~/types/api";
 import { defineStore } from "pinia";
 import { useCompaniesStore } from "~~/app/stores/companies";
 
@@ -22,10 +22,8 @@ export const useCustomersStore = defineStore("customers", () => {
     watch: [apiUrl],
   });
 
-  // Reactive variable for specific customer ID
-  const currentCustomerId = ref<number | null>(null);
+  const currentCustomerId = ref<string | null>(null);
 
-  // useFetch for specific customer
   const {
     data: currentCustomerResponse,
     pending: currentCustomerPending,
@@ -34,8 +32,7 @@ export const useCustomersStore = defineStore("customers", () => {
     lazy: true,
   });
 
-  // Method to fetch a specific customer by ID
-  const getCustomerById = (customerId: number) => {
+  const getCustomerById = (customerId: string) => {
     currentCustomerId.value = customerId;
     return {
       data: computed(() => currentCustomerResponse.value?.customer || null),

@@ -1,7 +1,7 @@
-import type { Company } from "~~/lib/db/queries/companies";
+import type { Company } from "~~/types/api";
 import { defineStore } from "pinia";
 import { watch } from "vue";
-import { useCompanySelection } from "~~/composables/useCompanySelection";
+import { useCompanySelection } from "~~/app/composables/useCompanySelection";
 
 export const useCompaniesStore = defineStore("companies", () => {
   const {
@@ -19,30 +19,26 @@ export const useCompaniesStore = defineStore("companies", () => {
 
   function setCurrentCompany(company: Company | null) {
     currentCompany.value = company;
-    setSelectedCompanyId(company ? String(company.id) : null);
+    setSelectedCompanyId(company ? company.id : null);
   }
 
-  // Watch for companies to load saved company
   watch(companies, (newCompanies) => {
     if (newCompanies && newCompanies.length > 0 && !currentCompany.value) {
       const savedId = selectedCompanyId.value;
       if (savedId) {
-        const company = newCompanies.find(c => c.id === Number.parseInt(savedId, 10));
+        const company = newCompanies.find(c => c.id === savedId);
         if (company) {
           currentCompany.value = company;
         }
         else {
-          // Company no longer exists, clear selection
           setSelectedCompanyId(null);
         }
       }
     }
   });
 
-  // Reactive variable for specific company ID
-  const currentCompanyId = ref<number | null>(null);
+  const currentCompanyId = ref<string | null>(null);
 
-  // useFetch for specific company
   const {
     data: currentCompanyResponse,
     pending: currentCompanyPending,
@@ -51,8 +47,7 @@ export const useCompaniesStore = defineStore("companies", () => {
     lazy: true,
   });
 
-  // Method to fetch a specific company by ID
-  const getCompanyById = (companyId: number) => {
+  const getCompanyById = (companyId: string) => {
     currentCompanyId.value = companyId;
     return {
       data: computed(() => currentCompanyResponse.value?.company || null),

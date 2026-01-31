@@ -8,12 +8,11 @@ export default defineAuthenticatedEventHandler(async (event) => {
   try {
     const { id } = productIdParamSchema.parse(event.context.params);
 
-    const product = await getProductById(id);
-    if (!product || !product.length) {
+    const productData = await getProductById(id);
+    if (!productData) {
       throw createError({ statusCode: 404, statusMessage: "Not Found" });
     }
 
-    const productData = product[0]!;
     if (!productData.company_id) {
       throw createError({ statusCode: 404, statusMessage: "Not Found" });
     }
@@ -21,6 +20,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const userId = event.context.user.id;
     const userCompanies = await getCompaniesByUserId(userId);
     const userCompanyIds = userCompanies.map(c => c.id);
+
     if (!userCompanyIds.includes(productData.company_id)) {
       throw createError({ statusCode: 404, statusMessage: "Not Found" });
     }
@@ -28,6 +28,9 @@ export default defineAuthenticatedEventHandler(async (event) => {
     return { product: productData };
   }
   catch (error) {
-    throw handleError(error, { route: "products.[id].get", user: event.context.user?.id });
+    throw handleError(error, {
+      route: "products.[id].get",
+      user: event.context.user?.id,
+    });
   }
 });

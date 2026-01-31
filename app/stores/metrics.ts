@@ -1,26 +1,11 @@
+import type { DashboardMetricsResponse } from "~~/types/api";
 import { defineStore } from "pinia";
-
-type DashboardMetricsResponse = {
-  revenue: { total: number; error?: string };
-  customers: { total: number; new: number; error?: string };
-  sales: { averageTicket: number; byPeriod: any[]; totalCount: number; error?: string };
-  products: { topSelling: any[]; error?: string };
-  meta?: {
-    companyId: number;
-    period: string;
-    topLimit: number;
-    dateRange?: { start: string; end: string };
-    timestamp: string;
-    hasErrors: boolean;
-    errorCount: number;
-  };
-};
+import { SalesByPeriodArraySchema, TopSellingProductArraySchema } from "~~/utils/schemas/metrics";
 
 export const useMetricsStore = defineStore("metrics", () => {
   const companiesStore = useCompaniesStore();
   const toast = useToast();
 
-  // URL dinámica con company_id siempre requerido
   const dashboardUrl = computed(() => {
     const companyId = companiesStore.currentCompany?.id;
     if (!companyId) {
@@ -29,7 +14,6 @@ export const useMetricsStore = defineStore("metrics", () => {
     return `/api/metrics/dashboard?company_id=${companyId}`;
   });
 
-  // Una sola petición para todas las métricas
   const {
     data: dashboardMetricsResponse,
     pending: loadingMetrics,
@@ -37,6 +21,33 @@ export const useMetricsStore = defineStore("metrics", () => {
   } = useFetch<DashboardMetricsResponse>(() => dashboardUrl.value || "", {
     lazy: true,
     watch: [() => companiesStore.currentCompany?.id],
+    transform: (data: unknown) => {
+      const typedData = data as DashboardMetricsResponse;
+
+      if (typedData.sales?.byPeriod) {
+        const result = SalesByPeriodArraySchema.safeParse(typedData.sales.byPeriod);
+        if (result.success) {
+          typedData.sales.byPeriod = result.data;
+        }
+        else {
+          console.error("Failed to parse sales by period:", result.error);
+          typedData.sales.byPeriod = [];
+        }
+      }
+
+      if (typedData.products?.topSelling) {
+        const result = TopSellingProductArraySchema.safeParse(typedData.products.topSelling);
+        if (result.success) {
+          typedData.products.topSelling = result.data;
+        }
+        else {
+          console.error("Failed to parse top selling products:", result.error);
+          typedData.products.topSelling = [];
+        }
+      }
+
+      return typedData;
+    },
   });
 
   const totalRevenue = computed(() => dashboardMetricsResponse.value?.revenue.total ?? null);
@@ -47,7 +58,7 @@ export const useMetricsStore = defineStore("metrics", () => {
   const salesByPeriod = computed(() => dashboardMetricsResponse.value?.sales.byPeriod ?? []);
   const totalSalesCount = computed(() => dashboardMetricsResponse.value?.sales.totalCount ?? 0);
 
-  const loadAllMetrics = async () => {
+  const loadAllMetrics = async (): Promise<{ success: boolean; error?: string }> => {
     try {
       await refreshMetrics();
 
@@ -85,6 +96,8 @@ export const useMetricsStore = defineStore("metrics", () => {
     }
     catch (error) {
       console.warn(error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      return { success: false, error: errorMessage };
     }
   };
 

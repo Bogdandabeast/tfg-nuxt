@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from "@nuxt/ui";
-import * as z from "zod";
 import { useAuthStore } from "~~/app/stores/auth";
+import { getSignupSchema } from "~~/utils/schemas/auth";
 import { ROUTES } from "~/utils/routes";
 
 definePageMeta({
@@ -9,6 +9,8 @@ definePageMeta({
 });
 
 const { t } = useI18n();
+
+const success = ref(false);
 
 useSeoMeta({
   title: t("signup.seo.title"),
@@ -34,24 +36,18 @@ const fields = [{
   placeholder: t("signup.form.password.placeholder"),
 }];
 
-const schema = z.object({
-  name: z.string().min(1, t("signup.validation.name_required")),
-  email: z.string().email(t("signup.validation.invalid_email")),
-  password: z.string().min(8, t("signup.validation.password_min")),
-});
+const schema = getSignupSchema(t);
 
-type Schema = z.output<typeof schema>;
+type Schema = typeof schema._output;
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  /* const success =  */await authStore.signUp(payload.data.name, payload.data.email, payload.data.password);
-  /* if (success) {
-    window.location.reload()
-  } */
+  success.value = !!(await authStore.signUp(payload.data.name, payload.data.email, payload.data.password));
 }
 </script>
 
 <template>
   <UAuthForm
+    v-if="!success"
     :fields="fields"
     :schema="schema"
     :title="t('signup.form.title')"
@@ -80,4 +76,23 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
       </ULink>.
     </template>
   </UAuthForm>
+  <UCard v-else variant="subtle">
+    <template #header>
+      <h1 class="text-center">
+        {{ t("signup.card.verify_email.title") }}
+      </h1>
+    </template>
+    {{ t("signup.card.verify_email.description") }}
+    <template #footer>
+      <div class="flex flex-col items-center gap-4">
+        <UButton
+          class="flex-1"
+          :label="t('signup.card.verify_email.resend_button')"
+          color="secondary"
+          variant="subtle"
+        />
+        <DashboardSignOut />
+      </div>
+    </template>
+  </UCard>
 </template>

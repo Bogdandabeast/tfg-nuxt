@@ -1,10 +1,6 @@
 import type { Company, NewCompany } from "~~/types/api";
-import { z } from "zod";
 import { getFetchErrorMessage } from "~~/utils/error-handler";
-
-const newCompanySchema = z.object({
-  name: z.string().min(1, "Name is required"),
-});
+import { companyCreateSchema } from "~~/utils/schemas/companies";
 
 export function useCompaniesApi() {
   const { $csrfFetch } = useNuxtApp();
@@ -12,7 +8,7 @@ export function useCompaniesApi() {
   const isDeleteCompanyLoading = ref(false);
 
   async function createCompany(companyData: NewCompany) {
-    const validation = newCompanySchema.safeParse(companyData);
+    const validation = companyCreateSchema.safeParse(companyData);
     if (!validation.success) {
       const toast = useToast();
       toast.add({
@@ -40,7 +36,7 @@ export function useCompaniesApi() {
     }
   }
 
-  async function deleteCompany(id: number) {
+  async function deleteCompany(id: string) {
     isDeleteCompanyLoading.value = true;
     try {
       await $csrfFetch(`/api/companies/${id}`, {

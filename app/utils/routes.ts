@@ -1,4 +1,3 @@
-// Route constants for the application
 export const ROUTES = {
   HOME: "/",
   LOGIN: "/login",
@@ -15,7 +14,6 @@ export const ROUTES = {
   SALES: "/dashboard/sales",
 } as const;
 
-// Helper functions for dynamic routes
 export const getProductPath = (id: string | number) => `${ROUTES.PRODUCTS}/${id}`;
 export const getCustomerPath = (id: string | number) => `${ROUTES.CUSTOMERS}/${id}`;
 export const getSalePath = (id: string | number) => `${ROUTES.SALES}/${id}`;
