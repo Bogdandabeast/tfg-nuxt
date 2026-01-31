@@ -334,6 +334,7 @@
     }
   },
   "companies": {
+    "companyId": "ID de la Empresa: {id}",
     "title": "Seleccionar Empresa",
     "loading": "Cargando empresas...",
     "choose": "Elige la empresa con la que deseas trabajar:",
@@ -359,6 +360,9 @@
       "title": "Error al cargar empresas",
       "description": "Ocurrió un error al cargar las empresas. Por favor, inténtalo de nuevo."
     }
+  },
+  "customers": {
+    "invalidId": "Por favor, ingresa un ID de Cliente válido para eliminar."
   },
   "dashboard": {
     "products": {
@@ -661,6 +665,8 @@
     "company": "Empresa {id}"
   },
   "products": {
+    "invalidId": "Por favor, ingresa un ID de Producto válido para eliminar.",
+    "id": "ID del Producto",
     "create": {
       "title": "Crear Producto",
       "description": "Formulario para crear un nuevo producto en el sistema CRM."

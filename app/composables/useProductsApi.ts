@@ -3,6 +3,8 @@ import { getFetchErrorMessage } from "~~/utils/error-handler";
 
 export function useProductsApi() {
   const { $csrfFetch } = useNuxtApp();
+  const toast = useToast();
+  const { t } = useI18n();
   const isCreateProductLoading = ref(false);
   const isUpdateProductLoading = ref(false);
   const isDeleteProductLoading = ref(false);
@@ -17,7 +19,12 @@ export function useProductsApi() {
       return response;
     }
     catch (error) {
-      getFetchErrorMessage(error);
+      const message = getFetchErrorMessage(error);
+      toast.add({
+        title: t("common.error") || "Error",
+        description: message,
+        color: "error",
+      });
       return null;
     }
     finally {
@@ -35,7 +42,12 @@ export function useProductsApi() {
       return response;
     }
     catch (error) {
-      getFetchErrorMessage(error);
+      const message = getFetchErrorMessage(error);
+      toast.add({
+        title: t("common.error") || "Error",
+        description: message,
+        color: "error",
+      });
       return null;
     }
     finally {
@@ -44,6 +56,14 @@ export function useProductsApi() {
   }
 
   async function deleteProduct(id: string) {
+    if (!id || typeof id !== "string" || id.trim() === "") {
+      toast.add({
+        title: t("common.error") || "Error",
+        description: t("products.invalidId") || "Please enter a valid Product ID to delete.",
+        color: "error",
+      });
+      return false;
+    }
     isDeleteProductLoading.value = true;
     try {
       const companiesStore = useCompaniesStore();
@@ -53,18 +73,17 @@ export function useProductsApi() {
       });
       const productsStore = useProductsStore();
       productsStore.refreshProducts();
-      const toast = useToast();
       toast.add({
-        title: "Success",
-        description: "Product deleted successfully!",
+        title: t("common.success") || "Success",
+        description: t("forms.productForm.deletedSuccess") || "Product deleted successfully!",
+        color: "success",
       });
       return true;
     }
     catch (error) {
       const message = getFetchErrorMessage(error);
-      const toast = useToast();
       toast.add({
-        title: "Error",
+        title: t("common.error") || "Error",
         description: message,
         color: "error",
       });

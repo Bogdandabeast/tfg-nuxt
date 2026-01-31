@@ -29,18 +29,6 @@ async function handleDeleteCustomers(CustomersId: string) {
     const success = await deleteCustomer(CustomersId);
     if (success === true) {
       await customersStore.refreshCustomers();
-      toast.add({
-        title: t("common.success"),
-        description: t("forms.customerForm.deletedSuccess"),
-        color: "success",
-      });
-    }
-    else {
-      toast.add({
-        title: t("common.error"),
-        description: t("forms.customerForm.deletedError"),
-        color: "error",
-      });
     }
   }
   finally {

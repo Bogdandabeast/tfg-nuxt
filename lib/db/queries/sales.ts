@@ -9,12 +9,12 @@ export async function createSale(data: typeof salesTable.$inferInsert) {
 
 export async function getSaleById(id: string, company_id: string): Promise<Sale | null> {
   const result = await db.select().from(salesTable).where(and(eq(salesTable.id, id), eq(salesTable.company_id, company_id))).limit(1);
-  return result[0] || null;
+  return result[0] ?? null;
 }
 
-export async function getSaleByIdOnly(id: string): Promise<Sale | undefined> {
+export async function getSaleByIdOnly(id: string): Promise<Sale | null> {
   const rows = await db.select().from(salesTable).where(eq(salesTable.id, id)).limit(1);
-  return rows[0];
+  return rows[0] ?? null;
 }
 
 export async function getSalesByCompanyId(company_id: string) {

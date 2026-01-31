@@ -28,11 +28,6 @@ async function handleDeleteProducts(ProductsId: string) {
     const success = await deleteProduct(ProductsId);
     if (success === true) {
       await productsStore.refreshProducts();
-      toast.add({
-        title: t("common.success"),
-        description: t("forms.productForm.deletedSuccess"),
-        color: "success",
-      });
     }
     else {
       // Error toast is already handled by useProductsApi

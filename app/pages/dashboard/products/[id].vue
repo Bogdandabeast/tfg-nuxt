@@ -36,6 +36,13 @@ async function handleDelete() {
       navigateTo(localePath(ROUTES.PRODUCTS));
     }
   }
+  catch (err: any) {
+    toast.add({
+      title: t("common.error"),
+      description: err.message || t("forms.productForm.deletedError"),
+      color: "error",
+    });
+  }
   finally {
     isDeleting.value = false;
     isDeleteModalOpen.value = false;
@@ -181,7 +188,7 @@ const tableColumns = [
                   {{ data.name }}
                 </h3>
                 <p class="text-sm text-gray-500">
-                  Product ID: {{ data.id }}
+                  {{ t('products.id') }}: {{ data.id }}
                 </p>
               </div>
               <UBadge :color="data.stock > 0 ? 'green' : 'red'" variant="subtle">

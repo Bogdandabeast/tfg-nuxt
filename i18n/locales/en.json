@@ -334,6 +334,7 @@
     }
   },
   "companies": {
+    "companyId": "Company ID: {id}",
     "title": "Select Company",
     "loading": "Loading companies...",
     "choose": "Choose the company you want to work with:",
@@ -359,6 +360,9 @@
       "title": "Error loading companies",
       "description": "An error occurred while loading companies. Please try again."
     }
+  },
+  "customers": {
+    "invalidId": "Please enter a valid Customer ID to delete."
   },
   "dashboard": {
     "products": {
@@ -652,6 +656,8 @@
     "company": "Company {id}"
   },
   "products": {
+    "invalidId": "Please enter a valid Product ID to delete.",
+    "id": "Product ID",
     "create": {
       "title": "Create Product",
       "description": "Form to create a new product in the CRM system."

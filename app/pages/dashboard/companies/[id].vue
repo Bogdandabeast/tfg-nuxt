@@ -178,7 +178,7 @@ const tableColumns = [
                   {{ data.name }}
                 </h3>
                 <p class="text-sm text-gray-500">
-                  Company ID: {{ data.id }}
+                  {{ t('companies.companyId', { id: data.id }) }}
                 </p>
               </div>
               <UBadge color="green" variant="subtle">

@@ -49,7 +49,7 @@ async function handleDelete() {
       });
     }
   }
-  catch (error) {
+  catch (err) {
     toast.add({
       title: t("common.error"),
       description: t("forms.saleForm.deletedError"),

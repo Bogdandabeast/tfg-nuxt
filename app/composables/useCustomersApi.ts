@@ -56,7 +56,7 @@ export function useCustomersApi() {
   }
 
   async function deleteCustomer(id: string) {
-    if (!id) {
+    if (!id || typeof id !== "string" || id.trim() === "") {
       toast.add({
         title: t("error.title") || "Error",
         description: t("customers.invalidId") || "Please enter a valid Customer ID to delete.",
@@ -74,16 +74,17 @@ export function useCustomersApi() {
       const customersStore = useCustomersStore();
       customersStore.refreshCustomers();
       toast.add({
-        title: "Success",
-        description: "Customer deleted successfully!",
+        title: t("common.success") || "Success",
+        description: t("forms.customerForm.deletedSuccess") || "Customer deleted successfully!",
+        color: "success",
       });
       return true;
     }
     catch (error) {
       const message = getFetchErrorMessage(error);
       toast.add({
-        title: t("error.title") || "Error",
-        description: t("error.generic") || message,
+        title: t("common.error") || "Error",
+        description: message,
         color: "error",
       });
       return false;
