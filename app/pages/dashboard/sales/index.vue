@@ -17,10 +17,10 @@ const { sales, pending: loadingSales } = storeToRefs(salesStore);
 
 const detailedSales = computed(() => {
   return sales.value?.map((sale) => {
-    const amount = Number(sale.unit_price) * sale.quantity;
+    const total = Number(sale.unit_price) * sale.quantity;
     return {
       ...sale,
-      amount,
+      total,
     };
   });
 });

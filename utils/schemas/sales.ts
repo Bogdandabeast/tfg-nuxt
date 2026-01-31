@@ -10,7 +10,7 @@ export const createSaleSchema = z.object({
   customer_name: z.string().min(1),
   company_id: z.string().uuid(),
   discount: z.number().nonnegative().optional(),
-  tax_rate: z.number().nonnegative().optional(),
+  tax_rate: z.number().nonnegative().max(1).optional(),
 });
 
 export const updateSaleSchema = z.object({
@@ -24,12 +24,12 @@ export const saleIdParamSchema = z.object({
   id: z.string().uuid(),
 });
 
-export const customerIdParamSchema = z.object({
+export const customerWithCompanyIdParamSchema = z.object({
   customer_id: z.string().uuid(),
   company_id: z.string().uuid(),
 });
 
-export const productIdParamSchema = z.object({
+export const productWithCompanyIdParamSchema = z.object({
   product_id: z.string().uuid(),
   company_id: z.string().uuid(),
 });

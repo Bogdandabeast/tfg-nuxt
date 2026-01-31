@@ -34,22 +34,30 @@ async function handleDelete() {
 
     if (success === true) {
       toast.add({
-
         title: t("common.success"),
-
         description: t("forms.saleForm.deletedSuccess"),
-
         color: "success",
-
       });
-
+      isDeleteModalOpen.value = false;
       navigateTo(localePath(ROUTES.SALES));
     }
+    else {
+      toast.add({
+        title: t("common.error"),
+        description: t("forms.saleForm.deletedError"),
+        color: "error",
+      });
+    }
+  }
+  catch (error) {
+    toast.add({
+      title: t("common.error"),
+      description: t("forms.saleForm.deletedError"),
+      color: "error",
+    });
   }
   finally {
     isDeleting.value = false;
-
-    isDeleteModalOpen.value = false;
   }
 }
 
@@ -92,6 +100,8 @@ const menuItems = computed(() => [
     label: t("actions.processRefund"),
 
     icon: ACTION_ICONS.processRefund,
+
+    disabled: true,
 
     click: () => {
 
@@ -266,18 +276,18 @@ const tableColumns = [
 
                 :src="undefined"
 
-                :alt="productData?.name || 'Sale'"
+                :alt="productData?.name || t('sale.defaultLabel')"
 
                 size="2xl"
 
-                :initials="(productData?.name || 'Sale').split(' ').map((n: string) => n[0]).join('').toUpperCase()"
+                :initials="(productData?.name || t('sale.defaultLabel')).split(' ').map((n: string) => n[0]).join('').toUpperCase()"
               />
               <div>
                 <h3 class="text-lg font-semibold">
-                  Sale #{{ saleData.id }}
+                  {{ t('sale.idLabel', { id: saleData.id }) }}
                 </h3>
                 <p class="text-sm text-gray-500">
-                  Sale Date: {{ new Date(saleData.sale_date).toLocaleDateString() }}
+                  {{ t('sale.dateLabel') }}: {{ new Date(saleData.sale_date).toLocaleDateString() }}
                 </p>
               </div>
               <UBadge color="green" variant="subtle">

@@ -19,7 +19,7 @@ export const useCompaniesStore = defineStore("companies", () => {
 
   function setCurrentCompany(company: Company | null) {
     currentCompany.value = company;
-    setSelectedCompanyId(company ? String(company.id) : null);
+    setSelectedCompanyId(company ? company.id : null);
   }
 
   watch(companies, (newCompanies) => {

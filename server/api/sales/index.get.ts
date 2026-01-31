@@ -2,7 +2,7 @@ import { getCompaniesByUserId } from "~~/lib/db/queries/company";
 import { getSalesByCompanyId, getSalesByCustomerId, getSalesByProductId } from "~~/lib/db/queries/sales";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { handleError } from "~~/utils/error-handler";
-import { companyIdParamSchema, customerIdParamSchema, productIdParamSchema } from "~~/utils/schemas/sales";
+import { companyIdParamSchema, customerWithCompanyIdParamSchema, productWithCompanyIdParamSchema } from "~~/utils/schemas/sales";
 
 export default defineAuthenticatedEventHandler(async (event) => {
   const query = getQuery(event);
@@ -13,7 +13,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const userCompanyIds = userCompanies.map(c => c.id);
 
     if (query.customer_id && query.company_id) {
-      const { customer_id, company_id } = await customerIdParamSchema.parseAsync(query);
+      const { customer_id, company_id } = await customerWithCompanyIdParamSchema.parseAsync(query);
       if (!userCompanyIds.includes(company_id)) {
         throw createError({ statusCode: 404, statusMessage: "Not Found" });
       }
@@ -22,7 +22,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
     }
 
     if (query.product_id && query.company_id) {
-      const { product_id, company_id } = await productIdParamSchema.parseAsync(query);
+      const { product_id, company_id } = await productWithCompanyIdParamSchema.parseAsync(query);
       if (!userCompanyIds.includes(company_id)) {
         throw createError({ statusCode: 404, statusMessage: "Not Found" });
       }

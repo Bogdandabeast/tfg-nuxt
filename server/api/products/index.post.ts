@@ -15,15 +15,19 @@ export default defineAuthenticatedEventHandler(async (event) => {
     const parsedData = productCreateSchema.parse(body);
 
     const companies = await getCompaniesByUserId(event.context.user.id);
-    const company = companies[0];
-    if (!company) {
-      throw createError({ statusCode: 404, statusMessage: "No companies found for user" });
+    const userCompanyIds = companies.map(c => c.id);
+
+    if (!parsedData.company_id || !userCompanyIds.includes(parsedData.company_id)) {
+      throw createError({
+        statusCode: 403,
+        statusMessage: "You do not have permission to create products for this company",
+      });
     }
 
     const data = {
       ...parsedData,
       price: String(parsedData.price),
-      company_id: company.id,
+      company_id: parsedData.company_id,
     };
 
     const [product] = await createProduct(data);

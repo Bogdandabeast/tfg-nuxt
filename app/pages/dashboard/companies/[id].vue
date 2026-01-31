@@ -205,30 +205,28 @@ const tableColumns = [
       </template>
     </UModal>
 
-    <UModal v-model="isDeleteModalOpen" :description="t('company.delete.description')">
-      <UCard>
-        <template #header>
-          <h3 class="text-lg font-semibold">
-            {{ t('company.delete.title') }}
-          </h3>
-        </template>
-        <p>{{ t('company.delete.description') }}</p>
-        <template #footer>
+    <UModal v-model:open="isDeleteModalOpen" :title="t('company.delete.title')">
+      <template #content>
+        <div class="p-4 space-y-4">
+          <p>{{ t('company.delete.description') }}</p>
           <div class="flex justify-end gap-2">
-            <UButton variant="ghost" @click="isDeleteModalOpen = false">
+            <UButton
+              color="neutral"
+              variant="soft"
+              @click="isDeleteModalOpen = false"
+            >
               {{ t('actions.cancel') }}
             </UButton>
             <UButton
               color="error"
               :loading="isDeleting"
-              :disabled="isDeleting"
               @click="handleDelete"
             >
               {{ t('actions.delete') }}
             </UButton>
           </div>
-        </template>
-      </UCard>
+        </div>
+      </template>
     </UModal>
   </UDashboardPanel>
 </template>

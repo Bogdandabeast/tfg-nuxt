@@ -1,4 +1,3 @@
-import type { NewCompany } from "~~/types/api";
 import { eq } from "drizzle-orm";
 import { db } from "../index";
 import { companiesTable } from "../schema/companies";
@@ -11,7 +10,7 @@ export async function getCompaniesByUserId(userId: string) {
   return db.select().from(companiesTable).where(eq(companiesTable.user_id, userId));
 }
 
-export async function updateCompany(id: string, data: Partial<NewCompany>) {
+export async function updateCompany(id: string, data: typeof companiesTable.$inferUpdate) {
   return db.update(companiesTable).set(data).where(eq(companiesTable.id, id)).returning();
 }
 

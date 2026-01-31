@@ -95,10 +95,11 @@ export const salesTable = pgTable("sales", {
   unit_price: numeric().notNull(),
   customer_name: text().notNull(),
   discount: numeric().notNull().default("0"),
-  tax_rate: numeric().notNull().default("0"),
+  tax_rate: numeric().notNull().default("0"), // Expected as decimal (e.g., 0.21 for 21%)
   currency: text().default("EUR"),
   total: numeric().generatedAlwaysAs(
     () =>
+      // Calculation: ((Price - Discount) * Quantity) * (1 + TaxRate)
       sql`((("unit_price" - "discount") * "quantity") * (1 + "tax_rate"))`,
   ),
 }, table => [

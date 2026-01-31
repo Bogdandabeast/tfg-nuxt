@@ -20,10 +20,13 @@ export function useBreadcrumbs() {
     } as const;
 
     const pathSegments = route.path.split("/").filter(Boolean);
+    const normalizedSegments = (pathSegments[0] === "es" || pathSegments[0] === "en")
+      ? pathSegments.slice(1)
+      : pathSegments;
 
     // Only add section breadcrumb if we are in a subpath of dashboard
-    if (pathSegments[0] === "dashboard" && pathSegments[1]) {
-      const sectionKey = pathSegments[1] as keyof typeof sectionMap;
+    if (normalizedSegments[0] === "dashboard" && normalizedSegments[1]) {
+      const sectionKey = normalizedSegments[1] as keyof typeof sectionMap;
       if (sectionMap[sectionKey]) {
         const section = sectionMap[sectionKey];
         items.push({

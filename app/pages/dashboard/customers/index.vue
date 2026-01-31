@@ -66,7 +66,7 @@ const columns: TableColumn<Customer>[] = [
     accessorKey: "actions",
     header: t("tables.headers.actions"),
     cell: ({ row }: TableCellContext<Customer>) => {
-      const customersId = customers.value?.[row.index]?.id;
+      const customersId = row.original.id;
       if (!customersId)
         return null;
       return h("div", { class: "flex gap-2" }, [

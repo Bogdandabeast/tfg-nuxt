@@ -35,11 +35,7 @@ async function handleDeleteProducts(ProductsId: string) {
       });
     }
     else {
-      toast.add({
-        title: t("common.error"),
-        description: String(success),
-        color: "error",
-      });
+      // Error toast is already handled by useProductsApi
     }
   }
   finally {
@@ -66,7 +62,7 @@ const columns: TableColumn<Product>[] = [
     accessorKey: "actions",
     header: t("tables.headers.actions"),
     cell: ({ row }: TableCellContext<Product>) => {
-      const ProductsId = products.value?.[row.index]?.id;
+      const ProductsId = row.original.id;
       if (!ProductsId)
         return null;
       return h("div", { class: "flex gap-2" }, [

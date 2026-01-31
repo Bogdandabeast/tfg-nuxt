@@ -53,6 +53,7 @@ const menuItems = computed(() => [
   {
     label: t("actions.updatePrice"),
     icon: ACTION_ICONS.updatePrice,
+    disabled: true,
     click: () => {
     },
   },
