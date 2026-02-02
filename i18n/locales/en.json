@@ -614,6 +614,8 @@
       "amount": "Amount",
       "unitPrice": "Unit Price",
       "total": "Total",
+      "discount": "Discount",
+      "tax_rate": "Tax Rate",
       "actions": "Actions"
     },
     "data": {

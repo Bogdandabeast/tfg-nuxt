@@ -28,7 +28,6 @@ const props = defineProps<{
       <DashboardMetricSkeleton
         :loading="props.loading"
         :value="stat.value"
-        :variation="stat.variation"
       />
     </UPageCard>
   </UPageGrid>

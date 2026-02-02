@@ -18,6 +18,8 @@ export const updateSaleSchema = z.object({
   product_id: z.string().uuid(),
   quantity: z.number().int().positive(),
   sale_date: z.string().date().transform(val => new Date(val)),
+  discount: z.number().nonnegative("validation.discountNonNegative").optional(),
+  tax_rate: z.number().nonnegative("validation.taxRateNonNegative").max(1, "validation.taxRateMax1").optional(),
 }).partial();
 
 export const saleIdParamSchema = z.object({

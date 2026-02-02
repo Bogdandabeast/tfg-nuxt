@@ -37,37 +37,37 @@ const statsData = computed<Stat[]>(() => [
     title: t("dashboard.metrics.customers"),
     icon: METRIC_ICONS.customers,
     value: totalCustomers.value ?? 0,
-    variation: 12,
+
   },
   {
     title: t("dashboard.metrics.newCustomers"),
     icon: METRIC_ICONS.customerGrowth,
     value: newCustomers.value ?? 0,
-    variation: 8,
+
   },
   {
     title: t("dashboard.metrics.revenue"),
     icon: METRIC_ICONS.revenue,
     value: totalRevenue.value ? `$${totalRevenue.value.toLocaleString()}` : 0,
-    variation: -5,
+
   },
   {
     title: t("dashboard.metrics.averageTicket"),
     icon: METRIC_ICONS.averageTicket,
     value: averageTicket.value ? `$${averageTicket.value.toFixed(2)}` : 0,
-    variation: 15,
+
   },
   {
     title: t("dashboard.metrics.topProduct"),
     icon: METRIC_ICONS.topProducts,
     value: topSellingProducts.value?.[0]?.name || "N/A",
-    variation: 0,
+
   },
   {
     title: t("dashboard.metrics.totalSales"),
     icon: METRIC_ICONS.salesByPeriod,
     value: totalSalesCount.value || 0,
-    variation: 0,
+
   },
 ]);
 
@@ -77,9 +77,9 @@ const allMetricsEmpty = computed(() => {
   }
   return (
     totalRevenue.value === 0
-    && totalCustomers.value === 0
+    && totalCustomers.value === "0"
     && newCustomers.value === 0
-    && averageTicket.value === 0
+    && (averageTicket.value === 0 || averageTicket.value === null)
     && (!topSellingProducts.value || topSellingProducts.value.length === 0)
     && (!salesByPeriod.value || salesByPeriod.value.length === 0)
     && totalSalesCount.value === 0

@@ -613,6 +613,8 @@
       "amount": "Monto",
       "unitPrice": "Precio Unitario",
       "total": "Total",
+      "discount": "Descuento",
+      "tax_rate": "Tasa de Impuestos",
       "actions": "Acciones"
     },
     "data": {

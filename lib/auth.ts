@@ -10,7 +10,7 @@ const baseURL = process.env.BETTER_AUTH_URL || "http://localhost:3000";
 export const auth = betterAuth({
   baseURL,
   trustedOrigins: [
-    baseURL,
+    "https://bogdanweb.dev",
     "http://localhost:3000",
   ],
   emailVerification: {
@@ -33,6 +33,11 @@ export const auth = betterAuth({
     autoSignInAfterVerification: true,
     expiresIn: 3600,
   },
+
+  advanced: {
+    disableOriginCheck: true,
+  },
+
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
       if (ctx.path === "/get-session") {

@@ -122,27 +122,24 @@ const menuItems = computed(() => [
 
 const UBadge = resolveComponent("UBadge");
 
-const tableData = computed<TableRowData[]>(() => [
+const tableData = computed<TableRowData[]>(() => {
+  const data: TableRowData[] = [
+    { label: t("tables.headers.id"), value: saleData.value?.id },
+    { label: t("tables.headers.customer"), value: customerData.value?.name || saleData.value?.customer_name },
+    { label: t("tables.headers.email"), value: customerData.value?.email },
+    { label: t("tables.headers.product"), value: productData.value?.name || saleData.value?.product_name },
+    { label: t("tables.headers.price"), value: saleData.value?.unit_price ?? productData.value?.price },
+    { label: t("tables.headers.quantity"), value: saleData.value?.quantity },
+    { label: t("tables.headers.discount"), value: saleData.value?.discount && Number(saleData.value.discount) !== 0 ? saleData.value.discount : null },
+    { label: t("tables.headers.tax_rate"), value: saleData.value?.tax_rate && Number(saleData.value.tax_rate) !== 0 ? saleData.value.tax_rate : null },
+    { label: t("tables.headers.total"), value: saleData.value?.total },
+    { label: t("tables.headers.date"), value: saleData.value?.sale_date ? new Date(saleData.value.sale_date).toLocaleString(locale.value) : null },
+    { label: t("tables.headers.description"), value: saleData.value?.description || saleData.value?.product_description },
+    { label: t("tables.headers.companyId"), value: saleData.value?.company_id },
+  ];
 
-  { label: t("tables.headers.id"), value: saleData.value?.id },
-
-  { label: t("tables.headers.customer"), value: customerData.value?.name || t("tables.data.loading") },
-
-  { label: t("tables.headers.email"), value: customerData.value?.email || t("tables.data.loading") },
-
-  { label: t("tables.headers.product"), value: productData.value?.name || t("tables.data.unknown") },
-
-  { label: t("tables.headers.price"), value: productData.value?.price != null ? `${productData.value.price}` : t("tables.data.loading") },
-
-  { label: t("tables.headers.stock"), value: productData.value?.stock ?? t("tables.data.loading") },
-
-  { label: t("tables.headers.quantity"), value: saleData.value?.quantity },
-
-  { label: t("tables.headers.date"), value: saleData.value?.sale_date ? new Date(saleData.value.sale_date).toLocaleString(locale.value) : t("tables.data.na") },
-
-  { label: t("tables.headers.companyId"), value: saleData.value?.company_id },
-
-]);
+  return data.filter(row => row.value != null && row.value !== "");
+});
 
 const tableColumns = [
 
@@ -318,7 +315,12 @@ const tableColumns = [
     <UModal v-model:open="isEditModalOpen" :title="t('actions.edit.sale')">
       <template #content>
         <div class="p-4">
-          <DashboardFormsSaleForm :initial-data="saleData" @success="isEditModalOpen = false" />
+          <DashboardFormsSaleForm
+            form-only
+            :initial-data="saleData"
+            @success="isEditModalOpen = false"
+            @cancel="isEditModalOpen = false"
+          />
         </div>
       </template>
     </UModal>
