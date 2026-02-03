@@ -128,47 +128,31 @@ function resetForm() {
     <FormErrorAlert :error="error" />
   </div>
 
-  <UModal
-    v-else
-    v-model:open="isCreateModalOpen"
-    :title="t('companies.create.title')"
-    :description="t('companies.create.description')"
-  >
-    <UButton
-      :label="t('dashboard.companies.create.button')"
-      color="primary"
-      variant="subtle"
-      @click="isCreateModalOpen = true"
-    />
-
-    <template #content>
-      <UCard class="mb-4">
-        <template #header>
-          <h3>{{ t('forms.companyForm.createTitle') }}</h3>
-        </template>
-
-        <div class="space-y-4">
-          <UFormField
-            :label="t('forms.companyForm.nameLabel')"
-            name="newCompanyName"
-          >
-            <UInput v-model="newCompany.name" :placeholder="t('forms.companyForm.namePlaceholder')" />
-          </UFormField>
-        </div>
-
-        <template #footer>
-          <UButton
-            :loading="isCreateCompanyLoading"
-            color="primary"
-            variant="subtle"
-            @click="submitHandler"
-          >
-            {{ t('forms.companyForm.createButton') }}
-          </UButton>
-        </template>
-      </UCard>
-
-      <FormErrorAlert :error="error" />
+  <UCard class="mb-4">
+    <template #header>
+      <h3>{{ t('forms.companyForm.createTitle') }}</h3>
     </template>
-  </UModal>
+
+    <div class="space-y-4">
+      <UFormField
+        :label="t('forms.companyForm.nameLabel')"
+        name="newCompanyName"
+      >
+        <UInput v-model="newCompany.name" :placeholder="t('forms.companyForm.namePlaceholder')" />
+      </UFormField>
+    </div>
+
+    <template #footer>
+      <UButton
+        :loading="isCreateCompanyLoading"
+        color="primary"
+        variant="subtle"
+        @click="submitHandler"
+      >
+        {{ t('forms.companyForm.createButton') }}
+      </UButton>
+    </template>
+  </UCard>
+
+  <FormErrorAlert :error="error" />
 </template>

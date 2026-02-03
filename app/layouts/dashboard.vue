@@ -61,34 +61,6 @@ const links = [
   ],
 
 ] satisfies NavigationMenuItem[][];
-
-onMounted(async () => {
-  const cookie = useCookie("cookie-consent");
-  if (cookie.value === "accepted") {
-    return;
-  }
-
-  toast.add({
-    title: t("cookieConsent.message"),
-    duration: 0,
-    close: false,
-    actions: [
-      {
-        label: t("cookieConsent.accept"),
-        color: "neutral",
-        variant: "outline",
-        onClick: () => {
-          cookie.value = "accepted";
-        },
-      },
-      {
-        label: t("cookieConsent.optOut"),
-        color: "neutral",
-        variant: "ghost",
-      },
-    ],
-  });
-});
 </script>
 
 <template>

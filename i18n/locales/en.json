@@ -453,7 +453,7 @@
       "addressLabel": "Address",
       "namePlaceholder": "Enter customer name",
       "emailPlaceholder": "Enter email",
-      "phonePlaceholder": "Enter phone number",
+      "phonePlaceholder": "e.g., +1234567890",
       "addressPlaceholder": "Enter address",
       "createButton": "Create Customer",
       "idLabel": "Customer ID",
@@ -654,12 +654,12 @@
     "resourceExists": "Resource already exists",
     "cannotDeleteInUse": "Cannot delete this item because it is currently in use"
   },
-  "validation": {
-    "invalidEmail": "Invalid email",
-    "tooShort": "Too short",
-    "nameRequired": "Name is required"
-  },
-  "breadcrumbs": {
+      "validation": {
+        "invalidEmail": "Invalid email",
+        "tooShort": "Too short",
+        "nameRequired": "Name is required",
+        "invalidPhone": "Invalid phone number (E.164 format required, e.g., +1234567890)"
+      },  "breadcrumbs": {
     "dashboard": "Dashboard",
     "customers": "Customers",
     "customer": "Customer {id}",
