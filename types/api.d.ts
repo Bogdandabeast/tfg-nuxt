@@ -101,7 +101,7 @@ export type TableCellContext<T = unknown> = {
 
 export type DashboardMetricsResponse = {
   revenue: { total: number; error?: string };
-  customers: { total: string; new: number; error?: string };
+  customers: { total: number; new: number; error?: string };
   sales: { averageTicket: number; byPeriod: SalesByPeriod[]; totalCount: number; error?: string };
   products: { topSelling: TopSellingProduct[]; error?: string };
   meta?: {

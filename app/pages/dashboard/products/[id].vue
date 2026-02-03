@@ -104,7 +104,7 @@ const tableColumns = [
 
       if (label === t("tables.headers.stock")) {
         const stockValue = Number(value);
-        const status = stockValue > 0 ? t("product.inStock") : t("product.outOfStock");
+        const status = stockValue > 0 ? t("details.product.inStock") : t("details.product.outOfStock");
         return h("span", {}, `${stockValue} (${status})`);
       }
 
@@ -188,11 +188,12 @@ const tableColumns = [
                   {{ t('products.id') }}: {{ data.id }}
                 </p>
               </div>
-              <UBadge :color="data.stock > 0 ? 'green' : 'red'" variant="subtle">
-                {{ data.stock > 0 ? t('product.inStock') : t('product.outOfStock') }}
-              </UBadge>
 
-              <UModal v-model:open="isEditModalOpen" :title="t('actions.edit.product')">
+              <UModal
+                v-model:open="isEditModalOpen"
+                :title="t('actions.edit.product')"
+                :description="t('actions.edit.product')"
+              >
                 <UButton
                   :label="t('actions.edit.product')"
                   color="secondary"
@@ -210,7 +211,11 @@ const tableColumns = [
                 </template>
               </UModal>
 
-              <UModal v-model:open="isDeleteModalOpen" :title="t('actions.delete.product')">
+              <UModal
+                v-model:open="isDeleteModalOpen"
+                :title="t('actions.delete.product')"
+                :description="t('actions.delete.product')"
+              >
                 <UButton
                   :label="t('actions.delete.product')"
                   color="error"

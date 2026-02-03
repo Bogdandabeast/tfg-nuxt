@@ -10,7 +10,7 @@ export const createSaleSchema = z.object({
   customer_name: z.string().trim().min(1),
   company_id: z.string().uuid(),
   discount: z.coerce.number().min(0).optional().default(0),
-  tax_rate: z.coerce.number().min(0).optional().default(0),
+  tax_rate: z.coerce.number().min(0).max(1).optional(),
 });
 
 export const updateSaleSchema = z.object({
@@ -18,8 +18,8 @@ export const updateSaleSchema = z.object({
   product_id: z.string().uuid(),
   quantity: z.number().int().positive(),
   sale_date: z.string().date().transform(val => new Date(val)),
-  discount: z.string().optional(),
-  tax_rate: z.string().optional(),
+  discount: z.coerce.number().min(0).optional().default(0),
+  tax_rate: z.coerce.number().min(0).max(1).optional(),
 }).partial();
 
 export const saleIdParamSchema = z.object({

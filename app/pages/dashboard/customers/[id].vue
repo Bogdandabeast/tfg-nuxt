@@ -170,7 +170,11 @@ const tableColumns = [
                 {{ t('tables.data.active') }}
               </UBadge>
 
-              <UModal v-model:open="isEditModalOpen" :title="t('actions.edit.customer')">
+              <UModal
+                v-model:open="isEditModalOpen"
+                :title="t('actions.edit.customer')"
+                :description="t('actions.edit.customer')"
+              >
                 <UButton
                   :label="t('actions.edit.customer')"
                   color="secondary"
@@ -188,7 +192,11 @@ const tableColumns = [
                 </template>
               </UModal>
 
-              <UModal v-model:open="isDeleteModalOpen" :title="t('actions.delete.customer')">
+              <UModal
+                v-model:open="isDeleteModalOpen"
+                :title="t('actions.delete.customer')"
+                :description="t('actions.delete.customer')"
+              >
                 <UButton
                   :label="t('actions.delete.customer')"
                   color="error"
@@ -210,7 +218,7 @@ const tableColumns = [
                         :loading="isDeleting"
                         @click="handleDelete"
                       >
-                        {{ t('actions.delete') }}
+                        {{ t('actions.delete.customer') }}
                       </UButton>
                     </div>
                   </div>

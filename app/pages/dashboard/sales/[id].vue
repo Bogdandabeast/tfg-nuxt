@@ -266,34 +266,13 @@ const tableColumns = [
         <UCard v-else-if="saleData">
           <template #header>
             <div class="flex items-center gap-3">
-              <UAvatar
-
-                :src="undefined"
-
-                :alt="productData?.name || t('sale.defaultLabel')"
-
-                size="2xl"
-
-                :initials="(() => {
-
-                  const name = productData?.name || t('sale.defaultLabel');
-
-                  const tokens = name.trim().split(/\s+/).filter(Boolean);
-
-                  if (tokens.length === 0) return t('sale.defaultLabel').charAt(0).toUpperCase();
-
-                  return tokens.map((n: string) => n[0]).join('').toUpperCase();
-
-                })()"
-              />
-
               <div>
                 <h3 class="text-lg font-semibold">
-                  {{ t('sale.idLabel', { id: saleData.id }) }}
+                  {{ t('forms.saleForm.idLabel', { id: saleData.id }) }}
                 </h3>
 
                 <p class="text-sm text-gray-500">
-                  {{ t('sale.dateLabel') }}: {{ new Date(saleData.sale_date).toLocaleString(locale) }}
+                  {{ t('forms.saleForm.saleDateLabel') }}: {{ new Date(saleData.sale_date).toLocaleString(locale) }}
                 </p>
               </div>
 

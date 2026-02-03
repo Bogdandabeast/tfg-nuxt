@@ -568,6 +568,7 @@
         "title": "Error cargando empresa",
         "description": "Ocurrió un error"
       },
+
       "notFound": {
         "title": "Empresa no encontrada",
         "description": "La empresa solicitada no pudo ser encontrada."
@@ -580,22 +581,25 @@
   },
   "actions": {
     "more": "Más acciones",
+    "save": "Guardar",
+    "cancel": "Cancelar",
     "edit": {
-      "customer": "Editar Cliente",
-      "product": "Editar Producto",
-      "sale": "Editar Venta",
-      "company": "Editar Empresa"
+      "customer": "Editar cliente",
+      "product": "Editar producto",
+      "sale": "Editar venta",
+      "company": "Editar empresa"
     },
-    "sendEmail": "Enviar Correo",
-    "updatePrice": "Actualizar Precio",
-    "processRefund": "Procesar Reembolso",
+    "sendEmail": "Enviar correo",
+    "updatePrice": "Actualizar precio",
+    "processRefund": "Procesar reembolso",
     "delete": {
-      "customer": "Eliminar Cliente",
-      "product": "Eliminar Producto",
-      "sale": "Eliminar Venta",
-      "company": "Eliminar Empresa"
+      "customer": "Eliminar cliente",
+      "product": "Eliminar producto",
+      "sale": "Eliminar venta",
+      "company": "Eliminar empresa"
     }
   },
+
   "tables": {
     "headers": {
       "id": "ID",
