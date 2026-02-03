@@ -51,8 +51,7 @@ async function submitHandler() {
   if (isEditing.value && props.initialData) {
     const updatedCompany = await updateCompany(props.initialData.id, result.data);
     if (updatedCompany) {
-      // Refresh companies list if needed
-      // companiesStore.refreshCompanies();
+      await companiesStore.refreshCompanies();
       toast.add({
         title: t("common.success"),
         description: t("forms.companyForm.updatedSuccess"),
