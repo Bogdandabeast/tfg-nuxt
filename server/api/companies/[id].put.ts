@@ -23,7 +23,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
     }
 
     if (company.user_id !== userId) {
-      throw createError({ statusCode: 403, statusMessage: "Forbidden: You don't own this company" });
+      throw createError({ statusCode: 404, statusMessage: "Not Found" });
     }
 
     const [updatedCompany] = await updateCompany(id, parsedData);
