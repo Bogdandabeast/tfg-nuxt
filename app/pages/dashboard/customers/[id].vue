@@ -10,11 +10,23 @@ const route = useRoute();
 const customerId = route.params.id as string;
 
 const customersStore = useCustomersStore();
-const { data, pending, error } = customersStore.getCustomerById(customerId);
+const companiesStore = useCompaniesStore();
+const { data, pending, error, refresh } = customersStore.getCustomerById(customerId);
 
 const { t } = useI18n();
 const { deleteCustomer } = useCustomersApi();
 const localePath = useLocalePath();
+
+watch([data, error, () => companiesStore.currentCompany?.id], ([newData, newError, currentCompanyId]) => {
+  if (newError) {
+    navigateTo(localePath(ROUTES.CUSTOMERS));
+    return;
+  }
+
+  if (newData && currentCompanyId && newData.company_id !== currentCompanyId) {
+    navigateTo(localePath(ROUTES.CUSTOMERS));
+  }
+}, { immediate: true });
 
 const isDeleteModalOpen = ref(false);
 const isEditModalOpen = ref(false);
@@ -169,6 +181,61 @@ const tableColumns = [
               <UBadge color="blue" variant="subtle">
                 {{ t('tables.data.active') }}
               </UBadge>
+
+              <UModal
+                v-model:open="isEditModalOpen"
+                :title="t('actions.edit.customer')"
+                :description="t('actions.edit.customer')"
+              >
+                <UButton
+                  :label="t('actions.edit.customer')"
+                  color="secondary"
+                  variant="subtle"
+                />
+                <template #content>
+                  <div class="p-4">
+                    <DashboardFormsCustomerForm
+                      form-only
+                      :initial-data="data"
+                      @success="() => { isEditModalOpen = false; refresh(); }"
+                      @cancel="isEditModalOpen = false"
+                    />
+                  </div>
+                </template>
+              </UModal>
+
+              <UModal
+                v-model:open="isDeleteModalOpen"
+                :title="t('actions.delete.customer')"
+                :description="t('actions.delete.customer')"
+              >
+                <UButton
+                  :label="t('actions.delete.customer')"
+                  color="error"
+                  variant="subtle"
+                />
+                <template #content>
+                  <div class="p-4 space-y-4">
+                    <p>{{ t('common.deleteConfirmation') }}</p>
+                    <div class="flex justify-end gap-2">
+                      <UButton
+                        color="neutral"
+                        variant="soft"
+                        @click="isDeleteModalOpen = false"
+                      >
+                        {{ t('actions.cancel') }}
+                      </UButton>
+                      <UButton
+                        color="error"
+                        :loading="isDeleting"
+                        @click="handleDelete"
+                      >
+                        {{ t('actions.delete.customer') }}
+                      </UButton>
+                    </div>
+                  </div>
+                </template>
+              </UModal>
             </div>
           </template>
 
@@ -180,37 +247,5 @@ const tableColumns = [
         </UCard>
       </div>
     </div>
-
-    <UModal v-model:open="isEditModalOpen" :title="t('actions.edit.customer')">
-      <template #content>
-        <div class="p-4">
-          <DashboardFormsCustomerForm :initial-data="data" @success="isEditModalOpen = false" />
-        </div>
-      </template>
-    </UModal>
-
-    <UModal v-model:open="isDeleteModalOpen" :title="t('actions.delete.customer')">
-      <template #content>
-        <div class="p-4 space-y-4">
-          <p>{{ t('common.deleteConfirmation') }}</p>
-          <div class="flex justify-end gap-2">
-            <UButton
-              color="neutral"
-              variant="soft"
-              @click="isDeleteModalOpen = false"
-            >
-              {{ t('actions.cancel') }}
-            </UButton>
-            <UButton
-              color="error"
-              :loading="isDeleting"
-              @click="handleDelete"
-            >
-              {{ t('actions.delete') }}
-            </UButton>
-          </div>
-        </div>
-      </template>
-    </UModal>
   </UDashboardPanel>
 </template>

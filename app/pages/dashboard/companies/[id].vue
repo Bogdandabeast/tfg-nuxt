@@ -10,12 +10,18 @@ const route = useRoute();
 const companyId = route.params.id as string;
 
 const companiesStore = useCompaniesStore();
-const { data, pending, error } = companiesStore.getCompanyById(companyId);
+const { data, pending, error, refresh } = companiesStore.getCompanyById(companyId);
 
 const { t } = useI18n();
 const { deleteCompany } = useCompaniesApi();
 const toast = useToast();
 const localePath = useLocalePath();
+
+watch(error, (newError) => {
+  if (newError) {
+    navigateTo(localePath(ROUTES.COMPANIES));
+  }
+});
 
 const isDeleteModalOpen = ref(false);
 const isEditModalOpen = ref(false);
@@ -184,6 +190,54 @@ const tableColumns = [
               <UBadge color="green" variant="subtle">
                 {{ t('status.active') }}
               </UBadge>
+
+              <UModal v-model:open="isEditModalOpen" :title="t('actions.edit.company')">
+                <UButton
+                  :label="t('actions.edit.company')"
+                  color="secondary"
+                  variant="subtle"
+                />
+                <template #content>
+                  <div class="p-4">
+                    <DashboardFormsCompanyForm
+                      form-only
+                      :initial-data="data"
+                      @success="() => { isEditModalOpen = false; refresh(); }"
+                      @cancel="isEditModalOpen = false"
+                    />
+                  </div>
+                </template>
+              </UModal>
+
+              <UModal v-model:open="isDeleteModalOpen" :title="t('company.delete.title')">
+                <UButton
+                  :label="t('actions.delete.company')"
+                  color="error"
+                  variant="subtle"
+                  :disabled="companiesStore.currentCompany?.id === companyId"
+                />
+                <template #content>
+                  <div class="p-4 space-y-4">
+                    <p>{{ t('company.delete.description') }}</p>
+                    <div class="flex justify-end gap-2">
+                      <UButton
+                        color="neutral"
+                        variant="soft"
+                        @click="isDeleteModalOpen = false"
+                      >
+                        {{ t('actions.cancel') }}
+                      </UButton>
+                      <UButton
+                        color="error"
+                        :loading="isDeleting"
+                        @click="handleDelete"
+                      >
+                        {{ t('actions.delete') }}
+                      </UButton>
+                    </div>
+                  </div>
+                </template>
+              </UModal>
             </div>
           </template>
 
@@ -195,37 +249,5 @@ const tableColumns = [
         </UCard>
       </div>
     </div>
-
-    <UModal v-model:open="isEditModalOpen" :title="t('actions.edit.company')">
-      <template #content>
-        <div class="p-4">
-          <DashboardFormsCompanyForm :initial-data="data" @success="isEditModalOpen = false" />
-        </div>
-      </template>
-    </UModal>
-
-    <UModal v-model:open="isDeleteModalOpen" :title="t('company.delete.title')">
-      <template #content>
-        <div class="p-4 space-y-4">
-          <p>{{ t('company.delete.description') }}</p>
-          <div class="flex justify-end gap-2">
-            <UButton
-              color="neutral"
-              variant="soft"
-              @click="isDeleteModalOpen = false"
-            >
-              {{ t('actions.cancel') }}
-            </UButton>
-            <UButton
-              color="error"
-              :loading="isDeleting"
-              @click="handleDelete"
-            >
-              {{ t('actions.delete') }}
-            </UButton>
-          </div>
-        </div>
-      </template>
-    </UModal>
   </UDashboardPanel>
 </template>

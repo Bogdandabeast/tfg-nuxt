@@ -10,12 +10,24 @@ const route = useRoute();
 const productId = route.params.id as string;
 
 const productsStore = useProductsStore();
-const { data, pending, error } = productsStore.getProductById(productId);
+const companiesStore = useCompaniesStore();
+const { data, pending, error, refresh } = productsStore.getProductById(productId);
 
 const { t } = useI18n();
 const { deleteProduct } = useProductsApi();
 const toast = useToast();
 const localePath = useLocalePath();
+
+watch([data, error, () => companiesStore.currentCompany?.id], ([newData, newError, currentCompanyId]) => {
+  if (newError) {
+    navigateTo(localePath(ROUTES.PRODUCTS));
+    return;
+  }
+
+  if (newData && currentCompanyId && newData.company_id !== currentCompanyId) {
+    navigateTo(localePath(ROUTES.PRODUCTS));
+  }
+}, { immediate: true });
 
 const isDeleteModalOpen = ref(false);
 const isEditModalOpen = ref(false);
@@ -104,7 +116,7 @@ const tableColumns = [
 
       if (label === t("tables.headers.stock")) {
         const stockValue = Number(value);
-        const status = stockValue > 0 ? t("product.inStock") : t("product.outOfStock");
+        const status = stockValue > 0 ? t("details.product.inStock") : t("details.product.outOfStock");
         return h("span", {}, `${stockValue} (${status})`);
       }
 
@@ -188,9 +200,61 @@ const tableColumns = [
                   {{ t('products.id') }}: {{ data.id }}
                 </p>
               </div>
-              <UBadge :color="data.stock > 0 ? 'green' : 'red'" variant="subtle">
-                {{ data.stock > 0 ? t('product.inStock') : t('product.outOfStock') }}
-              </UBadge>
+
+              <UModal
+                v-model:open="isEditModalOpen"
+                :title="t('actions.edit.product')"
+                :description="t('actions.edit.product')"
+              >
+                <UButton
+                  :label="t('actions.edit.product')"
+                  color="secondary"
+                  variant="subtle"
+                />
+                <template #content>
+                  <div class="p-4">
+                    <DashboardFormsProductForm
+                      form-only
+                      :initial-data="data"
+                      @success="() => { isEditModalOpen = false; refresh(); }"
+                      @cancel="isEditModalOpen = false"
+                    />
+                  </div>
+                </template>
+              </UModal>
+
+              <UModal
+                v-model:open="isDeleteModalOpen"
+                :title="t('actions.delete.product')"
+                :description="t('actions.delete.product')"
+              >
+                <UButton
+                  :label="t('actions.delete.product')"
+                  color="error"
+                  variant="subtle"
+                />
+                <template #content>
+                  <div class="p-4 space-y-4">
+                    <p>{{ t('common.deleteConfirmation') }}</p>
+                    <div class="flex justify-end gap-2">
+                      <UButton
+                        color="neutral"
+                        variant="soft"
+                        @click="isDeleteModalOpen = false"
+                      >
+                        {{ t('actions.cancel') }}
+                      </UButton>
+                      <UButton
+                        color="error"
+                        :loading="isDeleting"
+                        @click="handleDelete"
+                      >
+                        {{ t('actions.delete.product') }}
+                      </UButton>
+                    </div>
+                  </div>
+                </template>
+              </UModal>
             </div>
           </template>
 
@@ -202,37 +266,5 @@ const tableColumns = [
         </UCard>
       </div>
     </div>
-
-    <UModal v-model:open="isEditModalOpen" :title="t('actions.edit.product')">
-      <template #content>
-        <div class="p-4">
-          <DashboardFormsProductForm :initial-data="data" @success="isEditModalOpen = false" />
-        </div>
-      </template>
-    </UModal>
-
-    <UModal v-model:open="isDeleteModalOpen" :title="t('actions.delete.product')">
-      <template #content>
-        <div class="p-4 space-y-4">
-          <p>{{ t('common.deleteConfirmation') }}</p>
-          <div class="flex justify-end gap-2">
-            <UButton
-              color="neutral"
-              variant="soft"
-              @click="isDeleteModalOpen = false"
-            >
-              {{ t('actions.cancel') }}
-            </UButton>
-            <UButton
-              color="error"
-              :loading="isDeleting"
-              @click="handleDelete"
-            >
-              {{ t('actions.delete') }}
-            </UButton>
-          </div>
-        </div>
-      </template>
-    </UModal>
   </UDashboardPanel>
 </template>

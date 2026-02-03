@@ -1,33 +1,41 @@
 <script setup lang="ts">
-import { companyCreateSchema, companyIdParamSchema } from "~~/utils/schemas/companies";
+import type { Company } from "~~/types/api";
+import { companyCreateSchema } from "~~/utils/schemas/companies";
 import FormErrorAlert from "./FormErrorAlert.vue";
 
-type Props = {
-  onSubmit?: (data: { name: string }) => Promise<void>;
-  onDelete?: (id: string) => Promise<void>;
-  loading?: boolean;
-  deleteLoading?: boolean;
-};
+const props = defineProps<{
+  initialData?: Company;
+  formOnly?: boolean;
+}>();
 
-const props = withDefaults(defineProps<Props>(), {
-  onSubmit: undefined,
-  onDelete: undefined,
-  loading: false,
-  deleteLoading: false,
-});
+const emit = defineEmits<{
+  (e: "success", company: Company): void;
+  (e: "cancel"): void;
+}>();
 
 const { t } = useI18n();
+const companiesStore = useCompaniesStore();
 const toast = useToast();
+const { isCreateCompanyLoading, isUpdateCompanyLoading, createCompany, updateCompany } = useCompaniesApi();
+
+const isCreateModalOpen = ref(false);
+
+const isEditing = computed(() => !!props.initialData);
 
 const newCompany = reactive({
   name: "",
 });
-const companyToDelete = reactive({
-  id: "",
-});
+
 const error = ref("");
 
-async function createCompanyHandler() {
+// Initialize form if initialData is provided
+watch(() => props.initialData, (data) => {
+  if (data) {
+    newCompany.name = data.name;
+  }
+}, { immediate: true });
+
+async function submitHandler() {
   const result = companyCreateSchema.safeParse(newCompany);
   if (!result.success) {
     const errorMessage = t(result.error.issues[0]?.message || "common.error");
@@ -40,55 +48,86 @@ async function createCompanyHandler() {
     return;
   }
 
-  if (props.onSubmit) {
-    error.value = "";
-    try {
-      await props.onSubmit({ name: result.data.name });
-      newCompany.name = "";
-    }
-    catch {
-      error.value = t("forms.companyForm.submitFailed");
+  if (isEditing.value && props.initialData) {
+    const updatedCompany = await updateCompany(props.initialData.id, result.data);
+    if (updatedCompany) {
+      await companiesStore.refreshCompanies();
       toast.add({
-        title: t("common.error"),
-        description: t("forms.companyForm.submitFailed"),
-        color: "error",
+        title: t("common.success"),
+        description: t("forms.companyForm.updatedSuccess"),
+        color: "success",
       });
+      error.value = "";
+      emit("success", updatedCompany);
+      if (!props.formOnly) {
+        isCreateModalOpen.value = false;
+      }
+    }
+  }
+  else {
+    const resultApi = await createCompany(result.data);
+    if (resultApi) {
+      await companiesStore.refreshCompanies();
+      resetForm();
+      toast.add({
+        title: t("common.success"),
+        description: t("forms.companyForm.createdSuccess"),
+        color: "success",
+      });
+      error.value = "";
+      emit("success", resultApi);
+      if (!props.formOnly) {
+        isCreateModalOpen.value = false;
+      }
     }
   }
 }
 
-async function deleteCompanyHandler() {
-  const result = companyIdParamSchema.safeParse(companyToDelete);
-  if (!result.success) {
-    const errorMessage = t("forms.companyForm.idInvalid");
-    error.value = errorMessage;
-    toast.add({
-      title: t("common.error"),
-      description: errorMessage,
-      color: "error",
-    });
-    return;
-  }
-
-  if (props.onDelete) {
-    error.value = "";
-    try {
-      await props.onDelete(result.data.id);
-      companyToDelete.id = "";
-    }
-    catch {
-      error.value = t("forms.companyForm.deleteFailed");
-      toast.add({
-        title: t("common.error"),
-        description: t("forms.companyForm.deleteFailed"),
-        color: "error",
-      });
-    }
-  }
+function resetForm() {
+  newCompany.name = "";
 }
 </script>
 
 <template>
+  <div v-if="props.formOnly">
+    <UCard class="mb-4">
+      <template #header>
+        <h3>{{ isEditing ? t('actions.edit.company') : t('forms.companyForm.createTitle') }}</h3>
+      </template>
+
+      <div class="space-y-4">
+        <UFormField
+          :label="t('forms.companyForm.nameLabel')"
+          name="newCompanyName"
+        >
+          <UInput v-model="newCompany.name" :placeholder="t('forms.companyForm.namePlaceholder')" />
+        </UFormField>
+      </div>
+
+      <template #footer>
+        <div class="flex justify-end gap-2">
+          <UButton
+            v-if="isEditing"
+            color="neutral"
+            variant="soft"
+            @click="emit('cancel')"
+          >
+            {{ t('actions.cancel') }}
+          </UButton>
+          <UButton
+            :loading="isCreateCompanyLoading || isUpdateCompanyLoading"
+            color="primary"
+            variant="subtle"
+            @click="submitHandler"
+          >
+            {{ isEditing ? t('actions.save') : t('forms.companyForm.createButton') }}
+          </UButton>
+        </div>
+      </template>
+    </UCard>
+    <FormErrorAlert :error="error" />
+  </div>
+
   <UCard class="mb-4">
     <template #header>
       <h3>{{ t('forms.companyForm.createTitle') }}</h3>
@@ -105,38 +144,12 @@ async function deleteCompanyHandler() {
 
     <template #footer>
       <UButton
-        :loading="props.loading"
+        :loading="isCreateCompanyLoading"
         color="primary"
         variant="subtle"
-        @click="createCompanyHandler"
+        @click="submitHandler"
       >
         {{ t('forms.companyForm.createButton') }}
-      </UButton>
-    </template>
-  </UCard>
-
-  <UCard v-if="props.onDelete">
-    <template #header>
-      <h3>{{ t('forms.companyForm.deleteTitle') }}</h3>
-    </template>
-
-    <div class="space-y-4">
-      <UFormField
-        :label="t('forms.companyForm.idLabel')"
-        name="companyToDeleteId"
-      >
-        <UInput v-model="companyToDelete.id" :placeholder="t('forms.companyForm.idPlaceholder')" />
-      </UFormField>
-    </div>
-
-    <template #footer>
-      <UButton
-        :loading="props.deleteLoading"
-        color="primary"
-        variant="subtle"
-        @click="deleteCompanyHandler"
-      >
-        {{ t('forms.companyForm.deleteButton') }}
       </UButton>
     </template>
   </UCard>

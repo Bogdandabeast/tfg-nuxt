@@ -49,6 +49,7 @@ const featuresPremium = computed(() => [
 
 <template>
   <div>
+    <LazyLandingStarsBg />
     <UPageHero
       :title="t('pricing.hero.title')"
       :description="t('pricing.hero.description')"

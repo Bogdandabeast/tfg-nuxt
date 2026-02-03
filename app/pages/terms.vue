@@ -8,10 +8,10 @@ const breadcrumbItems = [{
   to: "/",
 }, {
   label: t("legal.title"),
-  to: "/legal",
+  to: "/legal", // Assuming a legal page exists
 }, {
   label: t("legal.terms_and_conditions"),
-  to: "/terms",
+  to: "/terms", // Corrected path
 }];
 
 const accordionItems = [{
@@ -32,13 +32,11 @@ const accordionItems = [{
 
 <template>
   <UPage>
-    <UPageHeader
+    <LazyLandingStarsBg />
+    <UPageSection
       :title="t('terms.title')"
       :description="t('terms.description')"
-      :links="breadcrumbItems"
-    />
-
-    <UPageBody>
+    >
       <UContainer class="py-8 overflow-y-auto">
         <UAlert
           :icon="UI_ICONS.notification"
@@ -104,7 +102,7 @@ const accordionItems = [{
           </p>
         </UCard>
       </UContainer>
-    </UPageBody>
+    </UPageSection>
 
     <UContentSurround
       :surround="[{

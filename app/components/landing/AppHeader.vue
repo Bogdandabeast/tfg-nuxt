@@ -15,6 +15,10 @@ const items = computed(() => [
     label: t("header.pricing"),
     to: useLocalePath()(ROUTES.PRICING),
   },
+  {
+    label: t("header.legal"),
+    to: useLocalePath()(ROUTES.TERMS),
+  },
 ]);
 </script>
 

@@ -29,6 +29,7 @@ export const useSalesStore = defineStore("sales", () => {
     data: currentSaleResponse,
     pending: currentSalePending,
     error: currentSaleError,
+    refresh: refreshCurrentSale,
   } = useFetch<{ sale: Sale }>(() => currentSaleId.value ? `/api/sales/${currentSaleId.value}` : "", {
     lazy: true,
   });
@@ -39,6 +40,7 @@ export const useSalesStore = defineStore("sales", () => {
       data: computed(() => currentSaleResponse.value?.sale || null),
       pending: currentSalePending,
       error: currentSaleError,
+      refresh: refreshCurrentSale,
     };
   };
 
@@ -47,5 +49,6 @@ export const useSalesStore = defineStore("sales", () => {
     pending,
     refreshSales: refresh,
     getSaleById,
+    refreshCurrentSale,
   };
 });

@@ -17,3 +17,8 @@ export async function updateCompany(id: string, data: Partial<typeof companiesTa
 export async function deleteCompany(id: string) {
   return db.delete(companiesTable).where(eq(companiesTable.id, id)).returning();
 }
+
+export async function getCompanyById(id: string): Promise<Company | null> {
+  const result = await db.select().from(companiesTable).where(eq(companiesTable.id, id)).limit(1);
+  return result[0] || null;
+}

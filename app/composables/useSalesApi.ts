@@ -6,6 +6,7 @@ export function useSalesApi() {
   const { $csrfFetch } = useNuxtApp();
   const isCreateSaleLoading = ref(false);
   const isDeleteSaleLoading = ref(false);
+  const isUpdateSaleLoading = ref(false);
 
   async function createSale(saleData: NewSale) {
     isCreateSaleLoading.value = true;
@@ -22,6 +23,24 @@ export function useSalesApi() {
     }
     finally {
       isCreateSaleLoading.value = false;
+    }
+  }
+
+  async function updateSale(id: string, saleData: Partial<NewSale>) {
+    isUpdateSaleLoading.value = true;
+    try {
+      const response = await $csrfFetch<{ sale: Sale }>(`/api/sales/${id}`, {
+        method: "PUT",
+        body: saleData,
+      });
+      return response.sale;
+    }
+    catch (error) {
+      handleApiError(error, "sales");
+      return null;
+    }
+    finally {
+      isUpdateSaleLoading.value = false;
     }
   }
 
@@ -46,6 +65,8 @@ export function useSalesApi() {
   return {
     isCreateSaleLoading,
     createSale,
+    isUpdateSaleLoading,
+    updateSale,
     isDeleteSaleLoading,
     deleteSale,
   };

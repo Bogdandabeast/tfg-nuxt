@@ -28,6 +28,7 @@ export const useProductsStore = defineStore("products", () => {
     data: currentProductResponse,
     pending: currentProductPending,
     error: currentProductError,
+    refresh: refreshCurrentProduct,
   } = useFetch<{ product: Product }>(() => currentProductId.value ? `/api/products/${currentProductId.value}` : "", {
     lazy: true,
   });
@@ -38,6 +39,7 @@ export const useProductsStore = defineStore("products", () => {
       data: computed(() => currentProductResponse.value?.product || null),
       pending: currentProductPending,
       error: currentProductError,
+      refresh: refreshCurrentProduct,
     };
   };
 
@@ -46,5 +48,6 @@ export const useProductsStore = defineStore("products", () => {
     pending,
     refreshProducts: refresh,
     getProductById,
+    refreshCurrentProduct,
   };
 });

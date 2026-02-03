@@ -1,7 +1,8 @@
 {
   "common": {
     "error": "Error",
-    "success": "Success"
+    "success": "Success",
+    "deleteConfirmation": "Are you sure you want to delete this item? This action cannot be undone."
   },
   "homepage": {
     "title": "Welcome to EscorialCRM",
@@ -120,6 +121,7 @@
   "header": {
     "crm": "CRM",
     "pricing": "Pricing",
+    "legal": "Legal",
     "signIn": "Sign In",
     "signUp": "Sign Up"
   },
@@ -132,7 +134,7 @@
     },
     "intro": {
       "title": "Introduction",
-      "content": "Welcome to our platform. By accessing or using our service, you agree to comply with and be bound by the following terms and conditions of use. If you do not agree with any part of these terms, do not use our service."
+      "content": "Welcome to EscorialCRM. By accessing or using our platform, you agree to comply with and be bound by the following terms and conditions. If you do not agree with any part of these terms, you must discontinue the use of our services."
     },
     "badge": {
       "new": "New"
@@ -140,7 +142,7 @@
     "collapsible": {
       "hide": "Hide additional details",
       "show": "Show additional details",
-      "content": "Here you can find additional information about the introduction to the legal document."
+      "content": "EscorialCRM provides tools for managing companies, products, clients, and sales. These terms outline your rights and responsibilities when using the platform."
     },
     "sections": {
       "title": "Sections Details"
@@ -148,15 +150,19 @@
     "accordion": {
       "service_usage": {
         "label": "Service Usage",
-        "content": "Detailed content about service usage. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        "content": "EscorialCRM offers a global CRM platform that allows users to manage business information, products, clients, and sales. Users are responsible for maintaining the confidentiality of their account credentials and ensuring that all information provided is accurate. The free tier provides limited features, while the Pro subscription unlocks advanced functionalities, analytics, and extended storage. Misuse of the platform, including attempts to breach security, reverse engineer the service, or use it for unlawful activities, is strictly prohibited."
       },
       "privacy": {
         "label": "Privacy",
-        "content": "Detailed content about the privacy policy. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        "content": "EscorialCRM processes user data in accordance with applicable global data protection regulations. We collect and store information necessary to provide the service, including account details, business data, and usage metrics. Users retain ownership of the data they upload, while granting EscorialCRM a license to process it solely for service operation. Additional details can be found in our Privacy Policy."
+      },
+      "intellectual_property": {
+        "label": "Intellectual Property",
+        "content": "All software components, source code, interfaces, designs, trademarks, logos, and platform content are the exclusive property of Escorial Technologies or its licensors. Users retain ownership of the data they upload to EscorialCRM; however, by using the service, they grant EscorialCRM a non-exclusive, worldwide license to process, store, and display such data solely for the purpose of providing the service. Users may not copy, modify, distribute, sell, sublicense, or create derivative works based on any part of the platform unless expressly authorized in writing. Any unauthorized use of EscorialCRM’s intellectual property may result in suspension or termination of access, as well as potential legal action."
       },
       "limitations": {
         "label": "Limitations of Liability",
-        "content": "Detailed content about limitations of liability. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        "content": "EscorialCRM is provided 'as is' and 'as available'. We do not guarantee uninterrupted service, absence of errors, or full compatibility with all devices. To the maximum extent permitted by law, EscorialCRM shall not be liable for indirect, incidental, or consequential damages, including loss of profits, data, or business opportunities. Users are responsible for maintaining backups of their business information."
       }
     },
     "contact": {
@@ -426,6 +432,7 @@
       "deleteButton": "Delete Company",
       "nameRequired": "Company name is required",
       "createdSuccess": "Company created successfully!",
+      "updatedSuccess": "Company updated successfully!",
       "idInvalid": "Please enter a valid Company ID to delete.",
       "deletedSuccess": "Company deleted successfully!",
       "submitFailed": "Failed to create company.",
@@ -446,7 +453,7 @@
       "addressLabel": "Address",
       "namePlaceholder": "Enter customer name",
       "emailPlaceholder": "Enter email",
-      "phonePlaceholder": "Enter phone number",
+      "phonePlaceholder": "e.g., +1234567890",
       "addressPlaceholder": "Enter address",
       "createButton": "Create Customer",
       "idLabel": "Customer ID",
@@ -455,6 +462,7 @@
       "noCompany": "No company selected.",
       "invalidData": "Please fill in at least name and email.",
       "createdSuccess": "Customer created successfully!",
+      "updatedSuccess": "Customer updated successfully!",
       "deletedSuccess": "Customer deleted successfully!"
     },
     "productForm": {
@@ -474,6 +482,7 @@
       "noCompany": "No company selected.",
       "invalidData": "Please fill in all product details.",
       "createdSuccess": "Product created successfully!",
+      "updatedSuccess": "Product updated successfully!",
       "create": {
         "title": "Create Product",
         "description": "Form to add a new product to inventory",
@@ -499,6 +508,7 @@
       "noCompany": "No company selected.",
       "invalidData": "Please select a customer, a product, and enter a valid quantity.",
       "createdSuccess": "Sale created successfully!",
+      "updatedSuccess": "Sale updated successfully!",
       "idInvalid": "Please enter a valid Sale ID to delete.",
       "deletedSuccess": "Sale deleted successfully!",
       "missingDetails": "Please fill in all sale details.",
@@ -577,6 +587,8 @@
   },
   "actions": {
     "more": "More actions",
+    "save": "Save",
+    "cancel": "Cancel",
     "edit": {
       "customer": "Edit Customer",
       "product": "Edit Product",
@@ -614,6 +626,8 @@
       "amount": "Amount",
       "unitPrice": "Unit Price",
       "total": "Total",
+      "discount": "Discount",
+      "tax_rate": "Tax Rate",
       "actions": "Actions"
     },
     "data": {
@@ -640,12 +654,12 @@
     "resourceExists": "Resource already exists",
     "cannotDeleteInUse": "Cannot delete this item because it is currently in use"
   },
-  "validation": {
-    "invalidEmail": "Invalid email",
-    "tooShort": "Too short",
-    "nameRequired": "Name is required"
-  },
-  "breadcrumbs": {
+      "validation": {
+        "invalidEmail": "Invalid email",
+        "tooShort": "Too short",
+        "nameRequired": "Name is required",
+        "invalidPhone": "Invalid phone number (E.164 format required, e.g., +1234567890)"
+      },  "breadcrumbs": {
     "dashboard": "Dashboard",
     "customers": "Customers",
     "customer": "Customer {id}",

@@ -8,5 +8,7 @@
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
+
+    <LandingCookieBanner />
   </UApp>
 </template>
