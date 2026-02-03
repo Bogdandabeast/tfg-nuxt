@@ -109,8 +109,8 @@ async function submitHandler() {
 
     const updatedSale = await updateSale(props.initialData.id, saleData);
     if (updatedSale) {
-      salesStore.refreshSales();
-      salesStore.refreshCurrentSale();
+      await salesStore.refreshSales();
+      await salesStore.refreshCurrentSale();
       toast.add({
         title: t("common.success"),
         description: t("forms.saleForm.updatedSuccess"),

@@ -10,7 +10,7 @@ const route = useRoute();
 const customerId = route.params.id as string;
 
 const customersStore = useCustomersStore();
-const { data, pending, error } = customersStore.getCustomerById(customerId);
+const { data, pending, error, refresh } = customersStore.getCustomerById(customerId);
 
 const { t } = useI18n();
 const { deleteCustomer } = useCustomersApi();
@@ -185,7 +185,7 @@ const tableColumns = [
                     <DashboardFormsCustomerForm
                       form-only
                       :initial-data="data"
-                      @success="isEditModalOpen = false"
+                      @success="() => { isEditModalOpen = false; refresh(); }"
                       @cancel="isEditModalOpen = false"
                     />
                   </div>

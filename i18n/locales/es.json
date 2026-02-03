@@ -121,19 +121,20 @@
   "header": {
     "crm": "CRM",
     "pricing": "Precios",
+    "legal": "Legal",
     "signIn": "Iniciar sesión",
     "signUp": "Registrarse"
   },
   "terms": {
     "title": "Términos y Condiciones",
-    "description": "Por favor, lee atentamente nuestros términos y condiciones antes de usar nuestros servicios.",
+    "description": "Por favor, lea atentamente nuestros términos y condiciones antes de utilizar nuestros servicios.",
     "alert": {
       "title": "Aviso Importante",
-      "description": "Estos términos y condiciones fueron actualizados por última vez el 9 de enero de 2026. Por favor, revisa los cambios."
+      "description": "Estos términos y condiciones fueron actualizados por última vez el 9 de enero de 2026. Revise los cambios."
     },
     "intro": {
       "title": "Introducción",
-      "content": "Bienvenido a nuestra plataforma. Al acceder o utilizar nuestro servicio, aceptas cumplir y estar sujeto a los siguientes términos y condiciones de uso. Si no estás de acuerdo con alguna parte de estos términos, no utilices nuestro servicio."
+      "content": "Bienvenido a EscorialCRM. Al acceder o utilizar nuestra plataforma, usted acepta cumplir y estar sujeto a los siguientes términos y condiciones. Si no está de acuerdo con alguna parte de estos términos, debe dejar de utilizar nuestros servicios."
     },
     "badge": {
       "new": "Nuevo"
@@ -141,33 +142,37 @@
     "collapsible": {
       "hide": "Ocultar detalles adicionales",
       "show": "Mostrar detalles adicionales",
-      "content": "Aquí puedes encontrar información adicional sobre la introducción del documento legal."
+      "content": "EscorialCRM ofrece herramientas para gestionar empresas, productos, clientes y ventas. Estos términos describen sus derechos y responsabilidades al utilizar la plataforma."
     },
     "sections": {
-      "title": "Detalle de Secciones"
+      "title": "Detalles de las Secciones"
     },
     "accordion": {
       "service_usage": {
         "label": "Uso del Servicio",
-        "content": "Contenido detallado sobre el uso del servicio. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        "content": "EscorialCRM ofrece una plataforma CRM global que permite a los usuarios gestionar información empresarial, productos, clientes y ventas. Los usuarios son responsables de mantener la confidencialidad de sus credenciales y de garantizar que toda la información proporcionada sea precisa. La capa gratuita ofrece funciones limitadas, mientras que la suscripción Pro desbloquea funcionalidades avanzadas, análisis y mayor capacidad de almacenamiento. Está estrictamente prohibido el uso indebido de la plataforma, incluyendo intentos de vulnerar la seguridad, realizar ingeniería inversa o utilizar el servicio para actividades ilegales."
       },
       "privacy": {
         "label": "Privacidad",
-        "content": "Contenido detallado sobre la política de privacidad. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        "content": "EscorialCRM procesa los datos de los usuarios de acuerdo con las normativas globales de protección de datos aplicables. Recopilamos y almacenamos la información necesaria para prestar el servicio, incluyendo datos de cuenta, información empresarial y métricas de uso. Los usuarios conservan la propiedad de los datos que cargan, otorgando a EscorialCRM una licencia para procesarlos únicamente con el fin de operar el servicio. Puede encontrar más información en nuestra Política de Privacidad."
+      },
+      "intellectual_property": {
+        "label": "Propiedad Intelectual",
+        "content": "Todos los componentes de software, código fuente, interfaces, diseños, marcas registradas, logotipos y contenido de la plataforma son propiedad exclusiva de Escorial Technologies o de sus licenciantes. Los usuarios conservan la propiedad de los datos que cargan en EscorialCRM; sin embargo, al utilizar el servicio, otorgan a EscorialCRM una licencia no exclusiva y mundial para procesar, almacenar y mostrar dichos datos únicamente con el propósito de prestar el servicio. Los usuarios no pueden copiar, modificar, distribuir, vender, sublicenciar o crear obras derivadas basadas en cualquier parte de la plataforma sin autorización expresa por escrito. El uso no autorizado de la propiedad intelectual de EscorialCRM puede resultar en la suspensión o terminación del acceso, así como en posibles acciones legales."
       },
       "limitations": {
         "label": "Limitaciones de Responsabilidad",
-        "content": "Contenido detallado sobre las limitaciones de responsabilidad. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        "content": "EscorialCRM se proporciona 'tal cual' y 'según disponibilidad'. No garantizamos un servicio ininterrumpido, libre de errores o totalmente compatible con todos los dispositivos. En la máxima medida permitida por la ley, EscorialCRM no será responsable de daños indirectos, incidentales o consecuentes, incluyendo pérdida de beneficios, datos u oportunidades comerciales. Los usuarios son responsables de mantener copias de seguridad de su información empresarial."
       }
     },
     "contact": {
       "title": "Contacto",
-      "content": "Para cualquier pregunta sobre estos términos, por favor contáctanos en"
+      "content": "Para cualquier consulta relacionada con estos términos, puede contactarnos en"
     },
     "surround": {
       "privacy": {
         "title": "Política de Privacidad",
-        "description": "Conoce cómo manejamos tus datos."
+        "description": "Conozca cómo gestionamos sus datos."
       },
       "legal_notice": {
         "title": "Aviso Legal",

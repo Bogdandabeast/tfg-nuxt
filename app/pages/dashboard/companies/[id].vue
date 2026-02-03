@@ -10,7 +10,7 @@ const route = useRoute();
 const companyId = route.params.id as string;
 
 const companiesStore = useCompaniesStore();
-const { data, pending, error } = companiesStore.getCompanyById(companyId);
+const { data, pending, error, refresh } = companiesStore.getCompanyById(companyId);
 
 const { t } = useI18n();
 const { deleteCompany } = useCompaniesApi();
@@ -196,7 +196,7 @@ const tableColumns = [
                     <DashboardFormsCompanyForm
                       form-only
                       :initial-data="data"
-                      @success="isEditModalOpen = false"
+                      @success="() => { isEditModalOpen = false; refresh(); }"
                       @cancel="isEditModalOpen = false"
                     />
                   </div>

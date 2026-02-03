@@ -10,7 +10,7 @@ const route = useRoute();
 const productId = route.params.id as string;
 
 const productsStore = useProductsStore();
-const { data, pending, error } = productsStore.getProductById(productId);
+const { data, pending, error, refresh } = productsStore.getProductById(productId);
 
 const { t } = useI18n();
 const { deleteProduct } = useProductsApi();
@@ -204,7 +204,7 @@ const tableColumns = [
                     <DashboardFormsProductForm
                       form-only
                       :initial-data="data"
-                      @success="isEditModalOpen = false"
+                      @success="() => { isEditModalOpen = false; refresh(); }"
                       @cancel="isEditModalOpen = false"
                     />
                   </div>
@@ -237,7 +237,7 @@ const tableColumns = [
                         :loading="isDeleting"
                         @click="handleDelete"
                       >
-                        {{ t('actions.delete') }}
+                        {{ t('actions.delete.product') }}
                       </UButton>
                     </div>
                   </div>

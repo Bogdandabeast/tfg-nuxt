@@ -40,6 +40,7 @@ export const useSalesStore = defineStore("sales", () => {
       data: computed(() => currentSaleResponse.value?.sale || null),
       pending: currentSalePending,
       error: currentSaleError,
+      refresh: refreshCurrentSale,
     };
   };
 

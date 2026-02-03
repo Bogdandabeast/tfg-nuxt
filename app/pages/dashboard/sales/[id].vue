@@ -13,7 +13,7 @@ const saleId = route.params.id as string;
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
-const { data: saleData, pending, error } = salesStore.getSaleById(saleId);
+const { data: saleData, pending, error, refresh } = salesStore.getSaleById(saleId);
 
 const { t, locale } = useI18n();
 const { deleteSale } = useSalesApi();
@@ -279,7 +279,11 @@ const tableColumns = [
               <UBadge color="green" variant="subtle">
                 {{ t('tables.data.active') }}
               </UBadge>
-              <UModal v-model:open="isEditModalOpen" :title="t('actions.edit.sale')">
+              <UModal
+                v-model:open="isEditModalOpen"
+                :title="t('actions.edit.sale')"
+                :description="t('actions.edit.sale')"
+              >
                 <UButton
                   :label="t('actions.edit.sale')"
                   color="secondary"
@@ -290,14 +294,18 @@ const tableColumns = [
                     <DashboardFormsSaleForm
                       form-only
                       :initial-data="saleData"
-                      @success="isEditModalOpen = false"
+                      @success="() => { isEditModalOpen = false; refresh(); }"
                       @cancel="isEditModalOpen = false"
                     />
                   </div>
                 </template>
               </UModal>
 
-              <UModal v-model:open="isDeleteModalOpen" :title="t('actions.delete.sale')">
+              <UModal
+                v-model:open="isDeleteModalOpen"
+                :title="t('actions.delete.sale')"
+                :description="t('actions.delete.sale')"
+              >
                 <UButton
                   :label="t('actions.delete.sale')"
                   color="error"
@@ -319,7 +327,7 @@ const tableColumns = [
                         :loading="isDeleting"
                         @click="handleDelete"
                       >
-                        {{ t('actions.delete') }}
+                        {{ t('actions.delete.sale') }}
                       </UButton>
                     </div>
                   </div>

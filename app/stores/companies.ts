@@ -43,6 +43,7 @@ export const useCompaniesStore = defineStore("companies", () => {
     data: currentCompanyResponse,
     pending: currentCompanyPending,
     error: currentCompanyError,
+    refresh: refreshCurrentCompanyById,
   } = useFetch<{ company: Company }>(() => currentCompanyId.value ? `/api/companies/${currentCompanyId.value}` : "", {
     lazy: true,
   });
@@ -53,6 +54,7 @@ export const useCompaniesStore = defineStore("companies", () => {
       data: computed(() => currentCompanyResponse.value?.company || null),
       pending: currentCompanyPending,
       error: currentCompanyError,
+      refresh: refreshCurrentCompanyById,
     };
   };
 
@@ -63,5 +65,6 @@ export const useCompaniesStore = defineStore("companies", () => {
     currentCompany,
     setCurrentCompany,
     getCompanyById,
+    refreshCurrentCompanyById,
   };
 });

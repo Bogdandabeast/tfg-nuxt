@@ -67,6 +67,7 @@ async function submitHandler() {
   else {
     const resultApi = await createCompany(result.data);
     if (resultApi) {
+      await companiesStore.refreshCompanies();
       resetForm();
       toast.add({
         title: t("common.success"),
