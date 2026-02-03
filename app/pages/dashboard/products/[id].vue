@@ -10,12 +10,24 @@ const route = useRoute();
 const productId = route.params.id as string;
 
 const productsStore = useProductsStore();
+const companiesStore = useCompaniesStore();
 const { data, pending, error, refresh } = productsStore.getProductById(productId);
 
 const { t } = useI18n();
 const { deleteProduct } = useProductsApi();
 const toast = useToast();
 const localePath = useLocalePath();
+
+watch([data, error, () => companiesStore.currentCompany?.id], ([newData, newError, currentCompanyId]) => {
+  if (newError) {
+    navigateTo(localePath(ROUTES.PRODUCTS));
+    return;
+  }
+
+  if (newData && currentCompanyId && newData.company_id !== currentCompanyId) {
+    navigateTo(localePath(ROUTES.PRODUCTS));
+  }
+}, { immediate: true });
 
 const isDeleteModalOpen = ref(false);
 const isEditModalOpen = ref(false);

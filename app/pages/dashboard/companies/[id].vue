@@ -17,6 +17,12 @@ const { deleteCompany } = useCompaniesApi();
 const toast = useToast();
 const localePath = useLocalePath();
 
+watch(error, (newError) => {
+  if (newError) {
+    navigateTo(localePath(ROUTES.COMPANIES));
+  }
+});
+
 const isDeleteModalOpen = ref(false);
 const isEditModalOpen = ref(false);
 const isDeleting = ref(false);

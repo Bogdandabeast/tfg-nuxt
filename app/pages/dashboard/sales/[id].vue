@@ -13,12 +13,24 @@ const saleId = route.params.id as string;
 const salesStore = useSalesStore();
 const customersStore = useCustomersStore();
 const productsStore = useProductsStore();
+const companiesStore = useCompaniesStore();
 const { data: saleData, pending, error, refresh } = salesStore.getSaleById(saleId);
 
 const { t, locale } = useI18n();
 const { deleteSale } = useSalesApi();
 const toast = useToast();
 const localePath = useLocalePath();
+
+watch([saleData, error, () => companiesStore.currentCompany?.id], ([newData, newError, currentCompanyId]) => {
+  if (newError) {
+    navigateTo(localePath(ROUTES.SALES));
+    return;
+  }
+
+  if (newData && currentCompanyId && newData.company_id !== currentCompanyId) {
+    navigateTo(localePath(ROUTES.SALES));
+  }
+}, { immediate: true });
 
 const isDeleteModalOpen = ref(false);
 const isEditModalOpen = ref(false);

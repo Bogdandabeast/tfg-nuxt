@@ -10,11 +10,23 @@ const route = useRoute();
 const customerId = route.params.id as string;
 
 const customersStore = useCustomersStore();
+const companiesStore = useCompaniesStore();
 const { data, pending, error, refresh } = customersStore.getCustomerById(customerId);
 
 const { t } = useI18n();
 const { deleteCustomer } = useCustomersApi();
 const localePath = useLocalePath();
+
+watch([data, error, () => companiesStore.currentCompany?.id], ([newData, newError, currentCompanyId]) => {
+  if (newError) {
+    navigateTo(localePath(ROUTES.CUSTOMERS));
+    return;
+  }
+
+  if (newData && currentCompanyId && newData.company_id !== currentCompanyId) {
+    navigateTo(localePath(ROUTES.CUSTOMERS));
+  }
+}, { immediate: true });
 
 const isDeleteModalOpen = ref(false);
 const isEditModalOpen = ref(false);
