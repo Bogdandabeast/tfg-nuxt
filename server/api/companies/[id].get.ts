@@ -1,4 +1,4 @@
-import { getCompanyById } from "~~/lib/db/queries/companies";
+import { getCompanyById } from "~~/lib/db/queries/company";
 import defineAuthenticatedEventHandler from "~~/utils/define-authenticated-event-handler";
 import { handleError } from "~~/utils/error-handler";
 import { companyIdParamSchema } from "~~/utils/schemas/companies";

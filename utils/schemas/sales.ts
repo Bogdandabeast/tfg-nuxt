@@ -6,11 +6,11 @@ export const createSaleSchema = z.object({
   quantity: z.number().int().positive("validation.quantityPositive"),
   sale_date: z.string().trim().date("validation.invalidDate").transform(val => new Date(val)),
   product_name: z.string().trim().min(1),
-  unit_price: z.number().positive(),
+  unit_price: z.coerce.number().positive(),
   customer_name: z.string().trim().min(1),
   company_id: z.string().uuid(),
-  discount: z.number().nonnegative("validation.discountNonNegative").optional(),
-  tax_rate: z.number().nonnegative("validation.taxRateNonNegative").max(1, "validation.taxRateMax1").optional(),
+  discount: z.coerce.number().min(0).optional().default(0),
+  tax_rate: z.coerce.number().min(0).optional().default(0),
 });
 
 export const updateSaleSchema = z.object({
@@ -18,8 +18,8 @@ export const updateSaleSchema = z.object({
   product_id: z.string().uuid(),
   quantity: z.number().int().positive(),
   sale_date: z.string().date().transform(val => new Date(val)),
-  discount: z.number().nonnegative("validation.discountNonNegative").optional(),
-  tax_rate: z.number().nonnegative("validation.taxRateNonNegative").max(1, "validation.taxRateMax1").optional(),
+  discount: z.string().optional(),
+  tax_rate: z.string().optional(),
 }).partial();
 
 export const saleIdParamSchema = z.object({

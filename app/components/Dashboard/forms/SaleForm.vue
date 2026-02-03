@@ -32,8 +32,8 @@ const newSale = reactive({
   product_id: undefined as string | undefined,
   quantity: 1,
   sale_date: new Date().toISOString().split("T")[0],
-  tax_rate: 0,
-  discount: 0,
+  tax_rate: "0",
+  discount: "0",
 });
 
 const error = ref("");
@@ -87,6 +87,7 @@ async function submitHandler() {
   });
 
   const result = formSchema.safeParse(newSale);
+  console.log(newSale, result);
 
   if (!result.success) {
     const errorMessage = t(result.error.issues[0]?.message || "common.error");
@@ -142,7 +143,7 @@ async function submitHandler() {
       ...result.data,
       sale_date: result.data.sale_date.toLocaleDateString("en-CA"),
       product_name: product.name,
-      unit_price: Number.parseFloat(product.price),
+      unit_price: product.price,
       customer_name: customer.name,
       company_id: companiesStore.currentCompany.id,
     };
@@ -170,8 +171,8 @@ function resetForm() {
   newSale.product_id = undefined;
   newSale.quantity = 1;
   newSale.sale_date = new Date().toISOString().split("T")[0];
-  newSale.tax_rate = 0;
-  newSale.discount = 0;
+  newSale.tax_rate = "0";
+  newSale.discount = "0";
 }
 </script>
 

@@ -1,7 +1,8 @@
 {
   "common": {
     "error": "Error",
-    "success": "Éxito"
+    "success": "Éxito",
+    "deleteConfirmation": "¿Estás seguro de que quieres eliminar este elemento? Esta acción no se puede deshacer."
   },
   "homepage": {
     "title": "Bienvenido a EscorialCRM",
@@ -425,6 +426,7 @@
       "deleteButton": "Eliminar Empresa",
       "nameRequired": "El nombre de la empresa es requerido",
       "createdSuccess": "¡Empresa creada exitosamente!",
+      "updatedSuccess": "¡Empresa actualizada exitosamente!",
       "idInvalid": "Por favor, ingresa un ID de Empresa válido para eliminar.",
       "deletedSuccess": "¡Empresa eliminada exitosamente!",
       "submitFailed": "Error al crear la empresa.",
@@ -454,6 +456,7 @@
       "noCompany": "No se ha seleccionado empresa.",
       "invalidData": "Por favor, completa al menos nombre y correo electrónico.",
       "createdSuccess": "¡Cliente creado exitosamente!",
+      "updatedSuccess": "¡Cliente actualizado exitosamente!",
       "deletedSuccess": "¡Cliente eliminado exitosamente!"
     },
     "productForm": {
@@ -473,6 +476,7 @@
       "noCompany": "No se ha seleccionado empresa.",
       "invalidData": "Por favor, completa todos los detalles del producto.",
       "createdSuccess": "¡Producto creado exitosamente!",
+      "updatedSuccess": "¡Producto actualizado exitosamente!",
       "create": {
         "title": "Crear Producto",
         "description": "Formulario para agregar un nuevo producto al inventario",

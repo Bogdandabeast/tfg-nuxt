@@ -5,6 +5,7 @@ import { companyCreateSchema } from "~~/utils/schemas/companies";
 export function useCompaniesApi() {
   const { $csrfFetch } = useNuxtApp();
   const isCreateCompanyLoading = ref(false);
+  const isUpdateCompanyLoading = ref(false);
   const isDeleteCompanyLoading = ref(false);
 
   async function createCompany(companyData: NewCompany) {
@@ -36,6 +37,30 @@ export function useCompaniesApi() {
     }
   }
 
+  async function updateCompany(id: string, companyData: Partial<NewCompany>) {
+    isUpdateCompanyLoading.value = true;
+    try {
+      const response = await $csrfFetch<Company>(`/api/companies/${id}`, {
+        method: "PUT",
+        body: companyData,
+      });
+      return response;
+    }
+    catch (error) {
+      const message = getFetchErrorMessage(error);
+      const toast = useToast();
+      toast.add({
+        title: "Error",
+        description: message,
+        color: "error",
+      });
+      return null;
+    }
+    finally {
+      isUpdateCompanyLoading.value = false;
+    }
+  }
+
   async function deleteCompany(id: string) {
     isDeleteCompanyLoading.value = true;
     try {
@@ -56,6 +81,8 @@ export function useCompaniesApi() {
   return {
     isCreateCompanyLoading,
     createCompany,
+    isUpdateCompanyLoading,
+    updateCompany,
     isDeleteCompanyLoading,
     deleteCompany,
   };

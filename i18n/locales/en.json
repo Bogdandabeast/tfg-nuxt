@@ -1,7 +1,8 @@
 {
   "common": {
     "error": "Error",
-    "success": "Success"
+    "success": "Success",
+    "deleteConfirmation": "Are you sure you want to delete this item? This action cannot be undone."
   },
   "homepage": {
     "title": "Welcome to EscorialCRM",
@@ -426,6 +427,7 @@
       "deleteButton": "Delete Company",
       "nameRequired": "Company name is required",
       "createdSuccess": "Company created successfully!",
+      "updatedSuccess": "Company updated successfully!",
       "idInvalid": "Please enter a valid Company ID to delete.",
       "deletedSuccess": "Company deleted successfully!",
       "submitFailed": "Failed to create company.",
@@ -455,6 +457,7 @@
       "noCompany": "No company selected.",
       "invalidData": "Please fill in at least name and email.",
       "createdSuccess": "Customer created successfully!",
+      "updatedSuccess": "Customer updated successfully!",
       "deletedSuccess": "Customer deleted successfully!"
     },
     "productForm": {
@@ -474,6 +477,7 @@
       "noCompany": "No company selected.",
       "invalidData": "Please fill in all product details.",
       "createdSuccess": "Product created successfully!",
+      "updatedSuccess": "Product updated successfully!",
       "create": {
         "title": "Create Product",
         "description": "Form to add a new product to inventory",
@@ -499,6 +503,7 @@
       "noCompany": "No company selected.",
       "invalidData": "Please select a customer, a product, and enter a valid quantity.",
       "createdSuccess": "Sale created successfully!",
+      "updatedSuccess": "Sale updated successfully!",
       "idInvalid": "Please enter a valid Sale ID to delete.",
       "deletedSuccess": "Sale deleted successfully!",
       "missingDetails": "Please fill in all sale details.",
@@ -577,6 +582,8 @@
   },
   "actions": {
     "more": "More actions",
+    "save": "Save",
+    "cancel": "Cancel",
     "edit": {
       "customer": "Edit Customer",
       "product": "Edit Product",

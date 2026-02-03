@@ -300,6 +300,52 @@ const tableColumns = [
               <UBadge color="green" variant="subtle">
                 {{ t('tables.data.active') }}
               </UBadge>
+              <UModal v-model:open="isEditModalOpen" :title="t('actions.edit.sale')">
+                <UButton
+                  :label="t('actions.edit.sale')"
+                  color="secondary"
+                  variant="subtle"
+                />
+                <template #content>
+                  <div class="p-4">
+                    <DashboardFormsSaleForm
+                      form-only
+                      :initial-data="saleData"
+                      @success="isEditModalOpen = false"
+                      @cancel="isEditModalOpen = false"
+                    />
+                  </div>
+                </template>
+              </UModal>
+
+              <UModal v-model:open="isDeleteModalOpen" :title="t('actions.delete.sale')">
+                <UButton
+                  :label="t('actions.delete.sale')"
+                  color="error"
+                  variant="subtle"
+                />
+                <template #content>
+                  <div class="p-4 space-y-4">
+                    <p>{{ t('common.deleteConfirmation') }}</p>
+                    <div class="flex justify-end gap-2">
+                      <UButton
+                        color="neutral"
+                        variant="soft"
+                        @click="isDeleteModalOpen = false"
+                      >
+                        {{ t('actions.cancel') }}
+                      </UButton>
+                      <UButton
+                        color="error"
+                        :loading="isDeleting"
+                        @click="handleDelete"
+                      >
+                        {{ t('actions.delete') }}
+                      </UButton>
+                    </div>
+                  </div>
+                </template>
+              </UModal>
             </div>
           </template>
 
@@ -311,42 +357,5 @@ const tableColumns = [
         </UCard>
       </div>
     </div>
-
-    <UModal v-model:open="isEditModalOpen" :title="t('actions.edit.sale')">
-      <template #content>
-        <div class="p-4">
-          <DashboardFormsSaleForm
-            form-only
-            :initial-data="saleData"
-            @success="isEditModalOpen = false"
-            @cancel="isEditModalOpen = false"
-          />
-        </div>
-      </template>
-    </UModal>
-
-    <UModal v-model:open="isDeleteModalOpen" :title="t('actions.delete.sale')">
-      <template #content>
-        <div class="p-4 space-y-4">
-          <p>{{ t('common.deleteConfirmation') }}</p>
-          <div class="flex justify-end gap-2">
-            <UButton
-              color="neutral"
-              variant="soft"
-              @click="isDeleteModalOpen = false"
-            >
-              {{ t('actions.cancel') }}
-            </UButton>
-            <UButton
-              color="error"
-              :loading="isDeleting"
-              @click="handleDelete"
-            >
-              {{ t('actions.delete') }}
-            </UButton>
-          </div>
-        </div>
-      </template>
-    </UModal>
   </UDashboardPanel>
 </template>
